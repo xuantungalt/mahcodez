@@ -1,0 +1,278 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="./check.css">
+<script type="text/javascript" src="./clock.js"></script>
+<title>CURRENCY PAIR RATE CHECK</title>
+</head>
+
+<body onload="check_record()" style="font-family: Calibri">
+
+<script type="text/javascript">
+
+setInterval(function(){check_record()}, 30000);
+
+function check_record()
+{
+	//clear the error music
+	document.getElementById("error").innerHTML = '';
+	//variables
+	var check = 'true'
+	var number_of_rows = 0
+	//declare XMLHttpRequest
+	var barx_log=new XMLHttpRequest();
+	var boa_log=new XMLHttpRequest();
+	var citi_log=new XMLHttpRequest();
+	var db_log=new XMLHttpRequest();
+	var fxcm_log=new XMLHttpRequest();
+	var hotspot_log=new XMLHttpRequest();
+	var hsbc_log=new XMLHttpRequest();
+	var ubs_log=new XMLHttpRequest();
+	var cnx_log=new XMLHttpRequest();
+        var btmu_log=new XMLHttpRequest();
+	var bnp_log=new XMLHttpRequest();
+        var citi2_log=new XMLHttpRequest();
+	var msfx_log=new XMLHttpRequest();
+	//open tmp file
+	barx_log.open('GET', './symbol/check_symbol_Barx_result.tmp', false);
+	barx_log.send(null);
+	boa_log.open('GET', './symbol/check_symbol_BOA_result.tmp', false);
+	boa_log.send(null);
+	citi_log.open('GET', './symbol/check_symbol_CITI_result.tmp', false);
+	citi_log.send(null);
+	db_log.open('GET', './symbol/check_symbol_DB_result.tmp', false);
+	db_log.send(null);
+	fxcm_log.open('GET', './symbol/check_symbol_FXCM_result.tmp', false);
+	fxcm_log.send(null);
+	hotspot_log.open('GET', './symbol/check_symbol_Hotspot_result.tmp', false);
+	hotspot_log.send(null);
+	hsbc_log.open('GET', './symbol/check_symbol_HSBC_result.tmp', false);
+	hsbc_log.send(null);
+	ubs_log.open('GET', './symbol/check_symbol_UBS_result.tmp', false);
+	ubs_log.send(null);
+	cnx_log.open('GET', './symbol/check_symbol_CNX_result.tmp', false);
+	cnx_log.send(null);
+        btmu_log.open('GET', './symbol/check_symbol_BTMU_result.tmp', false);
+        btmu_log.send(null);
+	bnp_log.open('GET', './symbol/check_symbol_BNP_result.tmp', false);
+        bnp_log.send(null);
+        citi2_log.open('GET', './symbol/check_symbol_CITI2_result.tmp', false);
+        citi2_log.send(null);
+	msfx_log.open('GET', './symbol/check_symbol_MSFX_result.tmp', false);
+        msfx_log.send(null);
+	//status array
+	var barx=barx_log.responseText.split('\n');
+	//var count_err_barx = count_null(barx);
+	var count_err_barx = 0;
+	var boa=boa_log.responseText.split('\n');
+	//var count_err_boa = count_null(boa);
+	var count_err_boa = 0;
+	var citi=citi_log.responseText.split('\n');
+	//var count_err_citi = count_null(citi);
+	var count_err_citi = 0;
+	var db=db_log.responseText.split('\n');
+	//var count_err_db = count_null(db);
+	var count_err_db = 0;
+	var fxcm=fxcm_log.responseText.split('\n');
+	//var count_err_fxcm = count_null(fxcm);
+	var count_err_fxcm = 0;
+	var hotspot=hotspot_log.responseText.split('\n');
+	//var count_err_hotspot = count_null(hotspot);
+	var count_err_hotspot = 0;
+	var hsbc=hsbc_log.responseText.split('\n');
+	//var count_err_hsbc = count_null(hsbc);
+	var count_err_hsbc = 0;
+	var ubs=ubs_log.responseText.split('\n');
+	//var count_err_ubs = count_null(ubs);
+	var count_err_ubs = 0;
+	var cnx=cnx_log.responseText.split('\n');
+	//var count_err_cnx = count_null(ubs);
+	var count_err_cnx = 0;
+        var btmu=btmu_log.responseText.split('\n');
+        var count_err_btmu = 0;
+	var bnp=bnp_log.responseText.split('\n');
+        var count_err_bnp = 0;
+	var citi2=citi2_log.responseText.split('\n');
+        var count_err_citi2 = 0;
+	var msfx=msfx_log.responseText.split('\n');
+        var count_err_msfx = 0;
+
+	while (number_of_rows < 37)
+	{
+		//_html = '<tr>';
+	
+		if (barx[number_of_rows].indexOf('NULL') != -1) {barx_html = '<td  class="error"><b>' + barx[number_of_rows] + "</b></td>"; count_err_barx += 1;}
+		else if (barx[number_of_rows] == '') {barx_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {barx_html = '<td class="normal">' + barx[number_of_rows] + "</td>";}
+		
+		if (boa[number_of_rows].indexOf('NULL') != -1) {boa_html = '<td  class="error"><b>' + boa[number_of_rows] + "</b></td>"; count_err_boa += 1;}
+		else if (boa[number_of_rows] == '') {boa_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {boa_html = '<td class="normal">' + boa[number_of_rows] + "</td>";}
+		
+		if (citi[number_of_rows].indexOf('NULL') != -1) {citi_html = '<td  class="error"><b>' + citi[number_of_rows] + "</b></td>"; count_err_citi += 1;}
+		else if (citi[number_of_rows] == '') {citi_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {citi_html = '<td class="normal">' + citi[number_of_rows] + "</td>";}
+		
+		if (db[number_of_rows].indexOf('NULL') != -1) {db_html = '<td  class="error"><b>' + db[number_of_rows] + "</b></td>"; count_err_db += 1;}
+		else if (db[number_of_rows] == '') {db_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {db_html = '<td class="normal">' + db[number_of_rows] + "</td>";}
+		
+		if (fxcm[number_of_rows].indexOf('NULL') != -1) {fxcm_html = '<td  class="error"><b>' + fxcm[number_of_rows] + "</b></td>"; count_err_fxcm += 1;}
+		else if (fxcm[number_of_rows] == '') {fxcm_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {fxcm_html = '<td class="normal">' + fxcm[number_of_rows] + "</td>";}
+		
+		if (hotspot[number_of_rows].indexOf('NULL') != -1) {hotspot_html = '<td  class="error"><b>' + hotspot[number_of_rows] + "</b></td>"; count_err_hotspot += 1;}
+		else if (hotspot[number_of_rows] == '') {hotspot_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {hotspot_html = '<td class="normal">' + hotspot[number_of_rows] + "</td>";}
+		
+		if (hsbc[number_of_rows].indexOf('NULL') != -1) {hsbc_html = '<td  class="error"><b>' + hsbc[number_of_rows] + "</b></td>"; count_err_hsbc += 1;}
+		else if (hsbc[number_of_rows] == '') {hsbc_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {hsbc_html = '<td class="normal">' + hsbc[number_of_rows] + "</td>";}
+		
+		if (ubs[number_of_rows].indexOf('NULL') != -1) {ubs_html = '<td  class="error"><b>' + ubs[number_of_rows] + "</b></td>"; count_err_ubs += 1;}
+		else if (ubs[number_of_rows] == '') {ubs_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {ubs_html = '<td class="normal">' + ubs[number_of_rows] + "</td>";}
+		
+		if (cnx[number_of_rows].indexOf('NULL') != -1) {cnx_html = '<td  class="error"><b>' + cnx[number_of_rows] + "</b></td>"; count_err_cnx += 1;}
+		else if (cnx[number_of_rows] == '') {cnx_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+		else {cnx_html = '<td class="normal">' + cnx[number_of_rows] + "</td>";}
+		
+		if (btmu[number_of_rows].indexOf('NULL') != -1) {btmu_html = '<td  class="error"><b>' + btmu[number_of_rows] + "</b></td>"; count_err_btmu += 1;}
+                else if (btmu[number_of_rows] == '') {btmu_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+                else {btmu_html = '<td class="normal">' + btmu[number_of_rows] + "</td>";}
+
+		if (bnp[number_of_rows].indexOf('NULL') != -1) {bnp_html = '<td  class="error"><b>' + bnp[number_of_rows] + "</b></td>"; count_err_bnp += 1;}
+                else if (bnp[number_of_rows] == '') {bnp_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+                else {bnp_html = '<td class="normal">' + bnp[number_of_rows] + "</td>";}
+
+                if (citi2[number_of_rows].indexOf('NULL') != -1) {citi2_html = '<td  class="error"><b>' + citi2[number_of_rows] + "</b></td>"; count_err_citi2 += 1;}
+                else if (citi2[number_of_rows] == '') {citi2_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+                else {citi2_html = '<td class="normal">' + citi2[number_of_rows] + "</td>";}
+		
+		if (msfx[number_of_rows].indexOf('NULL') != -1) {msfx_html = '<td  class="error"><b>' + msfx[number_of_rows] + "</b></td>"; count_err_msfx += 1;}
+                else if (msfx[number_of_rows] == '') {msfx_html = '<td  class="notify"><b>CHECKING...</b></td>';}
+                else {msfx_html = '<td class="normal">' + msfx[number_of_rows] + "</td>";}
+		
+		//_html = '</tr>';
+		document.getElementById(number_of_rows).innerHTML = barx_html + boa_html + citi_html + db_html + fxcm_html + hotspot_html + hsbc_html + ubs_html + cnx_html + btmu_html + bnp_html + citi2_html + msfx_html;
+		number_of_rows += 1;
+	}
+
+	var error_count = [count_err_barx, count_err_boa, count_err_citi, count_err_db, count_err_fxcm, count_err_hotspot, count_err_hsbc, count_err_ubs, count_err_cnx, count_err_btmu, count_err_bnp, count_err_citi2, count_err_msfx];
+	var er_length = error_count.length;
+	var er = 0
+	
+	for (var i = 0; i < er_length; i+=1) { if (error_count[i] == 37) {er += 1;} }
+	
+	if (count_err_barx == 37 && document.getElementById("barx_dismus").checked) {er = er -1;}
+	if (count_err_boa == 37 && document.getElementById("boa_dismus").checked) {er = er -1;}
+	if (count_err_citi == 37 && document.getElementById("citi_dismus").checked) {er = er -1;}
+	if (count_err_db == 37 && document.getElementById("db_dismus").checked) {er = er -1;}
+    if (count_err_fxcm == 37 && document.getElementById("fxcm_dismus").checked) {er = er -1;}
+    if (count_err_hotspot == 37 && document.getElementById("hotspot_dismus").checked) {er = er -1;}
+    if (count_err_hsbc == 37 && document.getElementById("hsbc_dismus").checked) {er = er -1;}
+    if (count_err_ubs == 37 && document.getElementById("ubs_dismus").checked) {er = er -1;}
+    if (count_err_cnx == 37 && document.getElementById("cnx_dismus").checked) {er = er -1;}
+    if (count_err_btmu == 37 && document.getElementById("btmu_dismus").checked) {er = er -1;}
+    if (count_err_bnp == 37 && document.getElementById("bnp_dismus").checked) {er = er -1;}
+    if (count_err_citi2 == 37 && document.getElementById("citi2_dismus").checked) {er = er -1;}
+    if (count_err_msfx == 37 && document.getElementById("msfx_dismus").checked) {er = er -1;}	
+    //document.getElementById("test").innerHTML = '<b>' + er + '</b>'
+	
+	if (er == 0) {document.getElementById("error").innerHTML = '<center></center>';}
+	else {document.getElementById("error").innerHTML = '<center>RATE ERROR!!! <EMBED SRC="./metal_gear_short_sms.mp3" AUTOSTART=TRUE LOOP=TRUE WIDTH=145 HEIGHT=55 ALIGN="CENTER"></EMBED></center>';}
+	
+	document.getElementById('my_table').focus();		
+}
+
+</script>
+
+<center><h1>GKG CURRENCY PAIR RATE CHECK</h1></center>
+
+<form>
+<center>
+<table id="my_table" align="center" class="outer_table">
+
+<tr style="color: #B4CFEC;">
+<td><b>BARX</b></td>
+<td><b>BOA</b></td>
+<td><b>CITI</b></td>
+<td><b>DB</b></td>
+<td><b>FXCM</b></td>
+<td><b>HOTSPOT</b></td>
+<td><b>HSBC</b></td>
+<td><b>UBS</b></td>
+<td><b>CNX</b></td>
+<td><b>BTMU</b></td>
+<td><b>BNP</b></td>
+<td><b>CITI2</b></td>
+<td><b>MSFX</b></td>
+</tr>
+
+<tr id="0"></tr>
+<tr id="1"></tr>
+<tr id="2"></tr>
+<tr id="3"></tr>
+<tr id="4"></tr>
+<tr id="5"></tr>
+<tr id="6"></tr>
+<tr id="7"></tr>
+<tr id="8"></tr>
+<tr id="9"></tr>
+<tr id="10"></tr>
+<tr id="11"></tr>
+<tr id="12"></tr>
+<tr id="13"></tr>
+<tr id="14"></tr>
+<tr id="15"></tr>
+<tr id="16"></tr>
+<tr id="17"></tr>
+<tr id="18"></tr>
+<tr id="19"></tr>
+<tr id="20"></tr>
+<tr id="21"></tr>
+<tr id="22"></tr>
+<tr id="23"></tr>
+<tr id="24"></tr>
+<tr id="25"></tr>
+<tr id="26"></tr>
+<tr id="27"></tr>
+<tr id="28"></tr>
+<tr id="29"></tr>
+<tr id="30"></tr>
+<tr id="31"></tr>
+<tr id="32"></tr>
+<tr id="33"></tr>
+<tr id="34"></tr>
+<tr id="35"></tr>
+<tr id="36"></tr>
+<tr>
+<td><input type="checkbox" id="barx_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="boa_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="citi_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="db_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="fxcm_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="hotspot_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="hsbc_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="ubs_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="cnx_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="btmu_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="bnp_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="citi2_dismus"><span class="disable_music">Disable</span></td>
+<td><input type="checkbox" id="msfx_dismus"><span class="disable_music">Disable</span></td>
+</tr>
+
+</table>
+</center>
+</form>
+
+<p id="error" class="blink"></p>
+
+<center><p>
+<script type="text/javascript">
+new imageclock.display()
+</script>
+</p></center>
+
+</body>
+</html>

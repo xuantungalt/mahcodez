@@ -1,0 +1,224 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="./check.css">
+<script type="text/javascript" src="./clock.js"></script>
+<title>AMQ/UNKNOWN-ORDER/MT5-FIX_EX CHECK</title>
+</head>
+
+<body onload="check_unknown(); check_amq_report(); check_mt5_fixex()" style="font-family: Calibri">
+
+<script type="text/javascript">
+
+setInterval(function(){check_unknown()}, 5000);
+function check_unknown()
+{
+        var hedgemng_result=new XMLHttpRequest();
+        hedgemng_result.open('GET', './symbol/unknown_HEDGEMNG_result.tmp', false);
+        hedgemng_result.send(null);
+        var hedgemng=hedgemng_result.responseText;
+        var hedgemng_cerro = 0;
+        var hedgemng_html = '';
+if (hedgemng.length != 0)
+{
+//document.getElementById('debug').innerHTML = hedgemng
+		if (hedgemng.indexOf('Unknown-Order on Dealing-Web: None') == -1) 
+		{hedgemng_html += '<h1><span class="error">' + hedgemng + "</span></h1>"; hedgemng_cerro += 1;}
+		else {hedgemng_html += '<h1><span class="normal">' + hedgemng + "</span></h1>";}
+
+	document.getElementById('hedgemng').innerHTML = hedgemng_html;
+
+        if (hedgemng_cerro > 0 && document.getElementById("hedgemng_dismus").checked)
+        {document.getElementById("siren").innerHTML='<center class="blink">UNKNOWN OCCURED!!!</center>';}
+        else if (hedgemng_cerro > 0)
+        {document.getElementById("siren").innerHTML='<center class="blink">UNKNOWN OCCURED!!! <EMBED SRC="./silent_hill_siren.mp3" AUTOSTART=TRUE LOOP=TRUE WIDTH=145 HEIGHT=55 ALIGN="CENTER"></EMBED></center>';}
+        else
+        {document.getElementById("siren").innerHTML='';}
+}
+else
+{hedgemng_html += '<h1><span class="notify">NOW CHECKING...</span></h1>';}
+}
+
+
+setInterval(function(){check_amq_report()}, 11000);
+
+function check_amq_report()
+{
+	document.getElementById("error2").innerHTML='';
+	
+	var amq_151_log=new XMLHttpRequest();
+	amq_151_log.open('GET', './symbol/check_AMQ_151.tmp', false);
+	amq_151_log.send(null);
+	var amq_151=amq_151_log.responseText.split('\n');
+
+	var amq_152_log=new XMLHttpRequest();
+	amq_152_log.open('GET', './symbol/check_AMQ_152.tmp', false);
+	amq_152_log.send(null);
+	var amq_152=amq_152_log.responseText.split('\n');
+	
+	var amq_153_log=new XMLHttpRequest();
+        amq_153_log.open('GET', './symbol/check_AMQ_153.tmp', false);
+        amq_153_log.send(null);
+        var amq_153=amq_153_log.responseText.split('\n');
+	
+	var total_amq_err=0;
+	var amq_status=[];
+
+	for (var i=0; i < amq_151.length; i++) 
+	{
+		if (amq_151[i].indexOf('CRITICAL') != -1) 
+		{
+			amq_status[total_amq_err]=amq_151[i];
+			//document.write(amq_status[total_amq_err]);
+			total_amq_err++;
+		}
+	}
+	for (var i=0; i < amq_152.length; i++) 
+	{
+		if (amq_152[i].indexOf('CRITICAL') != -1) 
+		{
+			amq_status[total_amq_err]=amq_152[i]; 
+			//document.write(amq_status[total_amq_err]);
+			total_amq_err++;
+		}
+	}
+	for (var i=0; i < amq_153.length; i++)
+        {
+                if (amq_153[i].indexOf('CRITICAL') != -1)
+                {
+                        amq_status[total_amq_err]=amq_153[i];
+                        //document.write(amq_status[total_amq_err]);
+                        total_amq_err++;
+                }
+        }
+	if (total_amq_err != 0)
+	{
+		var amq_html='';
+		for (var i=0; i < amq_status.length; i++) 
+		{
+			amq_html += '<span class="error">' + amq_status[i] + '</span><br>';
+			//document.write(amq_html);
+		}
+		document.getElementById("amq").innerHTML=amq_html;
+		if (document.getElementById("amq_dismus").checked)
+		{document.getElementById("error2").innerHTML='<center>AMQ ERROR!!!</center>'; 
+		document.getElementById("amq_notify").innerHTML = 'AMQ CHECK TOTAL ERROR: <span class="error">(' + total_amq_err + ')</span>';}
+		else
+		{document.getElementById("error2").innerHTML='<center>AMQ ERROR!!! <EMBED SRC="./emt_crow.mp3" AUTOSTART=TRUE LOOP=TRUE WIDTH=145 HEIGHT=55 ALIGN="CENTER"></EMBED></center>';
+		document.getElementById("amq_notify").innerHTML = 'AMQ CHECK TOTAL ERROR: <span class="error">(' + total_amq_err + ')</span>';}
+	}
+	else 
+	{
+		document.getElementById("amq").innerHTML=''
+		document.getElementById("amq_notify").innerHTML='AMQ CHECK: <span class="normal">BOTH AMQ SERVERS STATUS ARE NORMAL</span>';
+		document.getElementById("error2").innerHTML=''; 
+	}
+
+}
+
+
+setInterval(function(){check_mt5_fixex()}, 30000);
+function check_mt5_fixex()
+{
+	var fix_ex_log=new XMLHttpRequest();
+	fix_ex_log.open('GET', './symbol/check_symbol_FIX_EXCHANGE_result.tmp', false);
+	fix_ex_log.send(null);
+	var fix_ex=fix_ex_log.responseText.split('\n');
+	//document.getElementById("debug").innerHTML=fix_ex.length
+	var fix_ex_err = 0;
+	for (var i=0; i < fix_ex.length; i++)
+	{
+		if (fix_ex[i].indexOf('NULL') == -1)
+		{document.getElementById(i).innerHTML='<span class="normal">' + fix_ex[i] + '</span>';}
+		else
+		{document.getElementById(i).innerHTML='<span class="error">' + fix_ex[i] + '</span>'; fix_ex_err += 1}
+	}
+	if (fix_ex_err > 0)
+		{
+		document.getElementById("mt5_notify").innerHTML='MT5/FIX EXCHANGE CHECK: <span class="error">' + fix_ex_err + ' OF THE CURRENCY IS NOT GETTING RATE!</span>';
+		if (document.getElementById("mt5_dismus").checked) {document.getElementById("error3").innerHTML='<center>' + fix_ex_err + ' PAIR(S) LOST RATE!</center>';}
+		else {document.getElementById("error3").innerHTML='<center>' + fix_ex_err + ' PAIR(S) LOST RATE!!! <EMBED SRC="./ping.mp3" AUTOSTART=TRUE LOOP=TRUE WIDTH=145 HEIGHT=55 ALIGN="CENTER"></EMBED></center>';}
+		}
+	else
+		{
+		document.getElementById("mt5_notify").innerHTML='MT5/FIX EXCHANGE CHECK: <span class="normal">ALL CURRENCY PAIR HAS RATE</span>';
+		document.getElementById("error3").innerHTML='';
+		}
+}
+</script>
+
+<center><h1>UNKNOWN-ORDER CHECK</h1></center>
+<p align="center" id="hedgemng"></p>
+<form><center><input type="checkbox" id="hedgemng_dismus"><span class="disable_music">Disable Unknown Order Alert</span></center></form>
+<p id="siren"></p>
+
+<center><p><h1 id="amq_notify">AMQ CHECK</h1></p></center>
+<center><p id="amq"></p></center>
+<center><form><input type="checkbox" id="amq_dismus"><span class="disable_music">Disable AMQ Alert</span></form></center>
+<p id="error2" class="blink"></p>
+
+<center><p><h1 id="mt5_notify">MT5 FIX EXCHANGE CURRENCY PAIR CHECK</h1></p></center>
+<center><table class="inner_table" cellspacing="5" cellpadding="3">
+<tr>
+<td bgcolor="#6CC417" id="0"></td>
+<td bgcolor="#6CC417" id="1"></td>
+<td bgcolor="#6CC417" id="2"></td>
+<td bgcolor="#6CC417" id="3"></td>
+<td bgcolor="#6CC417" id="4"></td>
+<td bgcolor="#6CC417" id="5"></td>
+<td bgcolor="#6CC417" id="6"></td>
+<td bgcolor="#6CC417" id="7"></td>
+<td bgcolor="#6CC417" id="8"></td>
+<td bgcolor="#6CC417" id="9"></td>
+</tr>
+<tr>
+<td bgcolor="#6CC417" id="10"></td>
+<td bgcolor="#6CC417" id="11"></td>
+<td bgcolor="#6CC417" id="12"></td>
+<td bgcolor="#6CC417" id="13"></td>
+<td bgcolor="#6CC417" id="14"></td>
+<td bgcolor="#6CC417" id="15"></td>
+<td bgcolor="#6CC417" id="16"></td>
+<td bgcolor="#6CC417" id="17"></td>
+<td bgcolor="#6CC417" id="18"></td>
+<td bgcolor="#6CC417" id="19"></td>
+</tr>
+<tr>
+<td bgcolor="#6CC417" id="20"></td>
+<td bgcolor="#6CC417" id="21"></td>
+<td bgcolor="#6CC417" id="22"></td>
+<td bgcolor="#6CC417" id="23"></td>
+<td bgcolor="#6CC417" id="24"></td>
+<td bgcolor="#6CC417" id="25"></td>
+<td bgcolor="#6CC417" id="26"></td>
+<td bgcolor="#6CC417" id="27"></td>
+<td bgcolor="#6CC417" id="28"></td>
+<td bgcolor="#6CC417" id="29"></td>
+</tr>
+<tr>
+<td bgcolor="#6CC417" id="30"></td>
+<td bgcolor="#6CC417" id="31"></td>
+<td bgcolor="#6CC417" id="32"></td>
+<td bgcolor="#6CC417" id="33"></td>
+<td bgcolor="#6CC417" id="34"></td>
+<td bgcolor="#6CC417" id="35"></td>
+<td bgcolor="#6CC417" id="36"></td>
+<td bgcolor="#6CC417" id="37"></td>
+<td bgcolor="#6CC417" id="38"></td>
+<td bgcolor="#6CC417" id="39"></td>
+</tr>
+</table>
+</center>
+<p><center><form><input type="checkbox" id="mt5_dismus"><span class="disable_music">Disable MT5/FIX EXCHANGE Alert</span></form></center></p>
+
+<p id="error3" class="blink"></p>
+
+<center><p id="debug"></p></center>
+
+<center><p>
+<script type="text/javascript">
+new imageclock.display()
+</script>
+</p></center>
+</body>
+</html>
