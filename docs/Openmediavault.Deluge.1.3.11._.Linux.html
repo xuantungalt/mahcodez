@@ -1,0 +1,2125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Openmediavault + Deluge 1.3.11 | Linux+</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://linuxpluse.wordpress.com/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="https://s0.wp.com/wp-content/themes/pub/balloons/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="Linux+ &raquo; Feed" href="https://linuxpluse.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Linux+ &raquo; Comments Feed" href="https://linuxpluse.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Linux+ &raquo; Openmediavault + Deluge&nbsp;1.3.11 Comments Feed" href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='https://s0.wp.com/_static/??-eJx9kVtqAzEMRTdU10yaFvIRuhY/VMcTeSQsGZPd19NSSjJhfoyvOIfrh+1sAi0Ki9rSDGNLeRErJSPcuNIMQe/TaxB5sc81zFcQO4OyC1fzkza4R0r/AqUEkZqaL0KkbnuOCbYdd1KnGl0Um5C8w73zVECnEA2T6EPa0wJVGPPCTleiQMwOEMrA9rTCH3/Wur2MN9it6Txo4z1XEDFjLbkVo5dRtPV+x5abt+PSSLT+kt4QVvKznKfj8e1wmE7T+/wN04qwRw==' type='text/css' media='all' />
+<link rel='stylesheet' id='googlefonts-css'  href='https://fonts.googleapis.com/css?family=Sue+Ellen+Francisco%7CRosario%3A400%2C400italic&#038;ver=4.4-alpha-34640' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2' href='https://s2.wp.com/_static/??-eJx9j9EKwyAMRX9oLisIXR/GvsVKphY1YlL2+7M4xsZKX5J7yT0hgWdRlrJgFkirKnF1ITNgoiX0erbMJwiQSUJL8kf0wT7vkFQkayRQ/jHqEU2oR2jFOZJr0kFLfdkjqBBLXw3sTd3gdz++MmPtT+3KP1Y8JmTwGlyk2cQtcE+3QetpvIzDdVpetjx9hA==' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var isadminbar = {"showing":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyFkN0OwiAMhV9IRjbnhRfGZ2Fbh51AkR+nPr2dURPnoglJOeU7Jy1y9AJda3IHUQ58ThnC9VmKIa7kL0BY1EElKCy6F9ySS+DSxFpq0IDIEYLS3OOgnhY4TzFZiJGhhdfPkdCdEca/2ADJq/YoAkS8faU2hrTwJmt0UfJdQ0c5iZ6MoVGO2GlIc4/Nb0cAw0t3Ypp7puaudADeTPrcyEZxOrnHL3oVWKkL43u7K+t6XVXlttwMd7qqlgc='></script>
+<link rel='stylesheet' id='all-css-0' href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://linuxpluse.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Openmediavault + Remote&nbsp;Access' href='https://linuxpluse.wordpress.com/2013/01/23/openmediavault-remote-access/' />
+<link rel='next' title='Openmediavault + Mybook&nbsp;Live' href='https://linuxpluse.wordpress.com/2013/05/10/openmediavault-mybook-live/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/" />
+<link rel='shortlink' href='http://wp.me/p33efq-5G' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Flinuxpluse.wordpress.com%2F2013%2F04%2F12%2Fopenmediavault-deluge-1-3-6%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Flinuxpluse.wordpress.com%2F2013%2F04%2F12%2Fopenmediavault-deluge-1-3-6%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Openmediavault + Deluge 1.3.11" />
+<meta property="og:url" content="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/" />
+<meta property="og:description" content="[UPDATE to Deluge 1.3.11] Installation - Deluge 1.3.6 Openmediavault is a Debian based lightweight OS with web management control system. For more information go here. While deluge  is just another..." />
+<meta property="article:published_time" content="2013-04-12T16:31:42+00:00" />
+<meta property="article:modified_time" content="2014-12-08T16:46:25+00:00" />
+<meta property="og:site_name" content="Linux+" />
+<meta property="og:image" content="https://linuxpluse.files.wordpress.com/2013/04/deluge.png" />
+<meta property="og:image:width" content="640" />
+<meta property="og:image:height" content="438" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:image:src" content="https://linuxpluse.files.wordpress.com/2013/04/deluge.png?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://linuxpluse.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://linuxpluse.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://linuxpluse.wordpress.com/osd.xml" title="Linux+" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://wordpress.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#f9f9f9" />
+<meta name="application-name" content="Linux+" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="loading..." /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://linuxpluse.wordpress.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="Openmediavault + Deluge&nbsp;1.3.11 | Linux+ on WordPress.com" />
+<meta name="description" content="[UPDATE to Deluge 1.3.11] Installation - Deluge 1.3.6 Openmediavault is a Debian based lightweight OS with web management control system. For more information go here. While deluge  is just another torrent client but has the most beautiful web interface (see image 1.1) out there for torrent client (may be just be. :)). For this installation I will&hellip;" />
+	<style type="text/css">
+			.site-title a,
+		.site-description {
+			color: #4fd9dd !important;
+		}
+		</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #f9f9f9; }
+</style>
+		<script type="text/javascript" src="//c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		var a9_p = amznads.getKeys(),
+		_ipw_custom = {
+			wordAds: '0',
+			adSafe: '0',
+			domain: 'linuxpluse.wordpress.com',
+			pageURL: 'https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/'
+		};
+		if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		</script>		<!-- IPONWEB header script -->
+		<script type="text/javascript">
+			window.__ATA = {
+				scriptSrc: '//s.pubmine.com/showad.js',
+				slotPrefix: 'automattic-id-',
+				initAd: function(o) {
+					var o = o || {},
+						g = window,
+						d = g.document,
+						wr = d.write,
+						id = g.__ATA.id();
+					wr.call(d, '<div id="' + id + '" data-section="' + (o.sectionId || 0) + '"' + (o.type ? ('data-type="' + o.type + '"') : '') + ' ' + (o.forcedUrl ? ('data-forcedurl="' + o.forcedUrl + '"') : '') + ' style="width:' + (o.width || 0) + 'px; height:' + (o.height || 0) + 'px;">');
+					g.__ATA.displayAd(id);
+					wr.call(d, '</div>');
+				},
+				displayAd: function(id) {
+					window.__ATA.ids = window.__ATA.ids || {};
+					window.__ATA.ids[id] = 1;
+				},
+				customParams: _ipw_custom,
+				id: function() {
+					return window.__ATA.slotPrefix + (parseInt(Math.random() * 10000, 10) + 1 + (new Date()).getMilliseconds());
+				}
+			};
+			(function(d, ata) {
+				var pr = "https:" === d.location.protocol ? "https:" : "http:",
+					src = pr + ata.scriptSrc,
+					st = "text/javascript";
+				d.write('<scr' + 'ipt type="' + st + '" src="' + src + '"><\/scr' + 'ipt>');
+			})(window.document, window.__ATA);
+		</script>
+		<script type="text/javascript">
+		jQuery(window).ready(function () {
+			jQuery("a.wpa-about").text("About these ads");
+		});
+		</script><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-352 single-format-standard custom-background mp6 customizer-styles-applied highlander-enabled highlander-light">
+<div id="page" class="hfeed site">
+
+	<div id="wrapper">
+
+				<header id="masthead" class="site-header" role="banner">
+			<hgroup>
+				<nav role="navigation" class="site-navigation main-navigation">
+					<h1 class="assistive-text">Menu</h1>
+					<div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+
+					<div class="menu-menu-container"><ul id="menu-menu" class="menu"><li id="menu-item-327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-327"><a href="https://linuxpluse.wordpress.com/">Home</a></li><li id="menu-item-328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-328"><a href="https://linuxpluse.wordpress.com/about/">About Me</a></li><li id="menu-item-404" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-404"><a href="https://linuxpluse.wordpress.com/random-stuffs/">Random Stuffs</a></li></ul></div>				</nav>
+								<h1 class="site-title"><a href="https://linuxpluse.wordpress.com/" title="Linux+" rel="home">Linux+</a></h1>
+				<h2 class="site-description">loading&#8230;</h2>
+			</hgroup>
+
+		</header><!-- #masthead .site-header -->
+
+		<div id="main">
+		<div id="primary" class="site-content">
+			<div id="content" role="main">
+
+			
+					<nav role="navigation" id="nav-above" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="https://linuxpluse.wordpress.com/2013/01/23/openmediavault-remote-access/" rel="prev"><span class="meta-nav">&larr;</span> Openmediavault + Remote&nbsp;Access</a></div>		<div class="nav-next"><a href="https://linuxpluse.wordpress.com/2013/05/10/openmediavault-mybook-live/" rel="next">Openmediavault + Mybook&nbsp;Live <span class="meta-nav">&rarr;</span></a></div>
+	
+	</nav><!-- #nav-above -->
+	
+				
+<article id="post-352" class="post-352 post type-post status-publish format-standard has-post-thumbnail hentry category-debian-2 category-openmediavault category-plex-media-server-2 tag-bittorrent-client tag-debian tag-deluge tag-deluge-1-3-6 tag-deluge-installation tag-deluge-plugins tag-deluge-web-ui tag-openmediavault-2 tag-plex-media-server tag-torrent-client">
+	<header class="entry-header">
+		<h1 class="entry-title">Openmediavault + Deluge&nbsp;1.3.11</h1>
+
+		<div class="entry-meta">
+			<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/" title="4:31 pm" rel="bookmark"><time class="entry-date" datetime="2013-04-12T16:31:42+00:00" pubdate>April 12, 2013</time></a><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://linuxpluse.wordpress.com/author/ffactro43/" title="View all posts by goWpress" rel="author">goWpress</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<div style="padding:1px;margin:1px;text-align:center;color:#ffffff;font:bold 9px text-transform:;border-bottom-style:solid;opacity:1;border:1px none #d4d4d4;position:relative;float:none;text-decoration:none;background-color:#00dbf9;"><strong>[UPDATE to Deluge 1.3.11] Installation &#8211; Deluge 1.3.6</strong></div>
+<div style="padding:10px;background-color:#ffffff;font-size:13px;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;">
+<p style="font-size:13px;">Openmediavault is a Debian based lightweight OS with web management control system. For more information go <a title="Openmediavault" href="http://www.openmediavault.org/">here</a>. While deluge  is just another torrent client but has the most beautiful web interface (see image 1.1) out there for torrent client (may be just be. :)).</p>
+<p style="font-size:13px;">For this installation I will be using root user to run deluge but you can use any other user.</p>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;margin:10px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;left:23%;"><a href="https://linuxpluse.files.wordpress.com/2013/04/deluge-1-3-10.png"><img class="alignnone size-medium wp-image-988" src="https://linuxpluse.files.wordpress.com/2013/04/deluge-1-3-10.png?w=300&#038;h=198" alt="deluge-1-3-10" width="300" height="198" /></a><br />
+Image 1.1 &#8211; Deluge 1.3.10 Web Interface</div>
+<p style="font-size:13px;">For Deluge  1.3.11, there is no direct way to install it in OS (e.g repo or deb). So we need to compile it from tar.bz package and install it.</p>
+<p style="font-size:13px;">Lets first install application dependent package</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install python python-twisted python-twisted-web python-openssl python-simplejson python-setuptools intltool python-xdg python-chardet geoip-database python-libtorrent python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako</div>
+<p style="font-size:13px;">Now we need to download deluge tar package.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">wget <a href="http://download.deluge-torrent.org/source/deluge-1.3.11.tar.gz" rel="nofollow">http://download.deluge-torrent.org/source/deluge-1.3.11.tar.gz</a></div>
+<p style="font-size:13px;">Now unpack the package</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">tar xvzf /root/deluge-1.3.11.tar.gz</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd deluge-1.3.11</div>
+<p style="font-size:13px;">After this we need to download libtorrent</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano get_libtorrent.sh</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"># update url to this &gt;&gt; LT_URL=https://svn.code.sf.net/p/libtorrent/code/</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">sh get_libtorrent.sh</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd libtorrent/include</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">sh get_asio.sh</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd ..</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">sh autotool.sh</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"><code>./configure --enable-python-binding</code></div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">make</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">make install</div>
+<p style="font-size:13px;">clean python environment</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd /root/deluge-1.3.11</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">python setup.py clean</div>
+<p style="font-size:13px;">Now build the deluge package and install it.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">python setup.py build</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">python setup.py install</div>
+<p style="font-size:13px;">After installation we need to do few thing to make deluge up and running.</p>
+<p style="font-size:13px;">1. Setup daemon</p>
+<p style="font-size:13px;">2. Setup Web Interface</p>
+<p style="font-size:13px;">For daemon, create file with name deluge-daemon in /etc/init.d/deluge-daemon</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano /etc/init.d/deluge-daemon</div>
+<p style="font-size:13px;">Now copy the following text into it.(For some reason copying didn&#8217;t work for me in fresh install so Download File from <a title="Droplinx" href="https://www.dropbox.com/s/4k7mufln9gp841n/deluge-daemon" target="_blank">http://db.tt/OR6DikLt</a> if it didn&#8217;t work for you too)</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"><code><code>#!/bin/sh<br />
+### BEGIN INIT INFO<br />
+# Provides: deluge-daemon<br />
+# Required-Start: $local_fs $remote_fs<br />
+# Required-Stop: $local_fs $remote_fs<br />
+# Should-Start: $network<br />
+# Should-Stop: $network<br />
+# Default-Start: 2 3 4 5<br />
+# Default-Stop: 0 1 6<br />
+# Short-Description: Daemonized version of deluge and webui.<br />
+# Description: Starts the deluge daemon with the user specified in<br />
+# /etc/default/deluge-daemon.<br />
+### END INIT INFO</code></code># Author: Adolfo R. Brandes<br />
+# Modified: Sami OlmariPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin<br />
+DESC=&#8221;Deluge Daemon&#8221;<br />
+NAME1=&#8221;deluged&#8221;<br />
+NAME2=&#8221;deluge-web&#8221;<br />
+DAEMON1=/usr/local/bin/deluged<br />
+DAEMON1_ARGS=&#8221;-d -l /var/log/deluged.log -L warning&#8221;<br />
+DAEMON2=/usr/local/bin/deluge-web<br />
+DAEMON2_ARGS=&#8221;-p 8112 -l /var/log/deluge-web.log -L warning&#8221;<br />
+PIDFILE1=/var/run/$NAME1.pid<br />
+PIDFILE2=/var/run/$NAME2.pid<br />
+PKGNAME=deluge-daemon<br />
+SCRIPTNAME=/etc/init.d/$PKGNAME# Exit if the package is not installed<br />
+[ -x &#8220;$DAEMON1&#8221; -a -x &#8220;$DAEMON2&#8221; ] || exit 0# Read configuration variable file if it is present<br />
+[ -r /etc/default/$PKGNAME ] &amp;&amp; . /etc/default/$PKGNAME# Load the VERBOSE setting and other rcS variables<br />
+[ -f /etc/default/rcS ] &amp;&amp; . /etc/default/rcS# Define LSB log_* functions.<br />
+# Depend on lsb-base (&gt;= 3.0-6) to ensure that this file is present.<br />
+. /lib/lsb/init-functions</p>
+<p>if [ -z &#8220;$RUN_AT_STARTUP&#8221; -o &#8220;$RUN_AT_STARTUP&#8221; != &#8220;YES&#8221; ]<br />
+then<br />
+log_warning_msg &#8220;Not starting $PKGNAME, edit /etc/default/$PKGNAME to start it.&#8221;<br />
+exit 0<br />
+fi</p>
+<p>if [ -z &#8220;$DELUGED_USER&#8221; ]<br />
+then<br />
+log_warning_msg &#8220;Not starting $PKGNAME, DELUGED_USER not set in /etc/default/$PKGNAME.&#8221;<br />
+exit 0<br />
+fi</p>
+<p>#<br />
+# Function that starts the daemon/service<br />
+#<br />
+do_start()<br />
+{<br />
+# Return<br />
+# 0 if daemon has been started<br />
+# 1 if daemon was already running<br />
+# 2 if daemon could not be started<br />
+start-stop-daemon &#8211;start &#8211;background &#8211;quiet &#8211;pidfile $PIDFILE1 &#8211;exec $DAEMON1 \<br />
+&#8211;chuid $DELUGED_USER &#8211;user $DELUGED_USER &#8211;test &gt; /dev/null<br />
+RETVAL1=&#8221;$?&#8221;<br />
+start-stop-daemon &#8211;start &#8211;background &#8211;quiet &#8211;pidfile $PIDFILE2 &#8211;exec $DAEMON2 \<br />
+&#8211;chuid $DELUGED_USER &#8211;user $DELUGED_USER &#8211;test &gt; /dev/null<br />
+RETVAL2=&#8221;$?&#8221;<br />
+[ &#8220;$RETVAL1&#8221; = &#8220;0&#8221; -a &#8220;$RETVAL2&#8221; = &#8220;0&#8221; ] || return 1</p>
+<p>start-stop-daemon &#8211;start &#8211;background &#8211;quiet &#8211;pidfile $PIDFILE1 &#8211;make-pidfile &#8211;exec $DAEMON1 \<br />
+&#8211;chuid $DELUGED_USER &#8211;user $DELUGED_USER &#8212; $DAEMON1_ARGS<br />
+RETVAL1=&#8221;$?&#8221;<br />
+sleep 2<br />
+start-stop-daemon &#8211;start &#8211;background &#8211;quiet &#8211;pidfile $PIDFILE2 &#8211;make-pidfile &#8211;exec $DAEMON2 \<br />
+&#8211;chuid $DELUGED_USER &#8211;user $DELUGED_USER &#8212; $DAEMON2_ARGS<br />
+RETVAL2=&#8221;$?&#8221;<br />
+[ &#8220;$RETVAL1&#8221; = &#8220;0&#8221; -a &#8220;$RETVAL2&#8221; = &#8220;0&#8221; ] || return 2<br />
+}</p>
+<p>#<br />
+# Function that stops the daemon/service<br />
+#<br />
+do_stop()<br />
+{<br />
+# Return<br />
+# 0 if daemon has been stopped<br />
+# 1 if daemon was already stopped<br />
+# 2 if daemon could not be stopped<br />
+# other if a failure occurred</p>
+<p>start-stop-daemon &#8211;stop &#8211;quiet &#8211;retry=TERM/30/KILL/5 &#8211;user $DELUGED_USER &#8211;pidfile $PIDFILE2<br />
+RETVAL2=&#8221;$?&#8221;<br />
+start-stop-daemon &#8211;stop &#8211;quiet &#8211;retry=TERM/30/KILL/5 &#8211;user $DELUGED_USER &#8211;pidfile $PIDFILE1<br />
+RETVAL1=&#8221;$?&#8221;<br />
+[ &#8220;$RETVAL1&#8221; = &#8220;2&#8221; -o &#8220;$RETVAL2&#8221; = &#8220;2&#8221; ] &amp;&amp; return 2</p>
+<p>rm -f $PIDFILE1 $PIDFILE2</p>
+<p>[ &#8220;$RETVAL1&#8221; = &#8220;0&#8221; -a &#8220;$RETVAL2&#8221; = &#8220;0&#8221; ] &amp;&amp; return 0 || return 1<br />
+}</p>
+<p>case &#8220;$1&#8221; in<br />
+start)<br />
+[ &#8220;$VERBOSE&#8221; != no ] &amp;&amp; log_daemon_msg &#8220;Starting $DESC&#8221; &#8220;$NAME1&#8221;<br />
+do_start<br />
+case &#8220;$?&#8221; in<br />
+0|1) [ &#8220;$VERBOSE&#8221; != no ] &amp;&amp; log_end_msg 0 ;;<br />
+2) [ &#8220;$VERBOSE&#8221; != no ] &amp;&amp; log_end_msg 1 ;;<br />
+esac<br />
+;;<br />
+stop)<br />
+[ &#8220;$VERBOSE&#8221; != no ] &amp;&amp; log_daemon_msg &#8220;Stopping $DESC&#8221; &#8220;$NAME1&#8221;<br />
+do_stop<br />
+case &#8220;$?&#8221; in<br />
+0|1) [ &#8220;$VERBOSE&#8221; != no ] &amp;&amp; log_end_msg 0 ;;<br />
+2) [ &#8220;$VERBOSE&#8221; != no ] &amp;&amp; log_end_msg 1 ;;<br />
+esac<br />
+;;<br />
+restart|force-reload)<br />
+log_daemon_msg &#8220;Restarting $DESC&#8221; &#8220;$NAME1&#8221;<br />
+do_stop<br />
+case &#8220;$?&#8221; in<br />
+0|1)<br />
+do_start<br />
+case &#8220;$?&#8221; in<br />
+0) log_end_msg 0 ;;<br />
+1) log_end_msg 1 ;; # Old process is still running<br />
+*) log_end_msg 1 ;; # Failed to start<br />
+esac<br />
+;;<br />
+*)<br />
+# Failed to stop<br />
+log_end_msg 1<br />
+;;<br />
+esac<br />
+;;<br />
+*)<br />
+echo &#8220;Usage: $SCRIPTNAME {start|stop|restart|force-reload}&#8221; &gt;&amp;2<br />
+exit 3<br />
+;;<br />
+esac</p>
+<p>:</p>
+</div>
+<p style="font-size:13px;">Now change permission of deluge-daemon file.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">chmod 755 /etc/init.d/deluge-daemon</div>
+<p style="font-size:13px;">To run deluge at startup, we need add deluge daemon at startup list.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">update-rc.d deluge-daemon defaults</div>
+<p style="font-size:13px;">Now we need add user in deluge configuration file.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano /etc/default/deluge-daemon</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">
+<p># Configuration for /etc/init.d/deluge-daemon</p>
+<p># The init.d script will only run if this variable non-empty.<br />
+DELUGED_USER=<span style="color:#ff0000;">root</span> # !!!CHANGE THIS!!!!</p>
+<p># Should we run at startup?<br />
+RUN_AT_STARTUP=<span style="color:#ff0000;">YES</span></p>
+</div>
+<p style="font-size:13px;">and at line 4,  change <span style="color:#ff0000;"><strong>&#8220;&#8221;</strong></span> to<span style="color:#ff0000;"><strong> root</strong></span></p>
+<p style="font-size:13px;">To start daemon</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">invoke-rc.d deluge-daemon start</div>
+<p style="font-size:13px;">Goto your browser and enter</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">[your server id]:8112</div>
+<p style="font-size:13px;"> It will ask for password. The default password is <strong>deluge</strong></p>
+<p style="font-size:13px;">1. Click on connection manager<br />
+2. Click on connect</p>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;margin:10px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;left:23%;"><a href="https://linuxpluse.files.wordpress.com/2013/04/daemon.png" target="_blank"><img class="alignnone size-medium wp-image-359" src="https://linuxpluse.files.wordpress.com/2013/04/daemon.png?w=300&#038;h=202" alt="daemon" width="300" height="202" /></a><br />
+Image 1.1 &#8211; Deluge 1.3.6 Web Interface</div>
+<p style="font-size:13px;">Its best to change default password to something else. Go to Preference next to connect manager -&gt; interface -&gt; and change password</p>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;margin:10px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;left:23%;"><a href="https://linuxpluse.files.wordpress.com/2013/04/pref.png" target="_blank"><img class="alignnone size-medium wp-image-360" src="https://linuxpluse.files.wordpress.com/2013/04/pref.png?w=300&#038;h=202" alt="Password" width="300" height="202" /></a><br />
+Image 1.2 &#8211; Deluge 1.3.6 Web Interface</div>
+<div style="padding:1px;margin:1px;text-align:center;color:#ffffff;font:bold 9px text-transform:;border-bottom-style:solid;opacity:1;border:1px none #d4d4d4;position:relative;float:none;text-decoration:none;background-color:#00dbf9;">End of  Deluge 1.3.6 installation</div>
+<div style="padding:1px;margin:1px;text-align:center;color:#ffffff;font:bold 9px text-transform: uppercase;border-bottom-style:solid;opacity:1;border:1px none #d4d4d4;position:relative;float:none;text-decoration:none;background-color:#f97500;">Start of Optional Section for deluge</div>
+<p style="font-size:13px;">If you are like me who have <a title="Openmediavault + Plex Media Server as Home Media Server" href="https://linuxpluse.wordpress.com/2013/01/10/openmediavault-plex-media-server-as-home-media-server/" target="_blank">Plex Media Server installed</a> then you might want to configure your deluge for plex. Plex looks into different folder to collect your media file. And you might want deluge to move you download files to relevant folders. While the process that I am going to talk about is not fully automatic it will make life easy.</p>
+<p style="font-size:13px;">First thing is to auto add torrent files in deluge. For this you need to install deluge plugin &#8220;AutoAdd&#8221;. Autoadd can look into different folder for torrent and can apply setting according to those folder.</p>
+<p style="font-size:13px;">Goto <a title="Autoadd" href="https://github.com/gazpachoking/deluge-autoadd-plugin/downloads" target="_blank">here</a> to download Autoadd plugin. It&#8217;s a egg file.</p>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;margin:10px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;left:23%;"><a href="https://linuxpluse.files.wordpress.com/2013/04/egg.png" target="_blank"><img class="alignnone size-medium wp-image-364" src="https://linuxpluse.files.wordpress.com/2013/04/egg.png?w=300&#038;h=202" alt="egg" width="300" height="202" /></a><br />
+Image 2.1 &#8211; Deluge 1.3.6 Web Interface</div>
+<p>Ahh, the only problem with Autoadd plugin is that it has not yet got web ui to configure it. If you installing deluge in Debian then you can use GUI interface to configure, if you have not got GUI then (<a style="font-size:13px;" title="Remote Server Access (LXDE + VNC)" href="https://linuxpluse.wordpress.com/2013/01/13/remote-server-access-lxde-vnc/" target="_blank">install lite weight desktop lxde</a> + VNC :)), OR may be you can use terminal to configure Autoadd manually. * (Its possible to edit configure to setup Autoadd but I have never try this way &#8211; its purely experimental)</p>
+<p style="font-size:13px;">All the deluge configuration files are in /root/.config/deluge,</p>
+<p style="font-size:13px;">Editing autoadd.conf file.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano /root/.config/deluge/autoadd.conf</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">
+<p><span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">{</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;file&#8221;: 1, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;format&#8221;: 1</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">}{</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;watchdirs&#8221;: {</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;1&#8221;: {</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_download_speed&#8221;: 0.0, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;move_completed_path&#8221;: &#8220;</span></span><span style="color:#ff0000;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;line-height:140%;">/path/to/move/your/downloaded/files</span><span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">&#8220;, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;remove_at_ratio_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;label_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_upload_slots&#8221;: 0, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;download_location_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;append_extension_toggle&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;stop_at_ratio_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;move_completed_toggle&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_connections&#8221;: 0, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_upload_speed_toggle&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;auto_managed_toggle&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_connections_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;download_location&#8221;: &#8220;/root&#8221;, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;label&#8221;: &#8220;</span></span><span style="color:#ff0000;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">downloading-give a </span><span style="font-size:12px;line-height:16px;">label here</span><span style="font-size:12px;line-height:140%;"> </span></span><span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">&#8220;, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_upload_speed&#8221;: <span style="color:#ff0000;">80.0</span>, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_download_speed_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;stop_ratio_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;auto_managed&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;abspath&#8221;: &#8220;</span></span><span style="color:#ff0000;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;line-height:140%;">/path/to/download/folder/of/torrent/file</span><span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">&#8220;, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;add_paused_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;stop_at_ratio&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;move_completed&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;path&#8221;: &#8220;</span></span><span style="color:#ff0000;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;line-height:140%;">/path/to/download/folder/of/torrent/file</span><span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">&#8220;, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;append_extension&#8221;: &#8220;.added&#8221;, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;add_paused&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;queue_to_top_toggle&#8221;: false, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;queue_to_top&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;enabled&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;remove_at_ratio&#8221;: true, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;stop_ratio&#8221;: 0.0, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;max_upload_slots_toggle&#8221;: false</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> }</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> }, </span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;"> &#8220;next_id&#8221;: 3</span></span><br />
+<span style="color:#23764e;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;"><span style="font-size:12px;line-height:140%;">}</span></span></p>
+</div>
+<p style="font-size:13px;">In GUI, it look like this,</p>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;margin:10px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;left:23%;"><a href="https://linuxpluse.files.wordpress.com/2013/04/option.png" target="_blank"><img class="alignnone size-medium wp-image-366" src="https://linuxpluse.files.wordpress.com/2013/04/option.png?w=300&#038;h=160" alt="option" width="300" height="160" /></a><br />
+Image 3.1 &#8211; Autoadd option &#8211; GUI</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">
+<p style="font-size:13px;"><span style="text-decoration:underline;">[ Explained ]</span></p>
+<p style="font-size:13px;">/path/to/move/your/downloaded/files -&gt; TV</p>
+<p style="font-size:13px;">&#8220;append_extension&#8221;: &#8220;.added&#8221;, -&gt; Append extension after adding [.added]</p>
+<p style="font-size:13px;">&#8220;move_completed&#8221;: true,<br />
+&#8220;path&#8221;: &#8220;/path/to/download/folder/of/torrent/file&#8221;, -&gt; Set move completed location [English]</p>
+<p style="font-size:13px;">&#8220;max_upload_speed&#8221;: 80.0, -&gt; max upload speed [80.0]</p>
+</div>
+<p style="font-size:13px;"><b>Next thing we need to make sure its enable in plugin section. Go to Preferences&gt;&gt;Plugins&gt;&gt;check AutoAdd &gt;&gt; Apply&gt;&gt; Close</b></p>
+<p style="font-size:13px;">There are other useful plugin like label and blocklist. While label is similar to autoadd its usually use to label the torrent that you are downloading and can have extra option similar to autoadd. Fortunately label has web UI to configure.</p>
+<p style="font-size:13px;">Go to plugin section to enable it and you might need to restart the daemon too.</p>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;margin:10px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;left:23%;"><a href="https://linuxpluse.files.wordpress.com/2013/04/lable.png" target="_blank"><img class="alignnone size-medium wp-image-371" src="https://linuxpluse.files.wordpress.com/2013/04/lable.png?w=300&#038;h=202" alt="Lable - Deluge" width="300" height="202" /></a><br />
+Image 4.1 &#8211; Deluge 1.3.6 &#8211; Label</div>
+<p style="font-size:13px;">You can have lots of labels for different purpose <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span> . For more information about deluge please check reference link at the button of this page.</p>
+<p style="font-size:13px;">Now in Plex</p>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;margin:10px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;left:23%;"><a href="https://linuxpluse.files.wordpress.com/2013/04/plex.png" target="_blank"><img class="alignnone size-medium wp-image-373" src="https://linuxpluse.files.wordpress.com/2013/04/plex.png?w=300&#038;h=255" alt="plex" width="300" height="255" /></a><br />
+Image 5.1 &#8211; Plex Web Manager</div>
+<p style="font-size:13px;">Comment and suggest are always welcome.. <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span></p>
+</div>
+<div style="padding:1px;margin:1px;text-align:center;color:#ffffff;font:bold 9px text-transform: uppercase;border-bottom-style:solid;opacity:1;border:1px none #d4d4d4;position:relative;float:none;text-decoration:none;background-color:#f97500;">End of Optional Section for deluge</div>
+<div style="padding:5px;background:#ffffff;border:1px solid #C9C9C9;overflow:auto;color:#762373;margin:13px;font:9px/140% Lucida Grande, Lucida, Verdana, sans-serif;"><span style="line-height:140%;">1. Reference:<a href="http://dev.deluge-torrent.org/wiki/Installing/Source" rel="nofollow">http://dev.deluge-torrent.org/wiki/Installing/Source</a></span></div>
+<div style="background-color:#9f3c5e;padding:4px;color:#f8f8f8;font-weight:bold;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;width:80px;text-align:center;border:2px solid #d7d7d7;border-radius:5px;text-transform:uppercase;position:relative;left:42%;">Buy Me Beer<br />
+<img src="https://linuxpluse.files.wordpress.com/2014/01/1390589374_donate.png?w=640" alt="" /></div>
+<div align="center"><a href="http://english-1381331323.spampoison.com"><img class="alignnone" src="https://i1.wp.com/pics8.inxhost.com/images/sticker.gif" alt="" width="80" height="15" border="0" /></a></div>
+<div style="opacity:0;height:10px;"></div>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<div class="u">
+					<script type='text/javascript'>
+					(function(g){g.__ATA.initAd({sectionId:26942, width:300, height:250});})(window);
+					</script>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-352" class="share-twitter sd-button share-icon" href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-352" class="share-facebook sd-button share-icon" href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?share=facebook" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-45098764-352-567bcfbd0a51d' data-src='//widgets.wp.com/likes/#blog_id=45098764&amp;post_id=352&amp;origin=linuxpluse.wordpress.com&amp;obj_id=45098764-352-567bcfbd0a51d' data-name='like-post-frame-45098764-352-567bcfbd0a51d'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		This entry was posted in <a href="https://linuxpluse.wordpress.com/category/debian-2/" rel="category tag">Debian</a>, <a href="https://linuxpluse.wordpress.com/category/openmediavault/" rel="category tag">Openmediavault</a>, <a href="https://linuxpluse.wordpress.com/category/plex-media-server-2/" rel="category tag">Plex Media Server</a> and tagged <a href="https://linuxpluse.wordpress.com/tag/bittorrent-client/" rel="tag">bittorrent client</a>, <a href="https://linuxpluse.wordpress.com/tag/debian/" rel="tag">debian</a>, <a href="https://linuxpluse.wordpress.com/tag/deluge/" rel="tag">deluge</a>, <a href="https://linuxpluse.wordpress.com/tag/deluge-1-3-6/" rel="tag">deluge 1.3.6</a>, <a href="https://linuxpluse.wordpress.com/tag/deluge-installation/" rel="tag">deluge installation</a>, <a href="https://linuxpluse.wordpress.com/tag/deluge-plugins/" rel="tag">deluge plugins</a>, <a href="https://linuxpluse.wordpress.com/tag/deluge-web-ui/" rel="tag">deluge web ui</a>, <a href="https://linuxpluse.wordpress.com/tag/openmediavault-2/" rel="tag">openmediavault</a>, <a href="https://linuxpluse.wordpress.com/tag/plex-media-server/" rel="tag">plex media server</a>, <a href="https://linuxpluse.wordpress.com/tag/torrent-client/" rel="tag">torrent client</a>. Bookmark the <a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/" title="Permalink to Openmediavault + Deluge&nbsp;1.3.11" rel="bookmark">permalink</a>.
+			</footer><!-- .entry-meta -->
+</article><!-- #post-## -->
+
+					<nav role="navigation" id="nav-below" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="https://linuxpluse.wordpress.com/2013/01/23/openmediavault-remote-access/" rel="prev"><span class="meta-nav">&larr;</span> Openmediavault + Remote&nbsp;Access</a></div>		<div class="nav-next"><a href="https://linuxpluse.wordpress.com/2013/05/10/openmediavault-mybook-live/" rel="next">Openmediavault + Mybook&nbsp;Live <span class="meta-nav">&rarr;</span></a></div>
+	
+	</nav><!-- #nav-below -->
+	
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			40 thoughts on &ldquo;<span>Openmediavault + Deluge&nbsp;1.3.11</span>&rdquo;		</h2>
+
+		
+		<ol class="commentlist">
+				<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-322">
+		<article id="comment-322" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-322"><time pubdate datetime="2013-10-04T15:34:46+00:00">
+					October 4, 2013 at 3:34 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>i cannot install this due to an error in /etc/init.d/deluge-daemon</p>
+<p>it says so:</p>
+<p>root@OMV:~# invoke-rc.d deluge-daemon start<br />
+/etc/default/deluge-daemon: 4: root: not found<br />
+/etc/init.d/deluge-daemon: 27: !=: not found</p>
+<p>when trying to start the daemon it says</p>
+<p>Not starting deluge-daemon, edit /etc/default/deluge-daemon to start it. &#8230; (wa                          rning).</p>
+<p>I am pretty much Linux newbie&#8230;.so pleeeeease :)) Help</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=322#respond' onclick='return addComment.moveForm( "comment-322", "322", "respond", "352" )' aria-label='Reply to Phil'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-323">
+		<article id="comment-323" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-323"><time pubdate datetime="2013-10-04T17:02:37+00:00">
+					October 4, 2013 at 5:02 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Newbies huh!.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> everyone are newbies at start so no worries, what you need to do is download
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/160% 'Lucida Grande', Lucida, Verdana, sans-serif;padding:5px;color:#23764e;margin:13px;"><a href="http://db.tt/OR6DikLt" rel="nofollow">http://db.tt/OR6DikLt</a> </div>
+<p>and replace the one you have in /etc/init.d and run</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/160% 'Lucida Grande', Lucida, Verdana, sans-serif;padding:5px;color:#23764e;margin:13px;">chmod 775 /etc/initd/deluge-demon</div>
+<p> and</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/160% 'Lucida Grande', Lucida, Verdana, sans-serif;padding:5px;color:#23764e;margin:13px;">invoke-rc.d deluge-daemon start </div>
+<p>also make sure this file </p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/160% 'Lucida Grande', Lucida, Verdana, sans-serif;padding:5px;color:#23764e;margin:13px;">nano /etc/default/deluge-daemon</div>
+<p>has root as user too.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=323#respond' onclick='return addComment.moveForm( "comment-323", "323", "respond", "352" )' aria-label='Reply to factro'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-324">
+		<article id="comment-324" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-324"><time pubdate datetime="2013-10-05T13:43:35+00:00">
+					October 5, 2013 at 1:43 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>hello,<br />
+i have done that&#8230;it still says so:<br />
+Not starting deluge-daemon, edit /etc/default/deluge-daemon to start it. &#8230; (warning).</p>
+<p>my deluge-daemon contains the following&#8230;(i have removed all comments to exclude any typewriting errors&#8230;)</p>
+<p>DELUGED_USER=root</p>
+<p>RUN_AT_STARTUP=YES</p>
+<p>thanks for the help and these really nice tutorials in advance&#8230;thats what makes starting with linux bearable&#8230;:)</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=324#respond' onclick='return addComment.moveForm( "comment-324", "324", "respond", "352" )' aria-label='Reply to Phil'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-325">
+		<article id="comment-325" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-325"><time pubdate datetime="2013-10-05T14:03:05+00:00">
+					October 5, 2013 at 2:03 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I think I need to see your log before I ask you do anything,<br />
+go to terminal and run</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/160% 'Lucida Grande', Lucida, Verdana, sans-serif;padding:5px;color:#23764e;margin:13px;">deluge -L info -l /root/deluge.log</div>
+<p>and post the deluge.log link here.. just link not content (you can upload that to dropbox, pastebin etc)</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=325#respond' onclick='return addComment.moveForm( "comment-325", "325", "respond", "352" )' aria-label='Reply to factro'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor even depth-3 highlander-comment" id="li-comment-326">
+		<article id="comment-326" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-326"><time pubdate datetime="2013-10-05T14:13:15+00:00">
+					October 5, 2013 at 2:13 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I think you have not compile the deluge properly.. can you please run everything from the beginning.. it does not harm to do that again, first delete deluge folder from root and do everything from the beginning.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span></p>
+<p>till  End of  Deluge 1.3.6 installation</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt depth-3 highlander-comment" id="li-comment-327">
+		<article id="comment-327" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-327"><time pubdate datetime="2013-10-05T17:08:32+00:00">
+					October 5, 2013 at 5:08 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><br />
+<blockquote><p>Please read the instruction.. I clearly asked you to upload logs in other website. </p></blockquote>
+<p>admin<br />
+link &#8211; <a href="http://pastebin.com/T5Fp2Sd1" rel="nofollow">http://pastebin.com/T5Fp2Sd1</a></p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-328">
+		<article id="comment-328" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-328"><time pubdate datetime="2013-10-05T17:17:21+00:00">
+					October 5, 2013 at 5:17 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>when running this command i get the following&#8230;maybe this is the problem?<br />
+linux-x86_64&#8242; does not exist &#8212; can&#8217;t clean it<br />
+-bash: build/lib.linux-x86_64-2.6: No such file or directory<br />
+root@OMV:~/deluge-1.3.6# &#8216;build/scripts-2.6&#8217; does not exist &#8212; can&#8217;t clean it<br />
+&gt; &#8216;build/lib.linux-x86_64-2.6&#8217; does not exist &#8212; can&#8217;t clean it<br />
+-bash: build/scripts-2.6: No such file or directory<br />
+root@OMV:~/deluge-1.3.6# &#8216;build/bdist.linux-x86_64&#8217; does not exist &#8212; can&#8217;t clean it<br />
+&gt; &#8216;build/scripts-2.6&#8217; does not exist &#8212; can&#8217;t clean it<br />
+-bash: build/bdist.linux-x86_64: No such file or directory<br />
+root@OMV:~/deluge-1.3.6# root@OMV:~/deluge-1.3.6#<br />
+-bash: root@OMV:~/deluge-1.3.6#: No such file or directory<br />
+root@OMV:~/deluge-1.3.6#</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=328#respond' onclick='return addComment.moveForm( "comment-328", "328", "respond", "352" )' aria-label='Reply to Phil'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-329">
+		<article id="comment-329" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-329"><time pubdate datetime="2013-10-05T17:28:43+00:00">
+					October 5, 2013 at 5:28 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>that log didn&#8217;t help.. deluge is trying to run GUI version of deluge but OMV don&#8217;t have GUI so its giving error.. </p>
+<p>can you post the output of </p>
+<p>python setup.py build<br />
+python setup.py install</p>
+<p>(of course not the content, just the link to content ) thanks.. <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=329#respond' onclick='return addComment.moveForm( "comment-329", "329", "respond", "352" )' aria-label='Reply to factro'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-330">
+		<article id="comment-330" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-330"><time pubdate datetime="2013-10-07T21:45:18+00:00">
+					October 7, 2013 at 9:45 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>ok, this is the output of the build command:</p>
+<p><a href="http://pastebin.com/3KJ0T1g9" rel="nofollow">http://pastebin.com/3KJ0T1g9</a></p>
+<p>and this is the output of the install command</p>
+<p><a href="http://pastebin.com/YkF2cqJw" rel="nofollow">http://pastebin.com/YkF2cqJw</a></p>
+<p>I truly dont understand anything anymore :))</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-3 highlander-comment" id="li-comment-331">
+		<article id="comment-331" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-331"><time pubdate datetime="2013-10-07T22:08:54+00:00">
+					October 7, 2013 at 10:08 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>from this I can confirm that you have succesfully install deluge.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> .. all we need to do is fix deluge daemon.. </p>
+<p>can you run deluged in terminal </p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/160% 'Lucida Grande', Lucida, Verdana, sans-serif;padding:5px;color:#23764e;margin:13px;">
+root@Homv:~# deluged<br />
+root@Homv:~# setsid deluge-web -p 8112
+</div>
+<p>go to you client browser, and in url -&gt; [serverip]:8112<br />
+if this runs then we can confirm that daemon and web port is fine too,  then we can move to fix /etc/init.d/ script</p>
+<p>BTW, after you download deluge daemon from dropbox did you delete its txt extension or not?? </p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-332">
+		<article id="comment-332" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-332"><time pubdate datetime="2013-10-08T11:51:10+00:00">
+					October 8, 2013 at 11:51 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Yes&#8230;this works&#8230;.i have copied the content of deluge from dropbox&#8230;and pasted it into the terminal with nano&#8230;</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=332#respond' onclick='return addComment.moveForm( "comment-332", "332", "respond", "352" )' aria-label='Reply to Phil'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-333">
+		<article id="comment-333" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-333"><time pubdate datetime="2013-10-08T13:38:42+00:00">
+					October 8, 2013 at 1:38 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>you mean it worked with daemon script after you copied it or the command that I post worked?? </p>
+<p>I am not sure what&#8217;s wrong with daemon script, can you post script from /etc/init.d/ and /etc/default for deluge, let me see if there is anything wrong in the script, mine works just fine .. <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span> b</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=333#respond' onclick='return addComment.moveForm( "comment-333", "333", "respond", "352" )' aria-label='Reply to factro'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-334">
+		<article id="comment-334" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-334"><time pubdate datetime="2013-10-08T22:22:10+00:00">
+					October 8, 2013 at 10:22 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I am experiencing something weird&#8230;after installing deluge, i noticed that plex media server wasnt working properly anymorex, precisely i could not get tolog in to my plex anymore&#8230;after trying to remove plex media server for reinstall, i got a couple of error messages also regarding the deluge daemon&#8230;maybe that is the problem?</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-3 highlander-comment" id="li-comment-335">
+		<article id="comment-335" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-335"><time pubdate datetime="2013-10-09T12:59:22+00:00">
+					October 9, 2013 at 12:59 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>humm I don&#8217;t think deluge and Plex are link up.. cause they are completely different application. I think you have problem with system may be something is missing or corrupted.. if you have time do a fresh installation <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> by doing that firstly you will learn more things this way, second you will remove any problem with the system and third you will get used to linux.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> </p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-338">
+		<article id="comment-338" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/70425c8632d0a3cd27d163f132827fd8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Phil</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-338"><time pubdate datetime="2013-10-09T23:40:49+00:00">
+					October 9, 2013 at 11:40 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Thats what i was going to do anyway tomorrow&#8230;i am planning to install omv sardaukar&#8230;the plex media server, deluge, and the vnc remote desktop for easigr maintenance&#8230;at this point, all those worked until i installed deluge&#8230;maybe with fresh install it will be better&#8230;keep in touch tomorrow with pdates on the progress&#8230;is there an order for things to get done?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=338#respond' onclick='return addComment.moveForm( "comment-338", "338", "respond", "352" )' aria-label='Reply to Phil'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-342">
+		<article id="comment-342" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>factro</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-342"><time pubdate datetime="2013-10-10T08:09:18+00:00">
+					October 10, 2013 at 8:09 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>If I was you, I would solve the deluge problem first then move to other application after fresh installation. Happy Learning.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> </p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=342#respond' onclick='return addComment.moveForm( "comment-342", "342", "respond", "352" )' aria-label='Reply to factro'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/' rel='external nofollow' class='url'>SickBeard + CouchPotato + Deluge + Plex | Linux+</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-394">
+		<article id="comment-394" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/7e638cb914607caf44fd274cd013bb1b?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ilan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-394"><time pubdate datetime="2013-12-24T08:37:52+00:00">
+					December 24, 2013 at 8:37 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I installed delgue in my omv 0.5.x rig, I want to run a script when adding a torrent and when it ends using the excute plugin.</p>
+<p>1. Where do I put the script file?<br />
+2. How do I call it correctly from deluge?</p>
+<p>I tried putting my script file (which copies a script from a shared directory &#8211; so I can edit it there, and then runs it)  in the &#8220;/somthing dir&#8221; but when deluge tried to run the script it would either say &#8220;permisssion denied&#8221; or no file found.</p>
+<p>I tried telling deluge &#8220;echo &#8220;xxx&#8221;&gt;/media/raidid/general/xxx.txt, but that got me permission denied.<br />
+I am looking for instructions on how u can use the executer plugin with omv and deluge.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=394#respond' onclick='return addComment.moveForm( "comment-394", "394", "respond", "352" )' aria-label='Reply to Ilan'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-397">
+		<article id="comment-397" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-397"><time pubdate datetime="2013-12-24T17:10:44+00:00">
+					December 24, 2013 at 5:10 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>First of all, you can only execute script with whichever user account you are using to run deluge.. as for my tutorial, I am using root, so it can run any script,but if you are using different user then. user should have right to execute script.<br />
+Second thing is you need to enable execute plugin under preference&gt;&gt; plugin in deluge,<br />
+now in deluge preference, under execute, you can add event, you have two option, <b>torrent add</b> and <b>torrent complete</b>, so assign your scrip accordingly. In here you can give a location to your script, it should be sh.. not TXT change that to sh and do sudo chmod 775 /path/to/script.sh<br />
+<i>{its best you put your script in root folder of user. eg. /root/myScript.sh}</i><br />
+ For more info go to <a href="http://dev.deluge-torrent.org/wiki/Plugins/Execute" rel="nofollow">http://dev.deluge-torrent.org/wiki/Plugins/Execute</a></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=397#respond' onclick='return addComment.moveForm( "comment-397", "397", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-425">
+		<article id="comment-425" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/7e638cb914607caf44fd274cd013bb1b?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ilan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-425"><time pubdate datetime="2013-12-31T07:05:42+00:00">
+					December 31, 2013 at 7:05 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>So I now have a working sickbeard (tpb), and deluge on my rig.<br />
+The issue was that my scripts (amongst other things, but leading to this) were not run when sickbeard added torrent via the API. it seems that when sb added torrents via &#8220;deluge&#8221; torrent method, when they where finished, they do not move to finished state, but straight to seeging, so that the execute plugin never &#8220;fired&#8221;.</p>
+<p>When I added torrents manually, it moved to finsihed state. so what I did was move to Blackhole method, and changed my script (groovy, filebot) to use<br />
+Process p = Runtime.getRuntime().exec(&#8220;python /sickbeard/autoProcessTV/mediaToSickbeard.py ${ut_path$} ${ut_name}&#8221;);<br />
+}</p>
+<p>I can share my groovy scripts, they unpack, and call sickbeard back for me.</p>
+<p>Have you come across the fact that sb(tpb) api calls does not get deluge torrents to go to finished state.</p>
+<p>Also (and I do not know if this is sb or deluge issue), in the sb logs I constantly see:</p>
+<p>2013-12-30 23:00:49 WARNING  CP Server Thread-3 :: API :: 10.100.102.1 &#8211; gave WRONG API KEY 0232958947025cc5d8b985c269d0e977. ACCESS DENIED</p>
+<p>My server is 10.100.102.7 and not 1 (which is the router), any chance this is interferring?</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-426">
+		<article id="comment-426" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-426"><time pubdate datetime="2013-12-31T09:05:27+00:00">
+					December 31, 2013 at 9:05 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p><b><i> it seems that when sb added torrents via “deluge” torrent method, when they where finished, they do not move to finished state, but straight to seeging, so that the execute plugin never “fired”</i></b>,<br />
+use label plugin in deluge to move the completed torrent to desire location and assign that location to sickbeard,  you don&#8217;t need script to move it.. once the files is moved, sickbeard automatically scanned the files in given location (you don&#8217;t need to call it) and does its jobs (post-processing)..  and I am not sure about why you getting that error in your sb log cause I don&#8217;t have such error..</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=426#respond' onclick='return addComment.moveForm( "comment-426", "426", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href='http://blog.zhenglei.net/?p=254709' rel='external nofollow' class='url'>Open Source NAS | Leic&#039;s Blog</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1144">
+		<article id="comment-1144" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/992bb438c7e73d1d6434687ee7c88084?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">(:Pro:)</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1144"><time pubdate datetime="2014-09-11T14:57:26+00:00">
+					September 11, 2014 at 2:57 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi, OMV vtrsion is 0.5.57 it is impossible to install deluge <span class='wp-smiley wp-emoji wp-emoji-sad' title=':('>:(</span><br />
+Not installed library compiler C.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1144#respond' onclick='return addComment.moveForm( "comment-1144", "1144", "respond", "352" )' aria-label='Reply to (:Pro:)'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1152">
+		<article id="comment-1152" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/992bb438c7e73d1d6434687ee7c88084?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">(:Pro:)</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1152"><time pubdate datetime="2014-09-20T12:34:29+00:00">
+					September 20, 2014 at 12:34 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>root@nas:~/deluge-1.3.6/libtorrent# ./configure &#8211;enable-python-binding<br />
+checking whether make supports nested variables&#8230; yes</p>
+<p>Building libtorrent-rasterbar 0.16.12</p>
+<p>Checking for a C/C++ compiler to use:<br />
+checking for gcc&#8230; gcc<br />
+checking whether the C compiler works&#8230; no<br />
+configure: error: in `/root/deluge-1.3.6/libtorrent&#8217;:<br />
+configure: error: C compiler cannot create executables<br />
+See `config.log&#8217; for more details</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1152#respond' onclick='return addComment.moveForm( "comment-1152", "1152", "respond", "352" )' aria-label='Reply to (:Pro:)'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor even depth-2 highlander-comment" id="li-comment-1247">
+		<article id="comment-1247" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1247"><time pubdate datetime="2014-10-21T14:10:22+00:00">
+					October 21, 2014 at 2:10 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>you need to install gcc (here you go link &gt;&gt; <a href="http://www.cyberciti.biz/faq/debian-linux-install-gnu-gcc-compiler/" rel="nofollow">http://www.cyberciti.biz/faq/debian-linux-install-gnu-gcc-compiler/</a>)</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1247#respond' onclick='return addComment.moveForm( "comment-1247", "1247", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment odd alt depth-3 highlander-comment" id="li-comment-1250">
+		<article id="comment-1250" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/992bb438c7e73d1d6434687ee7c88084?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">(:Pro:)</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1250"><time pubdate datetime="2014-10-21T17:51:14+00:00">
+					October 21, 2014 at 5:51 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi, i tried to install and did not install with the same error.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1244">
+		<article id="comment-1244" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/7e638cb914607caf44fd274cd013bb1b?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ilan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1244"><time pubdate datetime="2014-10-20T13:45:01+00:00">
+					October 20, 2014 at 1:45 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi again, great guide.<br />
+Can you update for deluge 1.3.10 and OMV 1.0?<br />
+It does not work for me in the mkae install faze</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1244#respond' onclick='return addComment.moveForm( "comment-1244", "1244", "respond", "352" )' aria-label='Reply to Ilan'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1248">
+		<article id="comment-1248" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1248"><time pubdate datetime="2014-10-21T14:19:15+00:00">
+					October 21, 2014 at 2:19 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I think I will pass OMV 1.0 for the moment as my server is running just fine.. but I will give a try to deluge 1.3.10. If everything went well then I will update the post.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1248#respond' onclick='return addComment.moveForm( "comment-1248", "1248", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-1275">
+		<article id="comment-1275" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/7e638cb914607caf44fd274cd013bb1b?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">ilan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1275"><time pubdate datetime="2014-10-29T08:20:04+00:00">
+					October 29, 2014 at 8:20 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Did you manage Deluge 1.3.10?</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-3 highlander-comment" id="li-comment-1279">
+		<article id="comment-1279" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1279"><time pubdate datetime="2014-10-30T20:10:00+00:00">
+					October 30, 2014 at 8:10 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I am having few problems with boost library, I will update you as soon as I manage to solve boost lib problem.. I am try slighlty different way to install deluge this time.. <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span></p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1281">
+		<article id="comment-1281" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1281"><time pubdate datetime="2014-10-31T19:45:51+00:00">
+					October 31, 2014 at 7:45 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I have done it.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> , after so many problem with boost lib ..if you got problem with boost while compiling libtorrent,  this might help &#8211; purge all the libboost-python and </p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">rm /usr/local/lib/libboost*</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"> rm -r /usr/local/include/boost</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install bjam</div>
+<p> then download &gt;&gt; <a href="http://sourceforge.net/projects/boost/files/boost/1.36.0/" rel="nofollow">http://sourceforge.net/projects/boost/files/boost/1.36.0/</a> </p>
+<p>ya I know its old but it works</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">tar xvzf boost_1_36_0.tar.gz</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">set BOOST_BUILD_PATH=/username/boost/tools/build/v2</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd boost_1_36_0</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd tools/build/v2</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano user-config.jam</div>
+<p>and remove # infront of using gcc like below and save</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"># Configure gcc (default version).<br />
+ using gcc ;</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">bjam </div>
+<p>now install libboost-all-dev</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install libboost-all-dev</div>
+<p>and follow the above step to install deluge.. cheers</p>
+<p>also install svn too</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1281#respond' onclick='return addComment.moveForm( "comment-1281", "1281", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1282">
+		<article id="comment-1282" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1282"><time pubdate datetime="2014-10-31T19:48:21+00:00">
+					October 31, 2014 at 7:48 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>deluge -v </p>
+<p>deluge: 1.3.10<br />
+libtorrent: 0.14.12.0</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1282#respond' onclick='return addComment.moveForm( "comment-1282", "1282", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1284">
+		<article id="comment-1284" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/c4fd8fd80e8869b47d0fbc3319143eea?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ninners</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1284"><time pubdate datetime="2014-10-31T20:19:35+00:00">
+					October 31, 2014 at 8:19 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>May I ask which version of omv you used in your guide? And which you currently are on? I&#8217;ve been reading through the comments and it seems omv 1.0 has problems with deluge. Just want to be on the safe side.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1284#respond' onclick='return addComment.moveForm( "comment-1284", "1284", "respond", "352" )' aria-label='Reply to Ninners'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1285">
+		<article id="comment-1285" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1285"><time pubdate datetime="2014-10-31T20:24:50+00:00">
+					October 31, 2014 at 8:24 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I using 0.5.60 &#8211; Sardaukar and entire guide is base on it. </p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1285#respond' onclick='return addComment.moveForm( "comment-1285", "1285", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-1286">
+		<article id="comment-1286" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/c4fd8fd80e8869b47d0fbc3319143eea?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ninners</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1286"><time pubdate datetime="2014-10-31T20:40:32+00:00">
+					October 31, 2014 at 8:40 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Thank you very much. I&#8217;ll leave a comment later if I suceed or not.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-3 highlander-comment" id="li-comment-1287">
+		<article id="comment-1287" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1287"><time pubdate datetime="2014-10-31T20:56:20+00:00">
+					October 31, 2014 at 8:56 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>best of luck.. man I had so much trouble with boost lib.. two whole day&#8230;and just managed to compile everything and post it immediately.. <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span></p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1288">
+		<article id="comment-1288" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/c4fd8fd80e8869b47d0fbc3319143eea?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ninners</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1288"><time pubdate datetime="2014-10-31T21:55:10+00:00">
+					October 31, 2014 at 9:55 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I&#8217;m sorry to inform that I did not suceed in my quest to install deluge on omv. Mostly becouse of problems with installation on a virtual host. </p>
+<p>I&#8217;ll have to leave this guide for now but I&#8217;ll surely return someday. Thank you for your help and for taking your time to write this guide. I hope others suceed in my place.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1288#respond' onclick='return addComment.moveForm( "comment-1288", "1288", "respond", "352" )' aria-label='Reply to Ninners'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1 highlander-comment" id="li-comment-1317">
+		<article id="comment-1317" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/992bb438c7e73d1d6434687ee7c88084?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">(:Pro:)</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1317"><time pubdate datetime="2014-11-17T06:36:07+00:00">
+					November 17, 2014 at 6:36 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Enable Download Managers Testing repo on the Secondary tab of omv-extras.org.  Just added a new version of the deluge plugin tonight.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1317#respond' onclick='return addComment.moveForm( "comment-1317", "1317", "respond", "352" )' aria-label='Reply to (:Pro:)'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1477">
+		<article id="comment-1477" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/ced700ffa054f8219d64615e76d59352?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ryan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1477"><time pubdate datetime="2015-01-22T04:29:42+00:00">
+					January 22, 2015 at 4:29 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>im still having problems with the boostlib&#8230; prob due to my novicness surrounding the matter&#8230; I only started using linux about 6 months ago but I have a solid command of the command line&#8230; pun. Anyway, I have all the current python libraries as well as subversion (svn.. right?) I have just been googling along installing packages as errors pop up but now i am stuck on configuring the python bindings</p>
+<p>checking whether the Boost::Python library is available&#8230; no<br />
+configure: error: Unable to find Boost.Python library, this is required to build python bindings.</p>
+<p>It says all my packages are up to date and installed&#8230;<br />
+Any help would be super schweet! tanks y&#8217;all PS thanks for the f-n awesome website! all this is such a great learning exp!<br />
+Cheers<br />
+-R</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1477#respond' onclick='return addComment.moveForm( "comment-1477", "1477", "respond", "352" )' aria-label='Reply to Ryan'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1488">
+		<article id="comment-1488" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/#comment-1488"><time pubdate datetime="2015-02-03T20:59:57+00:00">
+					February 3, 2015 at 8:59 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>ya boostlib was the biggest problem to me as well, I had to purge entire boostlib and recompile from the scratch. </p>
+<p>Plz try this,<br />
+from my previous comment<br />
+&#8221;<br />
+I have done it.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> , after so many problem with boost lib ..if you got problem with boost while compiling libtorrent,  this might help &#8211; purge all the libboost-python and </p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">rm /usr/local/lib/libboost*</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"> rm -r /usr/local/include/boost</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install bjam</div>
+<p> then download &gt;&gt; <a href="http://sourceforge.net/projects/boost/files/boost/1.36.0/" rel="nofollow">http://sourceforge.net/projects/boost/files/boost/1.36.0/</a> </p>
+<p>ya I know its old but it works</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">tar xvzf boost_1_36_0.tar.gz</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">set BOOST_BUILD_PATH=/username/boost/tools/build/v2</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd boost_1_36_0</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd tools/build/v2</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano user-config.jam</div>
+<p>and remove # infront of using gcc like below and save</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"># Configure gcc (default version).<br />
+ using gcc ;</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">bjam </div>
+<p>now install libboost-all-dev</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install libboost-all-dev</div>
+<p>and follow the above step to install deluge.. cheers</p>
+<p>also install svn too<br />
+&#8220;</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/?replytocom=1488#respond' onclick='return addComment.moveForm( "comment-1488", "1488", "respond", "352" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		</ol>
+
+		
+	
+	
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2013/04/12/openmediavault-deluge-1-3-6/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://linuxpluse.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="f35aee8e1f" /><input type="hidden" name="_wp_http_referer" value="/2013/04/12/openmediavault-deluge-1-3-6/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=https%3A%2F%2Flinuxpluse.wordpress.com" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='352' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="24c73f2a46" /></p>
+<input type="hidden" name="genseq" value="1450954685" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="111"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments .comments-area -->
+
+			
+			</div><!-- #content -->
+		</div><!-- #primary .site-content -->
+
+		<div id="secondary-1" class="col1 widget-area" role="complementary">
+								<aside id="recent-posts-2" class="widget widget_recent_entries"><div class="content"><div class="inner-content">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2014/11/05/colour-plate-for-android/">Colour Plate for&nbsp;Android</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2014/04/24/ssl-certificate-for-sickbeard-couchpotato-and-deluge-in-omv/">SSL Certificate for Sickbeard, Couchpotato and deluge in&nbsp;OMV</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/">SickBeard + CouchPotato + Deluge +&nbsp;Plex</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2013/08/27/custom-icon-for-plex-media-server/">Custom Section Icons for Plex Media&nbsp;Client</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2013/06/26/tightvnc-server-jdownloader-in-openmediavault/">Tightvnc Server + jDownloader in&nbsp;Openmediavault</a>
+						</li>
+				</ul>
+		</div></div></aside>		<aside id="rss_links-4" class="widget widget_rss_links"><div class="content"><div class="inner-content"><ul><li><a href="https://linuxpluse.wordpress.com/feed/" title="Subscribe to Posts">RSS - Posts</a></li><li><a href="https://linuxpluse.wordpress.com/comments/feed/" title="Subscribe to Comments">RSS - Comments</a></li></ul>
+</div></div></aside>		</div><!-- #secondary-1 .widget-area -->
+		<div id="secondary-2" class="col1 widget-area" role="complementary">
+						<aside id="archives-2" class="widget widget_archive"><div class="content"><div class="inner-content"><h2 class="widget-title">Archives</h2>		<ul>
+			<li><a href='https://linuxpluse.wordpress.com/2014/11/'>November 2014</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2014/04/'>April 2014</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/12/'>December 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/08/'>August 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/06/'>June 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/05/'>May 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/04/'>April 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/01/'>January 2013</a></li>
+		</ul>
+		</div></div></aside><aside id="text-2" class="widget widget_text"><div class="content"><div class="inner-content">			<div class="textwidget"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=QPNEXM3C8PJUA&amp;lc=GB&amp;item_name=LinuxPluse&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank" rel="nofollow">
+<div style="background-color:#9f3c5e;padding:4px;color:#f8f8f8;font-weight:bold;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;width:80px;text-align:center;border:2px solid #d7d7d7;border-radius:5px;text-transform:uppercase;position:relative;left:24%;">Buy Me Beer
+<img src="https://linuxpluse.files.wordpress.com/2014/01/1390589374_donate.png" />
+</div>
+</a></div>
+		</div></div></aside>		</div><!-- #secondary-2 .widget-area -->
+		<div id="secondary-3" class="col1 widget-area" role="complementary">
+						<aside id="linkcat-136607940" class="widget widget_links"><div class="content"><div class="inner-content"><h2 class="widget-title">Linux</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.cyberciti.biz/faq/" target="_blank">Cyberciti</a></li>
+<li><a href="http://www.server-world.info/en/note?os=Debian_6.0&#038;p=download" target="_blank">Debian (How To)</a></li>
+<li><a href="http://elementaryos.org/" title="Ubuntu Based OS – Elementary OS" target="_blank">Elementary OS</a></li>
+<li><a href="http://forums.openmediavault.org/viewtopic.php?f=12&#038;t=1289" title="HowTo&#8217;s / Tutorials" target="_blank">Openmediavault (OMV) &#8211; HowTo&#039;s</a></li>
+<li><a href="http://forums.plexapp.com/" target="_blank">Plex Media Server (forum)</a></li>
+
+	</ul>
+</div></div></aside>
+<aside id="linkcat-167895167" class="widget widget_links"><div class="content"><div class="inner-content"><h2 class="widget-title">Interesting Website</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.5by.com/" title="Good interface and very intuitive design. " target="_blank">5by &#8211; Your Video Concierge</a></li>
+<li><a href="http://www.change.org/en-GB/petitions/renew-tron-uprising?recruiter=96041785&#038;utm_campaign=signature_receipt&#038;utm_medium=email&#038;utm_source=share_petition">Bring Tron:Uprising Back!</a></li>
+<li><a href="http://cogx.org/index.php" title="I this is the by far best music player I have used in MAC. It sounds so good.. " target="_blank">COG &#8211; Music Player (MAC)</a></li>
+<li><a href="https://www.focusatwill.com/music/#player" title="Easiest way to focus in your work! It&#8217;s quiet good  :) " target="_blank">Focus@Will</a></li>
+<li><a href="https://www.stereodose.com/" title="House Music" target="_blank">Stereodose</a></li>
+
+	</ul>
+</div></div></aside>
+		</div><!-- #secondary-3 .widget-area -->
+
+		</div><!-- #main -->
+	</div><!-- #wrapper -->
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+						<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			<span class="sep"> | </span>
+			<a href="https://wordpress.com/themes/balloons/" title="Learn more about this theme">The Balloons Theme</a>.		</div><!-- .site-info -->
+	</footer><!-- .site-footer .site-footer -->
+
+	<div id="parallax-01">
+		<img id="balloons-01" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-01.png" width="135" height="848" alt="" />
+	</div>
+
+	<div id="parallax-02">
+		<img id="balloons-02" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-02.png" width="136" height="848" alt="" />
+	</div>
+
+	<div id="parallax-03">
+		<img id="balloons-03" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-03.png" width="63" height="922" alt="" />
+	</div>
+
+	<div id="parallax-04">
+		<img id="balloons-04" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-04.png" width="73" height="828" alt="" />
+	</div>
+
+	<div id="parallax-05">
+		<img id="balloons-05" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-05.png" width="171" height="899" alt="" />
+	</div>
+
+	<div id="parallax-06">
+		<img id="balloons-06" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-06.png" width="216" height="928" alt="" />
+	</div>
+
+	<div id="parallax-07">
+		<img id="balloons-07" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-07.png" width="65" height="735" alt="" />
+	</div>
+
+</div><!-- #page .hfeed .site -->
+
+<!-- wpcom_wp_footer -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201552y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781g'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-70425c8632d0a3cd27d163f132827fd8">
+	</div>
+	<div class="grofile-hash-map-b6bab23a112ba76026eb4c6b229eb020">
+	</div>
+	<div class="grofile-hash-map-7e638cb914607caf44fd274cd013bb1b">
+	</div>
+	<div class="grofile-hash-map-992bb438c7e73d1d6434687ee7c88084">
+	</div>
+	<div class="grofile-hash-map-c4fd8fd80e8869b47d0fbc3319143eea">
+	</div>
+	<div class="grofile-hash-map-ced700ffa054f8219d64615e76d59352">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/linuxpluse.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/linuxpluse.wordpress.com\/wp-login.php?action=logout&_wpnonce=a989705c6d","homeURL":"https:\/\/linuxpluse.wordpress.com\/","postID":"352","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1424115551j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;Linux+&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+			
+			<p><input type="email" name="email" placeholder="Enter your email address" id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="45098764"/>
+			<input type="hidden" name="source" value="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="99a89553d8" /><input type="hidden" name="_wp_http_referer" value="/2013/04/12/openmediavault-deluge-1-3-6/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="https://wordpress.com/?ref=lof">Build a website with WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/linuxpluse.wordpress.com\/2013\/04\/12\/openmediavault-deluge-1-3-6\/":352};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='https://widgets.wp.com/likes/master.html?ver=20151208#ver=20151208&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesWidgetBatch = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesBatchHandler() {
+				var requests = [];
+				jQuery( 'div.jetpack-likes-widget-unloaded' ).each( function( i ) {
+					if ( jetpackLikesWidgetBatch.indexOf( this.id ) > -1 )
+						return;
+					jetpackLikesWidgetBatch.push( this.id );
+					var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+					var match = regex.exec( this.id );
+					if ( ! match || match.length != 5 )
+						return;
+
+					var info = {
+						blog_id: match[2],
+						width:   this.width
+					};
+
+					if ( 'post' == match[1] ) {
+						info.post_id = match[3];
+					} else if ( 'comment' == match[1] ) {
+						info.comment_id = match[3];
+					}
+
+					info.obj_id = match[4];
+
+					requests.push( info );
+				});
+
+				if ( requests.length > 0 ) {
+					JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+				}
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' ),
+								isRtl: ( 'rtl' == jQuery( '#wpadminbar' ).css( 'direction' ) )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						JetpackLikesBatchHandler();
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'clickReblogFlair' == event.event ) {
+					wpcom_reblog.toggle_reblog_box_flair( event.obj_id );
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Grab any unloaded widgets for a batch request
+					JetpackLikesBatchHandler();
+
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				if ( 'undefined' === typeof wrapperID ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431g'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var JetpackEmojiSettings = {"base_url":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/emoji\/twemoji\/"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyNjMEOgjAQRH/IsphgCAfjt5SyQmt327At6N9bTUjUC54mk/dmYI3KBE7ICZzAgIs1GO+VkwN8oDQhoUDMPfTa+xBYXrpQKYqQ8zawbHwe8E1NoIKSmjH6R0WWf18pq+jzaMsZUnAW0vqVu77DFLW5qf/sPSsGSerqtZ1BJj1bHrcsowudj82p7uq27Rr3BC21c1s='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "linuxpluse.wordpress.com";
+	</script>
+	<script type="text/javascript" src="https://s.skimresources.com/js/725X1342.skimlinks.js"></script><script src="//stats.wp.com/w.js?48" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'45098764','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'45098764','v':'wpcom','tz':'0','user_id':'0','post':'352','subd':'linuxpluse'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdTdvUG14Q2VDQTR4LlUsLi82dU1mai9BMjUrbT1FQmUxUTcmSGhGP35ZRzRQZH5KUlVWYVFJP2g4LmF8OXZddk5SX01TM3BIZVBVNHxnancwQy91MFYrVXJpMmxHJWNQWlI9JU9uJktMMWY9dT96JTZqSXRbTUs1NEI/dWJkZVNpW29MdmhHOEJPRj9FPTJDczNFT2smR29sKy9EUT03RysySExkbnlNWS9VeixjaFhjQy5vcElWYl9YTUZBalBMY1JiazB1byVzVVRlb00xYWw3Ln40Wmx6NVlbX35EWFt4YyZwdmVbMFlodmQ5cWs9WyVEUFdYXWJ+L3JQVGR1SEh3WSw5X1p3aThhPXUwWEU2V28='}]);
+_stq.push([ 'clickTrackerInit', '45098764', '352' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>

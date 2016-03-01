@@ -1,0 +1,6 @@
+# ansible
+sudo apt-get install python-dev python-gmpy python-crypto
+
+# naemon
+sudo apt-get install gperf
+sudo apt-get install libgd2-noxpm libgd2-noxpm-dev

@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"a5842c9dc219bfc6c372db9af82e5215",petok:"1647044607bfeece51ead06e12d976e435a2bae5-1452569206-1800",zone:"htpcguides.com",rocket:"a",apps:0,sha2test:0}];document.write('<script type="text/javascript" src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=38857570ac/cloudflare.min.js"><'+'\/script>');}}catch(e){};
+//]]>
+</script>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://www.htpcguides.com/xmlrpc.php">
+<title>Power 2.5&quot; Hard Drive with Raspberry Pi 2 and B+ &bull;</title>
+<script type="text/rocketscript">
+		var ajaxurl = 'https://www.htpcguides.com/wp-admin/admin-ajax.php';
+		</script>
+ 
+<meta name="description" content="Power your 2.5&quot; hard drive without external power on the Raspberry Pi B+ with this step-by-step guide to safely increasing the current for the USB bus"/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="http://www.htpcguides.com/power-2-5-hard-drive-with-raspberry-pi-b/"/>
+<link rel="publisher" href="https://plus.google.com/u/0/b/115704279076488566208/+Htpcguidesdotcom/"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="Power 2.5&quot; Hard Drive with Raspberry Pi 2 and B+ &bull;"/>
+<meta property="og:description" content="Power your 2.5&quot; hard drive without external power on the Raspberry Pi B+ with this step-by-step guide to safely increasing the current for the USB bus"/>
+<meta property="og:url" content="http://www.htpcguides.com/power-2-5-hard-drive-with-raspberry-pi-b/"/>
+<meta property="og:site_name" content="HTPC Guides"/>
+<meta property="article:publisher" content="https://www.facebook.com/myhtpcguides"/>
+<meta property="article:section" content="htpc"/>
+<meta property="article:published_time" content="2014-12-10T20:45:42+00:00"/>
+<meta property="article:modified_time" content="2015-12-20T14:44:00+00:00"/>
+<meta property="og:updated_time" content="2015-12-20T14:44:00+00:00"/>
+<meta property="og:image" content="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177.png"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Power your 2.5&quot; hard drive without external power on the Raspberry Pi B+ with this step-by-step guide to safely increasing the current for the USB bus"/>
+<meta name="twitter:title" content="Power 2.5&quot; Hard Drive with Raspberry Pi 2 and B+ &bull;"/>
+<meta name="twitter:site" content="@htpc_guides"/>
+<meta name="twitter:image" content="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177.png"/>
+<meta name="twitter:creator" content="@htpc_guides"/>
+<meta itemprop="image" content="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177.png">
+ 
+<link rel="alternate" type="application/rss+xml" title="HTPC Guides &raquo; Feed" href="http://www.htpcguides.com/feed/"/>
+<link rel="alternate" type="application/rss+xml" title="HTPC Guides &raquo; Comments Feed" href="http://www.htpcguides.com/comments/feed/"/>
+<link rel="alternate" type="application/rss+xml" title="HTPC Guides &raquo; Power 2.5&#8243; Hard Drive with Raspberry Pi 2 and B+ Comments Feed" href="http://www.htpcguides.com/power-2-5-hard-drive-with-raspberry-pi-b/feed/"/>
+<script type="text/rocketscript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.htpcguides.com\/wp-includes\/js\/wp-emoji-release.min.js"}};
+			!function(a,b,c){function d(a){var c,d=b.createElement("canvas"),e=d.getContext&&d.getContext("2d");return e&&e.fillText?(e.textBaseline="top",e.font="600 32px Arial","flag"===a?(e.fillText(String.fromCharCode(55356,56806,55356,56826),0,0),d.toDataURL().length>3e3):"diversity"===a?(e.fillText(String.fromCharCode(55356,57221),0,0),c=e.getImageData(16,16,1,1).data.toString(),e.fillText(String.fromCharCode(55356,57221,55356,57343),0,0),c!==e.getImageData(16,16,1,1).data.toString()):("simple"===a?e.fillText(String.fromCharCode(55357,56835),0,0):e.fillText(String.fromCharCode(55356,57135),0,0),0!==e.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag"),unicode8:d("unicode8"),diversity:d("diversity")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag&&c.supports.unicode8&&c.supports.diversity||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">img.wp-smiley,img.emoji{display:inline!important;border:none!important;box-shadow:none!important;height:1em!important;width:1em!important;margin:0 .07em!important;vertical-align:-0.1em!important;background:none!important;padding:0!important;}</style>
+<link rel='stylesheet' id='ssbp_styles-css' href='http://www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/ssbp.min.css' type='text/css' media='all'/>
+<link rel='stylesheet' id='generate-fonts-css' href='//fonts.googleapis.com/css?family=Oxygen:300,regular,700|Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic' type='text/css' media='all'/>
+<link rel='stylesheet' id='contact-form-7-group-css' href='http://www.htpcguides.com/wp-content/plugins/bwp-minify/min/?f=wp-content/plugins/contact-form-7/includes/css/styles.css,wp-content/plugins/ginger-eu-cookie-law/front/css/cookies-enabler.css,wp-content/plugins/wp-category-tag-could/css/wpctc.min.css,wp-content/plugins/easyazon-pro-4.0.7/vendor/bootstrap.min.css,wp-content/plugins/easyazon-pro-4.0.7/components/popovers/resources/popovers.css,wp-content/themes/generatepress/css/unsemantic-grid.min.css,wp-content/themes/generatepress/css/font-awesome.min.css,wp-content/plugins/recently/style/recently.css,wp-content/plugins/wordpress-popular-posts/style/wpp.css,wp-content/tablepress-combined.min.css' type='text/css' media='all'/>
+<link rel='stylesheet' id='generate-style-css' href='http://www.htpcguides.com/wp-content/themes/generatepress/style.css' type='text/css' media='all'/>
+<style id='generate-style-inline-css' type='text/css'>body{background-color:#222222;color:#222222;}a,a:visited{color:#1e73be;text-decoration:none;}a:hover,a:focus,a:active{color:#222222;}body .grid-container{max-width:1200px;}.entry-header .entry-meta{display:none;}.posted-on{display:none;}.byline,.single .byline,.group-blog .byline{display:none;}.comments-link{display:none;}.inside-header{padding:40px 40px 40px 40px;}.separate-containers .inside-article,.separate-containers .comments-area,.separate-containers .page-header,.separate-containers .paging-navigation,.one-container .site-content{padding:40px 40px 40px 40px;}.one-container.right-sidebar .site-main,.one-container.both-right .site-main{margin-right:40px;}.one-container.left-sidebar .site-main,.one-container.both-left .site-main{margin-left:40px;}.one-container.both-sidebars .site-main{margin:0px 40px 0px 40px;}.ignore-x-spacing{margin-right:-40px;margin-bottom:40px;margin-left:-40px;}.ignore-xy-spacing{margin:-40px -40px 40px -40px;}.main-navigation .main-nav ul li a,.menu-toggle,.main-navigation .mobile-bar-items a{padding-left:20px;padding-right:20px;line-height:60px;}.nav-float-right .main-navigation .main-nav ul li a{line-height:60px;}.main-navigation .main-nav ul ul li a{padding:10px 20px 10px 20px;}.main-navigation ul ul{top:60px;}.navigation-search{height:60px;line-height:0px;}.navigation-search input{height:60px;line-height:0px;}.widget-area .widget{padding:25px 25px 25px 25px;}.footer-widgets{padding:40px 0px 40px 0px;}.site-info{padding:20px 0px 20px 0px;}.right-sidebar.separate-containers .site-main{margin:10px 10px 10px 0px;}.left-sidebar.separate-containers .site-main{margin:10px 0px 10px 10px;}.both-sidebars.separate-containers .site-main{margin:10px;}.both-right.separate-containers .site-main{margin:10px 10px 10px 0px;}.separate-containers .site-main{margin-top:10px;margin-bottom:10px;}.separate-containers .page-header-image,.separate-containers .page-header-content,.separate-containers .page-header-image-single,.separate-containers .page-header-content-single{margin-top:10px;}.both-left.separate-containers .site-main{margin:10px 0px 10px 10px;}.separate-containers .inside-right-sidebar,.inside-left-sidebar{margin-top:10px;margin-bottom:10px;}.separate-containers .widget,.separate-containers .hentry,.separate-containers .page-header,.widget-area .main-navigation{margin-bottom:10px;}.both-left.separate-containers .inside-left-sidebar{margin-right:5px;}.both-left.separate-containers .inside-right-sidebar{margin-left:5px;}.both-right.separate-containers .inside-left-sidebar{margin-right:5px;}.both-right.separate-containers .inside-right-sidebar{margin-left:5px;}body,button,input,select,textarea{font-family:Arial,Helvetica,sans-serif;font-size:15px;}.main-title{font-family:"Oxygen",sans-serif;font-weight:300;font-size:60px;}.site-description{font-family:"Oxygen",sans-serif;font-size:24px;}.main-navigation a,.menu-toggle{font-family:"Roboto",sans-serif;font-size:15px;}.main-navigation .main-nav ul ul li a{font-size:14px;}.widget-title{font-family:"Oxygen",sans-serif;font-weight:300;font-size:20px;}.sidebar .widget,.footer-widgets .widget{font-size:15px;}h1{font-family:"Oxygen",sans-serif;font-size:35px;}h2{font-family:"Oxygen",sans-serif;font-size:27px;}h3{font-family:"Oxygen",sans-serif;font-size:25px;}.site-info{font-size:px;}.separate-containers .post-image,.separate-containers .inside-article .page-header-image-single,.separate-containers .inside-article .page-header-image,.separate-containers .inside-article .page-header-content-single,.no-sidebar .inside-article .page-header-image-single,.no-sidebar .inside-article .page-header-image,article .inside-article .page-header-post-image{margin:40px -40px 40px -40px}.nav-above-header{padding-top:60px}.stickynav.nav-below-header .site-header{margin-bottom:60px}.site-header{background-color:#ffffff;color:#222222;}.main-title a,.main-title a:hover,.main-title a:visited{color:#222222;}.site-description{color:#999999;}.main-navigation,.main-navigation ul ul{background-color:#1e72bd;}.navigation-search input[type="search"],.navigation-search input[type="search"]:active{color:#4f8bc6;background-color:#4f8bc6;}.navigation-search input[type="search"]:focus{color:#ffffff;background-color:#4f8bc6;}.main-navigation ul ul{background-color:#4f8bc6;}.main-navigation .main-nav ul li a,.menu-toggle{color:#FFFFFF;}button.menu-toggle:hover,button.menu-toggle:active,button.menu-toggle:focus,.main-navigation .mobile-bar-items a,.main-navigation .mobile-bar-items a:hover,.main-navigation .mobile-bar-items a:focus{color:#FFFFFF;}.main-navigation .main-nav ul ul li a{color:#ffffff;}.main-navigation .main-nav ul li>a:hover,.main-navigation .main-nav ul li.sfHover>a{color:#ffffff;background-color:#4f8bc6;}.main-navigation .main-nav ul ul li>a:hover,.main-navigation .main-nav ul ul li.sfHover>a{color:#06529e;}.main-navigation .main-nav ul .current-menu-item>a,.main-navigation .main-nav ul .current-menu-parent>a,.main-navigation .main-nav ul .current-menu-ancestor>a{color:#ffffff;background-color:#4f8bc6;}.main-navigation .main-nav ul .current-menu-item>a:hover,.main-navigation .main-nav ul .current-menu-parent>a:hover,.main-navigation .main-nav ul .current-menu-ancestor>a:hover,.main-navigation .main-nav ul .current-menu-item.sfHover>a,.main-navigation .main-nav ul .current-menu-parent.sfHover>a,.main-navigation .main-nav ul .current-menu-ancestor.sfHover>a{color:#ffffff;background-color:#4f8bc6;}.main-navigation .main-nav ul ul .current-menu-item>a,.main-navigation .main-nav ul ul .current-menu-parent>a,.main-navigation .main-nav ul ul .current-menu-ancestor>a{color:#06529e;}.main-navigation .main-nav ul ul .current-menu-item>a:hover,.main-navigation .main-nav ul ul .current-menu-parent>a:hover,.main-navigation .main-nav ul ul .current-menu-ancestor>a:hover,.main-navigation .main-nav ul ul .current-menu-item.sfHover>a,.main-navigation .main-nav ul ul .current-menu-parent.sfHover>a,.main-navigation .main-nav ul ul .current-menu-ancestor.sfHover>a{color:#06529e;}.inside-article,.comments-area,.page-header,.one-container .container,.paging-navigation,.inside-page-header{background-color:#FFFFFF;color:#3a3a3a;}.entry-title a,.entry-title a:visited{color:#1E72BD;}.entry-title a:hover{color:#222222;}.entry-meta{color:#888888;}.entry-meta a,.entry-meta a:visited{color:#666666;}.entry-meta a:hover{color:#1E72BD;}.sidebar .widget{background-color:#FFFFFF;color:#3a3a3a;}.sidebar .widget a,.sidebar .widget a:visited{color:#686868;}.sidebar .widget a:hover{color:#1e72bd;}.sidebar .widget .widget-title{color:#000000;}.footer-widgets{background-color:#ffffff;color:#222222;}.footer-widgets .widget-title{color:#222222;}.site-info{background-color:#1e72bd;color:#ffffff;}.site-info a,.site-info a:visited{color:#ffffff;}.site-info a:hover{color:#f5f5f5;}input[type="text"],input[type="email"],input[type="url"],input[type="password"],input[type="search"],textarea{background-color:#FAFAFA;border-color:#CCCCCC;color:#666666;}input[type="text"]:focus,input[type="email"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="search"]:focus,textarea:focus{background-color:#FFFFFF;color:#666666;border-color:#BFBFBF;}button,html input[type="button"],input[type="reset"],input[type="submit"],.button,.button:visited{background-color:#666666;color:#FFFFFF;}button:hover,html input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover,.button:hover,button:active,html input[type="button"]:active,input[type="reset"]:active,input[type="submit"]:active,.button:active{background-color:#606060;color:#FFFFFF;}.main-navigation .mobile-bar-items a,.main-navigation .mobile-bar-items a:hover,.main-navigation .mobile-bar-items a:focus{color:#FFFFFF;}.main-navigation .mobile-bar-items a{padding-left:20px;padding-right:20px;line-height:60px;}</style>
+<link rel='stylesheet' id='generate-mobile-style-css' href='http://www.htpcguides.com/wp-content/themes/generatepress/css/mobile.min.css' type='text/css' media='all'/>
+<link rel='stylesheet' id='generate-child-css' href='http://www.htpcguides.com/wp-content/themes/mantle/style.css' type='text/css' media='all'/>
+<link rel='stylesheet' id='mc4wp-form-basic-group-css' href='http://www.htpcguides.com/wp-content/plugins/bwp-minify/min/?f=wp-content/plugins/mailchimp-for-wp/assets/css/form-basic.min.css,wp-content/plugins/gp-premium/addons/generate-blog/functions/css/style.css,wp-content/sedlex/inline_styles/ab9bcd9d063cda1c8d5ac1ba6c86841506213a53.css' type='text/css' media='all'/>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-includes/js/jquery/jquery.js'></script>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-includes/js/jquery/jquery-migrate.min.js'></script>
+<script type="text/rocketscript">
+/* <![CDATA[ */
+var ssbpLazy = {"ajax_url":"https:\/\/www.htpcguides.com\/wp-admin\/admin-ajax.php","security":"57cbc8218a"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/js/ssbp_lazy_tracking.min.js'></script>
+<script type="text/rocketscript">
+/* <![CDATA[ */
+var ssbpAjax = {"ajax_url":"https:\/\/www.htpcguides.com\/wp-admin\/admin-ajax.php","security":"6d7a825b97"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/js/ssbp_page.js'></script>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-content/plugins/bwp-minify/min/?f=wp-content/plugins/sticky-menu-or-anything-on-scroll/assets/js/jq-sticky-anything.min.js,wp-includes/js/comment-reply.min.js,wp-content/sedlex/inline_scripts/eb163a2d0f983e99360e21dc836c6435d1afd478.js'></script>
+<script type="text/rocketscript">
+/* <![CDATA[ */
+var sticky_anything_engage = {"element":"#text-18","topspace":"60","minscreenwidth":"0","maxscreenwidth":"999999","zindex":"1","dynamicmode":"","debugmode":"","pushup":".footer-widget-3","adminbar":"1"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-content/plugins/sticky-menu-or-anything-on-scroll/assets/js/stickThis.js'></script>
+<link rel='https://api.w.org/' href='http://www.htpcguides.com/wp-json/'/>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.htpcguides.com/xmlrpc.php?rsd"/>
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.htpcguides.com/wp-includes/wlwmanifest.xml"/>
+<meta name="generator" content="WordPress 4.4.1"/>
+<link rel='shortlink' href='http://www.htpcguides.com/?p=2909'/>
+<link rel="alternate" type="application/json+oembed" href="http://www.htpcguides.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.htpcguides.com%2Fpower-2-5-hard-drive-with-raspberry-pi-b%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="http://www.htpcguides.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.htpcguides.com%2Fpower-2-5-hard-drive-with-raspberry-pi-b%2F&#038;format=xml"/>
+<script type="text/rocketscript">var ajaxurl = "https://www.htpcguides.com/wp-admin/admin-ajax.php"</script><style type="text/css">.crp_related ul{list-style:none;float:left;margin:0;}.crp_related li,.crp_related a{float:left;overflow:hidden;position:relative;text-align:center;}.crp_related li{margin:.9em;border:1px solid #ddd;padding:1px;}.crp_related li:hover{background:#fff;border-color:#bbb;}.crp_related a{width:150px;height:150px;}.crp_related a:hover{text-decoration:none;}.crp_related img{max-width:150px;margin:auto;}.crp_related .crp_title{position:absolute;height:inherit;bottom:2px;left:2px;padding:1px;width:144px;color:#fff;font-size:1em;text-shadow:#000 .1em .1em .2em;background:#28b;background:#28b;}.crp_related li:hover .crp_title{background:rgb(0.2,0.2,0.2);background:rgba(0,0,0,0.8);}</style> <style>.ginger_container.dark{}a.ginger_btn.ginger-accept,a.ginger_btn.ginger-disable,.ginger_btn{background:#1E72BD!important;}a.ginger_btn.ginger-accept:hover,a.ginger_btn.ginger-disable:hover,.ginger_btn{background:#1E72BD!important;}a.ginger_btn{color:#FFFFFF!important;}.ginger_container.dark a{color:#1E72BD;}</style>
+<style type="text/css">body.search.search-results div#page div#content section#primary main#main article div div.entry-summary div.ssbp-set--one.ssbp-wrap{display:none;}.toggled{position:relative!important;}.site-branding{display:inline-block;margin-top:30px;}.site-logo{float:left;margin-right:15px;}.header-widget{padding-right:40px;padding-top:15px;}h4{font-size:20px;}h5{font-size:18px;}input[type=submit]{background:#28b;}.page-links{display:none;}.custom-page-links.page-links{display:block;}.custom-page-links span{background:none repeat scroll 0 0 #1e72bd;border:1px solid #1e72bd;color:#fff;display:inline-block;padding:5px 10px;}.custom-page-links a span{background:none repeat scroll 0 0 #fff;color:#1e72bd;}.custom-page-links a:hover span{background:none repeat scroll 0 0 #1e72bd;color:#fff;}.page-numbers{background:none repeat scroll 0 0 #fff;font-size:1.6em;border:1px solid #1e72bd;color:#1e72bd;display:inline-block;padding:5px 10px;}.page-numbers.current{background:none repeat scroll 0 0 #1e72bd;color:#fff;}.page-numbers:hover,.current:hover,.next:hover{background:none repeat scroll 0 0 #1e72bd;color:#fff;}.blog .type-post img,.archive .type-post img,.search .type-post img{max-width:150px;}pre{background:#eee;font-family:inherit;font-size:inherit;line-height:normal;margin-bottom:1.5em;padding:20px;overflow:auto;max-width:100%;}table{table-layout:auto;}table,th,td{border:0;padding:2px;}}</style><!-- Generated by Simple CSS --><style type="text/css">@font-face {
+					font-family: 'ssbp';
+					src:url('//www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/sharebuttons/assets/fonts/ssbp.eot?5276i0');
+					src:url('//www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/sharebuttons/assets/fonts/ssbp.eot?#iefix5276i0') format('embedded-opentype'),
+						url('//www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/sharebuttons/assets/fonts/ssbp.woff2?5276i0') format('woff2'),
+						url('//www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/sharebuttons/assets/fonts/ssbp.woff?5276i0') format('woff'),
+						url('//www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/sharebuttons/assets/fonts/ssbp.ttf?5276i0') format('truetype'),
+						url('//www.htpcguides.com/wp-content/plugins/simple-share-buttons-plus/sharebuttons/assets/fonts/ssbp.svg?5276i0#ssbp') format('svg');
+					font-weight: normal;
+					font-style: normal;
+
+					/* Better Font Rendering =========== */
+					-webkit-font-smoothing: antialiased;
+					-moz-osx-font-smoothing: grayscale;
+				}</style><meta name="viewport" content="width=device-width, initial-scale=1">	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="http://www.htpcguides.com/wp-content/themes/generatepress/css/ie.min.css" />
+		<script src="http://www.htpcguides.com/wp-content/themes/generatepress/js/html5shiv.js"></script>
+	<![endif]-->
+<style type="text/css">/* MailChimp for WP - Checkbox Styles */
+.mc4wp-checkbox-wp-comment-form {
+  clear: both;
+  display: block;
+  position: static;
+  width: auto; }
+  .mc4wp-checkbox-wp-comment-form input {
+    float: none;
+    width: auto;
+    position: static;
+    margin: 0 6px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block !important;
+    max-width: 21px;
+    -webkit-appearance: checkbox; }
+  .mc4wp-checkbox-wp-comment-form label {
+    float: none;
+    display: block;
+    cursor: pointer;
+    width: auto;
+    position: static; }
+</style><style type="text/css">/* MailChimp for WP - Checkbox Styles */
+.mc4wp-checkbox-wp-registration-form {
+  clear: both;
+  display: block;
+  position: static;
+  width: auto; }
+  .mc4wp-checkbox-wp-registration-form input {
+    float: none;
+    width: auto;
+    position: static;
+    margin: 0 6px 0 0;
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block !important;
+    max-width: 21px;
+    -webkit-appearance: checkbox; }
+  .mc4wp-checkbox-wp-registration-form label {
+    float: none;
+    display: block;
+    cursor: pointer;
+    width: auto;
+    position: static; }
+</style>				<!-- WordPress Popular Posts v3.3.3 -->
+				<script type="text/rocketscript">//<![CDATA[
+
+					var sampling_active = 1;
+					var sampling_rate   = 100;
+					var do_request = false;
+
+					if ( !sampling_active ) {
+						do_request = true;
+					} else {
+						var num = Math.floor(Math.random() * sampling_rate) + 1;
+						do_request = ( 1 === num );
+					}
+
+					if ( do_request ) {
+
+						// Create XMLHttpRequest object and set variables
+						var xhr = ( window.XMLHttpRequest )
+						  ? new XMLHttpRequest()
+						  : new ActiveXObject( "Microsoft.XMLHTTP" ),
+						url = 'http://www.htpcguides.com/wp-admin/admin-ajax.php',
+						params = 'action=update_views_ajax&token=870e9f31a1&wpp_id=2909';
+						// Set request method and target URL
+						xhr.open( "POST", url, true );
+						// Set request header
+						xhr.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
+						// Hook into onreadystatechange
+						xhr.onreadystatechange = function() {
+							if ( 4 === xhr.readyState && 200 === xhr.status ) {
+								if ( window.console && window.console.log ) {
+									window.console.log( xhr.responseText );
+								}
+							}
+						};
+						// Send request
+						xhr.send( params );
+
+					}
+
+				//]]></script>
+				<!-- End WordPress Popular Posts v3.3.3 -->
+				<script type="text/rocketscript">(function(a,e){function f(){var d=0;if(e.body&&e.body.offsetWidth){d=e.body.offsetHeight}if(e.compatMode=="CSS1Compat"&&e.documentElement&&e.documentElement.offsetWidth){d=e.documentElement.offsetHeight}if(a.innerWidth&&a.innerHeight){d=a.innerHeight}return d}function b(g){var d=ot=0;if(g.offsetParent){do{d+=g.offsetLeft;ot+=g.offsetTop}while(g=g.offsetParent)}return{left:d,top:ot}}function c(){var l=e.querySelectorAll("[data-lazy-original]");var j=a.pageYOffset||e.documentElement.scrollTop||e.body.scrollTop;var d=f();for(var k=0;k<l.length;k++){var h=l[k];var g=b(h).top;if(g<(d+j)){h.src=h.getAttribute("data-lazy-original");h.removeAttribute("data-lazy-original")}}}if(a.addEventListener){a.addEventListener("DOMContentLoaded",c,false);a.addEventListener("scroll",c,false)}else{a.attachEvent("onload",c);a.attachEvent("onscroll",c)}})(window,document);</script></head>
+
+<body itemtype='http://schema.org/Blog' itemscope='itemscope' class="single single-post postid-2909 single-format-standard post-image-below-header post-image-aligned-left generatepress right-sidebar nav-above-header fluid-header separate-containers active-footer-widgets-3  nav-aligned-left header-aligned-left group-blog"><script type="text/javascript">
+//<![CDATA[
+try{(function(a){var b="http://",c="www.htpcguides.com",d="/cdn-cgi/cl/",e="img.gif",f=new a;f.src=[b,c,d,e].join("")})(Image)}catch(e){}
+//]]>
+</script>
+		<nav itemtype="http://schema.org/SiteNavigationElement" itemscope="itemscope" id="site-navigation" class="main-navigation">
+		<div class="inside-navigation grid-container grid-parent">
+						<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+								<span class="mobile-menu">Menu</span>
+			</button>
+			<div id="primary-menu" class="main-nav"><ul id="menu-main" class=" menu sf-menu"><li id="menu-item-5889" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5889"><a target="_blank" href="https://forum.htpcguides.com">Forum</a></li>
+<li id="menu-item-438" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-438"><a>Win</a>
+<ul class="sub-menu">
+	<li id="menu-item-440" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-440"><a href="http://www.htpcguides.com/install-sabnzbd-windows/">Install Sabnzbd</a></li>
+	<li id="menu-item-494" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-494"><a href="http://www.htpcguides.com/install-nzbget-windows/">Install NZBGet</a></li>
+	<li id="menu-item-439" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-439"><a href="http://www.htpcguides.com/install-nzbdrone-windows/">Install Sonarr (Nzbdrone)</a></li>
+	<li id="menu-item-493" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-493"><a href="http://www.htpcguides.com/install-couchpotato-windows/">Install Couchpotato</a></li>
+	<li id="menu-item-3757" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3757"><a href="http://www.htpcguides.com/install-couchpotato-source-windows/">Install CouchPotato from Source</a></li>
+	<li id="menu-item-1857" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1857"><a href="http://www.htpcguides.com/install-mylar-windows-usenet-comics/">Install Mylar</a></li>
+	<li id="menu-item-1876" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1876"><a href="http://www.htpcguides.com/install-sickrage-windows-usenet-torrent-tv/">Install SickRage</a></li>
+	<li id="menu-item-2411" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2411"><a href="http://www.htpcguides.com/install-headphones-windows-usenet-torrent-music/">Install Headphones</a></li>
+	<li id="menu-item-981" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-981"><a href="http://www.htpcguides.com/install-purevpn-windows/">Install PureVPN</a></li>
+	<li id="menu-item-3786" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3786"><a href="http://www.htpcguides.com/install-htpc-manager-windows/">Install HTPC Manager</a></li>
+	<li id="menu-item-5858" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5858"><a href="http://www.htpcguides.com/install-nzbmegasearch-windows-from-source/">Install NZBMegaSearch</a></li>
+	<li id="menu-item-1616" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1616"><a href="http://www.htpcguides.com/get-nag-free-dynamic-dns-with-freedns/">Nag Free Dynamic DNS</a></li>
+	<li id="menu-item-903" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-903"><a href="http://www.htpcguides.com/ultimate-windows-home-media-server-guide/">Windows Media Server Guide</a></li>
+</ul>
+</li>
+<li id="menu-item-955" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-955"><a>Linux</a>
+<ul class="sub-menu">
+	<li id="menu-item-417" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-417"><a href="http://www.htpcguides.com/category/ubuntu">Ubuntu</a>
+	<ul class="sub-menu">
+		<li id="menu-item-495" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-495"><a href="http://www.htpcguides.com/install-sabnzbd-ubuntu/">Install Sabnzbd</a></li>
+		<li id="menu-item-6985" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-6985"><a href="http://www.htpcguides.com/install-latest-nzbget-on-ubuntu-15-x-with-easy-updates/">Install Latest NZBGet with Easy Updates</a></li>
+		<li id="menu-item-418" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-418"><a href="http://www.htpcguides.com/install-nzbdrone-ubuntu/">Install Sonarr (Nzbdrone)</a></li>
+		<li id="menu-item-6983" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-6983"><a href="http://www.htpcguides.com/install-jackett-on-ubuntu-14-x-for-custom-torrents-in-sonarr/">Install Jackett</a></li>
+		<li id="menu-item-510" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-510"><a href="http://www.htpcguides.com/install-couchpotato-ubuntu/">Install Couchpotato</a></li>
+		<li id="menu-item-1617" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1617"><a href="http://www.htpcguides.com/install-sickrage-ubuntu-14-04/">Install SickRage</a></li>
+		<li id="menu-item-2061" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2061"><a href="http://www.htpcguides.com/install-mylar-ubuntu-usenet-comics/">Install Mylar</a></li>
+		<li id="menu-item-3818" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3818"><a href="http://www.htpcguides.com/install-htpc-manager-ubuntu-linux/">Install HTPC Manager</a></li>
+		<li id="menu-item-7517" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-7517"><a href="http://www.htpcguides.com/install-transmission-bittorrent-client-on-ubuntu-15-x/">Install Transmission Ubuntu 15.x</a></li>
+		<li id="menu-item-2597" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2597"><a href="http://www.htpcguides.com/install-nzedb-ubuntu-private-usenet-indexing/">Install nZEDb Indexer</a></li>
+		<li id="menu-item-2075" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2075"><a href="http://www.htpcguides.com/install-plex-media-server-ubuntu-14-04/">Install Plex Media Server</a></li>
+	</ul>
+</li>
+	<li id="menu-item-10" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-10"><a href="http://www.htpcguides.com/category/debian">Debian</a>
+	<ul class="sub-menu">
+		<li id="menu-item-92" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-92"><a href="http://www.htpcguides.com/mounting-storage-drives-in-debian-linux/">Mounting Storage Drives</a></li>
+		<li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-18"><a href="http://www.htpcguides.com/install-plex-media-server-on-debian-linux/">Install Plex Media Server</a></li>
+		<li id="menu-item-27" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-27"><a href="http://www.htpcguides.com/install-nzbdrone-on-debian-linux/">Install Sonarr (Nzbdrone)</a></li>
+		<li id="menu-item-171" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-171"><a href="http://www.htpcguides.com/install-couchpotato-on-debian-linux/">Install Couchpotato</a></li>
+		<li id="menu-item-44" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-44"><a href="http://www.htpcguides.com/install-sabnzbd-on-debian-linux/">Install Sabnzbd</a></li>
+		<li id="menu-item-170" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-170"><a href="http://www.htpcguides.com/install-nzbget-13-0-stable-debian-linux/">Install NZBGet Stable</a></li>
+		<li id="menu-item-8525" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-8525"><a href="http://www.htpcguides.com/install-sickrage-debian-linux/">Install Sickrage Debian Linux</a></li>
+		<li id="menu-item-1956" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1956"><a href="http://www.htpcguides.com/install-nzbget-from-source-on-debian/">Install NZBGet from Source</a></li>
+		<li id="menu-item-102" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-102"><a href="http://www.htpcguides.com/create-an-mpd-music-server-on-debian/">Create Music Server</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-1457" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1457"><a href="http://www.htpcguides.com/category/osx">Mac</a>
+<ul class="sub-menu">
+	<li id="menu-item-1954" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1954"><a href="http://www.htpcguides.com/install-couchpotato-mac-osx-usenet-torrent-movies/">Install CouchPotato OSX</a></li>
+	<li id="menu-item-1458" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1458"><a href="http://www.htpcguides.com/install-nzbdrone-osx/">Install Sonarr (Nzbdrone) OSX</a></li>
+	<li id="menu-item-2020" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2020"><a href="http://www.htpcguides.com/install-sickrage-mac-osx-usenet-torrent-tv/">Install SickRage OSX</a></li>
+	<li id="menu-item-2243" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2243"><a href="http://www.htpcguides.com/install-headphones-mac-osx-usenet-torrent-music/">Install Headphones OSX</a></li>
+	<li id="menu-item-2408" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2408"><a href="http://www.htpcguides.com/install-mylar-mac-osx-usenet-comics/">Install Mylar OSX</a></li>
+	<li id="menu-item-5281" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5281"><a href="http://www.htpcguides.com/install-htpc-manager-on-mac-osx/">Install HTPC Manager OSX</a></li>
+	<li id="menu-item-2561" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2561"><a href="http://www.htpcguides.com/install-nzbmegasearch-mac-osx-universal-usenet-searching/">Install NZBMegaSearch OSX</a></li>
+	<li id="menu-item-1615" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1615"><a href="http://www.htpcguides.com/osx-nag-free-dynamic-dns/">Nag Free Dynamic DNS Mac OSX</a></li>
+</ul>
+</li>
+<li id="menu-item-2793" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor menu-item-has-children menu-item-2793"><a>Pi</a>
+<ul class="sub-menu">
+	<li id="menu-item-9125" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-9125"><a target="_blank" href="http://www.htpcguides.com/raspberry-pi-vs-pi-2-vs-banana-pi-pro-benchmarks/">Raspberry Pi 2 vs Banana Pi Pro Benchmarks</a></li>
+	<li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor menu-item-has-children menu-item-12"><a href="http://www.htpcguides.com/category/raspberry-pi">Rasp Pi and Pi 2</a>
+	<ul class="sub-menu">
+		<li id="menu-item-2993" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-2993"><a>Connectivity</a>
+		<ul class="sub-menu">
+			<li id="menu-item-2944" class="menu-item menu-item-type-post_type menu-item-object-post current-menu-item menu-item-2944"><a href="http://www.htpcguides.com/power-2-5-hard-drive-with-raspberry-pi-b/">Power 2.5&#8243; Hard Drive on Pi 2 and B+</a></li>
+			<li id="menu-item-2994" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2994"><a href="http://www.htpcguides.com/headless-raspberry-pi-ram-memory-tweak/">Headless Raspberry Pi RAM Tweak</a></li>
+			<li id="menu-item-5965" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5965"><a href="http://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/">Manage Hard Drive Power</a></li>
+			<li id="menu-item-2673" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2673"><a href="http://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/">Properly Mount USB Storage</a></li>
+			<li id="menu-item-2474" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2474"><a href="http://www.htpcguides.com/nag-free-dynamic-dns-raspberry-pi/">Nag Free Dynamic DNS</a></li>
+			<li id="menu-item-2992" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2992"><a href="http://www.htpcguides.com/create-samba-share-raspberry-pi/">Create Samba Share on Raspberry Pi</a></li>
+			<li id="menu-item-5286" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5286"><a href="http://www.htpcguides.com/configure-nfs-server-and-nfs-client-raspberry-pi/">Configure NFS Server Client</a></li>
+			<li id="menu-item-3665" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3665"><a href="http://www.htpcguides.com/install-configure-ftp-server-debian-linux-raspberry-pi/">Install and Configure FTP Server</a></li>
+			<li id="menu-item-4077" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4077"><a href="http://www.htpcguides.com/configure-mumble-server-on-raspberry-pi-with-dynamic-dns/">Configure Mumble Server with Dynamic DNS</a></li>
+			<li id="menu-item-3622" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3622"><a href="http://www.htpcguides.com/lightweight-raspbian-distro-minibian-initial-setup/">Lightweight Raspbian Distro Minibian Initial Setup</a></li>
+			<li id="menu-item-6984" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-6984"><a href="http://www.htpcguides.com/easy-resize-and-back-up-raspberry-pi-sd-card-with-ubuntu/">Resize and Back up SD Card</a></li>
+		</ul>
+</li>
+		<li id="menu-item-4668" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4668"><a>NAS and Media Server</a>
+		<ul class="sub-menu">
+			<li id="menu-item-5767" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5767"><a href="http://www.htpcguides.com/raspberry-pi-2-home-media-server-installer-image/">Raspberry Pi 2 Home Media Server Installer + Image</a></li>
+			<li id="menu-item-4975" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4975"><a href="http://www.htpcguides.com/raspberry-pi-2-media-server-image-2015-released/">Raspberry Pi 2 Media Server Image</a></li>
+			<li id="menu-item-4553" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4553"><a href="http://www.htpcguides.com/install-plex-media-server-on-raspberry-pi-2/">Install Plex Media Server on Raspberry Pi 2</a></li>
+			<li id="menu-item-5009" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5009"><a href="http://www.htpcguides.com/install-kodi-on-minibian-for-raspberry-pi-htpc-nas-combo/">Install Kodi on Minibian</a></li>
+			<li id="menu-item-4670" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4670"><a href="http://www.htpcguides.com/install-openmediavault-raspberry-pi-nas-server-minibian/">Install OpenMediaVault NAS Server</a></li>
+			<li id="menu-item-2692" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2692"><a href="http://www.htpcguides.com/install-readymedia-minidlna-1-1-4-raspberry-pi/">Install miniDLNA Latest</a></li>
+			<li id="menu-item-5064" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5064"><a href="http://www.htpcguides.com/install-cherrymusic-on-raspberry-pi-for-personal-spotify/">Install CherryMusic for Personal Spotify</a></li>
+			<li id="menu-item-5035" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5035"><a href="http://www.htpcguides.com/install-ubooquity-on-raspberry-pi-for-personal-ebook-server/">Install Ubooquity eBook Server</a></li>
+			<li id="menu-item-279" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-279"><a href="http://www.htpcguides.com/install-plex-home-theater-on-raspberry-pi/">Install Plex Home Theater</a></li>
+			<li id="menu-item-5966" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5966"><a href="http://www.htpcguides.com/configure-pctv-triplestick-292e-tvheadend-on-raspberry-pi/">Configure Tvheadend</a></li>
+		</ul>
+</li>
+		<li id="menu-item-4669" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4669"><a>Usenet and Torrent</a>
+		<ul class="sub-menu">
+			<li id="menu-item-5768" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5768"><a href="http://www.htpcguides.com/install-latest-nzbget-on-raspberry-pi-2-and-b-raspbian/">Install Latest NZBGet</a></li>
+			<li id="menu-item-3993" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3993"><a href="http://www.htpcguides.com/install-sabnzbd-raspberry-pi-raspbian/">Install Sabnzbd</a></li>
+			<li id="menu-item-2794" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2794"><a href="http://www.htpcguides.com/install-sonarr-raspberry-pi-mono-310/">Install Sonarr (NzbDrone)</a></li>
+			<li id="menu-item-2076" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2076"><a href="http://www.htpcguides.com/install-sickrage-raspberry-pi-usenet-torrent-tv/">Install SickRage</a></li>
+			<li id="menu-item-1669" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1669"><a href="http://www.htpcguides.com/install-couchpotato-raspberry-pi-raspbian/">Install CouchPotato</a></li>
+			<li id="menu-item-1918" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1918"><a href="http://www.htpcguides.com/install-headphones-raspberry-pi-usenet-music/">Install Headphones</a></li>
+			<li id="menu-item-6981" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-6981"><a href="http://www.htpcguides.com/install-lazylibrarian-raspberry-pi-for-usenet-torrent-ebooks/">Install LazyLibrarian</a></li>
+			<li id="menu-item-2022" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2022"><a href="http://www.htpcguides.com/install-mylar-raspberry-pi-usenet-torrent-comics/">Install Mylar</a></li>
+			<li id="menu-item-2106" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2106"><a href="http://www.htpcguides.com/install-transmission-raspberry-pi-latest-version-raspbian/">Install Transmission Bittorrent</a></li>
+			<li id="menu-item-2308" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2308"><a href="http://www.htpcguides.com/install-nzbmegasearch-raspberry-pi/">Install NZBMegaSearch</a></li>
+			<li id="menu-item-2672" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2672"><a href="http://www.htpcguides.com/install-nzedb-raspberry-pi-private-usenet-indexing/">Install nZEDb Private Usenet Indexer</a></li>
+		</ul>
+</li>
+	</ul>
+</li>
+	<li id="menu-item-2865" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-2865"><a href="http://www.htpcguides.com/category/banana-pi/">Banana Pi</a>
+	<ul class="sub-menu">
+		<li id="menu-item-5804" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5804"><a href="http://www.htpcguides.com/banana-pi-pro-home-media-server-installer-image/">Media Server Installer + Image</a></li>
+		<li id="menu-item-4330" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4330"><a href="http://www.htpcguides.com/install-nzbget-on-banana-pi-with-raspbian-or-bananian/">Install NZBGet</a></li>
+		<li id="menu-item-3656" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3656"><a href="http://www.htpcguides.com/install-sonarr-banana-pi-bananian/">Install Sonarr</a></li>
+		<li id="menu-item-4568" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4568"><a href="http://www.htpcguides.com/install-plex-media-server-on-banana-pi-with-bananian/">Install Plex Media Server</a></li>
+		<li id="menu-item-5534" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5534"><a href="http://www.htpcguides.com/install-htpc-manager-banana-pi-with-bananian/">Install HTPC Manager</a></li>
+		<li id="menu-item-4691" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4691"><a href="http://www.htpcguides.com/rebuild-bananian-kernel-with-sata-port-multiplier-support/">Rebuild Bananian Kernel with SATA Port Multiplier Support</a></li>
+		<li id="menu-item-2874" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2874"><a href="http://www.htpcguides.com/move-linux-banana-pi-sata-setup/">Move Linux to SATA Setup</a></li>
+		<li id="menu-item-7094" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-7094"><a href="http://www.htpcguides.com/install-readymedia-minidlna-on-banana-pi-pro-with-bananian/">Install ReadyMedia miniDLNA</a></li>
+		<li id="menu-item-4946" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4946"><a href="http://www.htpcguides.com/install-openmediavault-on-banana-pi-pro-with-bananian/">Install OpenMediaVault Bananian</a></li>
+		<li id="menu-item-8526" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-8526"><a href="http://www.htpcguides.com/category/arch-linux/">Arch Linux</a>
+		<ul class="sub-menu">
+			<li id="menu-item-8528" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-8528"><a href="http://www.htpcguides.com/install-arch-linux-on-banana-pi-pro/">Install Arch Linux</a></li>
+			<li id="menu-item-8527" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-8527"><a href="http://www.htpcguides.com/install-plex-media-server-arch-linux-banana-pi-pro/">Install Plex Media Server</a></li>
+		</ul>
+</li>
+	</ul>
+</li>
+	<li id="menu-item-7095" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-7095"><a href="http://www.htpcguides.com/easy-resize-and-back-up-raspberry-pi-sd-card-with-ubuntu/">Resize and Back up SD Card</a></li>
+	<li id="menu-item-7179" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-7179"><a href="http://www.htpcguides.com/orange-pi-plus-home-media-server-installer-image/">Orange Pi Plus Home Media Server Installer Image</a></li>
+</ul>
+</li>
+<li id="menu-item-1797" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1797"><a>Android</a>
+<ul class="sub-menu">
+	<li id="menu-item-1798" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1798"><a href="http://www.htpcguides.com/setup-android-stb-emulator-iptv/">Setup STB Emulator for IPTV</a></li>
+	<li id="menu-item-1799" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1799"><a href="http://www.htpcguides.com/turn-android-device-into-mpd-music-server/">Streaming MPD Music Server</a></li>
+</ul>
+</li>
+<li id="menu-item-8" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-8"><a href="http://www.htpcguides.com/category/usenet">Usenet</a>
+<ul class="sub-menu">
+	<li id="menu-item-14" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-14"><a href="http://www.htpcguides.com/category/sabnzbd">Sabnzbd</a>
+	<ul class="sub-menu">
+		<li id="menu-item-361" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-361"><a href="http://www.htpcguides.com/configure-sabnzbd-on-all-platforms/">Configure Sabnzbd</a></li>
+		<li id="menu-item-578" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-578"><a href="http://www.htpcguides.com/avoid-fake-releases-in-sabnzbd-plus/">Avoid Fake Releases</a></li>
+		<li id="menu-item-577" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-577"><a href="http://www.htpcguides.com/automatically-replace-failed-nzbs-for-sabnzbd/">Retry Failed Downloads</a></li>
+		<li id="menu-item-723" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-723"><a href="http://www.htpcguides.com/download-via-sabnzbd-rss-feeds/">Download via RSS Feeds</a></li>
+	</ul>
+</li>
+	<li id="menu-item-172" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-172"><a href="http://www.htpcguides.com/category/nzbget">NZBGet</a>
+	<ul class="sub-menu">
+		<li id="menu-item-384" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-384"><a href="http://www.htpcguides.com/configure-nzbget-on-all-platforms/">Configure NZBGet</a></li>
+		<li id="menu-item-2520" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2520"><a href="http://www.htpcguides.com/avoid-fake-usenet-files-nzbget/">Avoid Fake Usenet Files with NZBGet</a></li>
+		<li id="menu-item-2519" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2519"><a href="http://www.htpcguides.com/automatically-retry-failed-downloads-nzbget-failurelink/">Automatically Retry Failed Downloads with FailureLink</a></li>
+		<li id="menu-item-3880" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3880"><a href="http://www.htpcguides.com/abort-passworded-releases-nzbget-14-later/">Abort Passworded Releases</a></li>
+		<li id="menu-item-3849" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3849"><a href="http://www.htpcguides.com/nzbget-performance-tweaks-low-power-devices/">NZBGet Performance Tweaks for Low Power Devices</a></li>
+		<li id="menu-item-760" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-760"><a href="http://www.htpcguides.com/download-via-nzbget-rss-feeds/">Download via RSS Feeds</a></li>
+	</ul>
+</li>
+	<li id="menu-item-105" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-105"><a href="http://www.htpcguides.com/category/nzbdrone">Sonarr (Nzbdrone)</a>
+	<ul class="sub-menu">
+		<li id="menu-item-254" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-254"><a href="http://www.htpcguides.com/configure-nzbdrone-for-usenet-tv/">Configure NzbDrone</a></li>
+		<li id="menu-item-1461" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1461"><a href="http://www.htpcguides.com/workaround-slow-usenet-propagation-nzbdrone/">Fix Slow Usenet Propagation</a></li>
+		<li id="menu-item-5011" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5011"><a href="http://www.htpcguides.com/screenshot-guide-to-install-sonarr-on-synology-nas/">Install Sonarr on Synology NAS</a></li>
+		<li id="menu-item-1462" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1462"><a href="http://www.htpcguides.com/fix-nzbdrone-freeze-install-mono-3-6-ubuntu/">Fix Nzbdrone Freeze</a></li>
+	</ul>
+</li>
+	<li id="menu-item-173" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-173"><a href="http://www.htpcguides.com/category/couchpotato">Couchpotato</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3736" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3736"><a href="http://www.htpcguides.com/configure-couchpotato-usenet-torrents/">Configure CouchPotato with Usenet and Torrents</a></li>
+		<li id="menu-item-591" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-591"><a href="http://www.htpcguides.com/increase-couchpotato-search-frequency/">Increase CouchPotato Search Frequency</a></li>
+		<li id="menu-item-592" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-592"><a href="http://www.htpcguides.com/automatic-couchpotato-subtitles-download/">Automatic CouchPotato Subtitles Download</a></li>
+	</ul>
+</li>
+	<li id="menu-item-2034" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2034"><a href="http://www.htpcguides.com/category/mylar">Mylar</a>
+	<ul class="sub-menu">
+		<li id="menu-item-1856" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1856"><a href="http://www.htpcguides.com/configure-mylar-sabnzbd-nzbget-usenet-comics/">Configure Mylar</a></li>
+	</ul>
+</li>
+	<li id="menu-item-2990" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-2990"><a href="http://www.htpcguides.com/category/usenet/sickrage/">SickRage</a>
+	<ul class="sub-menu">
+		<li id="menu-item-2379" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2379"><a href="http://www.htpcguides.com/configure-sickrage-usenet-torrent-tv/">Configure SickRage</a></li>
+		<li id="menu-item-2991" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2991"><a href="http://www.htpcguides.com/configure-sickrage-reverse-proxy-nginx/">Configure SickRage Reverse Proxy nginx Linux</a></li>
+		<li id="menu-item-5010" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5010"><a href="http://www.htpcguides.com/screenshot-guide-to-install-sickrage-on-synology-nas/">Install SickRage on Synology NAS</a></li>
+		<li id="menu-item-6982" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-6982"><a href="http://www.htpcguides.com/fix-sickrage-not-finding-shows-with-torrents-or-usenet/">Fix SickRage not Finding Shows</a></li>
+	</ul>
+</li>
+	<li id="menu-item-2314" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2314"><a href="http://www.htpcguides.com/configure-nzbmegasearch-universal-usenet-searching/">Configure NZBMegaSearch</a></li>
+</ul>
+</li>
+<li id="menu-item-11" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-11"><a href="http://www.htpcguides.com/category/torrent">Torrent</a>
+<ul class="sub-menu">
+	<li id="menu-item-4632" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4632"><a href="http://www.htpcguides.com/comparing-usenet-vs-torrents/">Compare Usenet vs Torrents</a></li>
+	<li id="menu-item-1022" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1022"><a>uTorrent</a>
+	<ul class="sub-menu">
+		<li id="menu-item-1021" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1021"><a href="http://www.htpcguides.com/setup-utorrent-server-bloatware-free/">Install uTorrent no Bloatware</a></li>
+		<li id="menu-item-980" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-980"><a href="http://www.htpcguides.com/configure-simple-utorrent-vpn-purevpn/">Configure uTorrent VPN</a></li>
+		<li id="menu-item-1020" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-1020"><a href="http://www.htpcguides.com/setup-utorrent-remote-access-webui/">uTorrent WebUI</a></li>
+		<li id="menu-item-759" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-759"><a href="http://www.htpcguides.com/make-utorrent-automatically-stop-seeding-complete/">uTorrent Auto Stop Seeding</a></li>
+		<li id="menu-item-2985" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2985"><a href="http://www.htpcguides.com/remove-utorrent-ads-3-4-2/">Remove uTorrent Ads</a></li>
+		<li id="menu-item-135" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-135"><a href="http://www.htpcguides.com/get-pushbullet-notification-when-utorrent-completes-download/">uTorrent Pushbullet</a></li>
+	</ul>
+</li>
+	<li id="menu-item-1023" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1023"><a>rtorrent</a>
+	<ul class="sub-menu">
+		<li id="menu-item-363" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-363"><a href="http://www.htpcguides.com/install-configure-rtorrent-and-rutorrent-on-debian/">Install rtorrent on Debian</a></li>
+		<li id="menu-item-362" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-362"><a href="http://www.htpcguides.com/autodl-irssi-install-automate-torrent-downloads-rtorrent/">Install autodl-irssi and rtorrent</a></li>
+		<li id="menu-item-91" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-91"><a href="http://www.htpcguides.com/setup-rtorrent-send-pushbullet-notifications/">rtorrent Pushbullet</a></li>
+	</ul>
+</li>
+	<li id="menu-item-3353" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3353"><a href="http://www.htpcguides.com/category/transmission">Transmission</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3354" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3354"><a href="http://www.htpcguides.com/make-transmission-automatically-stop-seeding-complete/">Make Transmission Automatically Stop Seeding When Complete</a></li>
+		<li id="menu-item-2863" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2863"><a href="http://www.htpcguides.com/remote-access-transmission-torrent-behind-vpn-linux/">Remote Access Transmission Torrent Behind VPN on Linux</a></li>
+		<li id="menu-item-3341" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3341"><a href="http://www.htpcguides.com/configure-transmission-reverse-proxy-win-mac-linux/">Configure Transmission Reverse Proxy on Win Mac and Linux</a></li>
+	</ul>
+</li>
+	<li id="menu-item-3081" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3081"><a href="http://www.htpcguides.com/configure-couchpotato-torrent-movies/">Configure CouchPotato with Torrents</a></li>
+	<li id="menu-item-3536" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3536"><a href="http://www.htpcguides.com/install-bitcannon-personal-kickasstorrents-windows/">Install BitCannon for Personal KickAssTorrents on Windows</a></li>
+</ul>
+</li>
+<li id="menu-item-800" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-800"><a>Playback</a>
+<ul class="sub-menu">
+	<li id="menu-item-3626" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-3626"><a>Kodi XBMC</a>
+	<ul class="sub-menu">
+		<li id="menu-item-3627" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3627"><a href="http://www.htpcguides.com/install-ntv-kodi-xbmc-plugin-screenshot-guide/">Install NTV Plugin</a></li>
+		<li id="menu-item-4269" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4269"><a href="http://www.htpcguides.com/install-ftv-guide-plugin-on-kodi-xbmc-with-screenshots/">Install FTV Guide Plugin</a></li>
+		<li id="menu-item-5317" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-5317"><a href="http://www.htpcguides.com/install-sportsaccess-kodi-xbmc-plugin-for-sports-streaming/">Install SportsAccess Plugin</a></li>
+		<li id="menu-item-7651" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-7651"><a href="http://www.htpcguides.com/install-my-indian-tv-kodi-xbmc-plugin-screenshot-guide/">Install My Indian TV Plugin</a></li>
+		<li id="menu-item-4254" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4254"><a href="http://www.htpcguides.com/integrate-ftv-epg-guide-with-ntv-for-uk-tv-on-kodi-xbmc/">Integrate FTV Guide with NTV</a></li>
+		<li id="menu-item-4424" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-4424"><a href="http://www.htpcguides.com/integrate-tv-guide-with-ntv-for-iptv-on-kodi-xbmc/">Integrate TV Guide with NTV</a></li>
+		<li id="menu-item-7178" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-7178"><a href="http://www.htpcguides.com/add-home-screen-shortcuts-for-kodi-xbmc-plugins/">Add Home Screen Shortcuts for Kodi Plugins</a></li>
+	</ul>
+</li>
+	<li id="menu-item-13" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-13"><a>Plex</a>
+	<ul class="sub-menu">
+		<li id="menu-item-725" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-725"><a href="http://www.htpcguides.com/configure-plex-media-server-platforms/">Configure Plex Media Server All Platforms</a></li>
+		<li id="menu-item-724" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-724"><a href="http://www.htpcguides.com/install-plex-media-server-windows/">Install Plex Media Server Windows</a></li>
+		<li id="menu-item-103" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-103"><a href="http://www.htpcguides.com/install-plex-media-server-on-debian-linux/">Plex Media Server on Debian</a></li>
+	</ul>
+</li>
+	<li id="menu-item-19" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-19"><a href="http://www.htpcguides.com/category/music">Music</a>
+	<ul class="sub-menu">
+		<li id="menu-item-59" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-59"><a href="http://www.htpcguides.com/turn-android-device-into-mpd-music-server/">Android MPD Server</a></li>
+		<li id="menu-item-101" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-101"><a href="http://www.htpcguides.com/create-an-mpd-music-server-on-debian/">Debian MPD Server</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-2797" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2797"><a>VPN</a>
+<ul class="sub-menu">
+	<li id="menu-item-2799" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2799"><a href="http://www.htpcguides.com/install-purevpn-windows/">Install PureVPN Windows</a></li>
+	<li id="menu-item-2798" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2798"><a href="http://www.htpcguides.com/configure-simple-utorrent-vpn-purevpn/">Configure uTorrent with PureVPN</a></li>
+</ul>
+</li>
+<li id="menu-item-2188" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2188"><a>Reviews</a>
+<ul class="sub-menu">
+	<li id="menu-item-2189" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2189"><a href="http://www.htpcguides.com/ntv-mx-review-affordable-iptv/">NTV Budget IPTV</a></li>
+	<li id="menu-item-2745" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2745"><a href="http://www.htpcguides.com/htpc-wishlist-black-friday-pi-alternatives-2014/">Pi Alternatives 2014</a></li>
+	<li id="menu-item-3922" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3922"><a href="http://www.htpcguides.com/meegopad-t01-htpc-review-a-media-server-and-center/">MeegoPad T01 HTPC Media Server and Center</a></li>
+	<li id="menu-item-3942" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3942"><a href="http://www.htpcguides.com/hummingboard-i1-vs-raspberry-pi-review-and-benchmarks/">HummingBoard i1 vs Raspberry Pi Review and Benchmarks</a></li>
+	<li id="menu-item-2791" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2791"><a href="http://www.htpcguides.com/htpc-black-friday-deals-android-streaming-tv-boxes/">Android Streaming TV Boxes</a></li>
+	<li id="menu-item-2830" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2830"><a href="http://www.htpcguides.com/htpc-deals-streaming-tv-stick-reviews/">Android Streaming TV Sticks</a></li>
+	<li id="menu-item-2943" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2943"><a href="http://www.htpcguides.com/snt-hostings-seedbox-review/">SnT Hostings Seedbox Review</a></li>
+	<li id="menu-item-3212" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-3212"><a href="http://www.htpcguides.com/ballstreams-review-premium-nba-basketball-streaming/">Ballstreams Review for Basketball Streaming</a></li>
+	<li id="menu-item-6986" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-6986"><a href="http://www.htpcguides.com/mk808b-plus-review-versatile-htpc-android-tv-stick/">MK808B Plus Android TV Stick</a></li>
+	<li id="menu-item-2190" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-2190"><a href="http://www.htpcguides.com/ipazzport-review-budget-wireless-media-center-remote/">iPazzPort HTPC Remote</a></li>
+</ul>
+</li>
+<li id="menu-item-3401" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3401"><a href="http://www.htpcguides.com/contact-htpc-guides/">Contact</a></li>
+</ul></div>		</div><!-- .inside-navigation -->
+	</nav><!-- #site-navigation -->
+		<a class="screen-reader-text skip-link" href="#content" title="Skip to content">Skip to content</a>
+	<header itemtype="http://schema.org/WPHeader" itemscope="itemscope" id="masthead" class="site-header">
+		<div class="inside-header grid-container grid-parent">
+								<div class="header-widget">
+			<aside id="text-12" class="widget inner-padding widget_text">			<div class="textwidget"><center><br/>
+<a href="https://facebook.com/myhtpcguides" target="_blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/05/fb.png"  data-no-lazy padding: 2px><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/05/fb.png"  data-no-lazy padding: 2px></noscript></a>
+
+<a href="https://plus.google.com/+Htpcguidesdotcom" target="_blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/05/gplus.png"  data-no-lazy><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/05/gplus.png"  data-no-lazy></noscript></a>
+
+<a href="https://twitter.com/HTPC_Guides" target="_blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/05/twitter.png"  data-no-lazy><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/05/twitter.png"  data-no-lazy></noscript></a>
+
+<a href="https://www.youtube.com/user/HTPCGuides" target="_blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/05/youtube.png"  data-no-lazy><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/05/youtube.png"  data-no-lazy></noscript></a>
+
+<a href="http://feeds.feedburner.com/HTPCGuides" target="_blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/05/rss.png"  data-no-lazy><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/05/rss.png"  data-no-lazy></noscript></a>
+<br>
+<!-- Begin MailChimp Signup Form -->
+<form action="//htpcguides.us9.list-manage.com/subscribe/post?u=bde7308f8c1f8fd4d08cc01fe&amp;id=77c9bcc1ec" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate><input type="email" value="Enter Email" name="EMAIL" class="required email" id="mce-EMAIL">
+<br>
+<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" style="background-color:#28b;" style="padding: 3px;">
+</form>
+
+<!--End mc_embed_signup-->
+</div>
+		</aside>		</div>
+			<div class="site-branding">
+							<p class="main-title" itemprop="headline"><a href="http://www.htpcguides.com/" title="HTPC Guides" rel="home">HTPC Guides</a></p>
+							<p class="site-description">Streamline your home media experience</p>
+					</div>
+			<div class="site-logo">
+			<a href="http://www.htpcguides.com/" title="HTPC Guides" rel="home"><img class="header-image" src="http://www.htpcguides.com/wp-content/uploads/2015/04/htpc-guides-logo1.png" alt="HTPC Guides" title="HTPC Guides" /></a>
+		</div>
+						</div><!-- .inside-header -->
+	</header><!-- #masthead -->
+		
+	<div id="page" class="hfeed site grid-container container grid-parent">
+		<div id="content" class="site-content">
+			
+	<div id="primary" class="content-area grid-parent grid-70 tablet-grid-70">
+		<main id="main" class="site-main">
+				
+			
+<article id="post-2909" class="post-2909 post type-post status-publish format-standard hentry category-htpc category-raspberry-pi" itemtype='http://schema.org/BlogPosting' itemscope='itemscope'>
+	<div class="inside-article">
+				
+		<header class="entry-header">
+							<h1 class="entry-title" itemprop="headline">Power 2.5&#8243; Hard Drive with Raspberry Pi 2 and B+</h1>						<div class="entry-meta">
+							</div><!-- .entry-meta -->
+		</header><!-- .entry-header -->
+		
+				<div class="entry-content" itemprop="text">
+			<div class="wpInsert wpInsertInPostAd wpInsertLeft" style="float: left; margin: 5px; padding: 0px;"><script async data-rocketsrc="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/rocketscript"></script>
+<!-- HTPC 200x200 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:200px;height:200px"
+     data-ad-client="ca-pub-2553940814530400"
+     data-ad-slot="7235964036"></ins>
+<script type="text/rocketscript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div><!-- Simple Share Buttons Plus (v1.1.3) simplesharebuttons.com/plus --><div class="ssbp-set--one ssbp--state-hidden ssbp-wrap ssbp--fixed-left ssbp--theme-4" data-ssbp-counts="true" data-ssbp-toggle="true" data-ssbp-responsive="true"><button class="ssbp-toggle-switch ssbp-toggle-close"><span></span></button><div class="ssbp-container" data-ssbp-share-text="" data-ssbp-url="http://www.htpcguides.com/power-2-5-hard-drive-with-raspberry-pi-b/" data-ssbp-title="Power 2.5&#8243; Hard Drive with Raspberry Pi 2 and B+" data-ssbp-short-url="" data-ssbp-post-id="2909"></div></div><p><img class="alignleft wp-image-2679 size-full" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177.png" alt="raspberry_pi_power_2.5_hard_drive_no_external_power" width="165" height="200" srcset="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177-600x727.png 600w, http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177.png 165w" sizes="(max-width: 165px) 100vw, 165px" /><noscript><img class="alignleft wp-image-2679 size-full" src="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177.png" alt="raspberry_pi_power_2.5_hard_drive_no_external_power" width="165" height="200" srcset="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177-600x727.png 600w, http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry_pi_readymedia_min-e1416622224177.png 165w" sizes="(max-width: 165px) 100vw, 165px" /></noscript>If you have a small portable 2.5&#8243; hard drive that draws power from the USB port, you can make this work without the need for an external power supply with the Raspberry Pi Model B+. You will be modifying how the GPIO pins on the Pi work, specifically turning pin 38 on (represented by 1). This means you can double the current over the USB bus from 600mA to 1200mA so you can actually power external USB devices through the Raspberry Pi itself. I tested this with the latest Raspbian September 2014. The hard drives I used were a USB 3.0 device and a USB 2.0 device with a Y adapter which has two USB male outputs, one for power and one for data transfer. Some of the devices were in generic external enclosures, all 4 disks and their enclosures worked suggesting the Pi will not be picky.</p>
+<p>This guide also solves the &#8216;my hard drive is making a clicking sound when I plug it in&#8217; error by fixing the USB current. If it doesn&#8217;t you may need additional power from a USB hub or your hard drive may be defective.</p>
+
+<table id="tablepress-raspvsbanana" class="tablepress tablepress-id-raspvsbanana">
+<thead>
+<tr class="row-1 odd">
+	<th class="column-1">Pi Unit</th><th class="column-2"><center>Processor</th><th class="column-3"><center>RAM</th><th class="column-4"><center>RAM Bus</th><th class="column-5"><center>Network</th><th class="column-6"><center>USB</th><th class="column-7"><center>SATA</th><th class="column-8"><center>Cost</th>
+</tr>
+</thead>
+<tbody class="row-hover">
+<tr class="row-2 even">
+	<td class="column-1"><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="raspberry pi" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-raspberry+pi/US/htpcguidestext-20/" rel="nofollow" target="_blank">Raspberry Pi</a></td><td class="column-2"><center>700 MHz ARMv6<br />
+Single Core</td><td class="column-3"><center>512 MB SDRAM </td><td class="column-4"><center>400 MHz</td><td class="column-5"><center>100 Mbit</td><td class="column-6"><center>4</td><td class="column-7"><center>No</td><td class="column-8"><center><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="raspberry pi" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-raspberry+pi/US/htpcguidestext-20/" rel="nofollow" target="_blank">$29.99</a></td>
+</tr>
+<tr class="row-3 odd">
+	<td class="column-1"><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="raspberry pi 2" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-raspberry+pi+2/US/htpcguidestext-20/" rel="nofollow" target="_blank">Raspberry Pi 2</a></td><td class="column-2"><center>900 MHz ARMv7<br />
+Quad Core</td><td class="column-3"><center>1 GB DDR2</td><td class="column-4"><center>450 MHz</td><td class="column-5"><center>100 Mbit</td><td class="column-6"><center>4</td><td class="column-7"><center>No</td><td class="column-8"><center><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="raspberry pi 2" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-raspberry+pi+2/US/htpcguidestext-20/" rel="nofollow" target="_blank">$35.00</a></td>
+</tr>
+<tr class="row-4 even">
+	<td class="column-1"><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="banana pi" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-banana+pi/US/htpcguidestext-20/" rel="nofollow" target="_blank">Banana Pi</a></td><td class="column-2"><center>1 GHz ARMv7<br />
+Dual Core</td><td class="column-3"><center>1 GB DDR3</td><td class="column-4"><center>432 MHz</td><td class="column-5"><center>Gigabit</td><td class="column-6"><center>2</td><td class="column-7"><center>Yes</td><td class="column-8"><center><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="banana pi" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-banana+pi/US/htpcguidestext-20/" rel="nofollow" target="_blank">$36.99</a></td>
+</tr>
+<tr class="row-5 odd">
+	<td class="column-1"><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="banana pro" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-banana+pro/US/htpcguidestext-20/" rel="nofollow" target="_blank">Banana Pi Pro</a></td><td class="column-2"><center>1 GHz ARMv7<br />
+Dual Core</td><td class="column-3"><center>1 GB DDR3</td><td class="column-4"><center>432 MHz</td><td class="column-5"><center>Gigabit</td><td class="column-6"><center>2</td><td class="column-7"><center>Yes</td><td class="column-8"><center><a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="banana pro" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-banana+pro/US/htpcguidestext-20/" rel="nofollow" target="_blank">$45.00</a></td>
+</tr>
+</tbody>
+</table>
+<!-- #tablepress-raspvsbanana from cache -->
+<h2>Power 2.5&#8243; Hard Drive with Raspberry Pi 2 and B+</h2>
+<p>You will require these items for the process to work</p>
+<ul>
+<li>A <a class="easyazon-link" data-cart="n" data-cloak="y" data-keywords="2.5" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/k-2.5/US/htpcguidestext-20/" rel="nofollow" target="_blank">2.5&#8243; hard drive</a>, USB 2.0 or 3.0 will work with or without a Y adapter</li>
+<li>A <a class="easyazon-link" data-cart="n" data-cloak="y" data-identifier="B00KEIGMHI" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/B00KEIGMHI/US/htpcguidestext-20/" rel="nofollow" target="_blank">5V 2A Micro USB Power Adapter</a></li>
+<li><a class="easyazon-link" data-cart="n" data-cloak="y" data-identifier="B00LPESRUK" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/B00LPESRUK/US/htpcguidestext-20/" rel="nofollow" target="_blank">Raspberry Pi Model B+</a> or Pi 2</li>
+</ul>
+<p>This will fix the error when the Pi says the hard drive is spinning up but you were unable to mount it</p>
+<p>You will only be able to mount 1 drive using this method, additional USB hard drives will require external power so make sure you buy a large hard drive like 1 or 2 TB (terabytes). If you have several smaller hard drives you want to use then consider a powered USB hub which will allow several hard drives.</p>
+<ul>
+<li><a class="easyazon-link" data-cart="n" data-cloak="y" data-identifier="B00006B7DA" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/B00006B7DA/US/htpcguidestext-20/" rel="nofollow" target="_blank">D-Link Hi-Speed USB 2.0 4-Port Powered Hub for Raspberry Pi</a></li>
+<li><a class="easyazon-link" data-cart="n" data-cloak="y" data-identifier="B00O060VOK" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/B00O060VOK/US/htpcguidestext-20/" rel="nofollow" target="_blank">BobjGear 4 Port USB 3.0 Powered Hub for Raspberry Pi</a></li>
+</ul>
+<p>Here are some good Amazon deals on 2.5 inch USB portable hard drives for the Raspberry Pi</p>
+<ul>
+<li><a class="easyazon-link" data-cart="n" data-cloak="y" data-identifier="B00CI3BLPA" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/B00CI3BLPA/US/htpcguidestext-20/" rel="nofollow" target="_blank">Western Digital 1TB Portable USB 3.0 Hard Drive</a></li>
+<li><a class="easyazon-link" data-cart="n" data-cloak="y" data-identifier="B008R7FC74" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/B008R7FC74/US/htpcguidestext-20/" rel="nofollow" target="_blank">Seagate Expansion 1TB Portable USB 3.0 Hard Drive</a></li>
+<li><a class="easyazon-link" data-cart="n" data-cloak="y" data-identifier="B00E055H5O" data-locale="US" data-localize="y" data-popups="n" data-tag="htpcguidestext-20" href="http://www.htpcguides.com/product/B00E055H5O/US/htpcguidestext-20/" rel="nofollow" target="_blank">Western Digital 2TB Portable USB 3.0 Hard Drive</a></li>
+</ul>
+<h3>Use 2.5&#8243; Hard Drive with Raspberry Pi B+ and Pi 2</h3>
+<p>Use this command while the hard drive is connected to the Pi</p>
+<pre><code>sudo blkid</code></pre>
+<p>It only shows the SD card partitions</p>
+<pre><code>/dev/mmcblk0p1: SEC_TYPE="msdos" LABEL="boot" UUID="787C-2FD4" TYPE="vfat"
+/dev/mmcblk0p2: UUID="3d81d9e2-7d1b-4015-8c2c-29ec0875f762" TYPE="ext4"</code></pre>
+<p>Now update the Raspberry Pi&#8217;s firmware, this may not be necessary but is good practice. It will be necessary, if you have an older version of Raspbian installed.</p>
+<p>You <strong>can</strong> just jump down to editing the config.txt file and rebooting, if that doesn&#8217;t work you will need to rpi-update</p>
+<pre><code>sudo rpi-update</code></pre>
+<p>You will have to reboot afterwards</p>
+<pre><code>sudo reboot</code></pre>
+<p>Now edit the config.txt file</p>
+<pre><code>sudo nano /boot/config.txt</code></pre>
+<p>Add this line to the bottom of the file, it replaces the old safe_mode_gpio=4</p>
+<pre><code>max_usb_current=1</code></pre>
+<p>Ctrl+X, Y and Enter to save</p>
+<p>Reboot the Pi again to enable the GPIO pin 38</p>
+<pre><code>sudo reboot</code></pre>
+<p>Now check to see if the hard drive is visible</p>
+<pre><code>sudo blkid</code></pre>
+<p>You should now see a /dev/sda1 device</p>
+<pre><code>/dev/mmcblk0p1: SEC_TYPE="msdos" LABEL="boot" UUID="787C-2FD4" TYPE="vfat"
+/dev/mmcblk0p2: UUID="3d81d9e2-7d1b-4015-8c2c-29ec0875f762" TYPE="ext4"
+<b>/dev/sda1: LABEL="HTPCGuides" UUID="30AADDC8AADD8AAC" TYPE="ntfs"</b></code></pre>
+<p>If it doesn&#8217;t show up verify that the GPIO pin is enabled.</p>
+<p>Install git first</p>
+<pre><code>sudo apt-get install git-core -y</code></pre>
+<p>Clone the program Wiring Pi from git</p>
+<pre><code>git clone git://git.drogon.net/wiringPi</code></pre>
+<p>Enter the Wiring Pi folder and build it</p>
+<pre><code>cd wiringPi &amp;&amp; ./build</code></pre>
+<p>Now check the GPIO 38 Pin</p>
+<pre><code>gpio -g read 38</code></pre>
+<p>It should return 1 meaning &#8216;on&#8217;</p>
+<pre><code>1</code></pre>
+<p>If the value it returns is 0 meaning off, tell it to be 1 with this command</p>
+<pre><code>gpio -g write 38 1</code></pre>
+<p>If it doesn&#8217;t show up you likely have an issue with your power adapter or your power in your house, try attaching the power straight to the wall without any multipliers and retest.</p>
+<p>Now you are all set to <a title="Properly Mount USB Storage on Raspberry Pi" href="http://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/">mount the drive properly</a> and <a href="http://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/" target="_blank">manage your hard drive&#8217;s power</a> since it will not power down automatically on Linux.</p>
+<p>This guide was pieced together from <a href="https://projects.drogon.net/testing-setting-the-usb-current-limiter-on-the-raspberry-pi-b/" class="external" rel="nofollow" target="_blank">Gordon&#8217;s projects</a> and <a href="https://wiki.polaire.nl/doku.php?id=raspberrypi_usb_current" class="external" rel="nofollow" target="_blank">Ben Stienstra&#8217;s Polaire Wiki</a></p>
+<div class="wpInsert wpInsertInPostAd wpInsertBelow" style="margin: 5px; padding: 0px;"><a class="e-widget external" href="https://gleam.io/nEANM/htpc-guides-xmas-2015-giveaway" rel="nofollow" target="_blank">HTPC Guides Xmas 2015 Giveaway</a>
+<script type="text/rocketscript" data-rocketsrc="https://js.gleam.io/e.js" async="true"></script>
+
+<table id="tablepress-mailing" class="tablepress tablepress-id-mailing">
+<thead>
+<tr class="row-1 odd">
+	<th colspan="2" class="column-1">Get More HTPC Goodness! <span style="text-decoration: underline;">No Spam</span> just Torrent, Usenet, Pi and Media Server Automation</th>
+</tr>
+</thead>
+<tbody class="row-hover">
+<tr class="row-2 even">
+	<td class="column-1"><!-- Begin MailChimp Signup Form --><form action="//htpcguides.us9.list-manage.com/subscribe/post?u=bde7308f8c1f8fd4d08cc01fe&amp;id=77c9bcc1ec" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate><input type="email" value="Enter Email" name="EMAIL" class="required email" id="mce-EMAIL">    <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" style="background-color:#28b;"><br />
+</form> </td><td class="column-2"></td>
+</tr>
+</tbody>
+</table>
+<!-- #tablepress-mailing from cache -->
+<div id="crp_related" class="crp_related"><h3>Related Posts</h3><ul><li><a href="http://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry-pi-mount-usb-124x150.png" alt="Properly Mount USB Storage on Raspberry Pi" title="Properly Mount USB Storage on Raspberry Pi" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2014/11/raspberry-pi-mount-usb-124x150.png" alt="Properly Mount USB Storage on Raspberry Pi" title="Properly Mount USB Storage on Raspberry Pi" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/"    target="_blank"  class="crp_title">Properly Mount USB Storage on Raspberry Pi</a></li><li><a href="http://www.htpcguides.com/move-linux-banana-pi-sata-setup/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2014/11/banana-pi-square-logo-150x150.png" alt="Move Linux Banana Pi SATA Setup" title="Move Linux Banana Pi SATA Setup" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2014/11/banana-pi-square-logo-150x150.png" alt="Move Linux Banana Pi SATA Setup" title="Move Linux Banana Pi SATA Setup" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/move-linux-banana-pi-sata-setup/"    target="_blank"  class="crp_title">Move Linux Banana Pi SATA Setup</a></li><li><a href="http://www.htpcguides.com/rebuild-bananian-kernel-with-sata-port-multiplier-support/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/03/41DxZCiNMnL.SL160.jpg" alt="Rebuild Bananian Kernel with SATA Port Multiplier Support" title="Rebuild Bananian Kernel with SATA Port Multiplier Support" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/03/41DxZCiNMnL.SL160.jpg" alt="Rebuild Bananian Kernel with SATA Port Multiplier Support" title="Rebuild Bananian Kernel with SATA Port Multiplier Support" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/rebuild-bananian-kernel-with-sata-port-multiplier-support/"    target="_blank"  class="crp_title">Rebuild Bananian Kernel with SATA Port Multiplier Support</a></li><li><a href="http://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/06/usb-hard-drive-sleep-150x150.png" alt="Spin Down and Manage Hard Drive Power on Raspberry Pi" title="Spin Down and Manage Hard Drive Power on Raspberry Pi" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/06/usb-hard-drive-sleep-150x150.png" alt="Spin Down and Manage Hard Drive Power on Raspberry Pi" title="Spin Down and Manage Hard Drive Power on Raspberry Pi" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/spin-down-and-manage-hard-drive-power-on-raspberry-pi/"    target="_blank"  class="crp_title">Spin Down and Manage Hard Drive Power on Raspberry Pi</a></li><li><a href="http://www.htpcguides.com/build-debian-image-for-banana-pi-pro-sata-port-multiplier/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/03/41DxZCiNMnL.SL160.jpg" alt="Build Debian Image for Banana Pi Pro SATA Port Multiplier" title="Build Debian Image for Banana Pi Pro SATA Port Multiplier" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/03/41DxZCiNMnL.SL160.jpg" alt="Build Debian Image for Banana Pi Pro SATA Port Multiplier" title="Build Debian Image for Banana Pi Pro SATA Port Multiplier" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/build-debian-image-for-banana-pi-pro-sata-port-multiplier/"    target="_blank"  class="crp_title">Build Debian Image for Banana Pi Pro SATA Port Multiplier</a></li><li><a href="http://www.htpcguides.com/mounting-storage-drives-in-debian-linux/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2014/08/samba-150x144.png" alt="Mounting Storage Drives in Debian Linux" title="Mounting Storage Drives in Debian Linux" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2014/08/samba-150x144.png" alt="Mounting Storage Drives in Debian Linux" title="Mounting Storage Drives in Debian Linux" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/mounting-storage-drives-in-debian-linux/"    target="_blank"  class="crp_title">Mounting Storage Drives in Debian Linux</a></li><li><a href="http://www.htpcguides.com/banana-pi-pro-nas-media-server-giveaway-august-2015/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/07/banana-pi-lemaker-150x150.png" alt="Banana Pi Pro NAS Media Server Giveaway August 2015" title="Banana Pi Pro NAS Media Server Giveaway August 2015" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/07/banana-pi-lemaker-150x150.png" alt="Banana Pi Pro NAS Media Server Giveaway August 2015" title="Banana Pi Pro NAS Media Server Giveaway August 2015" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/banana-pi-pro-nas-media-server-giveaway-august-2015/"    target="_blank"  class="crp_title">Banana Pi Pro NAS Media Server Giveaway August 2015</a></li><li><a href="http://www.htpcguides.com/raspberry-pi-2-vs-banana-pi-vs-x86-vs-x64-unrar-par2-benchmarks/"    target="_blank" ><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/02/raspberry-pi-2-vs-banana-pi-sata-benchmarks-150x75.png" alt="Raspberry Pi 2 vs Banana Pi vs x86 vs x64 unRAR PAR2 Benchmarks" title="Raspberry Pi 2 vs Banana Pi vs x86 vs x64 unRAR PAR2 Benchmarks" style="max-width:150px;max-height:150px;" class="crp_thumb" /><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/02/raspberry-pi-2-vs-banana-pi-sata-benchmarks-150x75.png" alt="Raspberry Pi 2 vs Banana Pi vs x86 vs x64 unRAR PAR2 Benchmarks" title="Raspberry Pi 2 vs Banana Pi vs x86 vs x64 unRAR PAR2 Benchmarks" style="max-width:150px;max-height:150px;" class="crp_thumb" /></noscript></a><a href="http://www.htpcguides.com/raspberry-pi-2-vs-banana-pi-vs-x86-vs-x64-unrar-par2-benchmarks/"    target="_blank"  class="crp_title">Raspberry Pi 2 vs Banana Pi vs x86 vs x64 unRAR PAR2&hellip;</a></li></ul><div class="crp_clear"></div></div></div>					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			<span class="cat-links"><span class="screen-reader-text">Categories </span><a href="http://www.htpcguides.com/category/htpc/" rel="category tag">htpc</a>, <a href="http://www.htpcguides.com/category/raspberry-pi/" rel="category tag">raspberry pi</a></span>				<nav id="nav-below" class="post-navigation">
+		<h6 class="screen-reader-text">Post navigation</h6>
+
+	
+		<div class="nav-previous"><span class="prev" title="Previous"><a href="http://www.htpcguides.com/comparing-usenet-vs-torrents/" rel="prev">Compare Usenet and Torrents &#8211; Which is Better?</a></span></div>		<div class="nav-next"><span class="next" title="Next"><a href="http://www.htpcguides.com/snt-hostings-seedbox-review/" rel="next">SnT Hostings Seedbox Review</a></span></div>
+	
+	</nav><!-- #nav-below -->
+						</footer><!-- .entry-meta -->
+			</div><!-- .inside-article -->
+</article><!-- #post-## -->
+
+								<div class="comments-area">
+							
+	<!-- Here we load disqus comments -->
+	<div class="dcl-disqus-thread" id="comments" >
+	<div id="disqus_thread">
+			<div id='dcl-hidden-div' style='text-align: center;'>
+		<button data-disqus-url="http://www.htpcguides.com/power-2-5-hard-drive-with-raspberry-pi-b/" id='dcl_comment_btn' class="" style="margin-bottom:20px;margin-top:20px;">Load Comments</button>
+		</div>
+		
+				
+	
+			</div>
+	</div>
+	
+		
+			<script type="text/rocketscript">
+	/* <![CDATA[ */
+		var disqus_url = 'http://www.htpcguides.com/power-2-5-hard-drive-with-raspberry-pi-b/';
+		var disqus_identifier = '2909 http://www.htpcguides.com/?p=2909';
+		var disqus_container_id = 'disqus_thread';
+		var disqus_domain = 'disqus.com';
+		var disqus_shortname = 'htpcguides';
+		var disqus_title = "Power 2.5&#8243; Hard Drive with Raspberry Pi 2 and B+";
+		var disqus_config = function () {
+			var config = this; // Access to the config object
+			config.language = '';
+
+			/* Add the ability to add javascript callbacks */
+			
+			/*
+			   All currently supported events:
+				* preData — fires just before we request for initial data
+				* preInit - fires after we get initial data but before we load any dependencies
+				* onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+				* afterRender - fires when template is rendered but before we show it
+				* onReady - everything is done
+			 */
+
+			config.callbacks.preData.push(function() {
+				// clear out the container (its filled for SEO/legacy purposes)
+				document.getElementById(disqus_container_id).innerHTML = '';
+			});
+						config.callbacks.onReady.push(function() {
+				// sync comments in the background so we don't block the page
+				var script = document.createElement('script');
+				script.async = true;
+				script.src = '?cf_action=sync_comments&post_id=2909';
+
+				var firstScript = document.getElementsByTagName( "script" )[0];
+				firstScript.parentNode.insertBefore(script, firstScript);
+			});
+						this.page.remote_auth_s3 = 'W10= deb0081ad379b7e9107d3c81a23b1447bc84c8e0 1452516451';
+this.page.api_key = 'YJQs8sO1kadwF1pITjTSBI9io7cdhYDy9Ix7H9hiPXJmEmAQ1e0QhyYN1MuD4Aop';
+this.sso = {     
+          name: "HTPC Guides",       
+          button: "",       
+          url: "http://www.htpcguides.com/wp-login.php",        
+          logout: "http://www.htpcguides.com/wp-login.php?action=logout",       
+          width: "800",        
+          height: "700"        
+    };		};
+	/* ]]> */
+	</script>
+	
+		
+	<script type="text/rocketscript">
+	/* <![CDATA[ */
+		var DsqLocal = {
+			'trackbacks': [
+				],
+			'trackback_url': "http:\/\/www.htpcguides.com\/power-2-5-hard-drive-with-raspberry-pi-b\/trackback\/"		};
+	/* ]]> */
+	</script>
+								</div>
+			
+						</main><!-- #main -->
+	</div><!-- #primary -->
+
+	<div id="right-sidebar" itemtype="http://schema.org/WPSideBar" itemscope="itemscope" role="complementary" class="widget-area grid-30 tablet-grid-30 grid-parent sidebar">
+		<div class="inside-right-sidebar">
+						<aside id="search-2" class="widget inner-padding widget_search"><form method="get" class="search-form" action="http://www.htpcguides.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" title="Search for:">
+	</label>
+	<input type="submit" class="search-submit" value="Search">
+</form></aside><aside id="text-10" class="widget inner-padding widget_text">			<div class="textwidget"><script async data-rocketsrc="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/rocketscript"></script>
+<!-- HTPC 300x250 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-2553940814530400"
+     data-ad-slot="6780782436"></ins>
+<script type="text/rocketscript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</aside>
+<!-- Recently widget v1.0.1 [regular] -->
+<aside id="recently-2" class="widget inner-padding recently">
+<h4 class="widget-title">Recent Posts</h4>                <script type="text/rocketscript">//<![CDATA[
+					// jQuery is available, so proceed
+					if ( window.jQuery ) {
+						
+						jQuery(document).ready(function($){
+							$.get('https://www.htpcguides.com/wp-admin/admin-ajax.php', {
+								action: 'get_recently',
+								widget_id: '2'
+							}, function(data){
+								$('#recently-2').append(data);
+							});
+						});
+					
+					} else { // jQuery is not defined
+						if ( window.console && window.console.log )
+							window.console.log('Recently: jQuery is not defined!');						
+					}
+                //]]></script>
+                </aside>
+<!-- End Recently Plugin v1.0.1 -->
+<aside id="wpctc_widget-2" class="widget inner-padding widget_wpctc_widget">    <div
+        id="wpctc_widget-2-tagcloud"
+        class='wpctc-wpctc_widget-2       wpctc-flat'>
+        <a href='http://www.htpcguides.com/category/android/' class='tag-link-8' title='6 topics' style='font-size: 109.72222222222%;'>android</a>
+<a href='http://www.htpcguides.com/category/banana-pi/' class='tag-link-31' title='29 topics' style='font-size: 149.49494949495%;'>banana pi</a>
+<a href='http://www.htpcguides.com/category/benchmarks/' class='tag-link-43' title='7 topics' style='font-size: 112.87878787879%;'>benchmarks</a>
+<a href='http://www.htpcguides.com/category/usenet/couchpotato/' class='tag-link-10' title='15 topics' style='font-size: 131.81818181818%;'>couchpotato</a>
+<a href='http://www.htpcguides.com/category/debian/' class='tag-link-3' title='35 topics' style='font-size: 154.54545454545%;'>debian</a>
+<a href='http://www.htpcguides.com/category/torrent/deluge/' class='tag-link-52' title='1 topic' style='font-size: 75%;'>deluge</a>
+<a href='http://www.htpcguides.com/category/dlna/' class='tag-link-32' title='4 topics' style='font-size: 100.25252525253%;'>dlna</a>
+<a href='http://www.htpcguides.com/category/giveaway/' class='tag-link-54' title='4 topics' style='font-size: 100.25252525253%;'>giveaway</a>
+<a href='http://www.htpcguides.com/category/usenet/headphones/' class='tag-link-27' title='4 topics' style='font-size: 100.25252525253%;'>headphones</a>
+<a href='http://www.htpcguides.com/category/htpc/' class='tag-link-6' title='189 topics' style='font-size: 200%;'>htpc</a>
+<a href='http://www.htpcguides.com/category/htpc-manager/' class='tag-link-42' title='6 topics' style='font-size: 109.72222222222%;'>htpc manager</a>
+<a href='http://www.htpcguides.com/category/kodi-xbmc/' class='tag-link-39' title='7 topics' style='font-size: 112.87878787879%;'>kodi xbmc</a>
+<a href='http://www.htpcguides.com/category/usenet/lazylibrarian/' class='tag-link-47' title='1 topic' style='font-size: 75%;'>lazylibrarian</a>
+<a href='http://www.htpcguides.com/category/music/' class='tag-link-7' title='6 topics' style='font-size: 109.72222222222%;'>music</a>
+<a href='http://www.htpcguides.com/category/usenet/mylar/' class='tag-link-26' title='7 topics' style='font-size: 112.87878787879%;'>mylar</a>
+<a href='http://www.htpcguides.com/category/nas/' class='tag-link-44' title='11 topics' style='font-size: 124.24242424242%;'>nas</a>
+<a href='http://www.htpcguides.com/category/usenet/nzbdrone/' class='tag-link-11' title='14 topics' style='font-size: 130.55555555556%;'>nzbdrone</a>
+<a href='http://www.htpcguides.com/category/usenet/nzbget/' class='tag-link-15' title='20 topics' style='font-size: 139.39393939394%;'>nzbget</a>
+<a href='http://www.htpcguides.com/category/usenet/nzbmegasearch/' class='tag-link-29' title='5 topics' style='font-size: 105.30303030303%;'>nzbmegasearch</a>
+<a href='http://www.htpcguides.com/category/usenet/nzedb/' class='tag-link-30' title='2 topics' style='font-size: 86.363636363636%;'>nzedb</a>
+<a href='http://www.htpcguides.com/category/odroid/' class='tag-link-46' title='3 topics' style='font-size: 93.939393939394%;'>odroid</a>
+<a href='http://www.htpcguides.com/category/orange-pi/' class='tag-link-51' title='8 topics' style='font-size: 116.03535353535%;'>orange pi</a>
+<a href='http://www.htpcguides.com/category/osx/' class='tag-link-23' title='11 topics' style='font-size: 124.24242424242%;'>osx</a>
+<a href='http://www.htpcguides.com/category/plex/' class='tag-link-12' title='15 topics' style='font-size: 131.81818181818%;'>plex</a>
+<a href='http://www.htpcguides.com/category/pushbullet/' class='tag-link-24' title='4 topics' style='font-size: 100.25252525253%;'>pushbullet</a>
+<a href='http://www.htpcguides.com/category/raspberry-pi/' class='tag-link-13' title='61 topics' style='font-size: 169.06565656566%;'>raspberry pi</a>
+<a href='http://www.htpcguides.com/category/remotes/' class='tag-link-16' title='1 topic' style='font-size: 75%;'>remotes</a>
+<a href='http://www.htpcguides.com/category/reverse-proxy/' class='tag-link-35' title='11 topics' style='font-size: 124.24242424242%;'>reverse proxy</a>
+<a href='http://www.htpcguides.com/category/reviews/' class='tag-link-19' title='12 topics' style='font-size: 126.13636363636%;'>reviews</a>
+<a href='http://www.htpcguides.com/category/routers/' class='tag-link-65' title='1 topic' style='font-size: 75%;'>routers</a>
+<a href='http://www.htpcguides.com/category/usenet/sabnzbd/' class='tag-link-14' title='12 topics' style='font-size: 126.13636363636%;'>sabnzbd</a>
+<a href='http://www.htpcguides.com/category/seedbox/' class='tag-link-34' title='1 topic' style='font-size: 75%;'>seedbox</a>
+<a href='http://www.htpcguides.com/category/usenet/sickgear/' class='tag-link-38' title='1 topic' style='font-size: 75%;'>sickgear</a>
+<a href='http://www.htpcguides.com/category/usenet/sickrage/' class='tag-link-28' title='12 topics' style='font-size: 126.13636363636%;'>sickrage</a>
+<a href='http://www.htpcguides.com/category/usenet/sonarr/' class='tag-link-33' title='10 topics' style='font-size: 121.71717171717%;'>sonarr</a>
+<a href='http://www.htpcguides.com/category/nas/synology/' class='tag-link-45' title='3 topics' style='font-size: 93.939393939394%;'>synology</a>
+<a href='http://www.htpcguides.com/category/torrent/' class='tag-link-4' title='43 topics' style='font-size: 159.59595959596%;'>torrent</a>
+<a href='http://www.htpcguides.com/category/torrent/transmission/' class='tag-link-36' title='5 topics' style='font-size: 105.30303030303%;'>transmission</a>
+<a href='http://www.htpcguides.com/category/tv-streaming/' class='tag-link-48' title='4 topics' style='font-size: 100.25252525253%;'>tv streaming</a>
+<a href='http://www.htpcguides.com/category/ubuntu/' class='tag-link-17' title='44 topics' style='font-size: 160.22727272727%;'>ubuntu</a>
+<a href='http://www.htpcguides.com/category/usenet/' class='tag-link-5' title='73 topics' style='font-size: 174.11616161616%;'>usenet</a>
+<a href='http://www.htpcguides.com/category/torrent/utorrent/' class='tag-link-37' title='9 topics' style='font-size: 119.19191919192%;'>utorrent</a>
+<a href='http://www.htpcguides.com/category/varnish/' class='tag-link-53' title='9 topics' style='font-size: 119.19191919192%;'>varnish</a>
+<a href='http://www.htpcguides.com/category/virtual-machines/' class='tag-link-49' title='6 topics' style='font-size: 109.72222222222%;'>virtual machines</a>
+<a href='http://www.htpcguides.com/category/vpn/' class='tag-link-22' title='7 topics' style='font-size: 112.87878787879%;'>vpn</a>
+<a href='http://www.htpcguides.com/category/vps/' class='tag-link-41' title='11 topics' style='font-size: 124.24242424242%;'>vps</a>
+<a href='http://www.htpcguides.com/category/windows/' class='tag-link-18' title='38 topics' style='font-size: 156.43939393939%;'>windows</a>
+<a href='http://www.htpcguides.com/category/wordpress/' class='tag-link-40' title='12 topics' style='font-size: 126.13636363636%;'>wordpress</a>        </div>
+                    <style type="text/css">
+                .wpctc-wpctc_widget-2                a {
+                    color: #0b73eb !important;
+                }
+
+                .wpctc-tag-links.wpctc-wpctc_widget-2                a:after {
+                    background-color: #0b73eb !important;
+                }
+            </style>
+        </aside>
+<!-- WordPress Popular Posts Plugin v3.3.3 [W] [monthly] [views] [regular] -->
+<aside id="wpp-2" class="widget inner-padding popular-posts">
+<h4 class="widget-title">Popular Posts</h4>                <script type="text/rocketscript">//<![CDATA[
+					// jQuery is available, so proceed
+					if ( window.jQuery ) {
+						
+						jQuery(document).ready(function($){
+							$.get('https://www.htpcguides.com/wp-admin/admin-ajax.php', {
+								action: 'wpp_get_popular',
+								id: '2'
+							}, function(data){
+								$('#wpp-2').append(data);
+							});
+						});
+					
+					} else { // jQuery is not defined
+						if ( window.console && window.console.log )
+							window.console.log('WordPress Popular Posts: jQuery is not defined!');						
+					}
+                //]]></script>
+                </aside>
+<!-- End WordPress Popular Posts Plugin v3.3.3 -->
+<aside id="archives-3" class="widget inner-padding widget_archive"><h4 class="widget-title">Archives</h4>		<label class="screen-reader-text" for="archives-dropdown-3">Archives</label>
+		<select id="archives-dropdown-3" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			
+			<option value="">Select Month</option>
+				<option value='http://www.htpcguides.com/2016/01/'> January 2016 &nbsp;(3)</option>
+	<option value='http://www.htpcguides.com/2015/12/'> December 2015 &nbsp;(11)</option>
+	<option value='http://www.htpcguides.com/2015/11/'> November 2015 &nbsp;(11)</option>
+	<option value='http://www.htpcguides.com/2015/10/'> October 2015 &nbsp;(10)</option>
+	<option value='http://www.htpcguides.com/2015/09/'> September 2015 &nbsp;(10)</option>
+	<option value='http://www.htpcguides.com/2015/08/'> August 2015 &nbsp;(11)</option>
+	<option value='http://www.htpcguides.com/2015/07/'> July 2015 &nbsp;(13)</option>
+	<option value='http://www.htpcguides.com/2015/06/'> June 2015 &nbsp;(11)</option>
+	<option value='http://www.htpcguides.com/2015/05/'> May 2015 &nbsp;(10)</option>
+	<option value='http://www.htpcguides.com/2015/04/'> April 2015 &nbsp;(12)</option>
+	<option value='http://www.htpcguides.com/2015/03/'> March 2015 &nbsp;(16)</option>
+	<option value='http://www.htpcguides.com/2015/02/'> February 2015 &nbsp;(11)</option>
+	<option value='http://www.htpcguides.com/2015/01/'> January 2015 &nbsp;(15)</option>
+	<option value='http://www.htpcguides.com/2014/12/'> December 2014 &nbsp;(13)</option>
+	<option value='http://www.htpcguides.com/2014/11/'> November 2014 &nbsp;(17)</option>
+	<option value='http://www.htpcguides.com/2014/10/'> October 2014 &nbsp;(33)</option>
+	<option value='http://www.htpcguides.com/2014/09/'> September 2014 &nbsp;(33)</option>
+	<option value='http://www.htpcguides.com/2014/08/'> August 2014 &nbsp;(12)</option>
+
+		</select>
+		</aside><aside id="text-17" class="widget inner-padding widget_text">			<div class="textwidget"><script async data-rocketsrc="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/rocketscript"></script>
+<!-- HTPC 300x250 Side -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2553940814530400"
+     data-ad-slot="9255861635"
+     data-ad-format="auto"></ins>
+<script type="text/rocketscript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</aside><aside id="text-18" class="widget inner-padding widget_text">			<div class="textwidget"><center><a href="http://www.htpcguides.com/PrivateInternetAccess" target="blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/08/private-internet-access-300x150-no-green.png" alt="Buy Private Internet Access VPN"><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/08/private-internet-access-300x150-no-green.png" alt="Buy Private Internet Access VPN"></noscript></a>
+<a href="http://www.htpcguides.com/UsenetServer" target="blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/01/usenetserver300x150.gif"><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/01/usenetserver300x150.gif"></noscript></a>
+<a href="http://www.htpcguides.com/Astraweb" target="blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/07/astraweb-300x150.png"><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/07/astraweb-300x150.png"></noscript></a></div>
+		</aside>					</div><!-- .inside-right-sidebar -->
+	</div><!-- #secondary -->
+	</div><!-- #content -->
+</div><!-- #page -->
+<div class="site-footer">
+			<div id="footer-widgets" class="site footer-widgets">
+			<div class="inside-footer-widgets grid-container grid-parent">
+									<div class="footer-widget-1 grid-parent grid-33 tablet-grid-50">
+						<aside id="text-8" class="widget inner-padding widget_text"><h4 class="widget-title">DISCLAIMER</h4>			<div class="textwidget">The information on HTPC Guides is for educational purposes and only condones obtaining public domain content. HTPC Guides is not responsible for content from any other site or provider. By using the links provided on this site you agree that neither this site nor its proprietor is in any way responsible for any damages or liability arising from use of external content. </div>
+		</aside>					</div>
+								<div class="footer-widget-2 grid-parent grid-33 tablet-grid-50">
+					<aside id="text-2" class="widget inner-padding widget_text">			<div class="textwidget"><center><a href="http://www.htpcguides.com/DigitalOcean" target="_blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original="http://www.htpcguides.com/wp-content/uploads/2015/01/digitaloceansquareorange.png"><noscript><img src="http://www.htpcguides.com/wp-content/uploads/2015/01/digitaloceansquareorange.png"></noscript></a></center>
+</div>
+		</aside>				</div>
+								<div class="footer-widget-3 grid-parent grid-33 tablet-grid-50">
+					<aside id="text-4" class="widget inner-padding widget_text"><h4 class="widget-title">Copyright © htpcguides.com</h4>			<div class="textwidget"><p>The information on this site is the intellectual property of the  owner. Credit to other sources is provided where relevant. If you believe any information has not been sourced, please leave a comment and appropriate action will be taken.</p>
+<p>175ZkZkzsqub6WKUsCcDdGv6E117KG6VTb</p>
+</div>
+		</aside>				</div>
+							</div>
+		</div>
+		<footer class="site-info" itemtype="http://schema.org/WPFooter" itemscope="itemscope">
+		<div class="inside-site-info grid-container grid-parent">
+				<span class="copyright">Copyright &copy; 2016</span> 	&#x000B7; <a href="http://generatepress.com" target="_blank" title="GeneratePress" itemprop="url">GeneratePress</a> &#x000B7; <a href="http://wordpress.org" target="_blank" title="Proudly powered by WordPress">WordPress</a>
+				</div>
+	</footer><!-- .site-info -->
+	</div><!-- .site-footer -->
+
+        <!-- 
+            Lockers: user tracker for visibility filters
+            OnePress, bizpanda.com
+        -->
+        <script type="text/rocketscript">
+            window.__bp_session_timeout = '900';
+            window.__bp_session_freezing = 0;
+            !function(){window.bizpanda||(window.bizpanda={}),window.bizpanda.bp_can_store_localy=function(){return!1},window.bizpanda.bp_ut_get_cookie=function(e){for(var n=e+"=",i=document.cookie.split(";"),o=0;o<i.length;o++){for(var t=i[o];" "==t.charAt(0);)t=t.substring(1);if(0==t.indexOf(n))return decodeURIComponent(t.substring(n.length,t.length))}return!1},window.bizpanda.bp_ut_set_cookie=function(e,n,i){var o=new Date;o.setTime(o.getTime()+24*i*60*60*1e3);var t="expires="+o.toUTCString();document.cookie=e+"="+encodeURIComponent(n)+"; "+t+"; path=/"},window.bizpanda.bp_ut_get_obj=function(e){var n=null;return(n=window.bizpanda.bp_can_store_localy()?window.localStorage.getItem("bp_ut_session"):window.bizpanda.bp_ut_get_cookie("bp_ut_session"))?(n=JSON.parse(n),n.started+1e3*e<(new Date).getTime()&&(n=null),n):!1},window.bizpanda.bp_ut_set_obj=function(e){e.started&&window.__bp_session_freezing||(e.started=(new Date).getTime());var e=JSON.stringify(e);window.bizpanda.bp_can_store_localy()?window.localStorage.setItem("bp_ut_session",e):window.bizpanda.bp_ut_set_cookie("bp_ut_session",e,5e3)},window.bizpanda.bp_ut_count_pageview=function(){var e=window.bizpanda.bp_ut_get_obj(window.__bp_session_timeout);e||(e={}),e.pageviews||(e.pageviews=0),0===e.pageviews&&(e.referrer=document.referrer,e.landingPage=window.location.href,e.pageviews=0),e.pageviews++,window.bizpanda.bp_ut_set_obj(e)},window.bizpanda.bp_ut_count_locker_pageview=function(){var e=window.bizpanda.bp_ut_get_obj(window.__bp_timeout);e||(e={}),e.lockerPageviews||(e.lockerPageviews=0),e.lockerPageviews++,window.bizpanda.bp_ut_set_obj(e)},window.bizpanda.bp_ut_count_pageview()}();
+        </script>
+        <!-- / -->
+                    <!-- Ginger Script -->
+    <script data-rocketsrc="http://www.htpcguides.com/wp-content/plugins/ginger-eu-cookie-law/front/js/cookies-enabler.min.js" type="text/rocketscript"></script>
+    <!-- Init the script -->
+    <script type="text/rocketscript">
+        COOKIES_ENABLER.init({
+            scriptClass: 'ginger-script',
+            iframeClass: 'ginger-iframe',
+            acceptClass: 'ginger-accept',
+            disableClass: 'ginger-disable',
+            dismissClass: 'ginger-dismiss',
+            bannerClass: 'ginger_banner-wrapper',
+            bannerHTML:
+                document.getElementById('ginger-banner-html') !== null ?
+                    document.getElementById('ginger-banner-html').innerHTML :
+                    '<div class="ginger_banner bottom dark ginger_container ginger_container--open">'
+                                                                    +'<a href="#" class="ginger_btn ginger-accept ginger_btn_accept_all">'
+                        + 'Accept Cookies'
+                        +'<\/a>'
+                        +'<p class="ginger_message">'
+                        +'Cookies are used to enhance your experience, see  <a href="http://www.htpcguides.com/opanda_privacy_policy/">Privacy Policy<\/a>'
+                        +'</p>'
+                                        +'<\/div>',
+                                    cookieDuration: 365000,
+                        eventScroll: true,
+            scrollOffset: 20,
+            clickOutside: true,
+            cookieName: 'ginger-cookie',
+            forceReload: false,
+            iframesPlaceholder: true,
+            iframesPlaceholderClass: 'ginger-iframe-placeholder',
+            iframesPlaceholderHTML:
+                document.getElementById('ginger-iframePlaceholder-html') !== null ?
+                    document.getElementById('ginger-iframePlaceholder-html').innerHTML :
+                '<p><span style=\"line-height: 26.6667px;\">Cookies are used to enhance your experience, see {{privacy_page}}<\/span>'
+                +'<a href="#" class="ginger_btn ginger-accept">Accept Cookies</a>'
+                +'<\/p>'
+        });
+    </script>
+    <!-- End Ginger Script -->
+
+<script type="text/rocketscript">var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));</script><script type="text/rocketscript">var pageTracker = _gat._getTracker("UA-54238276-1");pageTracker._trackPageview();</script><script type="text/rocketscript">
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.htpcguides.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","recaptchaEmpty":"Please verify that you are not a robot.","sending":"Sending ..."};
+/* ]]> */
+</script>
+<script type="text/rocketscript">
+/* <![CDATA[ */
+var EasyAzonPro_Localize_Links = {"ajaxAction":"easyazonpro_localize","ajaxUrl":"https:\/\/www.htpcguides.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/rocketscript">
+/* <![CDATA[ */
+var EasyAzonPro_Components_Popovers = {"ajaxUrl":"https:\/\/www.htpcguides.com\/wp-admin\/admin-ajax.php","ajaxAction":"easyazon_get_popover_markup","loading":"Loading product data.","placement":"top","template":"<div class=\"popover easyazon-popover\"><div class=\"arrow\"><\/div><h3 class=\"popover-title\"><\/h3><div class=\"popover-content easyazon-popover-content\"><\/div><\/div>","timeout":"750"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-content/plugins/bwp-minify/min/?f=wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js,wp-content/plugins/contact-form-7/includes/js/scripts.js,wp-content/plugins/wp-category-tag-could/javascript/jquery.tagcanvas.min.js,wp-content/plugins/wp-category-tag-could/javascript/wpctc.tagcanvas.min.js,wp-content/plugins/wp-category-tag-could/javascript/jquery.style.min.js,wp-content/plugins/wp-category-tag-could/javascript/wp-category-tag-cloud.min.js,wp-content/plugins/easyazon-pro-4.0.7/components/localization/links/resources/links.js,wp-content/plugins/easyazon-pro-4.0.7/vendor/bootstrap.min.js,wp-content/plugins/easyazon-pro-4.0.7/components/popovers/resources/popovers.js,wp-content/themes/mantle/js/scripts.js'></script>
+<script type="text/rocketscript" data-rocketsrc='http://www.htpcguides.com/wp-content/plugins/bwp-minify/min/?f=wp-content/themes/generatepress/js/navigation.min.js,wp-content/themes/generatepress/js/dropdown.min.js,wp-includes/js/wp-embed.min.js'></script>
+<script data-cfasync="false" type="text/javascript">
+					var disqus_shortname = "htpcguides";
+					if (typeof ds_loaded == "undefined") {
+						var ds_loaded = false; //To track loading only once on a page.
+					}
+					function loadDisqus()
+					{
+						var disqus_div = document.getElementById("disqus_thread"); //The ID of the Disqus DIV tag
+						var top = disqus_div.offsetTop;
+						var disqus_data = disqus_div.dataset;
+						if ( !ds_loaded && ( window.scrollY || window.pageYOffset ) + window.innerHeight > top ) 
+						{
+							ds_loaded = true;
+							for (var key in disqus_data) 
+							{
+								if (key.substr(0,6) == "disqus") 
+								{
+									window["disqus_" + key.replace("disqus","").toLowerCase()] = disqus_data[key];
+								}
+							}
+							var dsq = document.createElement("script");
+							dsq.type = "text/javascript";
+							dsq.async = true;
+							dsq.src = "http://" + window.disqus_shortname + ".disqus.com/embed.js";
+							if(document.getElementById("dcl-hidden-div")) {
+								document.getElementById("dcl-hidden-div").innerHTML = "Loading...";
+							}
+							(document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(dsq);
+						}    
+					}
+					document.getElementById("dcl_comment_btn").onclick = function() { loadDisqus() };
+				</script><script  data-cfasync="false" type='text/javascript'>
+					/* <![CDATA[ */
+					var hash = window.location.hash;
+					if(hash!==''){
+					var ds_loaded = true;
+					var dcl_loaded = 1;
+					(function() {
+						var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+						dsq.async = true;
+						dsq.src = '//' + disqus_shortname + '.' + 'disqus.com' + '/' + 'embed' + '.js' + '?pname=wordpress&pver=2.84';
+						(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+					})();}
+					/* ]]> */
+					</script>
+</body>
+</html>

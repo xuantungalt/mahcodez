@@ -1,0 +1,612 @@
+
+
+openHAB Clustered Pi Build Doc
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Do this on all nodes            @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+################################################
+# Configure your wifi adapter on the mgmt node #
+################################################
+
+wlan0 iface wlan0 inet static
+address x.x.x.x
+metmask xxx.xxx.xxx.x
+gateway 172.16.x.xxx
+wpa-ssid "my wireless ssid"
+wpa-psk "my wireless password"
+
+#####################################################
+# Configure static ip’s for each node in cluster    #
+#####################################################
+
+sudo nano /etc/network/interfaces
+
+iface lo inet loopback
+iface eth0 inet static
+
+
+address xxx.xxx.xxx.xxx
+
+netmask xxx.xxx.xxx.xxx
+
+network xxx.xxx.xxx.xxx
+
+broadcast xxx.xxx.xxx.xxx
+
+gateway xxx.xxx.xxx.xxx
+
+
+## now add DNS servers ##
+
+sudo nano /etc/resolv.conf
+
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+
+## Restart networking to reflect changes ##
+
+sudo ./etc/init.d/networking restart
+
+###################################
+#Change hostnames for each node   #
+###################################
+
+## edit the file /etc/hostname and change the name from the default (raspberrypi)to “clusnodeX” ##
+
+sudo nano /etc/hostname 
+
+######################################################## 
+edit the file /etc/hosts and replace the original name #
+raspberrypi with the new name hostname                 #
+and also the ip’s of other cluster nodes:              #
+########################################################
+
+sudo nano /etc/hosts
+
+172.16.x.xxx clusnode1 
+172.16.x.xxx clusnode2
+172.16.x.xxx clusnode3
+
+#######################
+# Config SSH keys     #
+#######################
+
+## Create dirs on each node: ##
+
+mkdir ~/.ssh
+
+## Run on clusmgmt node: ##
+
+ssh-keygen
+
+## Copy the files to each node now: ##
+
+scp -p /home/pi/.ssh/id_rsa.pub clusnode1:/home/pi/.ssh/authorized_keys
+scp -p /home/pi/.ssh/id_rsa.pub clusnode2:/home/pi/.ssh/authorized_keys
+scp -p /home/pi/.ssh/id_rsa.pub clusnode3:/home/pi/.ssh/authorized_keys
+
+
+
+###################################################
+install Heartbeat and Pacemaker 
+(below will install both Heartbeat and Pacemaker 
+with all dependancies)     
+###################################################
+
+## makes sure your system is up to date ##
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install heartbeat gawk-doc lm-sensors snmp-mibs-downloader
+
+###############################################################################################################
+#  Then we need to create the HA config files                                                                 #
+###############################################################################################################
+
+
+sudo nano /etc/ha.d/ha.cf
+
+
+
+debugfile /var/log/ha-debug 
+logfile /var/log/ha-log
+logfacility local0
+keepalive 2
+deadtime 30
+warntime 10
+initdead 120 
+udpport 694
+bcast eth0
+node clusnode1 clusnode2 clusnode3
+ping 172.16.x.xxx 
+crm respawn
+
+
+## Save the HA auth keys ##
+
+sudo nano /etc/ha.d/authkeys
+
+auth 1 
+1 crc
+
+
+## Change the file permission for the authkeys file ##
+
+sudo chmod 600 /etc/ha.d/authkeys
+
+## Restart cluster services on each node ##
+
+sudo service heartbeat restart
+
+
+## Test changes ##
+
+sudo crm status
+
+
+
+
+###############################################
+Configure GlusterFS shared storage for openHAB
+###############################################
+
+
+## Install GlusterFS server ##
+
+apt-get install glusterfs-server
+
+
+## Create GlusterFS directory/brick location (DO NOT WORK INSIDE THIS DIR DIRECTLY or you'll corrupt your Gluster volume !!!)
+
+sudo mkdir /srv/glusexport1
+
+## probe for each gluster peer. Establish's nodes in gluster cluster. 
+## Only needs to be run from first node, but probe all nodes in cluster)
+
+sudo gluster peer probe 172.16.x.xxx
+
+
+## Create Gluster policy. define shared storage strategy. 
+## Include the primary node or one this is being run from.
+
+sudo gluster volume create glusexport1 replica 3 172.16.x.xxx:/srv/glusexport1 172.16.x.xx1:/srv/glusexport1 172.16.x.xx2:/srv/glusexport1
+
+
+## Now that vol is created, let's start it ##
+
+sudo gluster volume start glusexport1
+
+
+## Verify it was created correctly ##
+
+sudo gluster volume info
+
+
+## Create local mounts for gluster drive ##
+
+sudo mkdir -p /opt/openhab
+sudo mount -t glusterfs 172.16.x.xxx:glusexport1 /opt/openhab
+
+
+## Make mount permanent by editing /etc/fstab ##
+sudo nano /etc/fstab
+172.16.x.xxx:glusexport1  /opt/openhab  glusterfs  defaults,_netdev  0  0
+
+######################################################
+# install openHAB and a few other things             #                                                           
+######################################################
+
+## check java version ##
+
+java -version
+
+## Download and unzip openHAB distro to newly created directory ##
+
+wget openhab-runtime-<version>.zip
+
+unzip openhab-runtime-<version>.zip -d /opt/openhab
+
+## Install Bindings ##
+
+http-binding-<version>.jar
+
+## Copy the default config template to useable starting config/state ##
+
+sudo cp /opt/openhab/configurations/openhab_default.cfg /opt/openhab/configurations/openhab.cfg
+
+## set openhab to be owned by root ##
+
+sudo chown -hR root:root /opt/openhab/
+
+## Create LSB/Init.d script to be handled by Pacemaker/Heartbeat CRM ##
+sudo nano /etc/init.d/openhab
+
+#! /bin/sh
+    ### BEGIN INIT INFO
+    # Provides:          openhab
+    # Required-Start:    $remote_fs $syslog
+    # Required-Stop:     $remote_fs $syslog
+    # Default-Start:     2 3 4 5
+    # Default-Stop:      0 1 6
+    # Short-Description: OpenHAB Daemon
+    ### END INIT INFO
+
+    # Author: Thomas Brettinger 
+
+    # Do NOT "set -e"
+
+    # PATH should only include /usr/* if it runs after the mountnfs.sh script
+    PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+    DESC="Open Home Automation Bus Daemon"
+    NAME=openhab
+    DAEMON=/usr/bin/java
+    PIDFILE=/var/run/$NAME.pid
+    SCRIPTNAME=/etc/init.d/$NAME
+    ECLIPSEHOME="/opt/openhab";
+    HTTPPORT=8080
+    HTTPSPORT=8443
+    TELNETPORT=5555
+    # be sure you are adopting the user to your local OH user 
+    RUN_AS=root
+
+    # get path to equinox jar inside $eclipsehome folder
+    cp=$(find $ECLIPSEHOME/server -name "org.eclipse.equinox.launcher_*.jar" | sort | tail -1);
+
+    DAEMON_ARGS="-Dosgi.clean=true -Declipse.ignoreApp=true -Dosgi.noShutdown=true -Djetty.port=$HTTPPORT -Djetty.port.ssl=$HTTPSPORT -Djetty.home=$ECLIPSEHOME -Dlogback.configurationFile=$ECLIPSEHOME/configurations/logback.xml -Dfelix.fileinstall.dir=$ECLIPSEHOME/addons -Djava.library.path=$ECLIPSEHOME/lib -Djava.security.auth.login.config=$ECLIPSEHOME/etc/login.conf -Dorg.quartz.properties=$ECLIPSEHOME/etc/quartz.properties -Djava.awt.headless=true -jar $cp -console ${TELNETPORT}"
+
+    # Exit if the package is not installed
+    [ -x "$DAEMON" ] || exit 0
+
+    # Read configuration variable file if it is present
+    [ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+    # Load the VERBOSE setting and other rcS variables
+    . /lib/init/vars.sh
+
+    # Define LSB log_* functions.
+    # Depend on lsb-base (>= 3.2-14) to ensure that this file is present
+    # and status_of_proc is working.
+    . /lib/lsb/init-functions
+
+    #
+    # Function that starts the daemon/service
+    #
+    do_start()
+    {
+        # Return
+        #   0 if daemon has been started
+        #   1 if daemon was already running
+        #   2 if daemon could not be started
+        start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE --chuid $RUN_AS --chdir $ECLIPSEHOME --exec $DAEMON --test > /dev/null \
+            || return 1
+        start-stop-daemon --start --quiet --background --make-pidfile --pidfile $PIDFILE --chuid $RUN_AS --chdir $ECLIPSEHOME --exec $DAEMON -- $DAEMON_ARGS \
+            || return 2
+        # Add code here, if necessary, that waits for the process to be ready
+        # to handle requests from services started subsequently which depend
+        # on this one.  As a last resort, sleep for some time.
+        return 0
+    }
+
+    #
+    # Function that stops the daemon/service
+    #
+    do_stop()
+    {
+        # Return
+        #   0 if daemon has been stopped
+        #   1 if daemon was already stopped
+        #   2 if daemon could not be stopped
+        #   other if a failure occurred
+        start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --name $NAME
+        RETVAL="$?"
+        [ "$RETVAL" = 2 ] && return 2
+        # Wait for children to finish too if this is a daemon that forks
+        # and if the daemon is only ever run from this initscript.
+        # If the above conditions are not satisfied then add some other code
+        # that waits for the process to drop all resources that could be
+        # needed by services started subsequently.  A last resort is to
+        # sleep for some time.
+        start-stop-daemon --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $DAEMON
+        [ "$?" = 2 ] && return 2
+        # Many daemons don't delete their pidfiles when they exit.
+        rm -f $PIDFILE
+        return "$RETVAL"
+    }
+
+    #
+    # Function that sends a SIGHUP to the daemon/service
+    #
+    do_reload() {
+        #
+        # If the daemon can reload its configuration without
+        # restarting (for example, when it is sent a SIGHUP),
+        # then implement that here.
+        #
+        do_stop
+        sleep 1
+        do_start
+        return 0
+    }
+
+    case "$1" in
+      start)
+        log_daemon_msg "Starting $DESC"
+        do_start
+        case "$?" in
+            0|1) log_end_msg 0 ;;
+            2) log_end_msg 1 ;;
+        esac
+        ;;
+      stop)
+        log_daemon_msg "Stopping $DESC" 
+        do_stop
+        case "$?" in
+            0|1) log_end_msg 0 ;;
+            2) log_end_msg 1 ;;
+        esac
+        ;;
+      status)
+           status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+           ;;
+      #reload|force-reload)
+        #
+        # If do_reload() is not implemented then leave this commented out
+        # and leave 'force-reload' as an alias for 'restart'.
+        #
+        #log_daemon_msg "Reloading $DESC" "$NAME"
+        #do_reload
+        #log_end_msg $?
+        #;;
+      restart|force-reload)
+        #
+        # If the "reload" option is implemented then remove the
+        # 'force-reload' alias
+        #
+        log_daemon_msg "Restarting $DESC" 
+        do_stop
+        case "$?" in
+          0|1)
+            do_start
+            case "$?" in
+                0) log_end_msg 0 ;;
+                1) log_end_msg 1 ;; # Old process is still running
+                *) log_end_msg 1 ;; # Failed to start
+            esac
+            ;;
+          *)
+              # Failed to stop
+            log_end_msg 1
+            ;;
+        esac
+        ;;
+      *)
+        #echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
+        echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+        exit 3
+        ;;
+    esac
+    :
+    
+ 
+## Make init.d script executable ##
+ 
+sudo chmod a+x /etc/init.d/openhab   
+    
+## Test starting and stopping openhab before pushing config into Cluster Resource Manager##
+
+/etc/init.d/openhab start
+/etc/init.d/openhab stop
+
+## !!! DO NOT CONFIGURE openHAB TO START AT BOOT, CLUSTER SOFTWARE WILL HANDLE THIS !!! ##
+
+
+
+#####################################
+Configure cluster parameters
+#####################################
+
+
+sudo crm configure property stonith-enabled=false
+sudo crm configure property expected-quorum-votes="2"
+sudo crm configure property no-quorum-policy=ignore
+sudo crm configure rsc_defaults resource-stickiness=100
+sudo crm_attribute --type rsc_defaults --attr-name migration-threshold --attr-value 2
+sudo crm_attribute --type rsc_defaults --attr-name failure-timeout --attr-value 30s
+sudo crm configure primitive clusterIP1 ocf:IPaddr2 params ip=172.16.0.xxx cidr_netmask=24 nic=eth0 op monitor interval=30s
+sudo crm configure primitive openhab lsb:openhab op monitor interval=20s
+
+## Test changes ##
+
+sudo crm status
+
+
+
+
+
+#####################################
+Create cluster Group for resources
+#####################################
+
+sudo crm configure group HA-GROUP clusterIP1 openhab
+
+
+
+## Show cluster status (will reflect new group after few mins) ##
+
+
+
+root@clusnode1:/etc/ha.d/resource.d# crm_mon -1
+============
+Last updated: Tue Jul  7 10:21:29 2015
+Last change: Tue Jul  7 10:21:14 2015 via cibadmin on clusnode1
+Stack: Heartbeat
+Current DC: clusnode1 (d45fed8b-8e47-4cdf-a580-3588c68b05bc) - partition with quorum
+Version: 1.1.7-ee0730e13d124c3d58f00016c3376a1de5323cff
+3 Nodes configured, 2 expected votes
+2 Resources configured.
+============
+
+Online: [ clusnode2 clusnode3 clusnode1 ]
+
+ Resource Group: HA-Group
+     clusterIP1	(ocf::heartbeat:IPaddr2):	Started clusnode1
+     openhab	(lsb:openhab):	Started clusnode2
+root@clusnode1:/etc/ha.d/resource.d# crm_mon -1
+============
+Last updated: Tue Jul  7 10:21:54 2015
+Last change: Tue Jul  7 10:21:14 2015 via cibadmin on clusnode1
+Stack: Heartbeat
+Current DC: clusnode1 (d45fed8b-8e47-4cdf-a580-3588c68b05bc) - partition with quorum
+Version: 1.1.7-ee0730e13d124c3d58f00016c3376a1de5323cff
+3 Nodes configured, 2 expected votes
+2 Resources configured.
+============
+
+Online: [ clusnode2 clusnode3 clusnode1 ]
+
+ Resource Group: HA-Group
+     clusterIP1	(ocf::heartbeat:IPaddr2):	Started clusnode1
+     openhab	(lsb:openhab):	Started clusnode1
+root@clusnode1:/etc/ha.d/resource.d# 
+
+
+
+
+## That's about it 
+## test failover and such. When you pull the plug on a node, 
+## it takes a few mins for the services 
+## to failover and come up fully on the next node
+
+
+
+
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Helpful Stuff
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+###############################################################################################################
+#  On the head node, create script in /usr/local/bin/worker.sh Use this to run commands on all nodes.         #
+###############################################################################################################
+
+sudo nano /usr/local/bin/worker.sh
+
+ !/bin/sh HOSTS="clusnode1 clusnode2 clusnode3 clusnode4" for HOSTNAME in $HOSTS; do echo executing command on 
+
+
+## set the script to be executable using sudo chmod a+x /usr/local/bin/worker.sh ##
+
+sudo chmod a+x /usr/local/bin/worker.sh
+
+## example to shutdown all workers run the following command ##
+
+worker.sh sudo shutdown -hP now
+
+
+
+
+#################################################################################
+Building init.d script
+#################################################################################
+
+Debian uses a Sys-V like init system for executing commands when the system runlevel changes - for example at bootup and shutdown time.
+
+If you wish to add a new service to start when the machine boots you should add the necessary script to the directory /etc/init.d/. Many of the scripts already present in that directory will give you an example of the kind of things that you can do.
+
+Here's a very simple script which is divided into two parts, code which always runs, and code which runs when called with "start" or "stop".
+
+#! /bin/sh
+# /etc/init.d/blah
+#
+
+# Some things that run always
+touch /var/lock/blah
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting script blah "
+    echo "Could do more here"
+    ;;
+  stop)
+    echo "Stopping script blah"
+    echo "Could do more here"
+    ;;
+  *)
+    echo "Usage: /etc/init.d/blah {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
+
+
+Once you've saved your file into the correct location make sure that it's executable by running "chmod 755 /etc/init.d/blah".
+
+Then you need to add the appropriate symbolic links to cause the script to be executed when the system goes down, or comes up.
+
+The simplest way of doing this is to use the Debian-specific command update-rc.d:
+
+root@skx:~# update-rc.d blah defaults
+ Adding system startup for /etc/init.d/blah ...
+   /etc/rc0.d/K20blah -> ../init.d/blah
+   /etc/rc1.d/K20blah -> ../init.d/blah
+   /etc/rc6.d/K20blah -> ../init.d/blah
+   /etc/rc2.d/S20blah -> ../init.d/blah
+   /etc/rc3.d/S20blah -> ../init.d/blah
+   /etc/rc4.d/S20blah -> ../init.d/blah
+   /etc/rc5.d/S20blah -> ../init.d/blah
+If you wish to remove the script from the startup sequence in the future run:
+
+root@skx:/etc/rc2.d# update-rc.d -f  blah remove
+update-rc.d: /etc/init.d/blah exists during rc.d purge (continuing)
+ Removing any system startup links for /etc/init.d/blah ...
+   /etc/rc0.d/K20blah
+   /etc/rc1.d/K20blah
+   /etc/rc2.d/S20blah
+   /etc/rc3.d/S20blah
+   /etc/rc4.d/S20blah
+   /etc/rc5.d/S20blah
+   /etc/rc6.d/K20blah
+This will leave the script itself in place, just remove the links which cause it to be executed.
+
+
+Ensure LSB tags are included in the top of your script:
+
+
+
+### BEGIN INIT INFO 
+# Provides: automount 
+# Required-Start: $remote_fs $syslog 
+# Required-Stop: $remote_fs $syslog 
+# Default-Start: 2 3 4 5 
+# Default-Stop: 0 1 6 
+# Short-Description: Start daemon at boot time 
+# Description: Enable service provided by daemon. 
+### END INIT INFO 
+
+You can find more details of this command by running "man update-rc.d".
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" lang="en">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" lang="en">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" lang="en">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<title>Installing Lighttpd with Python CGI support | </title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="stylesheet" type="text/css" media="all" href="https://s0.wp.com/wp-content/themes/pub/twentyten/style.css" />
+<link rel="pingback" href="https://mike632t.wordpress.com/xmlrpc.php" />
+<script type="text/javascript">
+  WebFontConfig = {"google":{"families":["Noto+Sans:r:latin,latin-ext","Noto+Sans:r,i,b,bi:latin,latin-ext"]}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s1.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active #site-title{font-family:"Noto Sans",sans-serif;font-style:normal;font-weight:400}.wf-active #site-title{font-style:normal;font-weight:400}.wf-active #site-title a{font-weight:400;font-style:normal}.wf-active .pingback a.url, .wf-active body{font-family:"Noto Sans",sans-serif}.wf-active #cancel-comment-reply-link, .wf-active #site-info, .wf-active #wp-calendar, .wf-active .comment-body thead th, .wf-active .comment-body tr th, .wf-active .comment-meta, .wf-active .entry-content label, .wf-active .entry-content thead th, .wf-active .entry-content tr th, .wf-active .entry-meta, .wf-active .entry-utility, .wf-active .form-allowed-tags, .wf-active .pingback p, .wf-active .reply, .wf-active .wp-caption-text{font-family:"Noto Sans",sans-serif}.wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4, .wf-active h5, .wf-active h6{font-weight:400;font-family:"Noto Sans",sans-serif;font-style:normal}.wf-active .page-title span{font-family:"Noto Sans",sans-serif;font-style:normal;font-weight:400}.wf-active #access .menu, .wf-active #access div.menu ul, .wf-active #respond label, .wf-active .entry-title, .wf-active .navigation, .wf-active .page-title, .wf-active .widget-title, .wf-active h3#comments-title, .wf-active h3#reply-title{font-family:"Noto Sans",sans-serif;font-style:normal;font-weight:400}.wf-active #access .menu-header, .wf-active div.menu{font-style:normal;font-weight:400}.wf-active .page-title{font-weight:400;font-style:normal}.wf-active .page-title span{font-style:normal;font-weight:400}.wf-active #content .entry-title{font-weight:400;font-style:normal}.wf-active .navigation{font-style:normal;font-weight:400}.wf-active h3#comments-title, .wf-active h3#reply-title{font-weight:400;font-style:normal}.wf-active #respond label{font-style:normal;font-weight:400}.wf-active .widget-title{font-weight:400;font-style:normal}</style>
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Feed" href="https://mike632t.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Comments Feed" href="https://mike632t.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Installing Lighttpd with Python CGI&nbsp;support Comments Feed" href="https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='https://s1.wp.com/_static/??-eJyNkVtOAzEMRTeEsfpQ6Q9iLUnGZNI6DyUeRt09nlaUgYqIn8jXvid2HJwLuJyEkmCcoPDkQ2rI4UwNTyTFuDNc1bNr7QlXdsvZ34E518EMDT1na/h/Xpm1dNE6fGwfiNUwldgIDVByk1+qh7lcSfOxGFkckYZgiCmqrYfFcviilnDUBXTbzEXdYG2p1BroGcMUQUZt9Mjd0lgm+/16bHJhgus9NyBgyhKUafegN4GnDJydkZDTDwHvbELtr3b5GQ09qmsl/5p83K+++C2+bva7w8txtz1uTp9aYdw+' type='text/css' media='all' />
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFj9EKwjAMRX/IrE7nwx7Eb5ldLKltWpvWoV9vB/qgDoVAyM3J5UZNEYi1KyOKsrUuBdPt2RorK/ULAE8mDRkbT/yCdeCMnGfWhyM5hCKYBlO1anQKC1wMkj2KVGhh+x6J+Eo4/cUs5jjoMyQUun+5+gLRFUMsKqGrD4wwZ/iY6tXB79tu2+/a9abv7AMrgnBx'></script>
+<link rel='stylesheet' id='all-css-0' href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://mike632t.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Roman Numbers' href='https://mike632t.wordpress.com/2013/09/21/roman-numbers/' />
+<link rel='next' title='Turn you Pi into a Wireless Access&nbsp;Point' href='https://mike632t.wordpress.com/2013/09/23/wireless-access-bridge/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/' />
+<link rel='shortlink' href='http://wp.me/p36zcb-9Q' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Fmike632t.wordpress.com%2F2013%2F09%2F21%2Finstalling-lighttpd-with-python-cgi-support%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Fmike632t.wordpress.com%2F2013%2F09%2F21%2Finstalling-lighttpd-with-python-cgi-support%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Installing Lighttpd with Python CGI support" />
+<meta property="og:url" content="https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/" />
+<meta property="og:description" content="Lighttpd is a lightweight web server that is designed for use in high performance environments. However, because it has a relatively low memory footprint and has been optimized to make efficient us..." />
+<meta property="article:published_time" content="2013-09-21T18:00:31+00:00" />
+<meta property="article:modified_time" content="2014-01-31T11:44:54+00:00" />
+<meta property="og:image" content="https://mike632t.files.wordpress.com/2013/09/httpd-helloworld1.png" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:image" content="https://mike632t.files.wordpress.com/2013/09/httpd-welcome2.png?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://mike632t.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://mike632t.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://mike632t.wordpress.com/osd.xml" title="" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://wordpress.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#ffffff" />
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="WordPress.com" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="A bit of a Debian Fan..." /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://mike632t.wordpress.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="Installing Lighttpd with Python CGI&nbsp;support |  on WordPress.com" />
+<meta name="description" content="Lighttpd is a lightweight web server that is designed for use in high performance environments. However, because it has a relatively low memory footprint and has been optimized to make efficient use of the available resources, it also works well on a low power system such as the Raspberry Pi. Normally server side scripts would&hellip;" />
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #ffffff; }
+</style>
+		<script type="text/javascript" src="//c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		var a9_p = amznads.getKeys(),
+		_ipw_custom = {
+			wordAds: '0',
+			adSafe: '0',
+			domain: 'mike632t.wordpress.com',
+			pageURL: 'https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/'
+		};
+		if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		</script>		<!-- IPONWEB header script -->
+		<script type="text/javascript">
+			window.__ATA = {
+				scriptSrc: '//s.pubmine.com/showad.js',
+				slotPrefix: 'automattic-id-',
+				initAd: function(o) {
+					var o = o || {},
+						g = window,
+						d = g.document,
+						wr = d.write,
+						id = g.__ATA.id();
+					wr.call(d, '<div id="' + id + '" data-section="' + (o.sectionId || 0) + '"' + (o.type ? ('data-type="' + o.type + '"') : '') + ' ' + (o.forcedUrl ? ('data-forcedurl="' + o.forcedUrl + '"') : '') + ' style="width:' + (o.width || 0) + 'px; height:' + (o.height || 0) + 'px;">');
+					g.__ATA.displayAd(id);
+					wr.call(d, '</div>');
+				},
+				displayAd: function(id) {
+					window.__ATA.ids = window.__ATA.ids || {};
+					window.__ATA.ids[id] = 1;
+				},
+				customParams: _ipw_custom,
+				id: function() {
+					return window.__ATA.slotPrefix + (parseInt(Math.random() * 10000, 10) + 1 + (new Date()).getMilliseconds());
+				}
+			};
+			(function(d, ata) {
+				var pr = "https:" === d.location.protocol ? "https:" : "http:",
+					src = pr + ata.scriptSrc,
+					st = "text/javascript";
+				d.write('<scr' + 'ipt type="' + st + '" src="' + src + '"><\/scr' + 'ipt>');
+			})(window.document, window.__ATA);
+		</script>
+		<script type="text/javascript">
+		jQuery(window).ready(function () {
+			jQuery("a.wpa-about").text("About these ads");
+		});
+		</script><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-610 single-format-standard custom-background mp6 customizer-styles-applied single-author highlander-enabled highlander-light">
+<div id="wrapper" class="hfeed">
+	<div id="header">
+		<div id="masthead">
+			<div id="branding" role="banner">
+								<div id="site-title">
+					<span>
+						<a href="https://mike632t.wordpress.com/" title="" rel="home"></a>
+					</span>
+				</div>
+				<div id="site-description">A bit of a Debian Fan&#8230;</div>
+
+										<a class="home-link" href="https://mike632t.wordpress.com/" title="" rel="home">
+							<img src="https://mike632t.files.wordpress.com/2013/02/wordpress-background-940x198.png" width="940" height="198" alt="" />
+						</a>
+								</div><!-- #branding -->
+
+			<div id="access" role="navigation">
+			  				<div class="skip-link screen-reader-text"><a href="#content" title="Skip to content">Skip to content</a></div>
+								<div class="menu"><ul><li ><a href="https://mike632t.wordpress.com/">Home</a></li><li class="page_item page-item-2589"><a href="https://mike632t.wordpress.com/contact/">Contact</a></li><li class="page_item page-item-46"><a href="https://mike632t.wordpress.com/about/">About</a></li></ul></div>
+			</div><!-- #access -->
+		</div><!-- #masthead -->
+	</div><!-- #header -->
+
+	<div id="main">
+
+		<div id="container">
+			<div id="content" role="main">
+
+			
+
+				<div id="nav-above" class="navigation">
+					<div class="nav-previous"><a href="https://mike632t.wordpress.com/2013/09/21/roman-numbers/" rel="prev"><span class="meta-nav">&larr;</span> Roman Numbers</a></div>
+					<div class="nav-next"><a href="https://mike632t.wordpress.com/2013/09/23/wireless-access-bridge/" rel="next">Turn you Pi into a Wireless Access&nbsp;Point <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-above -->
+
+				<div id="post-610" class="post-610 post type-post status-publish format-standard hentry category-linux tag-lighttpd tag-raspberry-pi">
+											<h2 class="entry-title"><a href="https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/" rel="bookmark">Installing Lighttpd with Python CGI&nbsp;support</a></h2>					
+					<div class="entry-meta">
+						<span class="meta-prep meta-prep-author">Posted on</span> <a href="https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/" title="18:00" rel="bookmark"><span class="entry-date">21 Sep 13</span></a>						<span class="by-author"><span class="sep">by</span> <span class="author vcard"><a class="url fn n" href="https://mike632t.wordpress.com/author/mike632t/" title="View all posts by mike632t" rel="author">mike632t</a></span> </span>					</div><!-- .entry-meta -->
+
+					<div class="entry-content">
+						<p>Lighttpd is a lightweight web server that is designed for use in high performance environments.  However, because it has a relatively low memory footprint and has been optimized to make efficient use of the available resources, it also works well on a low power system such as the Raspberry Pi.  Normally server side scripts would use PHP but since python is the scripting language of choice on the Raspberry Pi, particularly when using the GPIO pins, I wanted to configure lighttpd to allow me to use python instead.<br /><span id="more-610"></span><br />Although these instructions were written for a Raspberry Pi using Raspbian they will work on other versions of Debian as well, providing the lighttpd package is included in the distribution.</p>
+<h2 class="entry-title">Install the required packages</h2>
+<p>First you need to be running as root.<code>
+<pre>$ <strong>su</strong>
+Password: </pre>
+<p></code>OR<br />
+<code>
+<pre>
+$ <strong>sudo -i</strong>
+Password:</pre>
+<p></code><br />
+Then start by installing lighttpd.<code>
+<pre># <strong>apt-get install lighttpd</strong>
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  libfam0 libterm-readkey-perl libterm-readline-perl-perl
+Suggested packages:
+  fam rrdtool apache2-utils
+Recommended packages:
+  spawn-fcgi
+The following NEW packages will be installed:
+  libfam0 libterm-readkey-perl libterm-readline-perl-perl
+  lighttpd
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Need to get 396 kB of archives.
+After this operation, 1,170 kB of disk space will be used.
+Do you want to continue [Y/n]? <strong>Y</strong>
+  :
+  :
+  :
+[ ok ] Starting web server: lighttpd.
+#</pre>
+<p></code>Remember to configure the firewall to allow incoming connections to port 80.<code>
+<pre># <strong>ufw allow from 192.168.0.0/24 to any port 80 proto tcp</strong>
+Rule added</pre>
+<p></code></p>
+<h2 class="entry-title">Configure the root folder</h2>
+<p>By default your web pages will be located in /var/www but I prefer to use a separate folder in the home partition instead.  This allows me to backup any web pages and scripts with the rest of my user data on the home partition.<code>
+<pre># <strong>mkdir /home/httpd</strong>
+# <strong>cp -Rv /var/www/* /home/httpd</strong>
+`/var/www/index.lighttpd.html' -&gt; `/home/httpd/index.lighttpd.html'
+# <strong>chown -R www-data /home/httpd</strong>
+# <strong>chgrp -R www-data /home/httpd</strong>
+# <strong>vi /etc/lighttpd/lighttpd.conf</strong></pre>
+<p></code>
+<pre><code><strong>#</strong> server.document-root        = "/var/www"
+<strong>server.document-root        = "/home/httpd"</strong></pre>
+<p></code>You will need restart the web server for the changes to the configuration file to take effect.<code>
+<pre># <strong>service lighttpd restart</strong>
+[ ok ] Stopping web server: lighttpd.
+[ ok ] Starting web server: lighttpd.
+#</pre>
+<p></code>You should now be able to view the default home page on your server using a web browser.</p>
+<p><a href="https://mike632t.files.wordpress.com/2013/09/httpd-welcome2.png" target="_blank"><img class="aligncenter" alt="Welcome Page" src="https://mike632t.files.wordpress.com/2013/09/httpd-welcome2.png?w=640" width="640"></a></p>
+<h2 class="entry-title">Enable CGI scripting</h2>
+<p>To be able to write CGI scripts we need get lighttpd to load the appropriate module by editing the configuration file and adding the extra line shown below.<code>
+<pre># <strong>vi /etc/lighttpd/lighttpd.conf</strong></pre>
+<p></code>
+<pre><code><strong>#</strong>server.modules = (
+    "mod_access",
+    "mod_alias",
+    "mod_compress",
+    "mod_redirect",
+    <strong>"mod_cgi",</strong>
+    "mod_rewrite",
+)</pre>
+<p></code></p>
+<p>Then to get lighttpd to recognze python scripts we need to add the following new section at the end of the file.
+<pre><code><strong>$HTTP["url"] =~ "^/cgi-bin/" {
+    cgi.assign = (".py" =&gt; "/usr/bin/python")
+}</strong></pre>
+<p></code>Since we specified that all python scripts should go in the cgi-bin folder above we need to create that folder and set the correct permissions.<code>
+<pre># <strong>mkdir /home/httpd/cgi-bin</strong>
+# <strong>chown www-data /home/httpd/cgi-bin</strong>
+# <strong>chgrp www-data /home/httpd/cgi-bin</strong></pre>
+<p></code><br />
+Finally we need restart the web server for the changes we made to the configuration file to take effect.<code>
+<pre># <strong>service lighttpd restart</strong>
+[ ok ] Stopping web server: lighttpd.
+[ ok ] Starting web server: lighttpd.
+#</pre>
+<p></code><br />
+<h2 class="entry-title">Testing</h2>
+<p>To test it works create a small test script in the cgi-bin folder.<code>
+<pre># <strong>vi /home/httpd/cgi-bin/hello.py</strong></pre>
+<p></code>
+<pre><code><strong>
+#! /usr/bin/python
+#
+print "Content-Type: text/html\n\n"
+print '&lt;html&gt;&lt;head&gt;&lt;meta content="text/html; charset=UTF-8" /&gt;'
+print '&lt;title&gt;Raspberry Pi&lt;/title&gt;&lt;p&gt;&#039;
+for count in range(1,100): 
+  print &#039;Hello&amp;nbsp;World... &#039;
+print &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;</strong></pre>
+<p></code></p>
+<p>Browsing to this page should result in the following output.<br /><a href="https://mike632t.files.wordpress.com/2013/09/httpd-helloworld1.png" target="_blank"><img class="aligncenter" alt="Welcome Page" src="https://mike632t.files.wordpress.com/2013/09/httpd-helloworld1.png?w=640" width="640"></a></p>
+<hr>
+Raspberry Pi is a trademark of the <a href="http://www.raspberrypi.org/" title="raspberrypi.org" target="_blank">Raspberry Pi Foundation</a></p>
+<p></p>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<div class="u">
+					<script type='text/javascript'>
+					(function(g){g.__ATA.initAd({sectionId:26942, width:300, height:250});})(window);
+					</script>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled">
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>											</div><!-- .entry-content -->
+
+
+					<div class="entry-utility">
+												This entry was posted in <a href="https://mike632t.wordpress.com/category/linux/" rel="category tag">Linux</a> and tagged <a href="https://mike632t.wordpress.com/tag/lighttpd/" rel="tag">lighttpd</a>, <a href="https://mike632t.wordpress.com/tag/raspberry-pi/" rel="tag">Raspberry Pi</a>. Bookmark the <a href="https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/" title="Permalink to Installing Lighttpd with Python CGI&nbsp;support" rel="bookmark">permalink</a>.											</div><!-- .entry-utility -->
+				</div><!-- #post-## -->
+
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="https://mike632t.wordpress.com/2013/09/21/roman-numbers/" rel="prev"><span class="meta-nav">&larr;</span> Roman Numbers</a></div>
+					<div class="nav-next"><a href="https://mike632t.wordpress.com/2013/09/23/wireless-access-bridge/" rel="next">Turn you Pi into a Wireless Access&nbsp;Point <span class="meta-nav">&rarr;</span></a></div>
+				</div><!-- #nav-below -->
+
+				
+			<div id="comments">
+
+
+			<h3 id="comments-title">2 Responses to <em>Installing Lighttpd with Python CGI&nbsp;support</em></h3>
+
+
+			<ol class="commentlist">
+					<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-25">
+		<div id="comment-25">
+			<div class="comment-author vcard">
+								<cite class="fn"><a href='https://www.facebook.com/james.hodgers.77' rel='external nofollow' class='url'>James Hodgers</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/comment-page-1/#comment-25">
+				26 Apr 14 at 21:17</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Rather than print hello World 100 times is just prints the script. What did I do wrong?<br />
+Jim</p>
+</div>
+
+			<div class="reply">
+				<a class='comment-reply-link' href='/2013/09/21/installing-lighttpd-with-python-cgi-support/?replytocom=25#respond' onclick='return addComment.moveForm("comment-25", "25", "respond", "610")'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-mike632t comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-26">
+		<div id="comment-26">
+			<div class="comment-author vcard">
+								<cite class="fn"><a href='https://mike632t.wordpress.com' rel='external nofollow' class='url'>mike632t</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="https://mike632t.wordpress.com/2013/09/21/installing-lighttpd-with-python-cgi-support/comment-page-1/#comment-26">
+				29 Apr 14 at 22:32</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>I suspect that the script either isn&#8217;t in the cgi-bin folder or isn&#8217;t execuitable (chmod +x).  When I get some time I&#8217;ll see if I can reproduce the problem..</p>
+</div>
+
+			<div class="reply">
+				<a class='comment-reply-link' href='/2013/09/21/installing-lighttpd-with-python-cgi-support/?replytocom=26#respond' onclick='return addComment.moveForm("comment-26", "26", "respond", "610")'>Reply</a>			</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+			</ol>
+
+
+	
+
+						<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2013/09/21/installing-lighttpd-with-python-cgi-support/#respond" style="display:none;">Cancel reply</a></small></h3>
+																<form action="https://mike632t.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+														
+
+
+						<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="138482c6ba" /><input type="hidden" name="_wp_http_referer" value="/2013/09/21/installing-lighttpd-with-python-cgi-support/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity" class="comment_registration">
+
+	<div id="comment-form-nascar">
+		<p>Please log in using one of these methods to post your comment:</p>
+		<ul>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=https%3A%2F%2Fmike632t.wordpress.com" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="post-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog"  style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+						<p class="form-submit">
+				<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+				<input type='hidden' name='comment_post_ID' value='610' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+			</p>
+			<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8019ef53fb" /></p>
+<input type="hidden" name="genseq" value="1448264324" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="112"/></p>		</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+						<ul class="xoxo">
+
+<li id="search-2" class="widget-container widget_search"><form role="search" method="get" id="searchform" class="searchform" action="https://mike632t.wordpress.com/">
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form></li><li id="calendar-2" class="widget-container widget_calendar"><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>September 2013</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+		<th scope="col" title="Sunday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="https://mike632t.wordpress.com/2013/08/">&laquo; Aug</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="https://mike632t.wordpress.com/2013/10/">Oct &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="6" class="pad">&nbsp;</td><td>1</td>
+	</tr>
+	<tr>
+		<td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td><a href="https://mike632t.wordpress.com/2013/09/07/" title="Installing and configuring&nbsp;NFS">7</a></td><td>8</td>
+	</tr>
+	<tr>
+		<td><a href="https://mike632t.wordpress.com/2013/09/09/" title="Enable Analogue Audio Output (Raspberry&nbsp;Pi)">9</a></td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>
+	</tr>
+	<tr>
+		<td>16</td><td>17</td><td>18</td><td><a href="https://mike632t.wordpress.com/2013/09/19/" title="Installing Music Player">19</a></td><td><a href="https://mike632t.wordpress.com/2013/09/20/" title="Towers of Hanoi
+Enable wireless networking">20</a></td><td><a href="https://mike632t.wordpress.com/2013/09/21/" title="Roman Numbers
+Installing Lighttpd with Python CGI&nbsp;support">21</a></td><td>22</td>
+	</tr>
+	<tr>
+		<td><a href="https://mike632t.wordpress.com/2013/09/23/" title="Turn you Pi into a Wireless Access&nbsp;Point">23</a></td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td><a href="https://mike632t.wordpress.com/2013/09/29/" title="Turn your Linux box into a Wireless&nbsp;Router">29</a></td>
+	</tr>
+	<tr>
+		<td>30</td>
+		<td class="pad" colspan="6">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></li><li id="wp_tag_cloud-2" class="widget-container wp_widget_tag_cloud"><h3 class="widget-title"></h3><div style="overflow:hidden"><a href='https://mike632t.wordpress.com/tag/algol-68/' class='tag-link-51082225' title='5 topics' style='font-size: 12.329896907216pt;'>ALGOL 68</a>
+<a href='https://mike632t.wordpress.com/tag/alpha/' class='tag-link-17363' title='3 topics' style='font-size: 9.7319587628866pt;'>alpha</a>
+<a href='https://mike632t.wordpress.com/tag/apt/' class='tag-link-144771' title='8 topics' style='font-size: 14.783505154639pt;'>apt</a>
+<a href='https://mike632t.wordpress.com/tag/audio/' class='tag-link-413' title='6 topics' style='font-size: 13.340206185567pt;'>audio</a>
+<a href='https://mike632t.wordpress.com/tag/bash/' class='tag-link-2674' title='10 topics' style='font-size: 16.082474226804pt;'>bash</a>
+<a href='https://mike632t.wordpress.com/tag/cinnamon/' class='tag-link-60771' title='2 topics' style='font-size: 8pt;'>cinnamon</a>
+<a href='https://mike632t.wordpress.com/tag/firefox/' class='tag-link-45' title='2 topics' style='font-size: 8pt;'>Firefox</a>
+<a href='https://mike632t.wordpress.com/tag/gnome/' class='tag-link-870' title='3 topics' style='font-size: 9.7319587628866pt;'>GNOME</a>
+<a href='https://mike632t.wordpress.com/tag/jessie/' class='tag-link-2497' title='15 topics' style='font-size: 18.39175257732pt;'>jessie</a>
+<a href='https://mike632t.wordpress.com/tag/lightdm/' class='tag-link-47556870' title='5 topics' style='font-size: 12.329896907216pt;'>lightdm</a>
+<a href='https://mike632t.wordpress.com/tag/mate/' class='tag-link-628611' title='12 topics' style='font-size: 17.092783505155pt;'>MATE</a>
+<a href='https://mike632t.wordpress.com/tag/nfs/' class='tag-link-42966' title='2 topics' style='font-size: 8pt;'>nfs</a>
+<a href='https://mike632t.wordpress.com/tag/photography/' class='tag-link-436' title='4 topics' style='font-size: 11.175257731959pt;'>photography</a>
+<a href='https://mike632t.wordpress.com/tag/python-2/' class='tag-link-27143169' title='2 topics' style='font-size: 8pt;'>python</a>
+<a href='https://mike632t.wordpress.com/tag/qemu/' class='tag-link-332303' title='4 topics' style='font-size: 11.175257731959pt;'>qemu</a>
+<a href='https://mike632t.wordpress.com/tag/raspberry-pi/' class='tag-link-49695267' title='27 topics' style='font-size: 22pt;'>Raspberry Pi</a>
+<a href='https://mike632t.wordpress.com/tag/simh-2/' class='tag-link-149208570' title='4 topics' style='font-size: 11.175257731959pt;'>simh</a>
+<a href='https://mike632t.wordpress.com/tag/squeeze/' class='tag-link-1136340' title='3 topics' style='font-size: 9.7319587628866pt;'>squeeze</a>
+<a href='https://mike632t.wordpress.com/tag/ssh/' class='tag-link-49320' title='4 topics' style='font-size: 11.175257731959pt;'>ssh</a>
+<a href='https://mike632t.wordpress.com/tag/ubuntu-2/' class='tag-link-34920936' title='2 topics' style='font-size: 8pt;'>ubuntu</a>
+<a href='https://mike632t.wordpress.com/tag/ufw/' class='tag-link-4510331' title='2 topics' style='font-size: 8pt;'>UFW</a>
+<a href='https://mike632t.wordpress.com/tag/vax/' class='tag-link-758885' title='3 topics' style='font-size: 9.7319587628866pt;'>vax</a>
+<a href='https://mike632t.wordpress.com/tag/video/' class='tag-link-412' title='4 topics' style='font-size: 11.175257731959pt;'>video</a>
+<a href='https://mike632t.wordpress.com/tag/vms/' class='tag-link-282308' title='5 topics' style='font-size: 12.329896907216pt;'>VMS</a>
+<a href='https://mike632t.wordpress.com/tag/vnc/' class='tag-link-111142' title='2 topics' style='font-size: 8pt;'>vnc</a>
+<a href='https://mike632t.wordpress.com/tag/wheezy/' class='tag-link-1648599' title='7 topics' style='font-size: 14.061855670103pt;'>wheezy</a>
+<a href='https://mike632t.wordpress.com/tag/wireless/' class='tag-link-355' title='4 topics' style='font-size: 11.175257731959pt;'>wireless</a>
+<a href='https://mike632t.wordpress.com/tag/xdmcp/' class='tag-link-2828382' title='5 topics' style='font-size: 12.329896907216pt;'>xdmcp</a>
+<a href='https://mike632t.wordpress.com/tag/xfce/' class='tag-link-156471' title='4 topics' style='font-size: 11.175257731959pt;'>XFCE</a>
+<a href='https://mike632t.wordpress.com/tag/x-windows/' class='tag-link-184618' title='10 topics' style='font-size: 16.082474226804pt;'>X windows</a></div></li>		<li id="recent-posts-2" class="widget-container widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+					<li>
+				<a href="https://mike632t.wordpress.com/2015/11/14/obtaining-a-core-dump/">How to obtain a core dump when a process&nbsp;Segfaults</a>
+						</li>
+					<li>
+				<a href="https://mike632t.wordpress.com/2015/10/05/wireless-networking-on-a-raspberry-pi/">Wireless networking on a Raspberry&nbsp;Pi</a>
+						</li>
+					<li>
+				<a href="https://mike632t.wordpress.com/2015/10/04/enable-shutdown-and-restart-for-remote-sessions/">Enable Shutdown and Restart for Remote&nbsp;Sessions</a>
+						</li>
+					<li>
+				<a href="https://mike632t.wordpress.com/2015/10/02/raspberry-pi-with-firefox-and-thunderbird/">Installing Firefox and Thunderbird on a Raspberry&nbsp;Pi</a>
+						</li>
+					<li>
+				<a href="https://mike632t.wordpress.com/2015/09/30/installing-debian-on-qemu/">Installing Debian wheezy on&nbsp;QEMU</a>
+						</li>
+				</ul>
+		</li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+	</div><!-- #main -->
+
+	<div id="footer" role="contentinfo">
+		<div id="colophon">
+
+
+
+			<div id="site-info">
+				<a href="https://mike632t.wordpress.com/" title="" rel="home">
+									</a>
+			</div><!-- #site-info -->
+
+			<div id="site-generator">
+				<a href="https://wordpress.com/themes/twentyten/" title="Learn more about this theme">The Twenty Ten Theme</a>.				<a href="https://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com</a>.
+			</div><!-- #site-generator -->
+
+		</div><!-- #colophon -->
+	</div><!-- #footer -->
+
+</div><!-- #wrapper -->
+
+<!-- wpcom_wp_footer -->
+	<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/mike632t.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/mike632t.wordpress.com\/wp-login.php?action=logout&_wpnonce=2c2b6730eb","homeURL":"https:\/\/mike632t.wordpress.com\/","postID":"610","gravDefault":"blank","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"1","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1424115551j'></script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431g'></script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??/wp-content/js/devicepx.js,/wp-includes/js/comment-reply.min.js?m=1429298047j'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "mike632t.wordpress.com";
+	</script>
+	<script type="text/javascript" src="https://s.skimresources.com/js/725X1342.skimlinks.js"></script><script src="//stats.wp.com/w.js?48" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'45894271','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'45894271','v':'wpcom','tz':'0','user_id':'0','post':'610','subd':'mike632t'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdTdvUG14Q2VDQTR4LlUsLi82dU1mai9BMjUrbT1FQmUxUTcmVXhzJWJESFtkSFZncmVNSVNPWjI3UDlQdnFDNj0sYl10SXVodUs/WEgraUxfejJMakd5LHhlR009JTVtdmV5cnJba1t0em1GQkc3PVVjLSxyVWRWOFp8cHBkcyV5YXVVfm93aEZFc1pOL3czYmEmLy1KOVYzeWxFVzZnSE0lcThtMzVrLUJ8TUxwODUuNjZ+Wmx3RjFyRzE5US8zV3FFfHdPYT9uRUtYSnJzTHdrQkd8ej9EWmZzRCZOYj9lemhNNCZta2dUczdsal1TR0RLZVMlQ1VIWkNG'}]);
+_stq.push([ 'clickTrackerInit', '45894271', '610' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>

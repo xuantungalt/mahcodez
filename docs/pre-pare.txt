@@ -1,0 +1,54 @@
+sudo su
+passwd root
+useradd -u 1001 alt -m -d /home/alt
+usermod -G root,adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,gpio,i2c,spi alt
+echo 'b7d294797ce92a0e0fee9bf37f33f144' | passwd alt --stdin
+passwd alt
+passwd -l pi
+
+apt-get -y install screen vim pmount chkconfig netcat
+
+update-alternatives --config editor
+update-alternatives: using /usr/bin/vim.basic to provide /usr/bin/editor (editor) in manual mode
+
+Apparently screen only invokes ~/.bashrc before each window.
+Add "shell -$SHELL" to your ~/.screenrc, this will make screen start-up using a login shell which will load your ~/.bash_profile.
+
+svim /etc/fstab
+UUID=3f53a27e-21cb-4760-9699-08451aa4babd   /var/log    ext3    defaults,noatime  0       1
+
+sudo cp /etc/ssh/ssh_config /etc/ssh/ssh_config.origin
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.origin
+sudo cp ssh_config sshd_config /etc/ssh/
+
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install -y apache2 apache2-dev apache2-mpm-prefork \
+apache2-suexec apache2-utils libapache2-mod-fcgid libapache2-mod-svn libsvn-dev subversion-tools \
+php5 php-pear libapache2-mod-php5 php5-cgi php5-cli php5-fpm \
+java-common java-package
+
+svim /etc/default/rcS
+
+tar -zxf jdk-8u73-linux-arm32-vfp-hflt.tar.gz -C /opt/
+sudo update-alternatives --install /usr/bin/javac javac /opt/jdk1.8.0_73/bin/javac 1
+sudo update-alternatives --install /usr/bin/java java /opt/jdk1.8.0_73/bin/java 1
+
+# sudo apt-get remove --purge -y python*
+# sudo rm -rf /usr/lib/python* # Optional
+
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install -y build-essential libncursesw5-dev libgdbm-dev libc6-dev \
+zlib1g-dev libreadline6 libreadline6-dev sqlite3 libsqlite3-dev tk-dev bzip2 libbz2-dev \
+libssl-dev openssl libdbm-ocaml libdbm-ocaml-dev
+
+./configure --prefix=/opt/python2.7.11 --enable-shared --with-system-expat --with-system-ffi --enable-unicode=ucs4
+make -j 5
+
+sudo update-alternatives --install /usr/bin/python python /opt/python2.7.11/bin/python2.7 1
+sudo update-alternatives --install /usr/bin/python-config python-config /opt/python2.7.11/bin/python2.7-config 1
+
+sudo update-alternatives --config python
+sudo update-alternatives --config python-config
+
+sudo apt-get install -y libjpeg9 libjpeg9-dev zlib1g zlib1g-dev libfreetype6 libfreetype6-dev liblcms1 liblcms1-dev \
+imagemagick imagemagick-common libmagick++-dev libmagickwand-dev libmagickcore5-extra

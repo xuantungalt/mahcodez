@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  
+  
+
+
+  <head>
+    <title>
+      Encode/VP8 – FFmpeg
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+        <link rel="search" href="/search" />
+        <link rel="help" href="/wiki/TracGuide" />
+        <link rel="alternate" href="/wiki/Encode/VP8?format=txt" type="text/x-trac-wiki" title="Plain Text" />
+        <link rel="up" href="/wiki/Encode" title="View parent page" />
+        <link rel="start" href="/wiki" />
+        <link rel="stylesheet" href="/chrome/common/css/trac.css" type="text/css" /><link rel="stylesheet" href="/chrome/common/css/wiki.css" type="text/css" /><link rel="stylesheet" href="/chrome/vote/css/tracvote.css" type="text/css" /><link rel="stylesheet" href="/chrome/tags/css/tractags.css" type="text/css" />
+        <link rel="shortcut icon" href="/chrome/common/trac.ico" type="image/x-icon" />
+        <link rel="icon" href="/chrome/common/trac.ico" type="image/x-icon" />
+      <link type="application/opensearchdescription+xml" rel="search" href="/search/opensearch" title="Search FFmpeg" />
+      <script type="text/javascript" charset="utf-8" src="/chrome/common/js/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="/chrome/common/js/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="/chrome/common/js/messages/en_US.js"></script>
+      <script type="text/javascript" charset="utf-8" src="/chrome/common/js/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="/chrome/common/js/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="/chrome/common/js/folding.js"></script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="https://ffmpeg.org"><img src="/ffmpeg-logo.png" alt="FFmpeg" /></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18" value="" />
+          <input type="submit" value="Search" />
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="/login">Login</a></li><li><a href="/prefs">Preferences</a></li><li><a href="/wiki/TracGuide">Help/Guide</a></li><li><a href="/about">About Trac</a></li><li class="last"><a href="/register">Register</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="/wiki">Wiki</a></li><li><a href="/timeline">Timeline</a></li><li><a href="/report">View Tickets</a></li><li><a href="/search">Search</a></li><li class="last"><a href="/tags">Tags</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <h1 style="display: inline;"><a class="pathentry first" title="View WikiStart" href="/wiki">wiki:</a></h1><h1 style="display: inline; color: #b00;"><a class="pathentry" href="/wiki/Encode" title="View Encode">Encode</a></h1><span class="pathentry sep">/</span><h1 style="display: inline; color: #b00;"><a class="pathentry" href="/wiki/Encode/VP8" title="View Encode/VP8">VP8</a></h1>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><span id="vote" title="Vote count"><img src="/chrome/vote/aupgray.png" alt="Up-vote" /><span id="votes">+0</span><img src="/chrome/vote/adowngray.png" alt="Down-vote" /></span></li><li><a href="/wiki/Encode">Up</a></li><li><a href="/wiki/WikiStart">Start Page</a></li><li><a href="/wiki/TitleIndex">Index</a></li><li class="last"><a href="/wiki/Encode/VP8?action=history">History</a></li>
+        </ul>
+        <hr />
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><p>
+libvpx is the VP8 video encoder for <a class="ext-link" href="http://www.webmproject.org/about/"><span class="icon">​</span>WebM</a>, an open, royalty-free media file format. This guide is an attempt to summarize the most important options for creating video with libvpx.
+</p>
+<p>
+To install FFmpeg with support for libvpx, look at the <a href="https://ffmpeg.org/trac/ffmpeg/wiki/CompilationGuide">Compilation Guides</a> and compile FFmpeg with the <tt>--enable-libvpx</tt> option.
+</p>
+<p>
+Note that in the below examples, the libvorbis audio encoder is used. Make sure your FFmpeg version also includes libvorbis (check with <tt>ffmpeg -codecs</tt>), as the native Vorbis encoder from FFmpeg does not provide comparable quality.
+</p>
+<h2 id="VariableBitrate">Variable Bitrate</h2>
+<p>
+libvpx offers a variable bitrate mode by default. In this mode, it will simply try to reach the specified bit rate on average, e.g. 1 MBit/s. This is the "target bitrate".
+</p>
+<pre class="wiki">ffmpeg -i input.mp4 -c:v libvpx -b:v 1M -c:a libvorbis output.webm
+</pre><p>
+Choose a higher bit rate if you want better quality. Note that you shouldn't leave out the <tt>-b:v</tt> option as the default settings will produce mediocre quality output.
+</p>
+<p>
+In addition to the "default" VBR mode, there's a constant quality mode (like in the x264 encoder) that will ensure that every frame gets the number of bits it deserves to achieve a certain quality level, rather than forcing the stream to have an average bit rate. This results in better overall quality and should be your method of choice when you encode video with libvpx. In this case, the target bitrate becomes the maximum allowed bitrate. You enable the constant quality mode with the CRF parameter:
+</p>
+<pre class="wiki">ffmpeg -i input.mp4 -c:v libvpx -crf 10 -b:v 1M -c:a libvorbis output.webm
+</pre><p>
+By default the CRF value can be from 4–63, and 10 is a good starting point. Lower values mean better quality. 
+</p>
+<p>
+<strong>Important:</strong> If neither <tt>-b:v</tt> nor <tt>-crf</tt> are set, the encoder will use a low default bitrate and your result will probably look very bad. Always supply one of these options—ideally both.
+</p>
+<p>
+If you want to tweak the quality even further, you can set two more parameters:
+</p>
+<ul><li><tt>-qmin</tt> – the minimum quantizer (default 4, range 0–63)
+</li><li><tt>-qmax</tt> – the maximum quantizer (default 63, range <tt>qmin</tt>–63)
+</li></ul><p>
+These Q values are quantization parameters, and lower generally means "better quality". If you set the bounds from 0 to 63, this means the encoder has free choice of how to assign the quality. For a better overall quality, you can try to set <tt>-qmin</tt> to 0 and <tt>-qmax</tt> to 50 or lower. For example:
+</p>
+<pre class="wiki">ffmpeg -i input.mp4 -c:v libvpx -qmin 0 -qmax 50 -crf 5 -b:v 1M -c:a libvorbis output.webm
+</pre><p>
+Needless to say that this requires a bit of tweaking. If in CRF mode you set the maximum bit rate too low, or the quality too high (i.e., low <tt>qmin</tt>, <tt>qmax</tt> or <tt>crf</tt>), libvpx will "saturate" the bitrate and you'll end up with constant bit rate encoding again, which is not ideal. To quote the <a class="ext-link" href="http://www.webmproject.org/docs/encoder-parameters/"><span class="icon">​</span>VP8 reference</a>: "In practice this means that easy clips may undershoot the target maximum bitrate, because they are constrained by the CQ level, but harder clips will be bounded by the target maximum data rate and will increasingly revert to standard VBR behavior."
+</p>
+<h2 id="ConstantBitrate">Constant Bitrate</h2>
+<p>
+Like most other encoders, libvpx offers a constant bitrate encoding mode as well, which tries to encode the video in such a way that an average bitrate is reached. This doesn't mean that every frame is encoded with the same amount of bits (since it would harm quality), but the bitrate will be very constrained. You should use constant bitrate encoding if you need your video files to have a certain size, or if you're streaming the videos over a channel that only allows a certain bit rate.
+</p>
+<p>
+The syntax for setting a constant bit rate is:
+</p>
+<pre class="wiki">ffmpeg -i input.mp4 -c:v libvpx -minrate 1M -maxrate 1M -b:v 1M -c:a libvorbis output.webm
+</pre><p>
+Here, you can choose different values for the bitrate other than <tt>1M</tt>, e.g. <tt>500K</tt>, but you must set all options (i.e., <tt>minrate</tt>, <tt>maxrate</tt> and <tt>b:v</tt>) to the same value.
+</p>
+<h2 id="Alsosee">Also see</h2>
+<ul><li><a class="ext-link" href="http://www.webmproject.org/docs/encoder-parameters/"><span class="icon">​</span>VP8 Encode Parameter Guide</a>
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="/wiki/Encode/VP8?action=diff&amp;version=5" title="Version 5 by llogan: add link">Last modified</a> <a class="timeline" href="/timeline?from=2014-05-21T01%3A42%3A56%2B01%3A00&amp;precision=second" title="See timeline at May 21, 2014, 1:42:56 AM">18 months ago</a></span>
+            <span class="trac-print">Last modified on May 21, 2014, 1:42:56 AM</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="/wiki/Encode/VP8?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" lang="en" xml:lang="en"><hr />
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="/chrome/common/trac_logo_mini.png" height="30" width="107" alt="Trac Powered" /></a>
+      <p class="left">Powered by <a href="/about"><strong>Trac 1.0.1</strong></a><br />
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the Trac open source project at<br /><a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a></p>
+    </div>
+  </body>
+</html>

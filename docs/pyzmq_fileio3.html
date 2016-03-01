@@ -1,0 +1,433 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>File transfer test, model 3 in Python - ØMQ - The Guide</title>
+    
+    	<script type="text/javascript" src="http://www.wikidot.com/default__flow/login__CustomDomainScript?site_id=193426"></script>
+
+    
+    <script type="text/javascript" src="http://static.wikidot.com/v--811d59f5bc66/common--javascript/init.combined.js"></script>
+    <script  type="text/javascript">
+        var URL_HOST = 'www.wikidot.com';
+        var URL_DOMAIN = 'wikidot.com';
+        var USE_SSL =  true ;
+        var URL_STATIC = 'http://static.wikidot.com/v--811d59f5bc66';
+        // global request information
+        
+        var WIKIREQUEST = {};
+        WIKIREQUEST.info = {};
+        
+        WIKIREQUEST.info.domain = "zguide.zeromq.org";
+        WIKIREQUEST.info.siteId = 193426;
+        WIKIREQUEST.info.siteUnixName = "zguide";
+        WIKIREQUEST.info.categoryId = 1769231;
+        WIKIREQUEST.info.themeId = 1;
+        WIKIREQUEST.info.requestPageName = "py:fileio3";
+        OZONE.request.timestamp = 1411456500;
+        OZONE.request.date = new Date();
+        WIKIREQUEST.info.lang = 'en';
+                WIKIREQUEST.info.pageUnixName = "py:fileio3";
+        WIKIREQUEST.info.pageId = 14507055;
+                        WIKIREQUEST.info.lang = "en";
+        OZONE.lang = "en";
+        var isUAMobile = !!/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    </script>
+    
+    
+
+
+    
+        <script  type="text/javascript">
+    
+        require.config({
+            baseUrl: URL_STATIC + '/common--javascript',
+            paths: {
+                'jquery.ui': 'jquery-ui-1.10.3.custom.min',
+                'jquery.form': 'jquery.form'
+            }
+        });
+    
+    </script>
+    
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+            
+    
+    
+    
+    
+    <meta http-equiv="content-language" content="en"/>
+    <script type="text/javascript" src="http://static.wikidot.com/v--811d59f5bc66/common--javascript/WIKIDOT.combined.js"></script>
+        
+    
+    <style type="text/css" id="internal-style">
+        
+        /* modules */
+        
+                
+        /* theme */
+                    @import url(http://static.wikidot.com/v--811d59f5bc66/common--theme/base/css/style.css);
+                    @import url(http://zguide.wdfiles.com/local--code/admin:css/1);
+            </style>
+    
+        
+        
+        
+    <link rel="shortcut icon" href="/local--favicon/favicon.gif"/>
+    <link rel="icon" type="image/gif" href="/local--favicon/favicon.gif"/>
+    
+            <link rel="apple-touch-icon" href="/common--images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="/common--images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="/common--images/apple-touch-icon-114x114.png" />
+        
+        
+            <link rel="alternate" type="application/wiki" title="Edit this page" href="javascript:WIKIDOT.page.listeners.editClick()"/>
+    
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-18234656-1']);
+        _gaq.push(['_setDomainName', 'none']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+
+        _gaq.push(['old._setAccount', 'UA-68540-5']);
+        _gaq.push(['old._setDomainName', 'none']);
+        _gaq.push(['old._setAllowLinker', true]);
+        _gaq.push(['old._trackPageview']);
+
+                _gaq.push(['userTracker._setAccount', 'UA-3207370-7']);
+        _gaq.push(['userTracker._trackPageview']);
+            </script>
+    
+    <script type="text/javascript">
+        window.google_analytics_uacct = 'UA-18234656-1';
+        window.google_analytics_domain_name = 'none';
+    </script>
+    
+    <style>
+.foldedtoc #toc #toc-action-bar { display: none }
+.foldedtoc #toc .title { display: none; border: 0px solid black; }
+.foldedtoc #toc { border: 0px solid black; margin: 0 0 0 -0,9em; }
+.foldedtoc .collapsible-block-link { text-decoration:none }
+</style>
+<style>
+@media print {
+    #side-bar  { display: none; }
+    #main-content { margin-left: 0; }
+    .page-watch-options { display: none; }
+    #page-options-bottom { display: none; }
+    #login-status { display: none; }
+    #search-top-box { display: none; }
+    .main-text { width:100%; font-size:9pt; }
+    .right-bar { display: none; }
+    .foldedtoc { display: none; }
+    div.code { overflow: visible; }
+    #container-wrap { width: 100%; }
+    #main-content { width: 100%; }
+    #footer { width: 100%; }
+}
+</style>
+</head>
+<body id="html-body">
+<div id="skrollr-body">
+<a name="page-top"></a>
+
+<div id="container-wrap-wrap">
+    <div id="container-wrap">
+        <div id="container">
+            <div id="header">
+              <h1><a href="/"><span>ØMQ - The Guide</span></a></h1>
+                
+                
+                <!-- google_ad_section_start(weight=ignore) -->
+                
+                <div id="search-top-box" class="form-search">
+    <form id="search-top-box-form" action="dummy" class="input-append">
+        <input id="search-top-box-input" class="text empty search-query" type="text" size="15" name="query" value="Search this site" onfocus="if(YAHOO.util.Dom.hasClass(this, 'empty')){YAHOO.util.Dom.removeClass(this,'empty'); this.value='';}"/><input class="button btn" type="submit" name="search" value="Search"/>
+    </form>
+</div>
+                
+                
+                    <div id="top-bar">
+                        
+
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="javascript:;">Admin</a>
+<ul>
+<li><a class="wiki-standalone-button" href="javascript:;" onclick="WIKIDOT.page.listeners.editClick(event)">Edit page</a></li>
+<li><a class="wiki-standalone-button" href="javascript:;" onclick="WIKIDOT.page.listeners.printClick(event)">Print page</a></li>
+<li><a href="/nav:top/edit/true">Edit this menu</a></li>
+<li><a href="/nav:side/edit/true">Edit side menu</a></li>
+<li><a href="/system:list-all-categories">Page categories</a></li>
+<li><a href="/system:recent-changes">Recent changes</a></li>
+<li><a href="/admin:themes">Change theme</a></li>
+<li><a href="/admin:manage">Manage site</a></li>
+</ul>
+</li>
+<li><a href="javascript:;">Help</a>
+<ul>
+<li><a href="/help">Wiki syntax</a></li>
+<li><a href="/modules-reference">Modules reference</a></li>
+</ul>
+</li>
+</ul>
+
+                    </div>
+                
+                <div id="login-status"><a href="javascript:;" onclick="WIKIDOT.page.listeners.createAccount(event)" class="login-status-create-account btn">Create account</a> <span>or</span> <a href="javascript:;" onclick="WIKIDOT.page.listeners.loginClick(event)" class="login-status-sign-in btn btn-primary">Sign in</a> </div>
+                <div id="header-extra-div-1"><span></span></div><div id="header-extra-div-2"><span></span></div><div id="header-extra-div-3"><span></span></div>
+            </div>
+            
+            <div id="content-wrap">
+                
+                    <div id="side-bar">
+                        
+
+
+                        
+
+<p>This page is not used.</p>
+
+                        
+
+
+                    </div>
+                
+                
+                <!-- google_ad_section_end -->
+                
+                <div id="main-content">
+                    <div id="action-area-top"></div>
+                    
+                    
+                        <div id="page-title">
+                            File transfer test, model 3 in Python
+                        </div>
+                    
+
+                    
+
+                    
+
+
+
+                    <div id="page-content">
+                        
+
+
+
+
+
+
+<p><a name="top"></a></p>
+<div class="foldedtoc" style="border:1px black dashed;float:left;margin:10px">
+<div class="collapsible-block">
+<div class="collapsible-block-folded"><a class="collapsible-block-link" href="javascript:;">Table&nbsp;of&nbsp;Contents</a></div>
+<div class="collapsible-block-unfolded" style="display:none">
+<div class="collapsible-block-unfolded-link"><a class="collapsible-block-link" href="javascript:;">Table&nbsp;of&nbsp;Contents</a></div>
+<div class="collapsible-block-content">
+<table style="margin:0; padding:0">
+<tr>
+<td style="margin:0; padding:0">
+<div id="toc">
+<div id="toc-action-bar"><a href="javascript:;" onclick="WIKIDOT.page.listeners.foldToc(event)">Fold</a><a style="display: none" href="javascript:;" onclick="WIKIDOT.page.listeners.unfoldToc(event)">Unfold</a></div>
+<div class="title">Table of Contents</div>
+<div id="toc-list"></div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div style="clear:both; height: 0px; font-size: 1px"></div>
+<div class="code">
+<p><span style="color:#408080"><em># File Transfer model #3</em></span><br />
+<span style="color:#408080"><em>#</em></span><br />
+<span style="color:#408080"><em># In which the client requests each chunk individually, using</em></span><br />
+<span style="color:#408080"><em># command pipelining to give us a credit-based flow control.</em></span></p>
+<p><span style="color:#008000"><strong>import</strong></span> <span style="color:#0000FF"><strong>os</strong></span><br />
+<span style="color:#008000"><strong>from</strong></span> <span style="color:#0000FF"><strong>threading</strong></span> <span style="color:#008000"><strong>import</strong></span> Thread</p>
+<p><span style="color:#008000"><strong>import</strong></span> <span style="color:#0000FF"><strong>zmq</strong></span></p>
+<p><span style="color:#008000"><strong>from</strong></span> <span style="color:#0000FF"><strong>zhelpers</strong></span> <span style="color:#008000"><strong>import</strong></span> socket_set_hwm, zpipe</p>
+<p>CHUNK_SIZE <span style="color:#666666">=</span> <span style="color:#666666">250000</span></p>
+<p><span style="color:#008000"><strong>def</strong></span> <span style="color:#0000FF">client_thread</span>(ctx, pipe):<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>dealer <span style="color:#666666">=</span> ctx<span style="color:#666666">.</span>socket(zmq<span style="color:#666666">.</span>DEALER)<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>socket_set_hwm(dealer, <span style="color:#666666">1</span>)<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>dealer<span style="color:#666666">.</span>connect(<span style="color:#BA2121">&quot;tcp:<span style="white-space: pre-wrap;">//</span>127.0.0.1:6000&quot;</span>)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>total <span style="color:#666666">=</span> <span style="color:#666666">0</span><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># Total bytes received</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>chunks <span style="color:#666666">=</span> <span style="color:#666666">0</span><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># Total chunks received</em></span></p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>while</strong></span> <span style="color:#008000">True</span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># ask for next chunk</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>dealer<span style="color:#666666">.</span>send_multipart(<span style="white-space: pre-wrap;">[</span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>b<span style="color:#BA2121">&quot;fetch&quot;</span>,<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>b<span style="color:#BA2121">&quot;</span><span style="color:#BB6688"><strong>%i</strong></span><span style="color:#BA2121">&quot;</span> <span style="color:#666666">%</span> total,<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>b<span style="color:#BA2121">&quot;</span><span style="color:#BB6688"><strong>%i</strong></span><span style="color:#BA2121">&quot;</span> <span style="color:#666666">%</span> CHUNK_SIZE<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="white-space: pre-wrap;">]</span>)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>try</strong></span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>chunk <span style="color:#666666">=</span> dealer<span style="color:#666666">.</span>recv()<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>except</strong></span> zmq<span style="color:#666666">.</span>ZMQError <span style="color:#008000"><strong>as</strong></span> e:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>if</strong></span> e<span style="color:#666666">.</span>errno <span style="color:#666666">==</span> zmq<span style="color:#666666">.</span>ETERM:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>return</strong></span><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># shutting down, quit</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>else</strong></span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>raise</strong></span></p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>chunks <span style="color:#666666">+=</span> <span style="color:#666666">1</span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>size <span style="color:#666666">=</span> <span style="color:#008000">len</span>(chunk)<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>total <span style="color:#666666">+=</span> size<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>if</strong></span> size <span style="color:#666666">&lt;</span> CHUNK_SIZE:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>break</strong></span><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># Last chunk received; exit</em></span></p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>print</strong></span> (<span style="color:#BA2121">&quot;</span><span style="color:#BB6688"><strong>%i</strong></span> <span style="color:#BA2121">chunks received,</span> <span style="color:#BB6688"><strong>%i</strong></span> <span style="color:#BA2121">bytes&quot;</span> <span style="color:#666666">%</span> (chunks, total))<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>pipe<span style="color:#666666">.</span>send(b<span style="color:#BA2121">&quot;OK&quot;</span>)</p>
+<p><span style="color:#408080"><em># The server thread waits for a chunk request from a client,</em></span><br />
+<span style="color:#408080"><em># reads that chunk and sends it back to the client:</em></span></p>
+<p><span style="color:#008000"><strong>def</strong></span> <span style="color:#0000FF">server_thread</span>(ctx):<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000">file</span> <span style="color:#666666">=</span> <span style="color:#008000">open</span>(<span style="color:#BA2121">&quot;testdata&quot;</span>, <span style="color:#BA2121">&quot;r&quot;</span>)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>router <span style="color:#666666">=</span> ctx<span style="color:#666666">.</span>socket(zmq<span style="color:#666666">.</span>ROUTER)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>router<span style="color:#666666">.</span>bind(<span style="color:#BA2121">&quot;tcp:<span style="white-space: pre-wrap;">//</span>*:6000&quot;</span>)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>while</strong></span> <span style="color:#008000">True</span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># First frame in each message is the sender identity</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># Second frame is &quot;fetch&quot; command</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>try</strong></span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>msg <span style="color:#666666">=</span> router<span style="color:#666666">.</span>recv_multipart()<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>except</strong></span> zmq<span style="color:#666666">.</span>ZMQError <span style="color:#008000"><strong>as</strong></span> e:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>if</strong></span> e<span style="color:#666666">.</span>errno <span style="color:#666666">==</span> zmq<span style="color:#666666">.</span>ETERM:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>return</strong></span><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># shutting down, quit</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>else</strong></span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>raise</strong></span></p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>identity, command, offset_str, chunksz_str <span style="color:#666666">=</span> msg</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>assert</strong></span> command <span style="color:#666666">==</span> b<span style="color:#BA2121">&quot;fetch&quot;</span></p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>offset <span style="color:#666666">=</span> <span style="color:#008000">int</span>(offset_str)<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>chunksz <span style="color:#666666">=</span> <span style="color:#008000">int</span>(chunksz_str)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># Read chunk of data from file</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000">file</span><span style="color:#666666">.</span>seek(offset, os<span style="color:#666666">.</span>SEEK_SET)<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>data <span style="color:#666666">=</span> <span style="color:#008000">file</span><span style="color:#666666">.</span>read(chunksz)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># Send resulting chunk to client</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt>router<span style="color:#666666">.</span>send_multipart(<span style="white-space: pre-wrap;">[</span>identity, data<span style="white-space: pre-wrap;">]</span>)</p>
+<p><span style="color:#408080"><em># The main task is just the same as in the first model.</em></span></p>
+<p><span style="color:#008000"><strong>def</strong></span> <span style="color:#0000FF">main</span>():</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># Start child threads</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>ctx <span style="color:#666666">=</span> zmq<span style="color:#666666">.</span>Context()<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>a,b <span style="color:#666666">=</span> zpipe(ctx)</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>client <span style="color:#666666">=</span> Thread(target<span style="color:#666666">=</span>client_thread, args<span style="color:#666666">=</span>(ctx, b))<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>server <span style="color:#666666">=</span> Thread(target<span style="color:#666666">=</span>server_thread, args<span style="color:#666666">=</span>(ctx,))<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>client<span style="color:#666666">.</span>start()<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>server<span style="color:#666666">.</span>start()</p>
+<p><tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#408080"><em># loop until client tells us it's done</em></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>try</strong></span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>print</strong></span> a<span style="color:#666666">.</span>recv()<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>except</strong></span> <span style="color:#D2413A"><strong>KeyboardInterrupt</strong></span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>pass</strong></span><br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt><span style="color:#008000"><strong>del</strong></span> a,b<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>ctx<span style="color:#666666">.</span>term()</p>
+<p><span style="color:#008000"><strong>if</strong></span> <span style="white-space: pre-wrap;">__</span>name<span style="white-space: pre-wrap;">__</span> <span style="color:#666666">==</span> <span style="color:#BA2121">'<span style="white-space: pre-wrap;">__</span>main<span style="white-space: pre-wrap;">__</span>'</span>:<br />
+<tt><span style="white-space: pre-wrap;">&#32;&#32;&#32;&#32;</span></tt>main()</p>
+</div>
+
+                    </div>
+
+                    
+
+
+
+                    
+
+                    <div id="page-info-break"></div>
+                    
+                        <div id="page-options-container">
+                            
+                        </div>
+                    
+                    <div id="action-area" style="display: none;"></div>
+                </div>
+            </div>
+            
+            
+            
+            <div id="footer" style="display: block; visibility: visible;">
+                
+
+<p>Web site design and content is copyright (c) 2014 iMatix Corporation. <a href="http://www.imatix.com/contact">Contact us for professional support.</a> Site content licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/">cc-by-sa 3.0</a> ØMQ is copyright (c) Copyright (c) 2007-2014 iMatix Corporation and Contributors. ØMQ is free software licensed under the LGPL. ØMQ and ZEROMQ are trademarks of iMatix Corporation. <a href="/legal:terms-of-use">Terms of Use</a> &#8212; <a href="/legal:privacy-policy">Privacy Policy</a></p>
+
+            </div>
+            
+            
+            
+
+
+
+            <div id="extrac-div-1"><span></span></div><div id="extrac-div-2"><span></span></div><div id="extrac-div-3"><span></span></div>
+            
+            
+            
+            
+                
+            
+            
+
+
+        </div>
+        
+    </div>
+<!-- These extra divs/spans may be used as catch-alls to add extra imagery. -->
+<div id="extra-div-1"><span></span></div><div id="extra-div-2"><span></span></div><div id="extra-div-3"><span></span></div>
+<div id="extra-div-4"><span></span></div><div id="extra-div-5"><span></span></div><div id="extra-div-6"><span></span></div>
+</div>
+</div>
+<div id="dummy-ondomready-block" style="display: none;" ></div>
+    <!-- Google Analytics load -->
+    <script type="text/javascript">
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    <!-- Quantcast -->
+    <script type="text/javascript">
+    _qoptions={
+        qacct:"p-edL3gsnUjJzw-"
+    };
+    (function() {
+        var qc = document.createElement('script'); qc.type = 'text/javascript'; qc.async = true;
+        qc.src = ('https:' == document.location.protocol ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(qc, s);
+    })();
+    </script>
+    <noscript>
+        <img src="http://pixel.quantserve.com/pixel/p-edL3gsnUjJzw-.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+    </noscript>
+
+
+
+
+<div id="page-options-bottom-tips" style="display: none;">
+    <div id="edit-button-hovertip">
+        Click here to edit contents of this page.    </div>
+</div>
+<div id="page-options-bottom-2-tips"  style="display: none;">
+    <div id="edit-sections-button-hovertip">
+        Click here to toggle editing of individual sections of the page (if possible).         Watch headings for an &quot;edit&quot; link when available.    </div>
+    <div id="edit-append-button-hovertip">
+        Append content without editing the whole page source.    </div>
+    <div id="history-button-hovertip">
+        Check out how this page has evolved in the past.    </div>
+    <div id="discuss-button-hovertip">
+        If you want to discuss contents of this page - this is the easiest way to do it.    </div>
+    <div id="files-button-hovertip">
+        View and manage file attachments for this page.    </div>
+    <div id="site-tools-button-hovertip">
+        A few useful tools to manage this Site.    </div>
+    <div id="backlinks-button-hovertip">
+        See pages that link to and include this page.    </div>
+    <div id="rename-move-button-hovertip">
+        Change the name (also URL address, possibly the category) of the page.    </div>
+    <div id="view-source-button-hovertip">
+        View wiki source for this page without editing.    </div>
+    <div id="parent-page-button-hovertip">  
+        View/set parent page (used for creating breadcrumbs and structured layout).    </div>
+    </div>
+</body>
+</html>

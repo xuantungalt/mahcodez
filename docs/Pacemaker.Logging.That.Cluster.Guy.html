@@ -1,0 +1,497 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Pacemaker Logging &#8211; That Cluster Guy</title>
+<meta name="description" content="Normal operation
+
+">
+<meta name="keywords" content="tips, documentation">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Pacemaker Logging">
+<meta name="twitter:description" content="Normal operation
+
+">
+<meta name="twitter:site" content="@beekhof">
+<meta name="twitter:creator" content="@beekhof">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.clusterlabs.org/images/blue-yellow-banner-thin.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pacemaker Logging">
+<meta property="og:description" content="Normal operation
+
+">
+<meta property="og:url" content="http://blog.clusterlabs.org/blog/2013/pacemaker-logging">
+<meta property="og:site_name" content="That Cluster Guy">
+
+
+
+
+
+<link rel="canonical" href="http://blog.clusterlabs.org/blog/2013/pacemaker-logging">
+<link href="http://blog.clusterlabs.org/feed.xml" type="application/atom+xml" rel="alternate" title="That Cluster Guy Feed">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://blog.clusterlabs.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://blog.clusterlabs.org/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://blog.clusterlabs.org/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://blog.clusterlabs.org/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.clusterlabs.org/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.clusterlabs.org/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.clusterlabs.org/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.clusterlabs.org/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.clusterlabs.org/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.clusterlabs.org/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://blog.clusterlabs.org">That Cluster Guy</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+					    
+					        
+					    
+					    <li><a href="http://blog.clusterlabs.org/feed.xml" >RSS</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://blog.clusterlabs.org/posts/" >Archives</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://blog.clusterlabs.org/about/" >About</a></li>
+					  
+					    
+					        
+					        
+					    <li><a href="http://clusterlabs.org/doc" target="_blank">Pacemaker Documentation</a></li>
+					  
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+  <div class="image-wrap">
+  <img src=
+    
+      "http://blog.clusterlabs.org/images/blue-yellow-banner-thin.jpg"
+    
+  alt="Pacemaker Logging feature image">
+  
+    <span class="image-credit">Photo Credit: <a href="http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/">WeGraphics</a></span>
+  
+  </div><!-- /.image-wrap -->
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+
+	<img src="http://blog.clusterlabs.org/images/andrew-bio.png" class="bio-photo" alt="Andrew Beekhof bio photo">
+
+<h3>Andrew Beekhof</h3>
+<p>Cluster guy to the rich and famous</p>
+<a href="mailto:andrew@beekhof.net" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+<a href="http://twitter.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+
+
+<a href="http://linkedin.com/in/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i> LinkedIn</a>
+
+
+<a href="http://github.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+
+<div id="tag-cloud">
+  <h4>Tag Cloud</h4>
+
+  <a href="/tag/general.html" style="font-size: 56%"> general</a>
+
+  <a href="/tag/tips.html" style="font-size: 123%"> tips</a>
+
+  <a href="/tag/humor.html" style="font-size: 56%"> humor</a>
+
+  <a href="/tag/announce.html" style="font-size: 210%"> announce</a>
+
+  <a href="/tag/internals.html" style="font-size: 63%"> internals</a>
+
+  <a href="/tag/documentation.html" style="font-size: 96%"> documentation</a>
+
+  <a href="/tag/site-news.html" style="font-size: 83%"> Site News</a>
+
+  <a href="/tag/performance.html" style="font-size: 63%"> performance</a>
+
+  <a href="/tag/feature-spotlight.html" style="font-size: 63%"> Feature Spotlight</a>
+
+  <a href="/tag/openstack.html" style="font-size: 76%"> openstack</a>
+
+  <a href="/tag/compute-node.html" style="font-size: 56%"> compute node</a>
+
+  <a href="/tag/pacemaker-remote.html" style="font-size: 56%"> pacemaker remote</a>
+
+  <a href="/tag/cluster.html" style="font-size: 76%"> cluster</a>
+
+  <a href="/tag/concepts.html" style="font-size: 76%"> concepts</a>
+
+  <a href="/tag/fencing.html" style="font-size: 56%"> fencing</a>
+
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="http://blog.clusterlabs.org/blog/2013/pacemaker-logging" rel="bookmark" title="Pacemaker Logging">Pacemaker Logging</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <h3 id="normal-operation">Normal operation</h3>
+
+<p>Pacemaker inherits most of its logging setting from either CMAN or
+Corosync - depending on what its running on top of.</p>
+
+<p>In order to avoid spamming syslog, Pacemaker only logs a summary of
+its actions (NOTICE and above) to syslog.</p>
+
+<p>If the level of detail in syslog is insufficient, you should enable a
+cluster log file.  Normally one is configured by default and it
+contains everything except debug and trace messages.</p>
+
+<p>To find the location of this file, either examine your CMAN
+(<code>cluster.conf</code>) or Corosync (<code>corosync.conf</code>) configuration file or
+look for syslog entries such as:</p>
+
+<pre><code>pacemakerd[1823]:   notice: crm_add_logfile: Additional logging available in /var/log/cluster/corosync.log
+</code></pre>
+
+<p>If you do not see a line like this, either update the cluster
+configuration or set <code>PCMK_debugfile</code> in <code>/etc/sysconfig/pacemaker</code></p>
+
+<blockquote>
+  <p><code>crm_report</code> also knows how to find all the Pacemaker related logs
+and blackbox files</p>
+</blockquote>
+
+<p>If the level of detail in the cluster log file is still insufficient,
+or you simply wish to go blind, you can turn on debugging in
+Corosync/CMAN, or set <code>PCMK_debug</code> in <code>/etc/sysconfig/pacemaker</code>.</p>
+
+<p>A minor advantage of setting <code>PCMK_debug</code> is that the value can be a
+comma-separated list of processes which should produce debug logging
+instead of a global yes/no.</p>
+
+<h3 id="when-an-error-occurs">When an ERROR occurs</h3>
+
+<p>Pacemaker includes support for a blackbox.</p>
+
+<p>When enabled, the blackbox contains a rolling buffer of all logs (not
+just those sent to syslog or a file) and is written to disk after a
+crash or assertion failure.</p>
+
+<p>The blackbox recorder can be enabled by setting <code>PCMK_blackbox</code> in
+<code>/etc/sysconfig/pacemaker</code> or at runtime by sending SIGUSR1. Eg.</p>
+
+<pre><code>killall -USR1 crmd
+</code></pre>
+
+<p>When enabled you’ll see a log such as:</p>
+
+<pre><code>crmd[1811]:   notice: crm_enable_blackbox: Initiated blackbox recorder: /var/lib/pacemaker/blackbox/crmd-1811
+</code></pre>
+
+<p>If a crash occurs, the blackbox will be available at that location.
+To extract the contents, pass it to <code>qb-blackbox</code>:</p>
+
+<pre><code>qb-blackbox /var/lib/pacemaker/blackbox/crmd-1811
+</code></pre>
+
+<p>Which produces output like:</p>
+
+<pre><code>Dumping the contents of /var/lib/pacemaker/blackbox/crmd-1811
+[debug] shm size:5242880; real_size:5242880; rb-&gt;word_size:1310720
+[debug] read total of: 5242892
+Ringbuffer:
+ -&gt;NORMAL
+ -&gt;write_pt [5588]
+ -&gt;read_pt [0]
+ -&gt;size [1310720 words]
+ =&gt;free [5220524 bytes]
+ =&gt;used [22352 bytes]
+...
+trace   May 19 23:20:55 gio_read_socket(368):0: 0x11ab920.5 1 (ref=1)
+trace   May 19 23:20:55 pcmk_ipc_accept(458):0: Connection 0x11aee00
+info    May 19 23:20:55 crm_client_new(302):0: Connecting 0x11aee00 for uid=0 gid=0 pid=24425 id=0e943a2a-dd64-49bc-b9d5-10fa6c6cb1bd
+debug   May 19 23:20:55 handle_new_connection(465):2147483648: IPC credentials authenticated (24414-24425-14)
+...
+[debug] Free'ing ringbuffer: /dev/shm/qb-create_from_file-header
+</code></pre>
+
+<p>When an ERROR occurs you’ll also see the function and line number that produced it such as:</p>
+
+<pre><code>crmd[1811]: Problem detected at child_death_dispatch:872 (mainloop.c), please see /var/lib/pacemaker/blackbox/crmd-1811.1 for additional details
+crmd[1811]: Problem detected at main:94 (crmd.c), please see /var/lib/pacemaker/blackbox/crmd-1811.2 for additional details
+</code></pre>
+
+<p>Again, simply pass the files to <code>qb-blackbox</code> to extract and query the contents.</p>
+
+<blockquote>
+  <p>Note the a counter is added to the end so as to avoid name collisions.</p>
+</blockquote>
+
+<h3 id="diving-into-files-and-functions">Diving into files and functions</h3>
+
+<p>In case you have not already guessed, all logs include the name of the
+function that generated them.  So:</p>
+
+<pre><code>crmd[1811]:   notice: crm_update_peer_state: cman_event_callback: Node corosync-host-1[1] - state is now lost (was member)
+</code></pre>
+
+<p>came from the function <code>crm_update_peer_state()</code>.</p>
+
+<p>To obtain more detail from that or any other function, you can set
+<code>PCMK_trace_functions</code> in <code>/etc/sysconfig/pacemaker</code> to a comma
+separated list of function names. Eg.</p>
+
+<pre><code>PCMK_trace_functions=crm_update_peer_state,run_graph
+</code></pre>
+
+<p>For a bigger stick, you may also activate trace logging for all the
+functions in a particular source file or files by setting
+<code>PCMK_trace_files</code> as well.</p>
+
+<pre><code>PCMK_trace_files=cluster.c,election.c
+</code></pre>
+
+<p>These additional logs are sent to the cluster log file.
+Note that enabling tracing options also alters the output format.</p>
+
+<p>Instead of:</p>
+
+<pre><code>crmd:  notice: crm_cluster_connect: 	Connecting to cluster infrastructure: cman
+</code></pre>
+
+<p>the output includes file and line information:</p>
+
+<pre><code>crmd: (   cluster.c:215   )  notice: crm_cluster_connect: 	Connecting to cluster infrastructure: cman
+</code></pre>
+
+<h3 id="but-wait-theres-still-more">But wait there’s still more</h3>
+
+<p>Still need more detail?  You’re in luck!  The blackbox can be dumped
+at any time, not just when an error occurs.</p>
+
+<p>First, make sure the blackbox is active (we’ll assume its the <code>crmd</code> that needs to be debugged):</p>
+
+<pre><code>killall -USR1 crmd
+</code></pre>
+
+<p>Next, discard any previous contents by dumping them to disk</p>
+
+<pre><code>killall -TRAP crmd
+</code></pre>
+
+<p>now cause whatever condition you’re trying to debug, and send <code>-TRAP</code>
+when you’re ready to see the result.</p>
+
+<pre><code>killall -TRAP crmd
+</code></pre>
+
+<p>You can now look for the result in syslog:</p>
+
+<pre><code>grep -e crm_write_blackbox: /var/log/messages
+</code></pre>
+
+<p>This will include a filename containing the trace logging:</p>
+
+<pre><code>crmd[1811]:   notice: crm_write_blackbox: Blackbox dump requested, please see /var/lib/pacemaker/blackbox/crmd-1811.1 for contents
+crmd[1811]:   notice: crm_write_blackbox: Blackbox dump requested, please see /var/lib/pacemaker/blackbox/crmd-1811.2 for contents
+</code></pre>
+
+<p>To extract the trace loging for our test, pass the most recent file to <code>qb-blackbox</code>:</p>
+
+<pre><code>qb-blackbox /var/lib/pacemaker/blackbox/crmd-1811.2
+</code></pre>
+
+<p>At this point you’ll probably want to use grep :)</p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+
+
+
+	<img src="http://blog.clusterlabs.org/images/andrew-bio.png" class="bio-photo" alt="Andrew Beekhof bio photo">
+
+<h3>Andrew Beekhof</h3>
+<p>Cluster guy to the rich and famous</p>
+<a href="mailto:andrew@beekhof.net" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+<a href="http://twitter.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+
+
+<a href="http://linkedin.com/in/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i> LinkedIn</a>
+
+
+<a href="http://github.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+
+<div id="tag-cloud">
+  <h4>Tag Cloud</h4>
+
+  <a href="/tag/general.html" style="font-size: 56%"> general</a>
+
+  <a href="/tag/tips.html" style="font-size: 123%"> tips</a>
+
+  <a href="/tag/humor.html" style="font-size: 56%"> humor</a>
+
+  <a href="/tag/announce.html" style="font-size: 210%"> announce</a>
+
+  <a href="/tag/internals.html" style="font-size: 63%"> internals</a>
+
+  <a href="/tag/documentation.html" style="font-size: 96%"> documentation</a>
+
+  <a href="/tag/site-news.html" style="font-size: 83%"> Site News</a>
+
+  <a href="/tag/performance.html" style="font-size: 63%"> performance</a>
+
+  <a href="/tag/feature-spotlight.html" style="font-size: 63%"> Feature Spotlight</a>
+
+  <a href="/tag/openstack.html" style="font-size: 76%"> openstack</a>
+
+  <a href="/tag/compute-node.html" style="font-size: 56%"> compute node</a>
+
+  <a href="/tag/pacemaker-remote.html" style="font-size: 56%"> pacemaker remote</a>
+
+  <a href="/tag/cluster.html" style="font-size: 76%"> cluster</a>
+
+  <a href="/tag/concepts.html" style="font-size: 76%"> concepts</a>
+
+  <a href="/tag/fencing.html" style="font-size: 56%"> fencing</a>
+
+</div>
+
+        </div>
+        <p class="byline"><strong><a href="http://blog.clusterlabs.org/blog/2013/pacemaker-logging" rel="bookmark" title="Pacemaker Logging">Pacemaker Logging</a></strong> was first published at <a href="http://blog.clusterlabs.org" rel="bookmark" title="That Cluster Guy">That Cluster Guy</a> on <time datetime="2013-05-20T13:43:00+00:00">May 20, 2013</time></p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://blog.clusterlabs.org/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://blog.clusterlabs.org/blog/2015/minimum-viable-cluster" title="Minimum Viable Cluster">Minimum Viable Cluster</a></li>
+    
+      <li><a href="http://blog.clusterlabs.org/blog/2015/reliable-notifications" title="Receiving Reliable Notification of Cluster Events">Receiving Reliable Notification of Cluster Events</a></li>
+    
+      <li><a href="http://blog.clusterlabs.org/blog/2015/sbd-fun-and-profit" title="Fencing for Fun and Profit with SBD">Fencing for Fun and Profit with SBD</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    
+
+<span>&copy; 2015 Andrew Beekhof. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.clusterlabs.org/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.clusterlabs.org/assets/js/scripts.min.js"></script>
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'theclusterguy'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+	        
+
+</body>
+</html>

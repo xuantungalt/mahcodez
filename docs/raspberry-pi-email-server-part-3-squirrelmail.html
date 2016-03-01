@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7"  lang="en" dir="ltr"><![endif]-->
+<!--[if lte IE 6]><html class="lt-ie9 lt-ie8 lt-ie7"  lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8"  lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9"  lang="en" dir="ltr"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html  lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta charset="utf-8" />
+<link rel="shortcut icon" href="https://samhobbs.co.uk/sites/all/themes/neptunesam/favicon.ico" type="image/vnd.microsoft.icon" />
+<meta name="description" content="How to set up webmail for your Raspberry Pi email server with Squirrelmail." />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://samhobbs.co.uk/2013/12/raspberry-pi-email-server-part-3-squirrelmail" />
+<link rel="shortlink" href="https://samhobbs.co.uk/node/8" />
+  <title>Raspberry Pi Email Server Part 3: Squirrelmail | samhobbs.co.uk</title>
+
+  <script type="text/javascript">
+  WebFontConfig = { google: { families: [ 'Montserrat', 'Istok Web' ] } };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+  </script>
+
+      <meta name="MobileOptimized" content="width">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="cleartype" content="on">
+
+  <link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_kShW4RPmRstZ3SpIC-ZvVGNFVAi0WEMuCnI0ZkYIaFw.css" />
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_BLgRnCu8Q5_ImBBuARywH9vbfX2keESRDUv0UrNczmY.css" />
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_LIE9eSEFaSYt-z9r5-SniRbXLMlMcg2Mc9NbfHusQQU.css" />
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_hDCkdrnoNzDqOljvZ2AWBj2c2oCm6XIqawRd3mR39ZM.css" />
+  <script src="https://samhobbs.co.uk/sites/default/files/js/js_xAPl0qIk9eowy_iS9tNkCWXLUVoat94SQT48UBCFkyQ.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_I23gxiikXxx_6GGz6rJ54UoPf8kO1zLBQwc8jUznXYM.js"></script>
+<script>document.createElement( "picture" );</script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_UaaCpmMK5b7E0DSR5c7R4JgHzhn7JYgmbQw03T3YUsM.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_KcclTP96CIQcY2LJI-3Ia2PF3-04Q18gfgtfKaK-S2E.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_F9HQMS6iCL_5tm4TDl_PbWOrcvLJXLDDeBafo8_SM7U.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"neptunesam","theme_token":"OoraFyS-lMG9XXXt-NH3fD3KTqH_rViNV-laWXK1Mlg","js":{"sites\/all\/modules\/picture\/picturefill2\/picturefill.min.js":1,"sites\/all\/modules\/picture\/picture.min.js":1,"sites\/all\/modules\/syntaxhighlighter\/syntaxhighlighter.min.js":1,"modules\/statistics\/statistics.js":1,"misc\/jquery.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"misc\/jquery.cookie.js":1,"misc\/form.js":1,"0":1,"sites\/all\/modules\/comment_notify\/comment_notify.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shCore.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushBash.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushPhp.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushXml.js":1,"misc\/textarea.js":1,"modules\/filter\/filter.js":1,"sites\/all\/modules\/mollom\/mollom.js":1,"sites\/all\/themes\/neptune\/js\/script.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"sites\/all\/modules\/comment_notify\/comment_notify.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/mollom\/mollom.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/picture\/picture_wysiwyg.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/styles\/shCore.css":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/styles\/shThemeDefault.css":1,"modules\/filter\/filter.css":1,"public:\/\/LD50\/feed_me.css":1,"sites\/all\/themes\/neptune\/system.menus.css":1,"sites\/all\/themes\/neptune\/css\/normalize.css":1,"sites\/all\/themes\/neptune\/css\/wireframes.css":1,"sites\/all\/themes\/neptune\/css\/layouts\/responsive-sidebars.css":1,"sites\/all\/themes\/neptune\/css\/page-backgrounds.css":1,"sites\/all\/themes\/neptune\/css\/tabs.css":1,"sites\/all\/themes\/neptune\/css\/pages.css":1,"sites\/all\/themes\/neptune\/css\/blocks.css":1,"sites\/all\/themes\/neptune\/css\/navigation.css":1,"sites\/all\/themes\/neptune\/css\/views-styles.css":1,"sites\/all\/themes\/neptune\/css\/nodes.css":1,"sites\/all\/themes\/neptune\/css\/comments.css":1,"sites\/all\/themes\/neptune\/css\/forms.css":1,"sites\/all\/themes\/neptune\/css\/fields.css":1,"sites\/all\/themes\/neptune\/css\/print.css":1,"sites\/all\/themes\/neptunesam\/css\/neptunesam.css":1}},"statistics":{"data":{"nid":"8"},"url":"\/modules\/statistics\/statistics.php"}});</script>
+
+      <!--[if lt IE 9]>
+    <script src="/sites/all/themes/zen/js/html5-respond.js"></script>
+    <![endif]-->
+  </head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-8 node-type-page section-2013 sidebar-right multi-column" >
+<!--<canvas id="tri-canvas" height="80"></canvas>-->
+      <p id="skip-link">
+      <a href="#main-menu" class="element-invisible element-focusable">Jump to navigation</a>
+    </p>
+      <div id="page" style="max-width:1024px">
+
+  
+  <header id="header" role="banner">
+
+          <a href="/" title="Home" rel="home" id="logo"><img src="https://samhobbs.co.uk/sites/all/themes/neptunesam/logo.png" alt="Home" /></a>
+    
+          <hgroup id="name-and-slogan">
+                  <h1 id="site-name">
+            <a href="/" title="Home" rel="home"><span>samhobbs.co.uk</span></a>
+          </h1>
+        
+                  <h2 id="site-slogan">Sam Hobbs | Free Software Tutorials</h2>
+              </hgroup><!-- /#name-and-slogan -->
+    
+    
+  </header>
+
+  <div id="navigation">
+
+          <nav id="main-menu" role="navigation">
+        <h2 class="element-invisible">Main menu</h2><ul class="links clearfix"><li class="menu-218 first"><a href="/">Home</a></li>
+<li class="menu-317"><a href="/raspberry-pi-email-server">Raspberry Pi Email Server</a></li>
+<li class="menu-406"><a href="/tutorials">Tutorials</a></li>
+<li class="menu-316"><a href="/about-me">About Me</a></li>
+<li class="menu-343"><a href="/get-in-touch">Get In Touch</a></li>
+<li class="menu-689 last"><a href="/archive" title="Historic content, sorted by month of publication">Archives</a></li>
+</ul>      </nav>
+    
+    
+  </div><!-- /#navigation -->
+
+  <div id="main">
+
+    <div id="content" class="column" role="main">
+            <a id="main-content"></a>
+                    <h1 class="title" id="page-title">Raspberry Pi Email Server Part 3: Squirrelmail</h1>
+                                          
+
+
+<article class="node-8 node node-page view-mode-full clearfix" about="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" typeof="foaf:Document">
+
+      <header>
+                  <span property="dc:title" content="Raspberry Pi Email Server Part 3: Squirrelmail" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="86" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+      
+          </header>
+  
+  <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p><img src="/sites/default/files/Squirrelmail_logo-300x108_0.png" width="300" height="108" alt="Squirrelmail Logo" /></p>
+<p>This is the third part of a five part tutorial that will show you how to install a full featured email server on your Raspberry Pi. This tutorial covers how to set up Webmail with Squirrelmail.</p>
+<p>The parts are:<br /><a href="/raspberry-pi-email-server">The Introduction &amp; Contents Page (read first)</a><br /><a href="/2013/12/raspberry-pi-email-server-part-1-postfix">Raspberry Pi Email Server Part 1: Postfix</a><br /><a href="/2013/12/raspberry-pi-email-server-part-2-dovecot">Raspberry Pi Email Server Part 2: Dovecot</a><br /><a href="/2013/12/raspberry-pi-email-server-part-3-squirrelmail">Raspberry Pi Email Server Part 3: Squirrelmail</a><br /><a href="/2014/03/raspberry-pi-email-server-part-4-spam-detection-with-spamassassin">Raspberry Pi Email Server Part 4: Spam Detection with Spamassassin</a><br /><a href="/2014/03/raspberry-pi-email-server-part-5-spam-sorting-with-lmtp-sieve">Raspberry Pi Email Server Part 5: Spam Sorting with LMTP &amp; Sieve</a></p>
+<!--break--><h1>Installing Apache</h1>
+<p>If you don't already have apache installed (you might if you've followed my <a href="/2014/02/how-to-install-wordpress-on-a-raspberry-pi">wordpress tutorial</a>), then install it now.</p>
+<pre>sudo apt-get update
+sudo apt-get install apache2</pre><p>
+Enable the SSL apache module so that you can use HTTPS:</p>
+<pre>sudo a2enmod ssl</pre><p>
+There are some "pre-made" virtualhost configurations that come with apache. This command will enable the "default-ssl" virtualhost, by creating a symbolic link from <code>/etc/apache2/sites-available/deafult-ssl</code> to <code>/etc/apache2/sites-enabled/default-ssl</code>:</p>
+<pre>sudo a2ensite default-ssl</pre><p>
+Now reload apache to make the changes take effect:</p>
+<pre>sudo service apache2 reload</pre><p>
+If you type the IP address or hostname of the pi into a web browser now, you should see the default Apache test page:</p>
+<p><img src="/sites/default/files/apache2-test-page.png" width="700" alt="apache2-test-page.png" /></p>
+<p>If you try the https version, you'll get a certificate error because you are using a self-signed SSL certificate. If you like, you can follow my <a href="/2014/04/ssl-certificate-signing-cacert-raspberry-pi-ubuntu-debian">CAcert tutorial</a> to get a free SSL certificate for your domain, or you can just store an exception for the certificate and generate a proper one later.</p>
+<p><img src="/sites/default/files/apache2-test-page-https.png" width="700" alt="apache2-test-page-https.png" /></p>
+<p>That's it for Apache. If you want to know more about setting up Apache for multiple websites, subdomains, and SSL configurations, I suggest you read <a href="/2014/01/multiple-websites-and-subdomains-with-ssltls-in-apache2-virtualhosts">my tutorial explaining Apache's VirtualHost files</a>.</p>
+<h1>Installing Squirrelmail</h1>
+<p>Now we need to install squirrelmail:</p>
+<pre>sudo apt-get update
+sudo apt-get install squirrelmail</pre><p>
+The basic configuration for squirrelmail is really easy, and can be done with the setup script. To run the script, use this command:</p>
+<pre>sudo squirrelmail-configure</pre><p>
+<img src="/sites/default/files/squirrelmail-configure-1.png" width="683" height="741" alt="Squirrelmail configuration menu" /></p>
+<p>Choose “D” for pre-defined settings</p>
+<p><img src="/sites/default/files/squirrelmail-configure-2.png" width="683" height="741" alt="Choose pre-defined server configuration" /></p>
+<p>Now type “dovecot” and hit enter</p>
+<p><img src="/sites/default/files/squirrelmail-configure-3.png" width="683" height="741" alt="Accept pre-defined configuration for use with Dovecot" /></p>
+<p>Press enter to continue, then save and quit (press Q and save when prompted, or press S then Q).</p>
+<p>The configuration script creates a configuration file for apache in <code>/etc/squirrelmail/apache.conf</code>. You need to create a symbolic link so that Apache2 will load your Squirrelmail apache configuration file when it starts up:</p>
+<pre>sudo ln -s /etc/squirrelmail/apache.conf /etc/apache2/conf.d/squirrelmail.conf</pre><p>
+Now reload Apache one more time so that it reads the config file we just symlinked:</p>
+<pre>sudo service apache2 reload</pre><p>
+Now visit the IP address or hostname of your Pi again, but add <code>/squirrelmail</code> to the path, e.g. <strong>192.168.1.174/squirrelmail</strong>, you should see the login page:</p>
+<p><img src="/sites/default/files/squirrelmail-login_0.png" width="700" alt="squirrelmail-login_0.png" /></p>
+<p>The squirrelmail configuration file just adds an <em>alias</em> that should affect every virtualhost, so if you install a wordpress site or something like that on your pi, you will be able to get to the squirrelmail login page by visiting <strong>yourdomain.com/squirrelmail</strong>.</p>
+<h1>Redirect http to https for secure login</h1>
+<p>Since you don't want to send your login details and confidential information over the internet without SSL, it's best to redirect all http URLs to https.</p>
+<p>The default squirrelmail apache configuration file at <code>/etc/squirrelmail/apache.conf</code> contains some rewrite rules we can use, we just need to uncomment them. Open the file and uncomment the lines by removing the # at the start of each so that it looks like this:</p>
+<pre>&lt;IfModule mod_rewrite.c&gt;
+  &lt;IfModule mod_ssl.c&gt;
+    &lt;Location /squirrelmail&gt;
+      RewriteEngine on
+      RewriteCond %{HTTPS} !^on$ [NC]
+      RewriteRule . https://%{HTTP_HOST}%{REQUEST_URI}  [L]
+    &lt;/Location&gt;
+  &lt;/IfModule&gt;
+&lt;/IfModule&gt;</pre><p>
+This configuration makes sure that the <strong>rewrite</strong> and <strong>ssl</strong> modules are enabled, and does nothing if they aren't. We already enabled the <strong>ssl</strong> module earlier, so all we need to do now is enable the <strong>rewrite</strong> module:</p>
+<pre>sudo a2enmod rewrite</pre><p>
+And reload Apache:</p>
+<pre>sudo service apache2 reload</pre><p>
+Now if you visit the HTTP page, you should be redirected to HTTPS.</p>
+<h1>Optional: Configuring Apache to serve Squirrelmail on a subdomain</h1>
+<p>If you would like to move the login page to the root of your domain (i.e. so that yourdomain.com would serve the login page for squirrelmail), or if you would like to serve it on a subdomain like mail.yourdomain.com, you can edit the configuration file. If not, you can skip this section.</p>
+<p>By default, this line in <code>/etc/squirrelmail/apache.conf</code> means that http://www.yourdomain.com/squirrelmail will load squirrelmail:</p>
+<pre>Alias /squirrelmail /usr/share/squirrelmail</pre><p>
+If you would rather have webmail on a subdomain like mail.yourdomain.com then you could edit the <code>/etc/squirrelmail/apache.conf</code> file to look like this (comment out the rest):</p>
+<pre>&lt;VirtualHost *:80&gt;
+  DocumentRoot /usr/share/squirrelmail
+  ServerName mail.yourdomain.com
+
+
+&lt;Directory /usr/share/squirrelmail&gt;
+  Options FollowSymLinks
+  &lt;IfModule mod_php5.c&gt;
+    php_flag register_globals off
+  &lt;/IfModule&gt;
+  &lt;IfModule mod_dir.c&gt;
+    DirectoryIndex index.php
+  &lt;/IfModule&gt;
+
+  # access to configtest is limited by default to prevent information leak
+  &lt;Files configtest.php&gt;
+    order deny,allow
+    deny from all
+    allow from 127.0.0.1
+  &lt;/Files&gt;
+&lt;/Directory&gt;
+&lt;/VirtualHost&gt;</pre><p>
+Note that if you want to serve mail on a subdomain, then that subdomain needs a DNS record, so edit your records with your DNS provider accordingly.</p>
+<p>However, the virtualhost code above only does HTTP. You also want an HTTPS virtualhost for the subdomain on port 443:</p>
+<pre>&lt;IfModule mod_ssl.c&gt;
+&lt;VirtualHost *:443&gt;
+  DocumentRoot /usr/share/squirrelmail
+  ServerName mail.yourdomain.com
+
+&lt;Directory /usr/share/squirrelmail&gt;
+  Options FollowSymLinks
+  &lt;IfModule mod_php5.c&gt;
+    php_flag register_globals off
+  &lt;/IfModule&gt;
+  &lt;IfModule mod_dir.c&gt;
+    DirectoryIndex index.php
+  &lt;/IfModule&gt;
+
+  # access to configtest is limited by default to prevent information leak
+  &lt;Files configtest.php&gt;
+    order deny,allow
+    deny from all
+    allow from 127.0.0.1
+  &lt;/Files&gt;
+&lt;/Directory&gt;
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+LogLevel warn
+CustomLog ${APACHE_LOG_DIR}/ssl_access.log combined
+
+SSLEngine on
+SSLCertificateFile    /etc/ssl/certs/your-ssl-certificate.crt
+SSLCertificateKeyFile /etc/ssl/private/your-ssl-certificate-keyfile.key
+
+
+&lt;/VirtualHost&gt;
+&lt;/IfModule&gt;</pre><p>
+If you use this configuration, the rewrite rules from the "rewrite to HTTPS" section (the ones from the default config file) won't work. If you want an HTTPS-only solution, you can replace the virtualhost for port 80 with this:</p>
+<pre>&lt;VirtualHost *:80&gt;
+ServerName mail.yourdomain.com
+&lt;IfModule mod_rewrite.c&gt;
+  &lt;IfModule mod_ssl.c&gt;
+    &lt;Location /&gt;
+      RewriteEngine on
+      RewriteCond %{HTTPS} !^on$ [NC]
+      RewriteRule . https://%{HTTP_HOST}%{REQUEST_URI}  [L]
+    &lt;/Location&gt;
+  &lt;/IfModule&gt;
+&lt;/IfModule&gt;
+&lt;/VirtualHost&gt;</pre><p>
+As before, make sure you have the rewrite module enabled:</p>
+<pre>sudo a2enmod rewrite</pre><p>
+Now reload apache:</p>
+<pre>sudo service apache2 restart</pre><p>
+If you get an error like this:</p>
+<pre>[....] Restarting web server: apache2[Fri Dec 06 15:54:04 2013] [warn] _default_ VirtualHost overlap on port 443, the first has precedence</pre><p>
+Then add NameVirtualHost *:443 to the start of the SSL VirtualHost block, i.e.:</p>
+<pre>NameVirtualHost *:443
+&lt;IfModule mod_ssl.c&gt;
+&lt;VirtualHost *:443&gt;
+  DocumentRoot /usr/share/squirrelmail
+  ServerName mail.yourdomain.com
+...</pre><p>
+For more info on HTTP and HTTPS VirtualHost configuration on Apache2, see <a href="/2014/01/multiple-websites-and-subdomains-with-ssltls-in-apache2-virtualhosts">this tutorial of mine</a>.</p>
+<p>If all went to plan then you can navigate to mail.yourdomain.com and you should see the squirrelmail login page (you might need to forward some ports on your router if you haven't already - see the next section):</p>
+<p><img src="/sites/default/files/squirrelmail-login.png" width="351" height="270" alt="Squirrelmail login page" /></p>
+<h1>Port Forwarding</h1>
+<p>Squirrelmail will log in to your IMAP server on port 143 to display your emails. It doesn’t need to authenticate because it’s in your network (remember the <code>permit_mynetworks</code> parameter from the previous tutorials?). You don’t need to worry about it being an unencrypted connection, because the data isn't actually travelling over any insecure networks (the connection is internal). Similarly, you don’t need to open port 143 (“plain” imap without SSL/TLS) on your router because the connection happens within the Pi, and the content is actually served to you, the user, on port 443 (https).</p>
+<p>So you <strong>do</strong> need to open ports 80 and 443 for http and https like below:</p>
+<p><img src="/sites/default/files/port_forwarding_2.png" width="500" alt="Port forwarding rules" /></p>
+<h1>Testing</h1>
+<p>Before you start testing your webmail, make sure that the permit_mynetworks parameters are uncommented in your postfix confuguration file <code>/etc/postfix/main.cf</code> (in both your smtpd_recipient_restrictions and smtpd_helo_restrictions).</p>
+<p>Now reload your postfix configuration:</p>
+<pre>sudo service postfix reload</pre><p>
+Try sending and receiving emails from within Squirrelmail. You should have no problems, but if you do please post a comment and I’ll try to help you out.</p>
+<h1>Customising the Squirrelmail Login</h1>
+<p>To customise the login page, run the configuration wizard:</p>
+<pre>sudo squirrelmail-configure</pre><ol><li>Select “1″ (organisation preferences)
+</li><li>Select “7″ and change to your domain (e.g. http://www.samhobbs.co.uk)
+</li><li>Select “8″ and change to you/your organisation’s name
+</li></ol><h1>Squirrelmail Plugins</h1>
+<p>There are loads of plugins available for Squirrelmail, for all kinds of things. On most systems, these plugins are installed by downloading a .zip file to your server, unzipping the plugin to the right location and then tinkering with the settings manually.</p>
+<p>Thankfully, some of the most commonly used plugins are available from the Raspbian repositories, so installation is much simpler. Here is a list of the plugins in the repo:</p>
+<ol><li>squirrelmail-compatibility
+</li><li>squirrelmail-decode
+</li><li>squirrelmail-locales
+</li><li>squirrelmail-lockout
+</li><li>squirrelmail-logger
+</li><li>squirrelmail-quicksave
+</li><li>squirrelmail-secure-login
+</li><li>squirrelmail-sent-confirmation
+</li><li>squirrelmail-spam-buttons
+</li><li>squirrelmail-viewashtml
+</li></ol><p>The one I think is most useful and the one I’m going to use as an example is <strong>lockout</strong>.</p>
+<p>To use the lockout package, we need to install the compatibility package, which basically makes sure that plugins built for different versions of squirrelmail can still work with the version you are running.</p>
+<pre>sudo apt-get update
+sudo apt-get install squirrelmail-compatibility</pre><p>
+Now we need to enable the plugin:</p>
+<pre>sudo squirrelmail-configure</pre><ol><li>select “8″
+</li><li>select “compatibility”
+</li><li>select “S” (to save)
+</li><li>select “Q” (to quit)
+</li></ol><p>That’s all you need to do for the compatibility plugin. Now we can install the lockout plugin:</p>
+<pre>sudo apt-get install squirrelmail-lockout</pre><p>
+Now for the configuration:</p>
+<pre>sudo squirrelmail-configure</pre><p>
+Make sure that lockout is enabled</p>
+<p>Now we can manually edit some settings. Before starting, I like to back up the default config files for reference:</p>
+<pre>cd /etc/squirrelmail
+sudo cp lockout-table.php lockout-table.php.BAK
+sudo cp lockout-config.php lockout-config.php.BAK</pre><p>
+Now edit the <code>lockout-table.php</code> file. Read the comments in the file for an explanation of how the table works. I wanted to disable logins for the user “admin”, so I commented out the examples at the end of the file and replaced them with this:</p>
+<pre>user:		admin		locked_out.php</pre><p>
+Now edit <code>lockout-config.php</code> and set <code>$use_lockout_rules = 1</code>; to turn on lockouts.</p>
+<p>Now try and log in as the user you locked out, and you should get this message: <em>“Access Denied / Please contact your system administrator”</em>.</p>
+<p>We can also lock out IP addresses of users who enter incorrect username/password combinations repeatedly. To do this, open <code>lockout-config.php</code> and set <code>$max_login_attempts_per_IP = '3:5:0'</code>.</p>
+<p>The first number in this parameter is the number of incorrect attempts that are allowed before a ban. The second number is the time frame for these incorrect attempts, and the last number is the amount of time the ban lasts for when activated (0 is forever).</p>
+<p>So, the setting I gave you above means that anyone who makes 3 incorrect attempts to authenticate in 5 minutes is permanently banned.</p>
+<p>When a successful login is made, the count is reset to 0.</p>
+<p>Data on current bad login attempts and bans is stored here: <code>/var/lib/squirrelmail/data/lockout_plugin_login_failure_information</code></p>
+<p>The plugin will add entries like this to keep track of bad logins:</p>
+<pre>999.999.99.99_login_failure_times=1386774015:1386774034:1386774053
+999.999.99.99_TOO_MANY_FAILED_LOGIN_ATTEMPTS=PERMANENT</pre><p>
+…where 999.999.99.99 is the offending IP address</p>
+<p>If you accidentally ban yourself, you’ll have to log in via SSH and edit this file to remove those lines.</p>
+<p>That’s it, you’re done! Have fun exploring the other plugins!</p>
+<p>The next two tutorials, <a href="/2014/03/raspberry-pi-email-server-part-4-spam-detection-with-spamassassin">Part 4</a> and <a href="/2014/03/raspberry-pi-email-server-part-5-spam-sorting-with-lmtp-sieve">Part 5</a> deal with spam detection and filtering.</p>
+</div></div></div><div class="field field-name-field-category field-type-taxonomy-term-reference field-label-above"><div class="field-label">Category:&nbsp;</div><div class="field-items"><div class="field-item even"><a href="/taxonomy/term/3" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Email Server</a></div><div class="field-item odd"><a href="/taxonomy/term/1" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Raspberry Pi</a></div></div></div><div class="field field-name-field-type field-type-taxonomy-term-reference field-label-above"><div class="field-label">Type:&nbsp;</div><div class="field-items"><div class="field-item even"><a href="/taxonomy/term/9" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Tutorial</a></div></div></div>
+  <ul class="links inline"><li class="comment-add first last active"><a href="/2013/12/raspberry-pi-email-server-part-3-squirrelmail#comment-form" title="Share your thoughts and opinions related to this posting." class="active">Add new comment</a></li>
+</ul>
+  <section id="comments" class="comments comment-wrapper">
+        <h2 class="title">Comments</h2>
+    
+  <a id="comment-2108"></a>
+<article class="comment comment-by-anonymous first odd clearfix" about="/comment/2108#comment-2108" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-04-28T10:45:01+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Glen Davies</span> &middot; <time pubdate datetime="2014-04-28T10:45:01+01:00">28th April, 2014 &middot; 10:45am</time></span>      <a href="/comment/2108#comment-2108" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2108#comment-2108" class="permalink" rel="bookmark">permit_mynetworks</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I was in the process of testing, and had not uncommented the permit_mynetworks in the smtpd_recipient_restrictions = section, but was still able to send and receive from squirrel mail. I uncommented and there seems to be no change. Have I missed something?</p>
+<p>Thanks</p>
+<p>Glen</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2108">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2109"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2109#comment-2109" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-04-28T15:41:25+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-04-28T15:41:25+01:00">28th April, 2014 &middot; 3:41pm</time></span>      <a href="/comment/2109#comment-2109" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2109#comment-2109" class="permalink" rel="bookmark">A-OK</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2108#comment-2108" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Nope, everything is OK. Squirrelmail should still be able to send emails if you remove <code>permit_mynetworks</code> from your <code>smtpd_recipient_restrictions =</code> section because it has your password so it can authenticate. Perhaps this sentence is misleading:</p>
+<blockquote><p>It doesn’t need to authenticate because it’s in your network (remember the permit_mynetworks parameter from the previous tutorials?).</p></blockquote>
+<p>What I really mean is it doesn't have to, but could if it needed to!</p>
+<p>Playing with the various access restrictions lists until things break is interesting, and a good way to learn. At one point (before I added <code>permit_sasl_authenticated</code> to my helo access restrictions) I found that removing the <code>permit_mynetworks</code> parameter from the <code>helo_access_restrictions</code> would give me the "get lost - you're lying about who you are" message when I tried to send email (because Squirrrelmail would helo with samhobbs.co.uk).</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2109">reply</a></li>
+</ul></article>
+</div><a id="comment-2156"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2156#comment-2156" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-09T03:17:09+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://ridgeimages.com" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Alex</a> &middot; <time pubdate datetime="2014-05-09T03:17:09+01:00">9th May, 2014 &middot; 3:17am</time></span>      <a href="/comment/2156#comment-2156" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2156#comment-2156" class="permalink" rel="bookmark">Apache conf issues</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Using the exact text provided here for the Squirrel Mail apache.conf file I was able to get my mail.domain.com working on port 80, but when I commented out that section and put in the redirect config I keep getting redirected to the default Apache "Look it works" page instead of the Squirrel Mail login page.  Is there something I missed?  I confirmed the port 443 is open and correctly pointing at my Pi, and that the script has been typed correctly.</p>
+<p>Thanks,</p>
+<p>Alex.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2156">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2159"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2159#comment-2159" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-09T08:03:49+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-09T08:03:49+01:00">9th May, 2014 &middot; 8:03am</time></span>      <a href="/comment/2159#comment-2159" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2159#comment-2159" class="permalink" rel="bookmark">I think this may be my fault</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2156#comment-2156" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I think this may be my fault for missing a step. Unless you are already using Apache to serve https content you need to enable a couple of modules and reload apache:</p>
+<pre>sudo a2enmod headers
+sudo a2enmod ssl
+sudo service apache2 reload</pre><p>
+Does that make a difference?</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2159">reply</a></li>
+</ul></article>
+</div><a id="comment-2210"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2210#comment-2210" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-16T13:50:04+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Glen Davies</span> &middot; <time pubdate datetime="2014-05-16T13:50:04+01:00">16th May, 2014 &middot; 1:50pm</time></span>      <a href="/comment/2210#comment-2210" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2210#comment-2210" class="permalink" rel="bookmark">Easier redirect to https</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I&#039;ve been unable to redirect to https, and hitting the http &quot;It Works!&quot; page, but the Squirrel Mail interface is available on https. I tried this instead and it works....Would this be easier or have I left my server wide open?</p>
+<p>&lt;VirtualHost *:80&gt;<br />
+ServerName mail.example.com<br />
+Redirect permanent / <a href="https://mail.example.com/">https://mail.example.com/</a><br />
+&lt;/VirtualHost&gt;</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2210">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2211"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2211#comment-2211" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-16T14:51:25+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-16T14:51:25+01:00">16th May, 2014 &middot; 2:51pm</time></span>      <a href="/comment/2211#comment-2211" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2211#comment-2211" class="permalink" rel="bookmark">Try turning mod_rewrite on</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2210#comment-2210" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Glen,</p>
+<p>Are you sure that mod_rewrite is on?</p>
+<pre>sudo a2enmod rewrite</pre><p>
+Your solution only works for the root, so http://mail.example.com/foo would not be redirected.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2211">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2212"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2212#comment-2212" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-16T15:06:33+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Glen Davies</span> &middot; <time pubdate datetime="2014-05-16T15:06:33+01:00">16th May, 2014 &middot; 3:06pm</time></span>      <a href="/comment/2212#comment-2212" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2212#comment-2212" class="permalink" rel="bookmark">That fixed it.</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2211#comment-2211" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>That fixed it.</p>
+<p>I am running Squirrel Mail from .com/ so my solution works for that setup I guess. </p>
+<p>Now back to the suggested config and redirects to https are working fine.</p>
+<p>Thanks :)</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2212">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2213"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2213#comment-2213" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-16T18:44:09+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-16T18:44:09+01:00">16th May, 2014 &middot; 6:44pm</time></span>      <a href="/comment/2213#comment-2213" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2213#comment-2213" class="permalink" rel="bookmark">Good stuff</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2212#comment-2212" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I'll update the tutorial to include that command, thanks for checking it through for me, it takes a few people to point out these things!</p>
+<p>I must have enabled the module for another project before I set this up.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2213">reply</a></li>
+</ul></article>
+</div></div></div><a id="comment-2295"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2295#comment-2295" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-22T14:19:15+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.flipside.nu" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Andreas</a> &middot; <time pubdate datetime="2014-06-22T14:19:15+01:00">22nd June, 2014 &middot; 2:19pm</time></span>      <a href="/comment/2295#comment-2295" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2295#comment-2295" class="permalink" rel="bookmark">Only English..</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi, I'am having problem with the languages.. It's English only and I would<br />
+like to have at least Swedish. Any tricks to get it to work?</p>
+<p>/Andreas</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2295">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2298"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2298#comment-2298" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-22T19:48:00+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-06-22T19:48:00+01:00">22nd June, 2014 &middot; 7:48pm</time></span>      <a href="/comment/2298#comment-2298" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2298#comment-2298" class="permalink" rel="bookmark">squirrelmail-locales</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2295#comment-2295" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Try installing the squirrelmail-locales package:</p>
+<pre>sudo apt-get update
+sudo apt-get install squirrelmail-locales</pre><p>
+I imagine you'll have to run <code>sudo squirrelmail-configure</code> to enable the locales plugin, and look for locales settings in the menu.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2298">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2299"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2299#comment-2299" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-22T21:19:56+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.flipside.nu" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Andreas</a> &middot; <time pubdate datetime="2014-06-22T21:19:56+01:00">22nd June, 2014 &middot; 9:19pm</time></span>      <a href="/comment/2299#comment-2299" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2299#comment-2299" class="permalink" rel="bookmark">Already installed and I have</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2298#comment-2298" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Already installed and I have reinstalled the locals twice but it doesn't help.<br />
+Also reloaded apache2 and rebooted the whole thing..</p>
+<p>Typical UK and US.. Forcing other countrys to speak English.. Haha...</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2299">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2300"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2300#comment-2300" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-22T22:54:38+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-06-22T22:54:38+01:00">22nd June, 2014 &middot; 10:54pm</time></span>      <a href="/comment/2300#comment-2300" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2300#comment-2300" class="permalink" rel="bookmark">system locales?</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2299#comment-2299" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hmm... I don't actually have Squirrelmail on my machine any more, so it's difficult to know how to help. I have a feeling you need to enable it with squirrelmail-configure and select which locales you want to generate.</p>
+<p>Have you run raspi-config to set the system locales? It may automatically detect which languages you have on the system and use those...</p>
+<p>Sorry I can't be more help, I've never paid much attention to the locales - I'm spoiled because English is always the default (although it's often "US English"... shudder).</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2300">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2392"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2392#comment-2392" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-07-08T08:18:35+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://flipside.nu/" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Andreas</a> &middot; <time pubdate datetime="2014-07-08T08:18:35+01:00">8th July, 2014 &middot; 8:18am</time></span>      <a href="/comment/2392#comment-2392" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2392#comment-2392" class="permalink" rel="bookmark">Yeah, it was the raspi-config</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2300#comment-2300" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Yeah, it was the raspi-config. I only had English selected there :)</p>
+<p>Thanks</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2392">reply</a></li>
+</ul></article>
+</div></div></div></div><a id="comment-2539"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2539#comment-2539" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-07-31T13:50:59+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Confused</span> &middot; <time pubdate datetime="2014-07-31T13:50:59+01:00">31st July, 2014 &middot; 1:50pm</time></span>      <a href="/comment/2539#comment-2539" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2539#comment-2539" class="permalink" rel="bookmark">Hi there,</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi there,</p>
+<p>First of all, thank you for all of your great tutorials. I've managed to connect to postfix via my tablet and everything is working all good, except after installing squirrelmail I am unable to login through it - "Unknown user or password incorrect."</p>
+<p>Also, I'm guessing this is in some way related, when loading the login page for mailsquirrel via my.domain/mailsquirrel, the page displays a lot of html tags i.e. bgcolor, width etc. I'm guessing that for whatever reason the username and/or password field is not be correctly submitted from the form because of this but was just wondering if I might have been missing something obvious?</p>
+<p>Thanks, again.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2539">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2541"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2541#comment-2541" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-07-31T18:48:01+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-07-31T18:48:01+01:00">31st July, 2014 &middot; 6:48pm</time></span>      <a href="/comment/2541#comment-2541" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2541#comment-2541" class="permalink" rel="bookmark">Hello!</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2539#comment-2539" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hmm...not sure what's causing this.</p>
+<p>Can you post the relevant part of <code>/var/log/mail.log</code> that covers a failed login attempt?</p>
+<p>You say you've managed to connect to postfix with your tablet, but have you connected to dovecot with IMAP? If Dovecot isn't configured properly then that may explain the failed login.</p>
+<p>I can't think why you're seeing HTML tags, that's really strange.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2541">reply</a></li>
+</ul></article>
+</div><a id="comment-2595"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2595#comment-2595" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-08-12T12:18:08+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Dig_Gil</span> &middot; <time pubdate datetime="2014-08-12T12:18:08+01:00">12th August, 2014 &middot; 12:18pm</time></span>      <a href="/comment/2595#comment-2595" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2595#comment-2595" class="permalink" rel="bookmark">On Configuring Apache for Squirrelmail</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>The «Alias /squirrelmail /usr/share/squirrelmail» line doesn&#039;t work! The computer warns me that the &quot;Alias&quot; command doesn&#039;t exist. Do you mean (case-sensitive) &quot;alias&quot;? If that&#039;s the case, I don&#039;t follow, because, as I understood, that command creates short-hands for bash commands which only work for one session. Anyway I tried and it output an error saying that none of the two directories were found! I searched manually and it seems that «/squirrelmail» does not exist, but «/etc/squirrelmail», instead, does and «usr/share/squirrelmail» exists, but none are found by &quot;alias&quot;, still.<br />
+I hope it&#039;s a simple mistake!</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2595">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2596"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2596#comment-2596" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-08-12T13:03:13+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-08-12T13:03:13+01:00">12th August, 2014 &middot; 1:03pm</time></span>      <a href="/comment/2596#comment-2596" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2596#comment-2596" class="permalink" rel="bookmark">It&#039;s a line in Squirrelmail&#039;s virtualhost file, not a command</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2595#comment-2595" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Sorry for the confusion, it's a line in squirrelmail's apache config file, not a command.</p>
+<p>The Squirrelmail apache config file is here: <code>/etc/apache2/conf.d/squirrelmail.conf</code> symlinked from here: <code>/etc/squirrelmail/apache.conf</code>.</p>
+<p>We commented it out/removed the alias line during the tutorial (at the start).</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2596">reply</a></li>
+</ul></article>
+</div><a id="comment-2621"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2621#comment-2621" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-08-18T19:09:25+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Bob Daniel</span> &middot; <time pubdate datetime="2014-08-18T19:09:25+01:00">18th August, 2014 &middot; 7:09pm</time></span>      <a href="/comment/2621#comment-2621" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2621#comment-2621" class="permalink" rel="bookmark">Please put this in bold</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Brilliant tutorials. Thanks. Maybe I was getting a bit gung-ho after Steps 1 and 2 going so well but I missed the line<br />
+"I’m assuming you already have Apache2 installed at this point. If not, you could do that by following the relevant section of this tutorial."<br />
+and blew my happiness on the damn squirrel. Perhaps change "could" to "jolly well MUST". I don't mind you being prescriptive!</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2621">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2622"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2622#comment-2622" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-08-18T21:11:42+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-08-18T21:11:42+01:00">18th August, 2014 &middot; 9:11pm</time></span>      <a href="/comment/2622#comment-2622" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2622#comment-2622" class="permalink" rel="bookmark">Will do!</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2621#comment-2621" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Glad you found it useful, thanks for the comment!</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2622">reply</a></li>
+</ul></article>
+</div><a id="comment-2779"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2779#comment-2779" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-09-25T14:17:35+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://mazi.homenet.org" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">email blocked</a> &middot; <time pubdate datetime="2014-09-25T14:17:35+01:00">25th September, 2014 &middot; 2:17pm</time></span>      <a href="/comment/2779#comment-2779" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2779#comment-2779" class="permalink" rel="bookmark">Blocked outbound</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I cant seem to send outbound emails, I keep getting an error saying its been blocked :/</p>
+<p>I get:<br />
+host mx3.hotmail.com[65.54.188.94] said: 550<br />
+    OU-002 (BAY004-MC2F35) Unfortunately, messages from 78.144.188.246 weren't<br />
+    sent. Please contact your Internet service provider since part of their<br />
+    network is on our block list. You can also refer your provider to<br /><a href="http://mail.live.com/mail/troubleshooting.aspx#errors">http://mail.live.com/mail/troubleshooting.aspx#errors</a>. (in reply to MAIL<br />
+    FROM command)</p>
+<p>have i missed something crucial?</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2779">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2780"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2780#comment-2780" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-09-25T16:37:14+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-09-25T16:37:14+01:00">25th September, 2014 &middot; 4:37pm</time></span>      <a href="/comment/2780#comment-2780" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2780#comment-2780" class="permalink" rel="bookmark">Try emailing me</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2779#comment-2779" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi :)</p>
+<p>That message indicates that your server managed to connect to hotmail/outlook, but the message was rejected by their server. Your IP address is probably in a blacklist (I'm guessing you have a dynamic IP address?).</p>
+<p>If you want to check if your Pi is working, send me an email (my email address is on the get in touch page), and see what happens, since my server doesn't reject email from dynamic IP addresses like this.</p>
+<p>If my guess is right, then you can work around your problem by relaying outgoing email through your ISP's SMTP server (since that won't be on a blocklist) or getting yourself a static IP address. Static IP addresses can be very cheap (was a one-off £5 charge for me) or very expensive depending on your ISP/country, so it's worth looking into.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2780">reply</a></li>
+</ul></article>
+<a id="comment-3502"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3502#comment-3502" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-03-20T21:45:39+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Anonymous</span> &middot; <time pubdate datetime="2015-03-20T21:45:39+00:00">20th March, 2015 &middot; 9:45pm</time></span>      <a href="/comment/3502#comment-3502" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/3502#comment-3502" class="permalink" rel="bookmark">I had the same problem all</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2779#comment-2779" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I had the same problem all you have to do is use your ISP's SMTP server I looked up your ip and found your provider it should be SMTP.talktalk.net so if you change the SMTP server that squirrel mail uses to SMTP.talktalk.net it work</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/3502">reply</a></li>
+</ul></article>
+</div><a id="comment-2814"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2814#comment-2814" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-10-03T13:37:19+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.galanis.com.au" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">George</a> &middot; <time pubdate datetime="2014-10-03T13:37:19+01:00">3rd October, 2014 &middot; 1:37pm</time></span>      <a href="/comment/2814#comment-2814" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2814#comment-2814" class="permalink" rel="bookmark">Local Host Squirrell</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Sam, I am still stuck with Squirrel. I have it running from a web browser on the LAN and it seems to work in the localhost. I haven't opened up the ports yet and so I can only run it from within the LAN. I can see the inbox and I can compose emails and then see them in the outbox. I have sent emails from squirrel to the raspberry server and I can see those arrive in the squirrel inbox. I can send emails to the raspberry server from gmail and see those arrive in the squirrel inbox. But when I send emails from squirrel to gmail (or anyother email address) I don't see those arrive at their destination. I'm puzzled, but wondering if that gives us any clue as to what the problem is that I was having with the virtual host earlier? Anyway, getting late here now, I'll try this again tomorrow morning. Cheers George</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2814">reply</a></li>
+</ul></article>
+<a id="comment-2841"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2841#comment-2841" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-10-07T12:59:43+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Pedro Gaiao</span> &middot; <time pubdate datetime="2014-10-07T12:59:43+01:00">7th October, 2014 &middot; 12:59pm</time></span>      <a href="/comment/2841#comment-2841" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2841#comment-2841" class="permalink" rel="bookmark">Error in Squirrelmail</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi,<br />
+love the tutorials, and am seriously thinking of making a web/mail server out of my RPi.<br />
+I was trying out the Squirrelmail and got:</p>
+<blockquote><p>
+ERROR: Could not complete request.<br />
+Query: SELECT "INBOX"<br />
+Reason Given: [SERVERBUG] Internal error occurred. Refer to server log for more information. [2014-10-07 12:53:43]
+</p></blockquote>
+<p>Any ideas why?</p>
+<p>Thank you very much.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2841">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2842"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2842#comment-2842" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-10-07T14:01:53+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-10-07T14:01:53+01:00">7th October, 2014 &middot; 2:01pm</time></span>      <a href="/comment/2842#comment-2842" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2842#comment-2842" class="permalink" rel="bookmark">Hi Pedro,</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2841#comment-2841" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Pedro,</p>
+<p>Check your <code>/var/log/mail.log</code> to see if there are any relevant messages.</p>
+<p>If I had to guess I'd say you haven't created your Maildir properly (as per part 1 of the tutorial), or the permissions are wrong - seems like IMAP is working because you would have got an error about logging in if not.</p>
+<p>Post the output of <code>ls -l /home/username</code> where "username" is the account you log in with please, it should tell us more.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2842">reply</a></li>
+</ul></article>
+</div><a id="comment-2852"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2852#comment-2852" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-10-12T02:13:36+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">electrithm</span> &middot; <time pubdate datetime="2014-10-12T02:13:36+01:00">12th October, 2014 &middot; 2:13am</time></span>      <a href="/comment/2852#comment-2852" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2852#comment-2852" class="permalink" rel="bookmark">postfixadmin</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Can you please cover how to install postfixadmin in this series.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2852">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2853"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2853#comment-2853" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-10-12T02:43:33+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-10-12T02:43:33+01:00">12th October, 2014 &middot; 2:43am</time></span>      <a href="/comment/2853#comment-2853" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2853#comment-2853" class="permalink" rel="bookmark">postfix.admin is unnecessary on a home server</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2852#comment-2852" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi,</p>
+<p>Thanks for your comment :)</p>
+<p>Although I think postfix.admin is probably a useful tool for some users, I don't think it really fits the use case I'm suggesting here, i.e. a family home email server.</p>
+<p>Postfix.admin "is a web based interface to configure and manage a Postfix based email server for many users"... whereas I'm expecting people following this tutorial to have just a few users (or I would have gone for a virtual user setup).</p>
+<p>Another aim of the tutorial is to teach people about configuring a mail server, and postfix.admin would obscure that with a GUI.</p>
+<p>Also, adding a web-based interface just adds another attack surface for crackers to throw themselves against, and expanding the guide to include securing the web interface would probably make it so long that people would be put off. So, I hope you find a decent guide for configuring postfix.admin, but you won't find it here!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2853">reply</a></li>
+</ul></article>
+</div><a id="comment-2996"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2996#comment-2996" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-08T12:17:33+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Brian</span> &middot; <time pubdate datetime="2014-11-08T12:17:33+00:00">8th November, 2014 &middot; 12:17pm</time></span>      <a href="/comment/2996#comment-2996" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2996#comment-2996" class="permalink" rel="bookmark">login error</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>When I login to squirrelmail I get the following error.</p>
+<p>Preference file, /var/lib/squirrelmail/data/(username).pref.tmp, could not be written. Contact your system administrator to resolve this issue.</p>
+<p>Do you know to fix this.</p>
+<p>Thanks for a great tutorial.</p>
+<p>Brian</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2996">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2998"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2998#comment-2998" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-09T16:00:08+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-11-09T16:00:08+00:00">9th November, 2014 &middot; 4:00pm</time></span>      <a href="/comment/2998#comment-2998" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2998#comment-2998" class="permalink" rel="bookmark">Sounds like a permissions issue</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2996#comment-2996" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Brian,</p>
+<p>Sounds like a permissions/ownership issue, but I'm not sure - If I were you I would start by taking a look at the permissions for that directory:</p>
+<pre>ls -l /var/lib/squirrelmail/data</pre><p>
+Have you changed any permissions or ownership for any of the squirrelmail files? If that leads you nowhere I'd look at the virtualhost file next.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/2998">reply</a></li>
+</ul></article>
+</div><a id="comment-3040"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3040#comment-3040" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-29T09:31:22+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Gabriele</span> &middot; <time pubdate datetime="2014-11-29T09:31:22+00:00">29th November, 2014 &middot; 9:31am</time></span>      <a href="/comment/3040#comment-3040" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/3040#comment-3040" class="permalink" rel="bookmark">Squireelmail error</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-3-squirrelmail" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam, I solved the problem with Dovecot.<br />
+Now, Squirrelmail is ok, but I have a problem when I login into the mail-server:<br />
+ERROR: Could not complete request.<br />
+Query: SELECT "INBOX"<br />
+Reason Given: [SERVERBUG] Internal error occurred. Refer to server log for more information. [2014-11-29 09:23:33]</p>
+<p>Thank you for the tutorial.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/8/3040">reply</a></li>
+</ul></article>
+<h2 class="element-invisible">Pages</h2><div class="item-list"><ul class="pager"><li class="pager-current first">1</li>
+<li class="pager-item"><a title="Go to page 2" href="/2013/12/raspberry-pi-email-server-part-3-squirrelmail?page=1">2</a></li>
+<li class="pager-item"><a title="Go to page 3" href="/2013/12/raspberry-pi-email-server-part-3-squirrelmail?page=2">3</a></li>
+<li class="pager-next"><a title="Go to next page" href="/2013/12/raspberry-pi-email-server-part-3-squirrelmail?page=1">next ›</a></li>
+<li class="pager-last last"><a title="Go to last page" href="/2013/12/raspberry-pi-email-server-part-3-squirrelmail?page=2">last »</a></li>
+</ul></div>
+      <h2 class="title comment-form">Add new comment</h2>
+    <form class="comment-form user-info-from-cookie" action="/comment/reply/8" method="post" id="comment-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
+  <label for="edit-name">Your name </label>
+ <input type="text" id="edit-name" name="name" value="" size="30" maxlength="60" class="form-text" />
+</div>
+<div class="form-item form-type-textfield form-item-mail">
+  <label for="edit-mail">E-mail </label>
+ <input type="text" id="edit-mail" name="mail" value="" size="30" maxlength="64" class="form-text" />
+<div class="description">The content of this field is kept private and will not be shown publicly.</div>
+</div>
+<div class="form-item form-type-textfield form-item-homepage">
+  <label for="edit-homepage">Homepage </label>
+ <input type="text" id="edit-homepage" name="homepage" value="" size="30" maxlength="255" class="form-text" />
+</div>
+<div class="form-item form-type-textfield form-item-subject">
+  <label for="edit-subject">Subject </label>
+ <input type="text" id="edit-subject" name="subject" value="" size="60" maxlength="64" class="form-text" />
+</div>
+<div class="field-type-text-long field-name-comment-body field-widget-text-textarea form-wrapper" id="edit-comment-body"><div id="comment-body-add-more-wrapper"><div class="text-format-wrapper"><div class="form-item form-type-textarea form-item-comment-body-und-0-value">
+  <label for="edit-comment-body-und-0-value">Comment <span class="form-required" title="This field is required.">*</span></label>
+ <div class="form-textarea-wrapper resizable"><textarea class="text-full form-textarea required" id="edit-comment-body-und-0-value" name="comment_body[und][0][value]" cols="60" rows="5"></textarea></div>
+</div>
+<fieldset class="filter-wrapper form-wrapper" id="edit-comment-body-und-0-format"><div class="fieldset-wrapper"><div class="filter-help form-wrapper" id="edit-comment-body-und-0-format-help"><p><a href="/filter/tips" target="_blank">More information about text formats</a></p></div><div class="form-item form-type-select form-item-comment-body-und-0-format">
+  <label for="edit-comment-body-und-0-format--2">Text format </label>
+ <select class="filter-list form-select" id="edit-comment-body-und-0-format--2" name="comment_body[und][0][format]"><option value="filtered_html" selected="selected">Filtered HTML</option><option value="plain_text">Plain text</option></select>
+</div>
+<div class="filter-guidelines form-wrapper" id="edit-comment-body-und-0-format-guidelines"><div class="filter-guidelines-item filter-guidelines-filtered_html"><h3>Filtered HTML</h3><ul class="tips"><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;</li><li>Lines and paragraphs break automatically.</li></ul></div><div class="filter-guidelines-item filter-guidelines-plain_text"><h3>Plain text</h3><ul class="tips"><li>No HTML tags allowed.</li><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Lines and paragraphs break automatically.</li></ul></div></div></div></fieldset>
+</div>
+</div></div><input type="hidden" name="form_build_id" value="form-eoSc_cuWAqNGWdrrDMrOReiHli0c-U6fhrH8LCZKUdQ" />
+<input type="hidden" name="form_id" value="comment_node_page_form" />
+<div class="form-item form-type-checkbox form-item-notify">
+ <input type="checkbox" id="edit-notify" name="notify" value="1" checked="checked" class="form-checkbox" />  <label class="option" for="edit-notify">Notify me when new comments are posted </label>
+
+</div>
+<div id="edit-notify-type" class="form-radios"><div class="form-item form-type-radio form-item-notify-type">
+ <input type="radio" id="edit-notify-type-1" name="notify_type" value="1" class="form-radio" />  <label class="option" for="edit-notify-type-1">All comments </label>
+
+</div>
+<div class="form-item form-type-radio form-item-notify-type">
+ <input type="radio" id="edit-notify-type-2" name="notify_type" value="2" checked="checked" class="form-radio" />  <label class="option" for="edit-notify-type-2">Replies to my comment </label>
+
+</div>
+</div><div class="edit-feed-me-wrapper"><div class="form-item form-type-textfield form-item-feed-me">
+  <label for="edit-feed-me">feed me </label>
+ <input type="text" id="edit-feed-me" name="feed_me" value="" size="20" maxlength="128" class="form-text" />
+<div class="description">What&#039;s your favourite topic?</div>
+</div>
+</div><input class="mollom-content-id" type="hidden" name="mollom[contentId]" value="" />
+<input class="mollom-captcha-id" type="hidden" name="mollom[captchaId]" value="" />
+<div style="display: none;"><div class="form-item form-type-textfield form-item-mollom-homepage">
+ <input autocomplete="off" type="text" id="edit-mollom-homepage" name="mollom[homepage]" value="" size="60" maxlength="128" class="form-text" />
+</div>
+</div><div class="description mollom-privacy">By submitting this form, you accept the <a href="https://mollom.com/web-service-privacy-policy" class="mollom-target" rel="nofollow">Mollom privacy policy</a>.</div><div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Save" class="form-submit" /><input type="submit" id="edit-preview" name="op" value="Preview" class="form-submit" /></div></div></form>  </section>
+
+</article>
+          </div><!-- /#content -->
+
+    
+    
+    
+    <nav class="breadcrumb" role="navigation"><h2 class="element-invisible">You are here</h2><ol><li><a href="/">Home</a> › </li><li>Raspberry Pi Email Server Part 3: Squirrelmail</li></ol></nav>
+  </div><!-- /#main -->
+
+    <footer id="footer" class="region region-footer">
+    <div id="block-system-powered-by" class="block block-system first last odd" role="complementary">
+
+      
+  <span>Powered by <a href="https://www.drupal.org">Drupal</a></span>
+</div>
+  </footer>
+
+  
+</div><!-- /#page -->
+  <script src="https://samhobbs.co.uk/sites/default/files/js/js_SPb-2zHnEZ2uMzSnALv_OrI0EHyRY9yc6hC49NxOk6U.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_VU7P4CTgUZdF2SyFko5LLAg9ZK0OSVjXVaAFnTLgVt0.js"></script>
+</body>
+</html>

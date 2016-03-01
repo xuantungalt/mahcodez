@@ -4,31 +4,10 @@
 # http://oss.linbit.com/drbd/
 wget http://oss.linbit.com/drbd/8.3/drbd-8.3.16.tar.gz
 
-sudo apt-get install -y make gcc flex
-./user/v9/Makefile.in
-./user/shared/Makefile.in
-./user/v84/Makefile.in
-./user/v83/Makefile.in
-./Makefile.in
-./documentation/v9/Makefile.in
-./documentation/v84/Makefile.in
-./documentation/v83/Makefile.in
-./scripts/Makefile.in
+sudo apt-get install make gcc flex
 
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/localstatedir = @localstatedir@/localstatedir = \/var/g' {}
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/datarootdir = @datarootdir@/datarootdir = \/data/g' {}
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/datadir = @datadir@/datadir = \/data/g' {}
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/sysconfdir = @sysconfdir@/sysconfdir = \/etc/g' {}
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/sbindir = @sbindir@/sbindir = \/sbin/g' {}
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/LIBDIR = @prefix@\/lib\/@PACKAGE_TARNAME@/LIBDIR = \/lib/g' {}
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/mandir = @mandir@/mandir = \/doc/g' {}
-find ./ -name Makefile.in | xargs -I {} sed -ri 's/\/usr\/lib\/ocf/\/lib\/ocf/g' {}
-
-./configure --prefix=/opt/drbd-utils --with-pacemaker --with-bashcompletion
-make -j 5
-export DESTDIR=/opt/drbd-utils
-make doc
-make install
+./configure --prefix=/opt/drbd --with-utils --with-pacemaker --with-bashcompletion
+make && make install
 
 sudo ln -s /opt/drbd/sbin/drbdadm /usr/sbin/drbdadm
 sudo ln -s /opt/drbd/sbin/drbdmeta /usr/sbin/drbdmeta
@@ -40,10 +19,10 @@ sudo modprobe drbd
 sudo lsmod | grep drbd
 
 # https://wiki.debian.org/DrBd
-cd /etc/drbd.d/
+cd /et/drbd.d/
 vim git-repo.res
 
-resource www-data 
+resource gitrepo 
 {
 	protocol C;
 	startup { wfc-timeout 0; degr-wfc-timeout 120; }
@@ -67,20 +46,17 @@ resource www-data
 }
 
 # zero out device
-dd if=/dev/zero of=drbd-partition.img bs=1M count=1024
-sudo losetup /dev/loop0 drbd-partition.img
 sudo mkfs -t ext3 /dev/loop0
-sudo dd if=/dev/zero of=/dev/loop0 bs=1M count=1024
+sudo dd if=/dev/zero of=/dev/loop0 bs=1M count=128
 
-sudo drbdadm create-md www-data
-sudo drbdadm up www-data        #on 8.4 may be optional cause resource is auto up'd
+sudo drbdadm create-md www
+sudo drbdadm up www
 # on primary drbd 8.3
-sudo drbdadm --overwrite-data-of-peer primary www-data
+sudo drbdadm --overwrite-data-of-peer primary www
 # or drbd 8.4
-sudo drbdadm primary --force www-data
-sudo drbdadm primary www-data
+sudo drbdadm primary --force www
 
-sudo mkfs.ext3 /dev/drbd0
+sudo drbdadm primary www
 
 
 6.17.2. Automatic split brain recovery policies
@@ -93,13 +69,12 @@ disconnect: Do not recover automatically, simply invoke the split-brain handler 
 discard-younger-primary: Discard and roll back the modifications made on the host which assumed the Primary role last.
 discard-least-changes: Discard and roll back the modifications on the host where fewer changes occurred.
 discard-zero-changes: If there is any host on which no changes occurred at all, simply apply all modifications made on the other and continue.
-
 after-sb-1pri. Split brain has just been detected, and at this time the resource is in the Primary role on one host. For this option, DRBD understands the following keywords:
+
 disconnect: As with after-sb-0pri, simply invoke the split-brain handler script (if configured), drop the connection and continue in disconnected mode.
 consensus: Apply the same recovery policies as specified in after-sb-0pri. If a split brain victim can be selected after applying these policies, automatically resolve. Otherwise, behave exactly as if disconnect were specified.
 call-pri-lost-after-sb: Apply the recovery policies as specified in after-sb-0pri. If a split brain victim can be selected after applying these policies, invoke the pri-lost-after-sb handler on the victim node. This handler must be configured in the handlers section and is expected to forcibly remove the node from the cluster.
 discard-secondary: Whichever host is currently in the Secondary role, make that host the split brain victim.
-
 after-sb-2pri. Split brain has just been detected, and at this time the resource is in the Primary role on both hosts. This option accepts the same keywords as after-sb-1pri except discard-secondary and consensus.
 
 [Note]	Note

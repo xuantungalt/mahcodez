@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"> <!--<![endif]-->
+
+
+
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="UTF-8">
+	
+		<title>Raspberry Pi Tutorial Course Week 3 - Day 2.1 wireless network setup</title>
+	
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	
+	<!-- Favicons
+	================================================== -->
+	<link rel='shortcut icon' href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/images/favicon.ico'>
+<link rel='apple-touch-icon' href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/images/apple-touch-icon.png'>
+<link rel='apple-touch-icon' sizes='72x72' href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/images/apple-touch-icon-72x72.png'>
+<link rel='apple-touch-icon' sizes='114x114' href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/images/apple-touch-icon-114x114.png'>
+ 	
+
+
+<!-- SEO Ultimate (http://www.seodesignsolutions.com/wordpress-seo/) -->
+	<meta name="description" content="To setup your wireless network using the Raspberry Pi follow these steps below.  These details are a little more in depth." />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Raspberry Pi Course Week 3 &#8211; Day 2.1 wireless network setup" />
+	<meta property="og:description" content="To setup your wireless network using the Raspberry Pi follow these steps below.  These details are a little more in depth." />
+	<meta property="og:url" content="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/" />
+	<meta property="article:published_time" content="2014-02-21" />
+	<meta property="article:modified_time" content="2015-05-21" />
+	<meta property="og:site_name" content="Raspberry Pi 2, Windows 10 IoT Core, Programming Tutorials &amp; Courses" />
+	<meta name="twitter:card" content="summary" />
+<!-- /SEO Ultimate -->
+
+<link rel="alternate" type="application/rss+xml" title="Raspberry Pi 2, Windows 10 IoT Core, Programming Tutorials &amp; Courses &raquo; Feed" href="http://www.suntimebox.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Raspberry Pi 2, Windows 10 IoT Core, Programming Tutorials &amp; Courses &raquo; Comments Feed" href="http://www.suntimebox.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Raspberry Pi 2, Windows 10 IoT Core, Programming Tutorials &amp; Courses &raquo; Raspberry Pi Course Week 3 &#8211; Day 2.1 wireless network setup Comments Feed" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/feed/" />
+<link rel='stylesheet' id='o-responsive-css'  href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/css/o-responsive.css?ver=2013-01-16' type='text/css' media='all' />
+<link rel='stylesheet' id='glyphicons-css'  href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/css/glyphicons.css?ver=2013-01-16' type='text/css' media='all' />
+<link rel='stylesheet' id='themestyle-css'  href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/style.css?ver=2013-01-16' type='text/css' media='all' />
+<link rel='stylesheet' id='skin-css'  href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/css/o-skin.css?ver=20130101' type='text/css' media='all' />
+<link rel='stylesheet' id='prettyphoto-css'  href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/css/prettyPhoto.css?ver=2013-01-16' type='text/css' media='all' />
+<link rel='stylesheet' id='photoswipe-css'  href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/css/photoswipe.css?ver=2013-01-16' type='text/css' media='all' />
+<link rel='stylesheet' id='googlefonts-css'  href='http://fonts.googleapis.com/css?family=Lato%3A300%2C400%2C900%2C300italic%2C400italic%2C900italic&#038;subset=latin&#038;ver=2013-01-16' type='text/css' media='all' />
+<link rel='stylesheet' id='flexslider-css'  href='http://www.suntimebox.com/wp-content/themes/coffeeandcream/css/flexslider.css?ver=2013-01-16' type='text/css' media='all' />
+<script type='text/javascript' src='http://www.suntimebox.com/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.suntimebox.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.suntimebox.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.1.9" />
+<link rel='canonical' href='http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/' />
+<link rel='shortlink' href='http://www.suntimebox.com/?p=884' />
+
+<!-- BEGIN GADWP v4.9.1.2 Classic Tracking - https://deconf.com/google-analytics-dashboard-wordpress/ -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-44579547-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- END GADWP Classic Tracking -->
+
+
+
+
+</head>
+
+<body class="page page-id-884 page-child parent-pageid-852 page-template-default computer selectnav" data-device="" data-maxcols="">
+	<div id="top"></div>
+	
+	
+<div id="header" class="menu-mixed menu-mixed-title">
+
+	<div class="container wrap">
+
+		<div class="row">
+			
+							<div class="col pull-left" id="logo">
+					<a class="logoimage" href="http://www.suntimebox.com/" title="Raspberry Pi 2, Windows 10 IoT Core, Programming Tutorials &amp; Courses | Programming Resources &amp; Tutorials for everyone" >
+						<img src="http://www.suntimebox.com/wp-content/uploads/2014/02/arm-android-raspberry-pi-tutorials.png" alt="" class=""/>
+					</a>
+					<a class="logolink hidden" href="http://www.suntimebox.com/" title="Raspberry Pi 2, Windows 10 IoT Core, Programming Tutorials &amp; Courses | Programming Resources &amp; Tutorials for everyone" >
+						Raspberry Pi 2, Windows 10 IoT Core, Programming Tutorials &amp; Courses					</a>
+				</div>
+						
+			<div class="col pull-right hidden" id="pagenav">
+				<a href="#sidr" id="menutrigger" class="btn icon transparent"><span class="glyphicons justify"><i></i></span></a><span class="clear"></span>
+			</div>
+			
+						
+						
+				<div class="col pull-right" id="sitenav">	
+					<ul class="nav"><li id="menu-item-4" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-4"><a href="http://www.suntimebox.com/">Home</a></li>
+<li id="menu-item-624" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor current-menu-ancestor current_page_ancestor menu-item-has-children menu-item-624"><a title="Raspberry Pi Tutorials" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/">Raspberry Pi Course</a>
+<ul class="sub-menu">
+	<li id="menu-item-1273" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current_page_ancestor menu-item-has-children menu-item-1273"><a title="Part 1- Intro" href="http://www.suntimebox.com/raspberry-pi-course-part-1/">Part 1- Course Introduction</a>
+	<ul class="sub-menu">
+		<li id="menu-item-655" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-655"><a title="Raspberry Pi Tutorial Week 1" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/">Raspberry Pi Course &#8211; Week 1</a>
+		<ul class="sub-menu">
+			<li id="menu-item-656" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-656"><a title="Day 1.0 &#8211; The Raspberry Pi" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/day1-0/">Day 1.0 &#8211; The Raspberry Pi</a></li>
+			<li id="menu-item-712" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-712"><a title="Day 2.0 &#8211; The Hardware" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/day-2-0/">Day 2.0 &#8211; The Hardware</a>
+			<ul class="sub-menu">
+				<li id="menu-item-1436" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1436"><a title="Day 2.1 &#8211; Model B" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/day-2-1/">Day 2.1 &#8211; Model B</a></li>
+				<li id="menu-item-1478" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1478"><a title="Day 2.2 Model B+" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/day-2-2-model-b/">Day 2.2 Model B+</a></li>
+			</ul>
+</li>
+			<li id="menu-item-711" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-711"><a title="Day 3 &#8211; Operating Systems" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/day-3/">Day 3 &#8211; Operating Systems</a></li>
+			<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a title="Day 4 &#8211; Connecting it up" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/day-4-0/">Day 4 &#8211; Connecting it up</a></li>
+			<li id="menu-item-709" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-709"><a title="Day 5 &#8211; The Desktop" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-1/day-5-0/">Day 5 &#8211; The Desktop</a></li>
+		</ul>
+</li>
+		<li id="menu-item-751" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-751"><a title="Raspberry Pi Course Week 2" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/">Raspberry Pi Course &#8211; Week 2</a>
+		<ul class="sub-menu">
+			<li id="menu-item-753" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-753"><a title="Day 1.0 &#8211; The Desktop" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-1-0/">Day 1.0 &#8211; The Desktop</a></li>
+			<li id="menu-item-752" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-752"><a title="Day 2.0 &#8211; The File Manager" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-2/">Day 2.0 &#8211; The File Manager</a></li>
+			<li id="menu-item-838" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-838"><a title="Day 3.0 &#8211; Editing Files" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-3/">Day 3.0 &#8211; Editing Files</a></li>
+			<li id="menu-item-837" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-837"><a title="Day 4.0 &#8211; Networking" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-4/">Day 4.0 &#8211; Networking</a></li>
+			<li id="menu-item-836" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-836"><a title="Day 5.0 &#8211; Internet" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-5/">Day 5.0 &#8211; Internet</a>
+			<ul class="sub-menu">
+				<li id="menu-item-835" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-835"><a title="Day 5.1 Dillo Web Browser" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-5-1/">Day 5.1 Dillo Web Browser</a></li>
+				<li id="menu-item-834" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-834"><a title="Day 5.2 &#8211; Chromium Web Browser" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-5-2/">Day 5.2 &#8211; Chromium Web Browser</a></li>
+				<li id="menu-item-833" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-833"><a title="Day 5.3 &#8211; Future Web Browsing" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-2/day-5-3/">Day 5.3 &#8211; Future Web Browsing</a></li>
+			</ul>
+</li>
+		</ul>
+</li>
+		<li id="menu-item-927" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor current-menu-ancestor current-page-parent current_page_ancestor menu-item-has-children menu-item-927"><a title="Week 3 Overview" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/">Raspberry Pi Course &#8211; Week 3</a>
+		<ul class="sub-menu">
+			<li id="menu-item-926" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-926"><a title="Day 1.0 &#8211; Wi-Fi Config" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-1/">Day 1.0 &#8211; Wi-Fi Config</a></li>
+			<li id="menu-item-925" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-925"><a title="Day 2.0 &#8211; Command Line Wi-Fi Setup" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-2/">Day 2.0 &#8211; Command Line Wi-Fi Setup</a>
+			<ul class="sub-menu">
+				<li id="menu-item-924" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-884 current_page_item menu-item-924"><a title="Day 2.1 &#8211; Wireless network setup" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/">Day 2.1 &#8211; Wireless network setup</a></li>
+			</ul>
+</li>
+			<li id="menu-item-923" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-923"><a title="Day 3 &#8211; Pi Store" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-3/">Day 3 &#8211; Pi Store</a></li>
+			<li id="menu-item-922" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-922"><a title="Day 4.0 &#8211; IP Address" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-4/">Day 4.0 &#8211; IP Address</a></li>
+			<li id="menu-item-921" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-921"><a title="Day 5 &#8211; Static IP Address" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-5/">Day 5 &#8211; Static IP Address</a></li>
+		</ul>
+</li>
+		<li id="menu-item-1032" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1032"><a title="Week 4" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-4/">Raspberry Pi Course &#8211; Week 4</a>
+		<ul class="sub-menu">
+			<li id="menu-item-1031" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1031"><a title="Day 1 &#8211; What is a terminal?" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-4/day-1/">Day 1 &#8211; What is a terminal?</a></li>
+			<li id="menu-item-1030" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1030"><a title="Day 2 &#8211; Basic Commands" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-4/day-2/">Day 2 &#8211; Basic Commands</a></li>
+			<li id="menu-item-1029" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1029"><a title="Day 3 &#8211; File System Structure" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-4/day-3/">Day 3 &#8211; File System Structure</a></li>
+			<li id="menu-item-1028" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1028"><a title="Day 4 &#8211; File Navigation" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-4/day-4/">Day 4 &#8211; File Navigation</a></li>
+			<li id="menu-item-1027" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1027"><a title="Day 5 &#8211; File Manipulation" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-4/day-5/">Day 5 &#8211; File Manipulation</a></li>
+		</ul>
+</li>
+		<li id="menu-item-1155" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1155"><a title="Week 5" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-5/">Raspberry Pi Course &#8211; Week 5</a>
+		<ul class="sub-menu">
+			<li id="menu-item-1154" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1154"><a title="Day 1 &#8211; Settings" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-5/day-1-settings/">Day 1 &#8211; Settings</a></li>
+			<li id="menu-item-1153" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1153"><a title="Day 2 &#8211; Managing software" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-5/day-2-managing-software-packages/">Day 2 &#8211; Managing software</a></li>
+			<li id="menu-item-1152" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1152"><a title="Day 3  &#8211; Keeping the system up to date" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-5/raspberry-pi-week-5-day-3-keeping-system-date/">Day 3  &#8211; Keeping the system up to date</a></li>
+			<li id="menu-item-1175" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1175"><a title="Day 4 &#8211; Services" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-5/day-4-services/">Day 4 &#8211; Services</a></li>
+			<li id="menu-item-1174" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1174"><a title="Day 5 &#8211; Users &amp; Groups" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-5/day-5-users-groups/">Day 5 &#8211; Users &#038; Groups</a></li>
+		</ul>
+</li>
+	</ul>
+</li>
+	<li id="menu-item-1278" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1278"><a title="Programming" href="http://www.suntimebox.com/raspberry-pi-course-part-2/">Part 2 &#8211; Programming</a>
+	<ul class="sub-menu">
+		<li id="menu-item-1252" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1252"><a title="Raspberry Pi Course Week 6" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-6/">Raspberry Pi Course Week 6</a>
+		<ul class="sub-menu">
+			<li id="menu-item-1251" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1251"><a title="Day 1- SSH &amp; Connecting Remotely)" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-6/day-1-ssh/">Day 1- SSH &#038; Connecting Remotely</a></li>
+			<li id="menu-item-1249" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1249"><a title=" Day 2 &#8211; Understanding Databases" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-6/day-2-understanding-databases-mysql/">Day 2 &#8211; Understanding Databases</a></li>
+			<li id="menu-item-1250" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1250"><a title="Day 3 &#8211; Apache Web Server" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-6/day-3-installing-apache-web-server/">Day 3 &#8211; Apache Web Server</a></li>
+			<li id="menu-item-1264" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1264"><a title="Day 4 &#8211; Installing PHP" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-6/day-4-installing-php/">Day 4 &#8211; Installing PHP</a></li>
+			<li id="menu-item-1263" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1263"><a title="Day 5 &#8211; Programming PHP" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-6/day-4-programming-php/">Day 5 &#8211; Programming PHP</a></li>
+		</ul>
+</li>
+		<li id="menu-item-1364" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1364"><a title="Raspberry Pi Course Week 7" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-7/">Raspberry Pi Course Week 7</a>
+		<ul class="sub-menu">
+			<li id="menu-item-1365" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1365"><a title="Day 1 &#8211; Beginning Programming" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-7/day1-beginning-programming/">Day 1 &#8211; Beginning Programming</a></li>
+			<li id="menu-item-1376" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1376"><a title="Day 2 &#8211; Beginning Python Programming" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-7/day-2-beginning-python-programming/">Day 2 &#8211; Beginning Python Programming</a></li>
+			<li id="menu-item-1375" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1375"><a title="Day 3 &#8211; Beginning C Programming" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-7/day-3-beginning-c-programming/">Day 3 &#8211; Beginning C Programming</a></li>
+			<li id="menu-item-1389" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1389"><a title="Day 4 &#8211; Beginning C++ Programming" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-7/day-4-beginning-c-plus-programming/">Day 4 &#8211; Beginning C++ Programming</a></li>
+			<li id="menu-item-1413" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1413"><a title="Beginning Object Orientated Programming" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-7/day-5-beginning-object-oriented-programming-oop/">Day 5 &#8211; Beginning Object Orientated Programming</a></li>
+		</ul>
+</li>
+		<li id="menu-item-1543" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1543"><a title="Raspberry Pi Course Week 8" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-8/">Raspberry Pi Course Week 8</a>
+		<ul class="sub-menu">
+			<li id="menu-item-1561" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1561"><a title="Python Functions" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-8/day-1-python-functions/">Day 1 &#8211; Python Functions</a></li>
+			<li id="menu-item-1584" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1584"><a title="Python Function Parameters" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-8/day-2-python-function-parameters/">Day 2 &#8211; Python Function Parameters</a></li>
+			<li id="menu-item-1599" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1599"><a title="Python Print Function" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-8/day-3-python-print-function/">Day 3 &#8211; Python Print Function</a></li>
+			<li id="menu-item-1649" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1649"><a title="Python Input Function" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-8/day-4-python-input-function/">Day 4 (Python Input Function)</a></li>
+		</ul>
+</li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-1704" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1704"><a title="Windows 10 IoT Core Raspberry Pi 2 Course" href="http://www.suntimebox.com/windows-10-iot-core-raspberry-pi-2-course/">Windows 10 IoT Core Course</a>
+<ul class="sub-menu">
+	<li id="menu-item-1706" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1706"><a title="Windows 10 IoT Core Course " href="http://www.suntimebox.com/windows-10-iot-core-raspberry-pi-2-course/week-1/">Windows 10 IoT Core Course  &#8211; Week 1</a>
+	<ul class="sub-menu">
+		<li id="menu-item-1705" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1705"><a title="Windows 10 IoT Course &#8211; Day 1" href="http://www.suntimebox.com/windows-10-iot-core-raspberry-pi-2-course/week-1/what-is-raspberry-pi-2-day-1/">Day 1 &#8211; What is the Raspberry Pi 2?</a></li>
+		<li id="menu-item-1742" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1742"><a title="Windows 10 IoT Course &#8211; Day 2" href="http://www.suntimebox.com/windows-10-iot-core-raspberry-pi-2-course/week-1/internet-iot-windows-iot-10-day-2/">Day 2 &#8211; What is the Internet of Things (IoT)?</a></li>
+		<li id="menu-item-1708" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1708"><a title="Windows IoT 10 Course &#8211; Day 3" href="http://www.suntimebox.com/windows-10-iot-core-raspberry-pi-2-course/week-1/windows-iot-10-cloud-computing-day-3/">Day 3 &#8211; What is Cloud Computing?</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-6" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-6"><a title="Android Tutorials" href="http://www.suntimebox.com">Android Tutorials</a>
+<ul class="sub-menu">
+	<li id="menu-item-574" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-574"><a title="Android Game Programming Tutorials" href="http://www.suntimebox.com/android-game-programming-tutorials/">Android Game Programming Tutorials</a>
+	<ul class="sub-menu">
+		<li id="menu-item-575" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-575"><a title="Game Programming &#8211; Week 1" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/">Game Programming &#8211; Week 1</a>
+		<ul class="sub-menu">
+			<li id="menu-item-581" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-581"><a title="Eclipse Development Environment" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day1-0/">Day 1.0 &#8211; Eclipse Development Environment</a></li>
+			<li id="menu-item-578" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-578"><a title="Installing Eclipse &amp; Android SDK" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day1-1/">Day 1.1 &#8211; Installing Eclipse &#038; Android SDK</a>
+			<ul class="sub-menu">
+				<li id="menu-item-582" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-582"><a title="Installing Eclipse &amp; Android SDK on Debian Linux 7 (Squeeze)" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day1-1/installing-eclipse-android-sdk-on-debian-linux-7-squeeze/">Installing Eclipse &#038; Android SDK on Debian Linux 7 (Squeeze)</a></li>
+				<li id="menu-item-583" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-583"><a title="Installing Eclipse &amp; Android SDK on Mac OSX" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day1-1/installing-eclipse-android-sdk-on-mac-osx/">Installing Eclipse &#038; Android SDK on Mac OSX</a></li>
+				<li id="menu-item-584" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-584"><a title="Installing Eclipse &amp; Android SDK on Windows" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day1-1/installing-eclipse-android-sdk-on-windows/">Installing Eclipse &#038; Android SDK on Windows</a></li>
+			</ul>
+</li>
+			<li id="menu-item-577" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-577"><a title="Android SDK Manager" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day-1-2/">Day 1.2 &#8211; Android SDK Manager</a></li>
+			<li id="menu-item-576" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-576"><a title="Eclipse Overview" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day-2-0/">Day 2.0 &#8211; Eclipse Overview</a></li>
+			<li id="menu-item-1035" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1035"><a title="Day 2.1- Hello World" href="http://www.suntimebox.com/android-game-programming-tutorials/week-1/day-2-1/">Day 2.1- Hello World</a></li>
+		</ul>
+</li>
+		<li id="menu-item-1053" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1053"><a title="Android Game Programming Week 2" href="http://www.suntimebox.com/android-game-programming-tutorials/week2/">Android Game Programming Week 2</a>
+		<ul class="sub-menu">
+			<li id="menu-item-1052" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1052"><a title="Day 1.0  &#8211; Android Emulator" href="http://www.suntimebox.com/android-game-programming-tutorials/week2/day1/">Day 1.0  &#8211; Android Emulator</a></li>
+			<li id="menu-item-1051" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1051"><a title="Day 2.0 &#8211; Deploying the App" href="http://www.suntimebox.com/android-game-programming-tutorials/week2/day-2/">Day 2.0 &#8211; Deploying the App</a></li>
+		</ul>
+</li>
+	</ul>
+</li>
+</ul>
+</li>
+</ul>				</div><!-- #sitenav -->
+			
+						
+			
+						
+				<div class="col dimfull" id="mobilenav" >
+					<select id="mobilenavselect" data-i18n="Navigation"></select>
+				</div><!-- #mobilenav -->
+				
+			
+	
+		</div><!--/.row -->
+		<span class="clear"></span>
+		
+	</div><!--/.container -->
+	
+</div><!--/#header -->
+
+
+<div id="main" class=" -container">
+
+	<div class="container wrap">
+
+		<div class="row smallwrap" >
+
+			<div class="col dimfull" id="content">
+			
+								
+
+					
+					<div class="row format-wide2 o-page o-singlular">
+					
+												
+
+
+	
+	<!-- SINGLE VIEW -->
+
+	<div class="post-884 page type-page status-publish hentry">
+	
+		<div class="inner-hentry">
+			
+						<div class="row">
+				<div class="col dimfull main-title">
+					<h1 class="post-title">Raspberry Pi Course Week 3 &#8211; Day 2.1 wireless network setup</h1>
+				</div>
+			</div>
+			<span class="clear"></span>
+					
+						
+			<div class="row">
+				
+				<div class="col dimfull">
+					
+										
+										
+										
+					
+					<div class="post-content"><p><a title="Raspberry Pi Course Week 3 – Day 2.1 wireless network setup" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/raspberry-pi-course-week-3-day-2-1-wireless-network-setup/"><img class="aligncenter size-full wp-image-862" src="http://www.suntimebox.com/wp-content/uploads/2014/02/Raspberry-Pi-Course-Week3-Day2.1-Wireless-Setup-title.png" alt="WiFi setup for the Raspberry Pi" width="175" height="118" /></a></p>
+<p>To setup your wireless network using the Raspberry Pi follow these steps below.  These details are a little more in depth than the required setup but it will act as a thorough guide.</p>
+<p>Make sure you have a compatible wireless adapter. If you do not have a compatible Wi-Fi adapter then you can purchased one below from Amazon.</p>
+<p><a href="http://www.amazon.co.uk/gp/product/B003MTTJOY/ref=as_li_tf_tl?ie=UTF8&amp;camp=1634&amp;creative=6738&amp;creativeASIN=B003MTTJOY&amp;linkCode=as2&amp;tag=sentriconnyrex" target="_new"> <img class="aligncenter size-full wp-image-938" src="http://www.suntimebox.com/wp-content/uploads/2014/02/raspberry-pi-compatible-wi-fi-adapter.png" alt="Wireless raspebrry pi adapter" width="388" height="327" /></a><img style="border: none !important; margin: 0px !important;" src="http://ir-uk.amazon-adsystem.com/e/ir?t=sentriconnyrex&amp;l=as2&amp;o=2&amp;a=B003MTTJOY" alt="" width="1" height="1" border="0" /></p>
+<p>Make sure your Wi-Fi adapter is plugged into the Raspberry Pi.  Before the Wi-Fi adapter can be configured it needs to check that the correct drivers are installed.</p>
+<p>Enter the following command:</p>
+<p><i>$ lsusb</i><b><i></i></b></p>
+<p>This will display all the usb devices attached to the Raspberry Pi.  First thing you will need to do is to examine the list to see if the wi-fi device appears.  The results may differ depending on the type of devices you have attached.</p>
+<p><i>Bus 001 Device 005: ID 0bda:8189 Realtek Semiconductor Corp. <strong>RTL8187B</strong> Wireless 802.11g Network adapter.</i></p>
+<p>Update the package information and make sure that a network cable is plugged in and connected to your network.  Enter the following.</p>
+<p><i>$ apt-get update</i><b><i></i></b></p>
+<p>When the update has completed enter the following.</p>
+<p><i>$ apt-cache search RTL818</i><b><i></i></b></p>
+<p>Your device may be different so enter your device ID.  Notice that only RTL818 was entered, instead of the whole ID.  This is because it didn’t find the adapter when using the apt-cache command.  You may need to shorten your description.</p>
+<div style="text-align: center;"><script type="text/javascript">// <![CDATA[
+var uri = 'http://impgb.tradedoubler.com/imp?type(img)g(21400558)a(2389428)' + new String (Math.random()).substring (2, 11);
+document.write('<a href="http://clkuk.tradedoubler.com/click?p=234641&#038;a=2389428&#038;g=21400558" target="_BLANK"><img src="'+uri+'" border=0></a>');
+// ]]&gt;</script></div>
+<p>When the search completed the output was:</p>
+<p><strong><i>Firmware-realtek – Binary firmware for Realtek wired and wireless network adapters</i></strong><b><i></i></b></p>
+<p>Enter</p>
+<p><i>$ sudo apt-get install firmware-realtek</i><b><i></i></b></p>
+<p>Enter the following command to see if your adapter is listed.</p>
+<p><i>$ lsmod</i><b><i></i></b></p>
+<p>You will see the same ID of your device listed.</p>
+<p><i>Module                                Size        Used by</i><i></i></p>
+<p><i>rtl8187                                 44897          0</i><b><i></i></b></p>
+<p>The ID of your adapter will appear under the module heading.<br />
+Create a configuration file.</p>
+<p><i>$ sudo nano /etc/wpa.config</i><b><i></i></b></p>
+<p>Enter the following</p>
+<p>network={</p>
+<p>ssid=”YOUR_SSID”</p>
+<p>proto=RSN</p>
+<p>key_mgmt=WPA-PSK</p>
+<p>pairwise=CCMP TKIP</p>
+<p>group=CCMP TKIP</p>
+<p>psk=”WPA-PASSWORD”</p>
+<p>}</p>
+<p>Add a reference to the interfaces.</p>
+<p><i>$ sudo nano /etc/network/interfaces</i><b><i></i></b></p>
+<p>Add the following</p>
+<p><i>auto wlan0</i><i></i></p>
+<p><i>iface wlan0 inet dhcp</i><i></i></p>
+<p><i>wpa-conf /etc/wpa.config</i><b><i></i></b></p>
+<p>Save this file and exit by pressing CTRL-X and enter Y to save.</p>
+<p>&nbsp;</p>
+<p>Remove your network cable and restart the network.</p>
+<p><i>$ sudo /etc/init.d/networking restart</i></p>
+<p>You can also configure your wireless setup using the Wi-Fi GUI method.<b></b></p>
+<div class="box bg-yellow"><p>The information on this site has been created by volunteers in their own time because they have a passion to learn and to teach others. If you find this information useful please consider contributing something so that they know their efforts are appreciated.</p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"><input name="cmd" type="hidden" value="_s-xclick" /> <input name="hosted_button_id" type="hidden" value="EJYRN8Y3W7KG8" /> <input alt="PayPal – The safer, easier way to pay online." name="submit" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" type="image" /> <img src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" alt="" width="1" height="1" border="0" /></form>
+<p></p></div>
+<div style="text-align: center;"><iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-eu.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&#038;OneJS=1&#038;Operation=GetAdHtml&#038;MarketPlace=GB&#038;source=ac&#038;ref=qf_sp_asin_til&#038;ad_type=product_link&#038;tracking_id=sentriconnyrex&#038;marketplace=amazon&#038;region=GB&#038;placement=B00KAKUN3E&#038;asins=B00KAKUN3E&#038;linkId=YJZYXYEAG33TVW6C&#038;show_border=true&#038;link_opens_in_new_window=true"><br />
+</iframe></div>
+<table class=" alignright">
+<tbody>
+<tr>
+<td><a title="Raspberry Pi Couse Week 3 – Day 3 (Pi Store)" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-3/"><img class="aligncenter size-full wp-image-863" src="http://www.suntimebox.com/wp-content/uploads/2014/02/Raspberry-Pi-Course-Week3-Day3-Pi-Store.png" alt="Raspberry Pi Tutorial Pi Store" width="195" height="118" /></a></td>
+</tr>
+<tr>
+<td>
+<p style="text-align: right;">Next <a title="Raspberry Pi Couse Week 3 – Day 3 (Pi Store)" href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-3/">Raspberry Pi Week 3</a> &#8211; Day 3.0 &gt;&gt;</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+					<span class="clear"></span>
+					
+										
+										
+				</div>
+			
+			</div><!-- /.row -->
+			<span class="clear"></span>
+			
+						
+			
+<!-- You can start editing here. -->
+
+
+	<div class="row" id="comments">
+	
+		<h3 id="comments-title">15 Comments to &#8220;Raspberry Pi Course Week 3 &#8211; Day 2.1 wireless network setup&#8221;</h3>
+	
+			
+		<ol class="commentlist">
+			<li class="comment" id="li-comment-222">
+		<div class="comment-body"  id="comment-222">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/?d=retro&#038;s=50' class='avatar avatar-50 photo avatar-default' height='50' width='50' />					<span class="fn">Wifi connection in Raspberry pi | Easy programming tutorials</span>  February 26, 2014 at 11:47				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>[&#8230;] Reference link: http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/ [&#8230;]</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=222#respond' onclick='return addComment.moveForm( "comment-222", "222", "respond", "884" )' aria-label='Reply to Wifi connection in Raspberry pi | Easy programming tutorials'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-222"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-227">
+		<div class="comment-body"  id="comment-227">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://1.gravatar.com/avatar/f6f1384e110b58c8f8815235d2ba7555?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">Phase1</span>  February 26, 2014 at 13:59				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Excellent. Worked first time with the edimax.  Cheers mate.</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=227#respond' onclick='return addComment.moveForm( "comment-227", "227", "respond", "884" )' aria-label='Reply to Phase1'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-227"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-3562">
+		<div class="comment-body"  id="comment-3562">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://1.gravatar.com/avatar/fd556685c72c0ec9452f166b95eef12a?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">DeviceSafety</span>  April 12, 2014 at 10:47				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Great article, got close but could not complete. Answer to following Couple questions will help:</p>
+<p>1. Our router supports WEP64bits, how do we manage WEP?<br />
+2. How do we get the WPA security password?</p>
+<p>Thanks.</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=3562#respond' onclick='return addComment.moveForm( "comment-3562", "3562", "respond", "884" )' aria-label='Reply to DeviceSafety'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-3562"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-29178">
+		<div class="comment-body"  id="comment-29178">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/?d=retro&#038;s=50' class='avatar avatar-50 photo avatar-default' height='50' width='50' />					<span class="fn"><a href='http://ducchinhhoang.wordpress.com/2014/07/18/raspberry-pi-configuration/' rel='external nofollow' class='url'>Raspberry Pi Configuration | MY HOBBIES</a></span>  August 27, 2014 at 04:02				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>[&#8230;] Reference 2 [&#8230;]</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=29178#respond' onclick='return addComment.moveForm( "comment-29178", "29178", "respond", "884" )' aria-label='Reply to Raspberry Pi Configuration | MY HOBBIES'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-29178"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-45035">
+		<div class="comment-body"  id="comment-45035">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/cdecdb6c4cd94924a690ef8980cef700?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">Ed Hammock</span>  September 28, 2014 at 21:04				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Hi,</p>
+<p>This recovered my broken WiFi settings - brilliant.  Please can you tell me how to make the WiFi connection static?</p>
+<p>Thanks.</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=45035#respond' onclick='return addComment.moveForm( "comment-45035", "45035", "respond", "884" )' aria-label='Reply to Ed Hammock'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-45035"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	<ul class="children">
+	<li class="comment" id="li-comment-47081">
+		<div class="comment-body"  id="comment-47081">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://1.gravatar.com/avatar/dc61afd00a219a8091af53654e0fc690?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">l0ris</span>  October 3, 2014 at 08:46				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Take a look at <a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-5/" rel="nofollow">http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day-5/</a> and replace eth0 with wlan0.</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=47081#respond' onclick='return addComment.moveForm( "comment-47081", "47081", "respond", "884" )' aria-label='Reply to l0ris'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-47081"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-46963">
+		<div class="comment-body"  id="comment-46963">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/c003e9a1b2b3b04047f3bf9e8b7a2341?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">Mathias</span>  October 2, 2014 at 20:51				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Hi, thanks for the tutorial, but i have a problem... When i try using the gui, i cant choose any adapter... And the status is "Could not get status from wpa_supplicant"</p>
+<p>In the CLI when i have rebooted the network it says in the bottom:<br />
+cannot find device "wlan0"<br />
+Bind socket to interface: No such device<br />
+Failed to bring up wlan0.<br />
+Done.</p>
+<p>And btw when i run the command lsusb it is not displaying anything else than the text Realtek Semiconductor Corp.</p>
+<p>PLEASE HELPPPPPP!</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=46963#respond' onclick='return addComment.moveForm( "comment-46963", "46963", "respond", "884" )' aria-label='Reply to Mathias'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-46963"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	<ul class="children">
+	<li class="comment" id="li-comment-47079">
+		<div class="comment-body"  id="comment-47079">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://1.gravatar.com/avatar/dc61afd00a219a8091af53654e0fc690?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">l0ris</span>  October 3, 2014 at 08:40				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Which wireless adapter are you using?  I had the same problem with a generic wi-fi adapter and then I purchased the Edimax above and it resolved the issue.  Can you try another adapter?</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=47079#respond' onclick='return addComment.moveForm( "comment-47079", "47079", "respond", "884" )' aria-label='Reply to l0ris'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-47079"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-126949">
+		<div class="comment-body"  id="comment-126949">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://1.gravatar.com/avatar/d778c2e2766e703f4797108e8ea9a268?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn"><a href='http://None' rel='external nofollow' class='url'>ZipZap</a></span>  January 25, 2015 at 11:01				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Get as far as apt-get update then system lists four Es. Primary problem is<br />
+open (13: Permission denied)<br />
+Unable to lock directory<br />
+ unable to lock administration directory, are you root?</p>
+<p>How do we resolve?  Please help</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=126949#respond' onclick='return addComment.moveForm( "comment-126949", "126949", "respond", "884" )' aria-label='Reply to ZipZap'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-126949"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	<ul class="children">
+	<li class="comment" id="li-comment-127361">
+		<div class="comment-body"  id="comment-127361">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/c676a7495f87e3937acf3fea45d351e7?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">coolife</span>  January 26, 2015 at 11:45				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Did you try sudo apt-get update?  You may have something blocking access, another unfinshed upgrade or Synaptic using the database?</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=127361#respond' onclick='return addComment.moveForm( "comment-127361", "127361", "respond", "884" )' aria-label='Reply to coolife'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-127361"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-126950">
+		<div class="comment-body"  id="comment-126950">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://1.gravatar.com/avatar/d778c2e2766e703f4797108e8ea9a268?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn"><a href='http://None' rel='external nofollow' class='url'>ZipZap</a></span>  January 25, 2015 at 11:04				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>We are using edimax wifi as recommended</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=126950#respond' onclick='return addComment.moveForm( "comment-126950", "126950", "respond", "884" )' aria-label='Reply to ZipZap'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-126950"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-153106">
+		<div class="comment-body"  id="comment-153106">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/a07434b4f9c2fd38065f3d2ce198456c?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">Emna Trabelsi</span>  May 9, 2015 at 09:12				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>i have two questions:<br />
+1) whenever i do this i always get the same msg : could not get status from wpa_supplicant.conf<br />
+2) how can i get into my raspberry if i remove the ethernet cable using putty , and i don't have the ip address to open an ssh session !</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=153106#respond' onclick='return addComment.moveForm( "comment-153106", "153106", "respond", "884" )' aria-label='Reply to Emna Trabelsi'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-153106"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-158119">
+		<div class="comment-body"  id="comment-158119">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/a5de49f55babb1e0cb970665d3e5ef74?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">Niranjan</span>  June 14, 2015 at 11:26				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>I have a problem where wlan0 cannot be recognised. any help would be appreciated</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=158119#respond' onclick='return addComment.moveForm( "comment-158119", "158119", "respond", "884" )' aria-label='Reply to Niranjan'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-158119"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-160043">
+		<div class="comment-body"  id="comment-160043">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/ec9ec1e853f60e9d9dfc18906563b87a?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn"><a href='http://www.dedyprastyo.net' rel='external nofollow' class='url'>dedy</a></span>  June 28, 2015 at 21:35				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Thanks for the article, can I use usb expander to use this wireless device as you know raspberry only have 2 usb port.</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=160043#respond' onclick='return addComment.moveForm( "comment-160043", "160043", "respond", "884" )' aria-label='Reply to dedy'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-160043"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+	<li class="comment" id="li-comment-176098">
+		<div class="comment-body"  id="comment-176098">
+			<div class="comment-meta">
+				<div class="comment-author">
+					<img alt='' src='http://0.gravatar.com/avatar/c5557ca050743375de10b9c416ecc18a?s=50&amp;d=retro&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' />					<span class="fn">whatnow</span>  December 22, 2015 at 21:00				</div><!-- .comment-author .vcard -->
+			</div>
+		
+			<div class="comment-content">
+								<p>Thanks for the tutorial! Everything works until I get to $lsmod. I'm using the Edimax Realtex wifi adapter, but I don't see it listed in the Module column. When I Enter $lsusb, it shows up just fine - listed as "Bus 001 Device 004: ... Realtek RTL8188CUS..." But with $lsmod, the only listed module that "seems to" refer to my wifi dongle is listed as [Module] 8192cu, [Size] 550816, [Used by] 0.</p>
+<p>Any ideas?</p>
+			</div>
+			<div class="reply">
+				<a class='comment-reply-link' href='/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/?replytocom=176098#respond' onclick='return addComment.moveForm( "comment-176098", "176098", "respond", "884" )' aria-label='Reply to whatnow'>Reply</a>		
+				<a href="http://www.suntimebox.com/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#comment-176098"></a> 			</div><!-- .reply -->
+			<span class="clear"></span>
+			
+		</div><!-- #comment -->
+	</li><!-- #comment-## -->
+		</ol>
+	
+			
+	</div><!-- /#o-comments -->
+	
+
+ 
+
+								<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/raspberry-pi-tutorial-course/week-3/day2-1-wireless-network-setup/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://www.suntimebox.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p>							<div class="row"><div class="col dim1third"><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" /></p></div>
+<div class="col dim1third"><p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" /></p></div>
+<div class="col dim1third noright"><p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p></div></div>
+												<p class="comment-form-comment "><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<span class="clear"></span>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" class="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='884' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="881c616e86" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="172"/></p>					</form>
+							</div><!-- #respond -->
+					
+		</div><!-- /.inner-hentry -->
+	
+	</div><!-- /post_class() -->
+	<span class="clear"></span>
+	
+	
+					
+					</div>
+					
+
+				
+							
+			</div><!-- /.col #content -->
+			
+
+
+
+
+			
+		
+		
+		
+		</div><!-- /.row  -->
+		
+	</div><!-- /.container -->
+	
+</div><!-- /#main -->
+
+
+
+
+		
+		<span 
+		id="lightbox_params" 
+		data-speed="fast" 
+		data-slideshow="5000" 
+		data-autoplay="no" 
+		data-theme="light_square" 
+		data-gallery="no" 
+		data-sharing="none" 
+		class="hidden">
+	</span>
+	<div class="scroller"><a style="display: none;" href="#top" id="scrolltop" class="" title="Top"><span class="glyphicons up_arrow"><i></i></span></a></div>
+	
+	
+
+<!-- End Document
+================================================== -->
+<div id="su-footer-links" style="text-align: center;"></div><script type='text/javascript' src='http://www.suntimebox.com/wp-content/plugins/akismet/_inc/form.js?ver=3.1.1'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-content/themes/coffeeandcream/js/jquery.easing.1.3.js?ver=2013-01-16'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-content/themes/coffeeandcream/js/jquery.parallax-1.1.3.js?ver=2013-01-16'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-content/themes/coffeeandcream/js/jquery.sidr.min.js?ver=2013-01-16'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-content/themes/coffeeandcream/js/jquery.prettyPhoto.js?ver=2013-01-16'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-content/themes/coffeeandcream/js/klass.min.js?ver=4.1.9'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-content/themes/coffeeandcream/js/code.photoswipe.jquery-3.0.4.min.js?ver=2013-01-16'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-content/themes/coffeeandcream/js/scripts.js?ver=2013-01-16'></script>
+<script type='text/javascript' src='http://www.suntimebox.com/wp-includes/js/comment-reply.min.js?ver=4.1.9'></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44579547-2', 'suntimebox.com');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

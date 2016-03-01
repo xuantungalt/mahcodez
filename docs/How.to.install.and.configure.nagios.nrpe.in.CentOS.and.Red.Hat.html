@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8"/>
+<title>How to install and configure nagios nrpe in CentOS and Red Hat</title><meta name="viewport" content="width=device-width, initial-scale=1"/>
+ 
+<meta name="description" content="In this tutorial we will learn How to install and configure nagios nrpe in CentOS and Red Hat. We will also do some configuration changes in nagios server so that we could monitor the servers."/>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"df3e8165a63c9f218c8ca155bf0f3e89",petok:"8c4fd41a56af134b3ef38607a81a50e0bd15cf9f-1448445358-1800",zone:"sharadchhetri.com",rocket:"a",apps:{"prnc":{"dalytkn":null},"ga_key":{"ua":"UA-8197358-3","ga_bs":"2"}},sha2test:1}];document.write('<script type="text/javascript" src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=38857570ac/cloudflare.min.js"><'+'\/script>');}}catch(e){};
+//]]>
+</script>
+<link rel="canonical" href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/"/>
+<link rel="publisher" href="https://plus.google.com/u/0/b/106113760034458036166/+Sharadchhetridotcom/about"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="How to install and configure nagios nrpe in CentOS and Red Hat"/>
+<meta property="og:description" content="In this tutorial we will learn How to install and configure nagios nrpe in CentOS and Red Hat. We will also do some configuration changes in nagios server so that we could monitor the servers."/>
+<meta property="og:url" content="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/"/>
+<meta property="og:site_name" content="sharadchhetri.com"/>
+<meta property="article:author" content="/pages/sharadchhetricom/569760293039674?ref=hl"/>
+<meta property="article:tag" content="nrpe"/>
+<meta property="article:section" content="Linux"/>
+<meta property="article:published_time" content="2013-03-02T13:31:27+00:00"/>
+<meta property="article:modified_time" content="2015-06-28T03:09:59+00:00"/>
+<meta property="og:updated_time" content="2015-06-28T03:09:59+00:00"/>
+<meta property="og:image" content="http://sharadchhetri.com/wp-content/uploads/2013/03/nagios-server-diag.png"/>
+<meta property="og:image" content="http://sharadchhetri.com/wp-content/uploads/2013/03/nagios-ok-1024x507.png"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this tutorial we will learn How to install and configure nagios nrpe in CentOS and Red Hat. We will also do some configuration changes in nagios server so that we could monitor the servers."/>
+<meta name="twitter:title" content="How to install and configure nagios nrpe in CentOS and Red Hat"/>
+<meta name="twitter:site" content="@sharad_chhetri"/>
+<meta name="twitter:domain" content="sharadchhetri.com"/>
+<meta name="twitter:image" content="http://sharadchhetri.com/wp-content/uploads/2013/03/nagios-server-diag.png"/>
+<meta name="twitter:creator" content="@sharad_chhetri"/>
+ 
+<script type="text/rocketscript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/sharadchhetri.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.3.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">img.wp-smiley,img.emoji{display:inline!important;border:none!important;box-shadow:none!important;height:1em!important;width:1em!important;margin:0 .07em!important;vertical-align:-0.1em!important;background:none!important;padding:0!important;}</style>
+<link rel='stylesheet' id='yarppWidgetCss-css' href='http://sharadchhetri.com/wp-content/plugins/yet-another-related-posts-plugin/style/widget.css?ver=4.3.1' type='text/css' media='all'/>
+<link rel='stylesheet' id='magazine-pro-theme-css' href='http://sharadchhetri.com/wp-content/themes/magazine-pro/style.css?ver=3.0.1' type='text/css' media='all'/>
+<link rel='stylesheet' id='wpfront-notification-bar-css' href='http://sharadchhetri.com/wp-content/plugins/wpfront-notification-bar/css/wpfront-notification-bar.css?ver=1.6' type='text/css' media='all'/>
+<link rel='stylesheet' id='google-fonts-css' href='//fonts.googleapis.com/css?family=Roboto%3A300%2C400%7CRaleway%3A400%2C500%2C900&#038;ver=3.0.1' type='text/css' media='all'/>
+<link rel='stylesheet' id='wordpress-popular-posts-css' href='http://sharadchhetri.com/wp-content/plugins/wordpress-popular-posts/style/wpp.css?ver=3.3.1' type='text/css' media='all'/>
+<link rel='stylesheet' id='jetpack-top-posts-widget-css' href='http://sharadchhetri.com/wp-content/plugins/jetpack/modules/widgets/top-posts/style.css?ver=20141013' type='text/css' media='all'/>
+<link rel='stylesheet' id='genericons-css' href='http://sharadchhetri.com/wp-content/plugins/jetpack/_inc/genericons/genericons/genericons.css?ver=3.1' type='text/css' media='all'/>
+<link rel='stylesheet' id='jetpack_css-css' href='http://sharadchhetri.com/wp-content/plugins/jetpack/css/jetpack.css?ver=3.8.0' type='text/css' media='all'/>
+ 
+<script type="text/rocketscript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','__gaTracker');
+
+	__gaTracker('create', 'UA-8197358-3', 'auto');
+	__gaTracker('set', 'forceSSL', true);
+	__gaTracker('set', 'anonymizeIp', true);
+	__gaTracker('require', 'displayfeatures');
+	__gaTracker('send','pageview');
+
+</script>
+ 
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-includes/js/jquery/jquery.js?ver=1.11.3'></script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/plugins/jetpack/modules/related-posts/related-posts.js?ver=20150408'></script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/plugins/wpfront-notification-bar/jquery-plugins/jquery.c.js?ver=1.4.0'></script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/plugins/wpfront-notification-bar/js/wpfront-notification-bar.js?ver=1.6'></script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/themes/magazine-pro/js/entry-date.js?ver=1.0.0'></script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/themes/magazine-pro/js/responsive-menu.js?ver=1.0.0'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://sharadchhetri.com/xmlrpc.php?rsd"/>
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://sharadchhetri.com/wp-includes/wlwmanifest.xml"/>
+<meta name="generator" content="WordPress 4.3.1"/>
+<link rel='shortlink' href='http://wp.me/p3b8mT-aF'/>
+<style type="text/css">.enews .screenread{height:1px;left:-1000em;overflow:hidden;position:absolute;top:-1000em;width:1px;}</style><link rel="stylesheet" type="text/css" href="http://sharadchhetri.com/wp-content/plugins/wp-code-highlight/css/wp-code-highlight.css" media="screen"/>
+<link rel='dns-prefetch' href='//i0.wp.com'>
+<link rel='dns-prefetch' href='//i1.wp.com'>
+<link rel='dns-prefetch' href='//i2.wp.com'>
+<style type='text/css'>img#wpstats{display:none}</style><link rel="Shortcut Icon" href="http://sharadchhetri.com/wp-content/themes/magazine-pro/images/favicon.png" type="image/x-icon"/>
+<style type="text/css">.site-title a{background:url(http://sharadchhetri.com/wp-content/uploads/2015/07/sharadchhetri.com_.png) no-repeat!important;}</style>
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<style type="text/css">.recentcomments a{display:inline!important;padding:0!important;margin:0!important;}</style>
+ 
+<script type="text/rocketscript">//<![CDATA[
+
+					var sampling_active = 0;
+					var sampling_rate   = 100;
+					var do_request = false;
+
+					if ( !sampling_active ) {
+						do_request = true;
+					} else {
+						var num = Math.floor(Math.random() * sampling_rate) + 1;
+						do_request = ( 1 === num );
+					}
+
+					if ( do_request ) {
+
+						// Create XMLHttpRequest object and set variables
+						var xhr = ( window.XMLHttpRequest )
+						  ? new XMLHttpRequest()
+						  : new ActiveXObject( "Microsoft.XMLHTTP" ),
+						url = 'http://sharadchhetri.com/wp-admin/admin-ajax.php',
+						params = 'action=update_views_ajax&token=126429b1ef&wpp_id=661';
+						// Set request method and target URL
+						xhr.open( "POST", url, true );
+						// Set request header
+						xhr.setRequestHeader( "Content-type", "application/x-www-form-urlencoded" );
+						// Hook into onreadystatechange
+						xhr.onreadystatechange = function() {
+							if ( 4 === xhr.readyState && 200 === xhr.status ) {
+								if ( window.console && window.console.log ) {
+									window.console.log( xhr.responseText );
+								}
+							}
+						};
+						// Send request
+						xhr.send( params );
+
+					}
+
+				//]]></script>
+ 
+<style id="custom-css-css">table{width:100%}table,th,td{border:1px solid #000;border-collapse:collapse}th{padding:5px;text-align:center}td{padding:5px;text-align:left}table#t01 tr:nth-child(even){background-color:#eee}table#t01 tr:nth-child(odd){background-color:#fff}table#t01 th{background-color:#6495ED;color:#fff;font-family:monospace}.hover_img a span{position:absoloute;display:none;z-index:99}.hover_img a:hover span{display:block}.menu-item-6433{background-color:#9CD6F9!important}</style>
+<script type="text/javascript">
+/* <![CDATA[ */
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-8197358-3']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+(function(b){(function(a){"__CF"in b&&"DJS"in b.__CF?b.__CF.DJS.push(a):"addEventListener"in b?b.addEventListener("load",a,!1):b.attachEvent("onload",a)})(function(){"FB"in b&&"Event"in FB&&"subscribe"in FB.Event&&(FB.Event.subscribe("edge.create",function(a){_gaq.push(["_trackSocial","facebook","like",a])}),FB.Event.subscribe("edge.remove",function(a){_gaq.push(["_trackSocial","facebook","unlike",a])}),FB.Event.subscribe("message.send",function(a){_gaq.push(["_trackSocial","facebook","send",a])}));"twttr"in b&&"events"in twttr&&"bind"in twttr.events&&twttr.events.bind("tweet",function(a){if(a){var b;if(a.target&&a.target.nodeName=="IFRAME")a:{if(a=a.target.src){a=a.split("#")[0].match(/[^?=&]+=([^&]*)?/g);b=0;for(var c;c=a[b];++b)if(c.indexOf("url")===0){b=unescape(c.split("=")[1]);break a}}b=void 0}_gaq.push(["_trackSocial","twitter","tweet",b])}})})})(window);
+/* ]]> */
+</script>
+</head>
+<body class="single single-post postid-661 single-format-standard custom-header header-image header-full-width content-sidebar" itemscope="itemscope" itemtype="http://schema.org/WebPage"><div class="site-container"><header class="site-header" role="banner" itemscope="itemscope" itemtype="http://schema.org/WPHeader"><div class="wrap"><div class="title-area"><p class="site-title" itemprop="headline"><a href="http://sharadchhetri.com/">sharadchhetri.com</a></p><p class="site-description" itemprop="description">Bloging on Open Source,Linux,BSD and Internet World</p></div></div></header><nav class="nav-secondary" role="navigation" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement"><div class="wrap"><ul id="menu-new-navigation" class="menu genesis-nav-menu menu-secondary"><li id="menu-item-4286" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-4286"><a href="http://sharadchhetri.com" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com', 'Home');">Home</a></li>
+<li id="menu-item-5816" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5816"><a href="http://sharadchhetri.com/submit-articles/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/submit-articles/', 'Submit Articles');">Submit Articles</a></li>
+<li id="menu-item-4359" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-4359"><a href="http://sharadchhetri.com/category/linux/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/category/linux/', 'Linux');">Linux</a></li>
+<li id="menu-item-4360" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-4360"><a href="http://sharadchhetri.com/category/bsd/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/category/bsd/', 'BSD');">BSD</a>
+<ul class="sub-menu">
+<li id="menu-item-4361" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4361"><a href="http://sharadchhetri.com/category/bsd-troubleshooting/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/category/bsd-troubleshooting/', 'BSD troubleshooting');">BSD troubleshooting</a></li>
+</ul>
+</li>
+<li id="menu-item-4389" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-4389"><a href="http://sharadchhetri.com/category/cloudcomputing/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/category/cloudcomputing/', 'CloudComputing');">CloudComputing</a>
+<ul class="sub-menu">
+<li id="menu-item-4390" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4390"><a href="http://sharadchhetri.com/introduction-cloud-computing/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/introduction-cloud-computing/', 'Introduction Cloud Computing');">Introduction Cloud Computing</a></li>
+<li id="menu-item-4388" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4388"><a href="http://sharadchhetri.com/category/amazon-aws/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/category/amazon-aws/', 'Amazon AWS');">Amazon AWS</a></li>
+</ul>
+</li>
+<li id="menu-item-4374" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4374"><a href="http://sharadchhetri.com/category/wordpress/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/category/wordpress/', 'wordpress');">wordpress</a></li>
+<li id="menu-item-6433" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6433"><a href="http://sharadchhetri.tradepub.com/category/information-technology-servers-and-linux-server-os/806/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/category/information-technology-servers-and-linux-server-os/806/', 'Free E-Books');">Free E-Books</a></li>
+<li id="menu-item-4285" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4285"><a href="http://sharadchhetri.com/aboutme/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/aboutme/', 'About Me');">About Me</a></li>
+</ul></div></nav><div class="site-inner"><div class="content-sidebar-wrap"><main class="content" role="main" itemprop="mainContentOfPage" itemscope="itemscope" itemtype="http://schema.org/Blog"><article class="post-661 post type-post status-publish format-standard category-linux category-monitoring-server category-server tag-nrpe entry" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost"><header class="entry-header"><h1 class="entry-title" itemprop="headline">How to install and configure nagios nrpe in CentOS and Red Hat</h1>
+<p class="entry-meta"><time class="entry-time" itemprop="datePublished" datetime="2013-03-02T13:31:27+00:00">March 2, 2013</time> by <span class="entry-author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><a href="http://sharadchhetri.com/author/admin/" class="entry-author-link" itemprop="url" rel="author"><span class="entry-author-name" itemprop="name">sharad chhetri</span></a></span> <span class="entry-comments-link"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/#comments">23 Comments</a></span> </p></header><div class="entry-content" itemprop="text"><p>In this tutorial we will learn How to install and configure nagios nrpe in CentOS and Red Hat. We will also do some configuration changes in <a href="http://sharadchhetri.com/?s=how+to+install+nagios+server&#038;submit=Search" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/?s=how+to+install+nagios+server&#038;submit=Search', 'nagios server');" title="nagios server" target="_blank">nagios server</a> so that we could monitor the servers.</p>
+<p>In this scenario we will add a server to monitor.</p>
+<p><strong>Operating System :</strong> CentOS 6.3<br/>
+<strong>Nagios Server :</strong> hostname: nagios-server , ip-address: 192.168.122.22<br/>
+<strong>Nagios Client :</strong> hostname : web-node01 , ip-address: 192.168.122.94</p>
+<p><strong>Installing and configuring NRPE in nagios-client</strong></p>
+<p>Step 1: Download the epel repo and Install the nagios plugins and nrpe</p>
+<pre class="wp-code-highlight prettyprint">wget dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+rpm -ivh epel-release-6-8.noarch.rpm
+
+yum install -y nrpe nagios-plugins-all openssl</pre>
+<p>Step 2: All the nagios plugins will be by-default installed at /usr/lib/nagios/plugins/</p>
+<pre class="wp-code-highlight prettyprint">ls -l /usr/lib/nagios/plugins/</pre>
+<p>Step 3: Take the backup of nrpe.cfg file located at /etc/nagios</p>
+<pre class="wp-code-highlight prettyprint">[root@web-node01 ~]# cd /etc/nagios/
+[root@web-node01 nagios]# ls -l
+total 16
+-rw-r--r-- 1 root root 7296 Mar 2 15:49 nrpe.cfg
+[root@web-node01 nagios]# pwd
+/etc/nagios
+[root@web-node01 nagios]# cp -p nrpe.cfg nrpe.cfg.orig</pre>
+<p>Step 4: Configure nrpe.cfg</p>
+<p>Add the nagios server ip in <strong>allowed_hosts</strong> as edited in given below nrpe.cfg file.</p>
+<pre class="wp-code-highlight prettyprint">[root@web-node01 nagios]# egrep -v &#039;^#|^$&#039; nrpe.cfg
+log_facility=daemon
+pid_file=/var/run/nrpe/nrpe.pid
+server_port=5666
+nrpe_user=nrpe
+nrpe_group=nrpe
+allowed_hosts=127.0.0.1,192.168.122.22
+
+dont_blame_nrpe=0
+debug=0
+command_timeout=60
+connection_timeout=300
+include_dir=/etc/nrpe.d/
+command[check_users]=/usr/lib/nagios/plugins/check_users -w 5 -c 10
+command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
+command[check_hda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
+command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
+command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 150 -c 200
+[root@web-node01 nagios]#</pre>
+<p>In above block you can see command are already defined.<br/>
+for eg. command[check_users]=/usr/lib/nagios/plugins/check_users -w 5 -c 10<br/>
+just keep a note of it.The nrpe will use only these commands or plugins in nagios client which are defined in nrpe.cfg file.<br/>
+If you want to add any other command or plugin you have to edit the nrpe.cfg file in same manner.<br/>
+for eg.<br/>
+command[check_pluginName]=/usr/lib/nagios/plugins/check_pluginName -w &lt;value&gt; &nbsp;-c &lt;value&gt;</p>
+<p>Step 5: Restart the nrpe service.</p>
+<pre class="wp-code-highlight prettyprint">/etc/init.d/nrpe restart</pre>
+<h1>Now adding web-node01 in nagios server so that we could monitor the server&#8217;s services.</h1>
+<p><a href="http://i0.wp.com/sharadchhetri.com/wp-content/uploads/2013/03/nagios-server-diag.png" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://i0.wp.com/sharadchhetri.com/wp-content/uploads/2013/03/nagios-server-diag.png?resize=740%2C430', '');"><img class="aligncenter size-full wp-image-677" alt="nagios-server-diag" src="http://i0.wp.com/sharadchhetri.com/wp-content/uploads/2013/03/nagios-server-diag.png?resize=740%2C430" data-recalc-dims="1"/></a></p>
+<p>OK, let me explain the scenario, here we will monitor the server <strong>web-node01</strong> of company called <strong>companyA</strong> . So we will do some little change in nagios server. In same way you can also customize depending upon the no. of different networks you want.</p>
+<p>For <strong>companyA</strong> I will create a directory inside /etc/nagios/objects/ with name called <strong>companyA</strong> . Then I will edit the nagios.cfg file to get the configuration information from directory /etc/nagios/objects/companyA</p>
+<p>Mainly I will create 2 important file for monitoring companyA&#8217;s web-node01 server.<br/>
+So here we go with following steps.</p>
+<p><strong>Login into nagios-server and do the below configuration</strong></p>
+<p>Step 1: create a directory inside /etc/nagios/objects/</p>
+<pre class="wp-code-highlight prettyprint">mkdir -p /etc/nagios/objects/companyA</pre>
+<p>Step 2: now editing nagios.cfg for pointing configuration directory.<br/>
+Add these line in /etc/nagios/nagios.cfg file just below the some examples of cfg_dir which are commented.(It is only because to easy to find in nagios.cfg file else you can add anywhere in nagios.cfg).<br/>
+I will also show the complete nagios.cfg file configuration at the end of this post.)</p>
+<p><strong>cfg_dir=/etc/nagios/objects/companyA/</strong></p>
+<pre class="wp-code-highlight prettyprint">vi /etc/nagios/nagios.cfg
+
+cfg_dir=/etc/nagios/objects/companyA/</pre>
+<p>Step 3: Now adding host and services config file inside /etc/nagios/objects/companyA . Here I am calling different files so that it could be easy to manage once your no. of more servers are added in file.</p>
+<p>Lets create hosts.cfg file first for web-node01 (In this file we can add more hosts,specially created to only keep all the hosts information in one file)</p>
+<pre class="wp-code-highlight prettyprint">vi /etc/nagios/objects/companyA/hosts.cfg
+
+define host{
+use linux-server
+host_name web-node01
+alias web-node01
+address 192.168.122.94
+}
+
+&lt;strong&gt;save and exit by pressing ESC key then typing :wq enter&lt;/strong&gt;</pre>
+<p>Step 4: Now we will add all services in services.cfg file . Here I am adding only two. Ping service is not using nrpe ,other two services are through NRPE.</p>
+<pre class="wp-code-highlight prettyprint">vi /etc/nagios/objects/companyA/services.cfg
+
+define service{
+use generic-service
+host_name web-node01
+service_description PING
+check_command check_ping!100.0,20%!500.0,60%
+}
+
+define service{
+use generic-service
+host_name web-node01
+service_description Current Load
+check_command check_nrpe!check_load
+}
+
+define service{
+use generic-service
+host_name web-node01
+service_description Total Processes
+check_command check_nrpe!check_users
+}
+
+save and exit by pressing ESC key then typing :wq enter</pre>
+<p>Step 5: Now we will edit the commands.cfg file so that nrpe could run the command in web-node01 to fetch the data.</p>
+<p>For nrpe, Add the below given parameter in commands.cfg file</p>
+<pre class="wp-code-highlight prettyprint">vi /etc/nagios/objects/commands.cfg
+
+define command{
+command_name check_nrpe
+command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
+
+save and exit by pressing ESC key then typing :wq enter</pre>
+<p>Note: At the end of this post I will show the entire commands.cfg file.If you have any confusion you can take the reference from it.</p>
+<p>Step 6: Now we will restart the nagios,apache and nrpe service in nagios-server .</p>
+<pre class="wp-code-highlight prettyprint">/etc/init.d/nagios restart
+/etc/init.d/nrpe restart
+/etc/init.d/httpd restart</pre>
+<p>We are done here. Now check the nagios Dashboard and wait for a 90 seconds. The web-node01 server will be displaying 3 services and monitoring.</p>
+<p>Note: iptable and selinux is disabled. for iptable you have to open the port no. 5666. in both nagios server and client.</p>
+<p><a href="http://i0.wp.com/sharadchhetri.com/wp-content/uploads/2013/03/nagios-ok.png" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/wp-content/uploads/2013/03/nagios-ok.png', '');"><img src="http://i0.wp.com/sharadchhetri.com/wp-content/uploads/2013/03/nagios-ok.png?resize=730%2C361" alt="nagios-ok" class="aligncenter size-large wp-image-691" data-recalc-dims="1"/></a></p>
+<h2>Below are the all configuration files where we did editing</h2>
+<p>A: /etc/nagios/nagios.cfg</p>
+<pre class="wp-code-highlight prettyprint">[root@nagios-server nagios]# egrep -v &#039;^#|^$&#039; nagios.cfg
+log_file=/var/log/nagios/nagios.log
+cfg_file=/etc/nagios/objects/commands.cfg
+cfg_file=/etc/nagios/objects/contacts.cfg
+cfg_file=/etc/nagios/objects/timeperiods.cfg
+cfg_file=/etc/nagios/objects/templates.cfg
+cfg_file=/etc/nagios/objects/localhost.cfg
+&lt;strong&gt;cfg_dir=/etc/nagios/objects/companyA/&lt;/strong&gt;
+object_cache_file=/var/log/nagios/objects.cache
+precached_object_file=/var/log/nagios/objects.precache
+resource_file=/etc/nagios/private/resource.cfg
+status_file=/var/log/nagios/status.dat
+status_update_interval=10
+nagios_user=nagios
+nagios_group=nagios
+check_external_commands=1
+command_check_interval=-1
+command_file=/var/spool/nagios/cmd/nagios.cmd
+external_command_buffer_slots=4096
+lock_file=/var/run/nagios.pid
+temp_file=/var/log/nagios/nagios.tmp
+temp_path=/tmp
+event_broker_options=-1
+log_rotation_method=d
+log_archive_path=/var/log/nagios/archives
+use_syslog=1
+log_notifications=1
+log_service_retries=1
+log_host_retries=1
+log_event_handlers=1
+log_initial_states=0
+log_external_commands=1
+log_passive_checks=1
+service_inter_check_delay_method=s
+max_service_check_spread=30
+service_interleave_factor=s
+host_inter_check_delay_method=s
+max_host_check_spread=30
+max_concurrent_checks=0
+check_result_reaper_frequency=10
+max_check_result_reaper_time=30
+check_result_path=/var/log/nagios/spool/checkresults
+max_check_result_file_age=3600
+cached_host_check_horizon=15
+cached_service_check_horizon=15
+enable_predictive_host_dependency_checks=1
+enable_predictive_service_dependency_checks=1
+soft_state_dependencies=0
+auto_reschedule_checks=0
+auto_rescheduling_interval=30
+auto_rescheduling_window=180
+sleep_time=0.25
+service_check_timeout=60
+host_check_timeout=30
+event_handler_timeout=30
+notification_timeout=30
+ocsp_timeout=5
+perfdata_timeout=5
+retain_state_information=1
+state_retention_file=/var/log/nagios/retention.dat
+retention_update_interval=60
+use_retained_program_state=1
+use_retained_scheduling_info=1
+retained_host_attribute_mask=0
+retained_service_attribute_mask=0
+retained_process_host_attribute_mask=0
+retained_process_service_attribute_mask=0
+retained_contact_host_attribute_mask=0
+retained_contact_service_attribute_mask=0
+interval_length=60
+check_for_updates=1
+bare_update_check=0
+use_aggressive_host_checking=0
+execute_service_checks=1
+accept_passive_service_checks=1
+execute_host_checks=1
+accept_passive_host_checks=1
+enable_notifications=1
+enable_event_handlers=1
+process_performance_data=0
+obsess_over_services=0
+obsess_over_hosts=0
+translate_passive_host_checks=0
+passive_host_checks_are_soft=0
+check_for_orphaned_services=1
+check_for_orphaned_hosts=1
+check_service_freshness=1
+service_freshness_check_interval=60
+service_check_timeout_state=c
+check_host_freshness=0
+host_freshness_check_interval=60
+additional_freshness_latency=15
+enable_flap_detection=1
+low_service_flap_threshold=5.0
+high_service_flap_threshold=20.0
+low_host_flap_threshold=5.0
+high_host_flap_threshold=20.0
+date_format=us
+p1_file=/usr/sbin/p1.pl
+enable_embedded_perl=1
+use_embedded_perl_implicitly=1
+illegal_object_name_chars=`~!$%^&amp;amp;*|&#039;&quot;&amp;lt;&amp;gt;?,()=
+illegal_macro_output_chars=`~$&amp;amp;|&#039;&quot;&amp;lt;&amp;gt;
+use_regexp_matching=0
+use_true_regexp_matching=0
+admin_email=nagios@localhost
+admin_pager=pagenagios@localhost
+daemon_dumps_core=0
+use_large_installation_tweaks=0
+enable_environment_macros=1
+debug_level=0
+debug_verbosity=1
+debug_file=/var/log/nagios/nagios.debug
+max_debug_file_size=1000000
+[root@nagios-server nagios]#</pre>
+<p>B: /etc/nagios/objects/commands.cfg</p>
+<pre class="wp-code-highlight prettyprint">[root@nagios-server objects]# egrep -v &#039;^#|^$&#039; commands.cfg
+define command{
+command_name notify-host-by-email
+command_line /usr/bin/printf &quot;%b&quot; &quot;***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\nHost: $HOSTNAME$\nState: $HOSTSTATE$\nAddress: $HOSTADDRESS$\nInfo: $HOSTOUTPUT$\n\nDate/Time: $LONGDATETIME$\n&quot; | /bin/mail -s &quot;** $NOTIFICATIONTYPE$ Host Alert: $HOSTNAME$ is $HOSTSTATE$ **&quot; $CONTACTEMAIL$
+}
+define command{
+command_name notify-service-by-email
+command_line /usr/bin/printf &quot;%b&quot; &quot;***** Nagios *****\n\nNotification Type: $NOTIFICATIONTYPE$\n\nService: $SERVICEDESC$\nHost: $HOSTALIAS$\nAddress: $HOSTADDRESS$\nState: $SERVICESTATE$\n\nDate/Time: $LONGDATETIME$\n\nAdditional Info:\n\n$SERVICEOUTPUT$\n&quot; | /bin/mail -s &quot;** $NOTIFICATIONTYPE$ Service Alert: $HOSTALIAS$/$SERVICEDESC$ is $SERVICESTATE$ **&quot; $CONTACTEMAIL$
+}
+define command{
+command_name check-host-alive
+command_line $USER1$/check_ping -H $HOSTADDRESS$ -w 3000.0,80% -c 5000.0,100% -p 5
+}
+define command{
+command_name check_local_disk
+command_line $USER1$/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
+}
+define command{
+command_name check_local_load
+command_line $USER1$/check_load -w $ARG1$ -c $ARG2$
+}
+define command{
+command_name check_local_procs
+command_line $USER1$/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
+}
+define command{
+command_name check_local_users
+command_line $USER1$/check_users -w $ARG1$ -c $ARG2$
+}
+define command{
+command_name check_local_swap
+command_line $USER1$/check_swap -w $ARG1$ -c $ARG2$
+}
+define command{
+command_name check_local_mrtgtraf
+command_line $USER1$/check_mrtgtraf -F $ARG1$ -a $ARG2$ -w $ARG3$ -c $ARG4$ -e $ARG5$
+}
+define command{
+command_name check_ftp
+command_line $USER1$/check_ftp -H $HOSTADDRESS$ $ARG1$
+}
+define command{
+command_name check_hpjd
+command_line $USER1$/check_hpjd -H $HOSTADDRESS$ $ARG1$
+}
+define command{
+command_name check_snmp
+command_line $USER1$/check_snmp -H $HOSTADDRESS$ $ARG1$
+}
+define command{
+command_name check_http
+command_line $USER1$/check_http -I $HOSTADDRESS$ $ARG1$
+}
+define command{
+command_name check_ssh
+command_line $USER1$/check_ssh $ARG1$ $HOSTADDRESS$
+}
+define command{
+command_name check_dhcp
+command_line $USER1$/check_dhcp $ARG1$
+}
+define command{
+command_name check_ping
+command_line $USER1$/check_ping -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$ -p 5
+}
+define command{
+command_name check_pop
+command_line $USER1$/check_pop -H $HOSTADDRESS$ $ARG1$
+}
+define command{
+command_name check_imap
+command_line $USER1$/check_imap -H $HOSTADDRESS$ $ARG1$
+}
+define command{
+command_name check_smtp
+command_line $USER1$/check_smtp -H $HOSTADDRESS$ $ARG1$
+}
+define command{
+command_name check_tcp
+command_line $USER1$/check_tcp -H $HOSTADDRESS$ -p $ARG1$ $ARG2$
+}
+define command{
+command_name check_udp
+command_line $USER1$/check_udp -H $HOSTADDRESS$ -p $ARG1$ $ARG2$
+}
+define command{
+command_name check_nt
+command_line $USER1$/check_nt -H $HOSTADDRESS$ -p 12489 -v $ARG1$ $ARG2$
+}
+define command{
+command_name check_nrpe
+command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
+define command{
+command_name process-host-perfdata
+command_line /usr/bin/printf &quot;%b&quot; &quot;$LASTHOSTCHECK$\t$HOSTNAME$\t$HOSTSTATE$\t$HOSTATTEMPT$\t$HOSTSTATETYPE$\t$HOSTEXECUTIONTIME$\t$HOSTOUTPUT$\t$HOSTPERFDATA$\n&quot; &amp;gt;&amp;gt; /var/log/nagios/host-perfdata.out
+}
+define command{
+command_name process-service-perfdata
+command_line /usr/bin/printf &quot;%b&quot; &quot;$LASTSERVICECHECK$\t$HOSTNAME$\t$SERVICEDESC$\t$SERVICESTATE$\t$SERVICEATTEMPT$\t$SERVICESTATETYPE$\t$SERVICEEXECUTIONTIME$\t$SERVICELATENCY$\t$SERVICEOUTPUT$\t$SERVICEPERFDATA$\n&quot; &amp;gt;&amp;gt; /var/log/nagios/service-perfdata.out
+}
+[root@nagios-server objects]#</pre>
+<p>C: /etc/nagios/objects/companyA/hosts.cfg</p>
+<pre class="wp-code-highlight prettyprint">
+[root@nagios-server companyA]# cat hosts.cfg 
+##### in this file only list host information  only add hosts of companyA#######
+
+define host{
+    use                     linux-server
+    host_name               web-node01
+    alias                   web-node01
+    address                 192.168.122.94
+}
+[root@nagios-server companyA]# 
+
+</pre>
+<p>D: /etc/nagios/objects/companyA/services.cfg</p>
+<pre class="wp-code-highlight prettyprint">
+
+[root@nagios-server companyA]# cat services.cfg 
+### services running in companyA servers
+
+define service{
+    use                     generic-service
+    host_name               web-node01
+    service_description     PING
+    check_command           check_ping!100.0,20%!500.0,60%
+}
+
+define service{
+    use                     generic-service
+    host_name               web-node01
+    service_description     Current Load
+    check_command           check_nrpe!check_load
+}
+
+define service{
+    use                     generic-service
+    host_name               web-node01
+    service_description     Total Processes
+    check_command           check_nrpe!check_users
+}
+[root@nagios-server companyA]# 
+
+</pre>
+<p><strong>For Reference;</strong></p>
+<p><iframe src="http://www.slideshare.net/slideshow/embed_code/16882386" width="476" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe></p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Do you like It ? Share It !</h3><div class="sd-content"><ul><li class="share-facebook"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=facebook" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=facebook', 'Facebook');" rel="nofollow" data-shared="sharing-facebook-661" class="share-facebook sd-button share-icon" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-google-plus-1"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=google-plus-1" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=google-plus-1', 'Google');" rel="nofollow" data-shared="sharing-google-661" class="share-google-plus-1 sd-button share-icon" target="_blank" title="Click to share on Google+"><span>Google</span></a></li><li class="share-twitter"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=twitter" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=twitter', 'Twitter');" rel="nofollow" data-shared="sharing-twitter-661" class="share-twitter sd-button share-icon" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-tumblr"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=tumblr" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=tumblr', 'Tumblr');" rel="nofollow" data-shared="" class="share-tumblr sd-button share-icon" target="_blank" title="Click to share on Tumblr"><span>Tumblr</span></a></li><li class="share-reddit"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=reddit" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=reddit', 'Reddit');" rel="nofollow" data-shared="" class="share-reddit sd-button share-icon" target="_blank" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-linkedin"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=linkedin" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=linkedin', 'LinkedIn');" rel="nofollow" data-shared="sharing-linkedin-661" class="share-linkedin sd-button share-icon" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li class="share-pinterest"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=pinterest" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=pinterest', 'Pinterest');" rel="nofollow" data-shared="sharing-pinterest-661" class="share-pinterest sd-button share-icon" target="_blank" title="Click to share on Pinterest"><span>Pinterest</span></a></li><li class="share-custom share-custom-flipboard"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=custom-1438884403" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/?share=custom-1438884403', 'Flipboard');" rel="nofollow" data-shared="" class="share-custom share-custom-flipboard sd-button share-icon" target="_blank" title="Click to share on Flipboard"><span style="background-image:url(&quot;http://cdn.flipboard.com/badges/flipboard_mrst.png&quot;);">Flipboard</span></a></li><li class="share-end"></li></ul></div></div></div>
+<div id='jp-relatedposts' class='jp-relatedposts'>
+<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div><footer class="entry-footer"><p class="entry-meta"><span class="entry-categories">Filed Under: <a href="http://sharadchhetri.com/category/linux/" rel="category tag">Linux</a>, <a href="http://sharadchhetri.com/category/monitoring-server/" rel="category tag">Monitoring Server</a>, <a href="http://sharadchhetri.com/category/server/" rel="category tag">Server</a></span> <span class="entry-tags">Tagged With: <a href="http://sharadchhetri.com/tag/nrpe/" rel="tag">nrpe</a></span></p><div class="after-entry widget-area"><div class="wrap"><section id="text-235" class="widget widget_text"><div class="widget-wrap"> <div class="textwidget"><center>
+<b><u><font size="40">Download</u> <sup>free</sup> <u>linux e-books</font></u></b>
+<br>
+<p style="color:red"><u>Are you Looking For More Free e-books? </u><a href="http://sharadchhetri.com/free-e-books/" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.com/free-e-books/', 'Click here!');" target="_top"><span style="color:white;background-color: #81BEF7">Click here!</span></a></p>
+<br>
+<a href="http://sharadchhetri.tradepub.com/free/w_free01/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_free01/prgm.cgi?a=1', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_free01/images/w_free01c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/free/w_mach02/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_mach02/prgm.cgi?a=1', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_mach02/images/w_mach02c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/free/w_oreb01/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_oreb01/prgm.cgi?a=1', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_oreb01/images/w_oreb01c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/free/w_linu01/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_linu01/prgm.cgi?a=1', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_linu01/images/w_linu01c.gif">
+</a>
+<br>
+<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_slac01" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_slac01', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_slac01/images/w_slac01c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_advb01" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_advb01', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_advb01/images/w_advb01c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_infk10" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_infk10', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_infk10/images/w_infk10c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_infk09" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_infk09', '\n\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_infk09/images/w_infk09c.gif">
+</a>
+</center></div>
+</div></section>
+</div></div></footer></article><div class="entry-comments" id="comments"><h3>Comments</h3><ol class="comment-list">
+<li class="comment even thread-even depth-1" id="comment-18920">
+<article itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments">
+<header class="comment-header">
+<p class="comment-author" itemprop="creator" itemscope="itemscope" itemtype="http://schema.org/Person">
+<img alt='' src='http://0.gravatar.com/avatar/c334c81cc2c9dda5bd503f6e52201ce2?s=100&#038;d=identicon&#038;r=g' srcset='http://0.gravatar.com/avatar/c334c81cc2c9dda5bd503f6e52201ce2?s=200&amp;d=identicon&amp;r=g 2x' class='avatar avatar-100 photo' height='100' width='100'/><span itemprop="name">randomape</span> <span class="says">says</span> </p>
+<p class="comment-meta">
+<time class="comment-time" datetime="2015-04-07T15:47:37+00:00" itemprop="commentTime"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/comment-page-2/#comment-18920" class="comment-time-link" itemprop="url">April 7, 2015 at 3:47 pm</a></time> </p>
+</header>
+<div class="comment-content" itemprop="commentText">
+<p>Do you know if there are any implications in there being a missing square bracket in the nrpe.cfg?</p>
+<p>command[check_users=/usr/lib/nagios/plugins/check_users -w 5 -c 10</p>
+<p>Still seems to work and doesn&#8217;t seem to throw errors&#8230; Just curious.</p>
+</div>
+<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-18920' onclick='return addComment.moveForm( "comment-18920", "18920", "respond", "661" )' aria-label='Reply to randomape'>Reply</a></div>
+</article>
+<ul class="children">
+<li class="comment byuser comment-author-admin bypostauthor odd alt depth-2" id="comment-18923">
+<article itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments">
+<header class="comment-header">
+<p class="comment-author" itemprop="creator" itemscope="itemscope" itemtype="http://schema.org/Person">
+<img alt='' src='http://2.gravatar.com/avatar/8b4931e195b81c90c1f719a798b44f09?s=100&#038;d=identicon&#038;r=g' srcset='http://2.gravatar.com/avatar/8b4931e195b81c90c1f719a798b44f09?s=200&amp;d=identicon&amp;r=g 2x' class='avatar avatar-100 photo' height='100' width='100'/><span itemprop="name"><a href="http://www.sharadchhetri.com" class="comment-author-link" rel="external nofollow" itemprop="url">sharad chhetri</a></span> <span class="says">says</span> </p>
+<p class="comment-meta">
+<time class="comment-time" datetime="2015-04-07T17:33:39+00:00" itemprop="commentTime"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/comment-page-2/#comment-18923" class="comment-time-link" itemprop="url">April 7, 2015 at 5:33 pm</a></time> </p>
+</header>
+<div class="comment-content" itemprop="commentText">
+<p>Just restart the nrpe and check again. I have not done this typo ever <img src="http://sharadchhetri.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;"/> </p>
+<p>Regards<br/>
+Sharad</p>
+</div>
+<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-18923' onclick='return addComment.moveForm( "comment-18923", "18923", "respond", "661" )' aria-label='Reply to sharad chhetri'>Reply</a></div>
+</article>
+</li> 
+</ul> 
+</li> 
+<li class="comment even thread-odd thread-alt depth-1" id="comment-17391">
+<article itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments">
+<header class="comment-header">
+<p class="comment-author" itemprop="creator" itemscope="itemscope" itemtype="http://schema.org/Person">
+<img alt='' src='http://1.gravatar.com/avatar/d219af79b45e5891507fda4c4c2139a0?s=100&#038;d=identicon&#038;r=g' srcset='http://1.gravatar.com/avatar/d219af79b45e5891507fda4c4c2139a0?s=200&amp;d=identicon&amp;r=g 2x' class='avatar avatar-100 photo' height='100' width='100'/><span itemprop="name">or</span> <span class="says">says</span> </p>
+<p class="comment-meta">
+<time class="comment-time" datetime="2015-02-19T22:18:03+00:00" itemprop="commentTime"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/comment-page-2/#comment-17391" class="comment-time-link" itemprop="url">February 19, 2015 at 10:18 pm</a></time> </p>
+</header>
+<div class="comment-content" itemprop="commentText">
+<p>to avoid all the conf file editing<br/>
+install nagio XI instead </p>
+<p>😀</p>
+</div>
+<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-17391' onclick='return addComment.moveForm( "comment-17391", "17391", "respond", "661" )' aria-label='Reply to or'>Reply</a></div>
+</article>
+</li> 
+<li class="comment odd alt thread-even depth-1" id="comment-6976">
+<article itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments">
+<header class="comment-header">
+<p class="comment-author" itemprop="creator" itemscope="itemscope" itemtype="http://schema.org/Person">
+<img alt='' src='http://2.gravatar.com/avatar/51030d555f8cfb21705f2b6ef30368cc?s=100&#038;d=identicon&#038;r=g' srcset='http://2.gravatar.com/avatar/51030d555f8cfb21705f2b6ef30368cc?s=200&amp;d=identicon&amp;r=g 2x' class='avatar avatar-100 photo' height='100' width='100'/><span itemprop="name">sharadchhetri</span> <span class="says">says</span> </p>
+<p class="comment-meta">
+<time class="comment-time" datetime="2014-07-17T08:28:00+00:00" itemprop="commentTime"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/comment-page-2/#comment-6976" class="comment-time-link" itemprop="url">July 17, 2014 at 8:28 am</a></time> </p>
+</header>
+<div class="comment-content" itemprop="commentText">
+<p>Also check the SELINUX. Make it disable</p>
+<p><a href="http://sharadchhetri.com/2013/02/27/how-to-disable-selinux-in-red-hat-or-centos/" onclick="__gaTracker('send', 'event', 'outbound-comment', 'http://sharadchhetri.com/2013/02/27/how-to-disable-selinux-in-red-hat-or-centos/', 'http://sharadchhetri.com/2013/02/27/how-to-disable-selinux-in-red-hat-or-centos/');" rel="nofollow">http://sharadchhetri.com/2013/02/27/how-to-disable-selinux-in-red-hat-or-centos/</a></p>
+</div>
+<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-6976' onclick='return addComment.moveForm( "comment-6976", "6976", "respond", "661" )' aria-label='Reply to sharadchhetri'>Reply</a></div>
+</article>
+<ul class="children">
+<li class="comment even depth-2" id="comment-7032">
+<article itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments">
+<header class="comment-header">
+<p class="comment-author" itemprop="creator" itemscope="itemscope" itemtype="http://schema.org/Person">
+<img alt='' src='http://2.gravatar.com/avatar/5bb63fa999e84dd047e9e0012c4ec0f8?s=100&#038;d=identicon&#038;r=g' srcset='http://2.gravatar.com/avatar/5bb63fa999e84dd047e9e0012c4ec0f8?s=200&amp;d=identicon&amp;r=g 2x' class='avatar avatar-100 photo' height='100' width='100'/><span itemprop="name">prasadjvv522</span> <span class="says">says</span> </p>
+<p class="comment-meta">
+<time class="comment-time" datetime="2014-07-17T09:01:00+00:00" itemprop="commentTime"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/comment-page-2/#comment-7032" class="comment-time-link" itemprop="url">July 17, 2014 at 9:01 am</a></time> </p>
+</header>
+<div class="comment-content" itemprop="commentText">
+<p>Now its working.Thank you.Thank you so much..:)</p>
+</div>
+<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-7032' onclick='return addComment.moveForm( "comment-7032", "7032", "respond", "661" )' aria-label='Reply to prasadjvv522'>Reply</a></div>
+</article>
+<ul class="children">
+<li class="comment odd alt depth-3" id="comment-7034">
+<article itemprop="comment" itemscope="itemscope" itemtype="http://schema.org/UserComments">
+<header class="comment-header">
+<p class="comment-author" itemprop="creator" itemscope="itemscope" itemtype="http://schema.org/Person">
+<img alt='' src='http://2.gravatar.com/avatar/51030d555f8cfb21705f2b6ef30368cc?s=100&#038;d=identicon&#038;r=g' srcset='http://2.gravatar.com/avatar/51030d555f8cfb21705f2b6ef30368cc?s=200&amp;d=identicon&amp;r=g 2x' class='avatar avatar-100 photo' height='100' width='100'/><span itemprop="name">sharadchhetri</span> <span class="says">says</span> </p>
+<p class="comment-meta">
+<time class="comment-time" datetime="2014-07-17T12:04:00+00:00" itemprop="commentTime"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/comment-page-2/#comment-7034" class="comment-time-link" itemprop="url">July 17, 2014 at 12:04 pm</a></time> </p>
+</header>
+<div class="comment-content" itemprop="commentText">
+<p>You are welcome Prasad</p>
+</div>
+<div class="comment-reply"><a rel='nofollow' class='comment-reply-link' href='#comment-7034' onclick='return addComment.moveForm( "comment-7034", "7034", "respond", "661" )' aria-label='Reply to sharadchhetri'>Reply</a></div>
+</article>
+</li> 
+</ul> 
+</li> 
+</ul> 
+</li> 
+</ol><div class="comments-pagination pagination"><div class="pagination-previous alignleft"><a href="http://sharadchhetri.com/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/comment-page-1/#comments">&laquo; Older Comments</a></div><div class="pagination-next alignright"></div></div></div> <div id="respond" class="comment-respond">
+<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2013/03/02/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat/#respond" style="display:none;">Cancel reply</a></small></h3>
+<form action="http://sharadchhetri.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p> <p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required='true' required='required'/></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" aria-describedby="email-notes" aria-required='true' required='required'/></p>
+<p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required"></textarea></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"/> <input type='hidden' name='comment_post_ID' value='661' id='comment_post_ID'/>
+<input type='hidden' name='comment_parent' id='comment_parent' value='0'/>
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="428e2741a1"/></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments">Notify me of follow-up comments by email.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts by email.</label></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="29"/></p> </form>
+</div> 
+</main><aside class="sidebar sidebar-primary widget-area" role="complementary" itemscope="itemscope" itemtype="http://schema.org/WPSideBar"><section id="search-2" class="widget widget_search"><div class="widget-wrap"><form method="get" class="search-form" action="http://sharadchhetri.com/" role="search"><input type="search" name="s" placeholder="Search the site ..."/><input type="submit" value="Search"/></form></div></section><section id="text-248" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Follow Us @</h4>
+<div class="textwidget"><html>
+<a href="https://www.facebook.com/pages/sharadchhetricom/569760293039674?ref=hl" onclick="__gaTracker('send', 'event', 'outbound-widget', 'https://www.facebook.com/pages/sharadchhetricom/569760293039674?ref=hl', '&nbsp;&nbsp;Facebook&nbsp;&nbsp;');" target="_blank"><span style="background-color: #3A5795;color: White">&nbsp;&nbsp;Facebook&nbsp;&nbsp;</span></a>
+|
+<a href="https://plus.google.com/+Sharadchhetridotcom" onclick="__gaTracker('send', 'event', 'outbound-widget', 'https://plus.google.com/+Sharadchhetridotcom', '&nbsp;&nbsp;Google+&nbsp;&nbsp;');" target="_blank"><span style="background-color: #DD4B39;color: White">&nbsp;&nbsp;Google+&nbsp;&nbsp;</span></a>
+|
+<a href="https://twitter.com/sharad_chhetri" onclick="__gaTracker('send', 'event', 'outbound-widget', 'https://twitter.com/sharad_chhetri', '&nbsp;&nbsp;Twitter&nbsp;&nbsp;');" target="_blank"><span style="background-color: #55ACEE;color: White">&nbsp;&nbsp;Twitter&nbsp;&nbsp;</span></a>
+|
+<a href="https://github.com/sharadchhetri" onclick="__gaTracker('send', 'event', 'outbound-widget', 'https://github.com/sharadchhetri', '&nbsp;&nbsp;Github&nbsp;&nbsp;');" target="_blank"><span style="background-color: #000000;color: White">&nbsp;&nbsp;Github&nbsp;&nbsp;</span></a>
+</html>
+</div>
+</div></section><section id="text-263" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Limited Offer Free E-Book</h4>
+<div class="textwidget"><center>Hadoop Essentials: Tackling the Challenges of Big Data with Hadoop (a $23.99 value, FREE!) <br><a href="http://sharadchhetri.tradepub.com/free/w_pacc01/prgm.cgi" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_pacc01/prgm.cgi', '\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_pacc01/images/w_pacc01c8.jpg" height="300" width="220"></a></center>
+</div>
+</div></section><section id="text-256" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Our Top 3 free e-book downloads</h4>
+<div class="textwidget"><a href="http://sharadchhetri.tradepub.com/free/w_linu01/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_linu01/prgm.cgi?a=1', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_linu01/images/w_linu01c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/free/w_mach02/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_mach02/prgm.cgi?a=1', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_mach02/images/w_mach02c.gif">
+</a>
+<a href="http://sharadchhetri.tradepub.com/free/w_oreb01/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_oreb01/prgm.cgi?a=1', '\n\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_oreb01/images/w_oreb01c.gif">
+</a></div>
+</div></section><section id="text-241" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Download Free e-books </h4>
+<div class="textwidget"><span style="color:blue">To see e-book cover preview, hover mouse on list</span>
+<br>
+<div class="hover_img">
+1. <a href=" http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_ubub01" target="_blank"><u style="background-color:#81DAF5">Ubuntu Server Guide 14.04 LTS</u><span>
+<img src="http://img.tradepub.com/free/w_ubub01/images/w_ubub01c8.jpg" height="300" width="220"></span></a>
+<br>
+2. <a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&pc=w_infk01" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;pc=w_infk01', 'Open Source Security Tools\n');" target="_blank"><u style="background-color:#81DAF5">Open Source Security Tools</u><span>
+<img src="http://img.tradepub.com/free/w_infk01/images/w_infk01c8.jpg" height="300" width="220"></span></a>
+<br>
+3. <a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_aaaa1711" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_aaaa1711', 'The Starter PKI Programe\n');" target="_blank"><u style="background-color:#81DAF5">The Starter PKI Programe</u><span>
+<img src="  http://img.tradepub.com/free/w_aaaa1711/images/w_aaaa1711c8.jpg" height="300" width="220"></span></a>
+<br>
+4. <a href="http://sharadchhetri.tradepub.com/free/w_dzon16/prgm.cgi?a=1" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/free/w_dzon16/prgm.cgi?a=1', 'Regular Expression\n');" target="_blank"><u style="background-color:#81DAF5">Regular Expression</u><span>
+<img src="http://img.tradepub.com/free/w_dzon16/images/w_dzon16c8.jpg" height="300" width="220"></span></a>
+<br>
+5. <a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_dzon10" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_dzon10', 'Getting Started With GIT\n');" target="_blank"><u style="background-color:#81DAF5">Getting Started With GIT</u><span>
+<img src="http://img.tradepub.com/free/w_dzon10/images/w_dzon10c8.jpg" height="300" width="220"></span></a>
+<br>
+6.<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_geot10" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_geot10', 'SSL 101: A Guide to Fundamental Website Security\n');" target="_blank"><u style="background-color:#81DAF5">SSL 101: A Guide to Fundamental Website Security</u><span>
+<img src="http://img.tradepub.com/free/w_geot10/images/w_geot10c8.jpg" height="300" width="220"></span></a>
+<br>
+7.<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_geot22" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_geot22', 'Apache Web Servers and SSL Authentication\n');" target="_blank"><u style="background-color:#81DAF5">Apache Web Servers and SSL Authentication</u><span>
+<img src="http://img.tradepub.com/free/w_geot22/images/w_geot22c8.jpg" height="300" width="220"></span></a>
+<br>
+8.<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_sym207" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_sym207', 'Raise your Google Ranking with Symantec\n');" target="_blank"><u style="background-color:#81DAF5">Raise your Google Ranking with Symantec</u><span>
+<img src="http://img.tradepub.com/free/w_sym207/images/w_sym207c8.jpg" height="300" width="220"></span></a>
+<br>
+9.<a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_sym190" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_sym190', 'Mitigating Risks of Cloud Computing with SSL Certificates\n');" target="_blank"><u style="background-color:#81DAF5">Mitigating Risks of Cloud Computing with SSL Certificates</u><span>
+<img src="http://img.tradepub.com/free/w_sym190/images/w_sym190c8.jpg" height="300" width="220"></span></a>
+<br>
+10. <a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_opeb01" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_opeb01', '\nSecuring &amp; Optimizing Linux: The Hacking Solution (v.3.0)\n\n');" target="_blank">
+<u style="background-color:#81DAF5">Securing & Optimizing Linux: The Hacking Solution (v.3.0)</u>
+<span>
+<img src="http://img.tradepub.com/free/w_opeb01/images/w_opeb01c8.jpg" height="300" width="220"></a></span>
+</div></div>
+</div></section><section id="yarpp_widget-3" class="widget widget_yarpp_widget"><div class="widget-wrap"><h4 class="widget-title widgettitle">Related Awesome Posts</h4>
+<div class='yarpp-related-widget'>
+<ol><li><a href="http://sharadchhetri.com/2013/03/02/check_nrpe-error-could-not-complete-ssl-handshake-nagios/" rel="bookmark">CHECK_NRPE: Error &#8211; Could not complete SSL handshake nagios</a></li><li><a href="http://sharadchhetri.com/2013/07/02/check_memory-unable-to-read-output-nagios-nrpe/" rel="bookmark">check_memory unable to read output Nagios nrpe</a></li><li><a href="http://sharadchhetri.com/2013/02/27/installing-nagios-3-4-4-in-centos-6-3/" rel="bookmark">Installing Nagios-3.4.4 in CentOS 6.3</a></li><li><a href="http://sharadchhetri.com/2013/07/03/check_openerp-nagios-plugin-for-openerp-service-check/" rel="bookmark">check_openerp nagios plugin for openerp service check</a></li><li><a href="http://sharadchhetri.com/2013/05/19/installing-nagios-3-5-0-in-centos-6-4-using-yum/" rel="bookmark">Installing Nagios-3.5.0 in CentOS 6.4 using yum</a></li><li><a href="http://sharadchhetri.com/2014/02/08/install-and-configure-nagios-core-4-on-ubuntu-12-04-lts/" rel="bookmark">Install and configure nagios core 4 on Ubuntu 12.04 LTS</a></li><li><a href="http://sharadchhetri.com/2013/11/27/install-nagios-4-0-2-in-centos-6-using-tarball/" rel="bookmark">Install nagios 4.0.2 in CentOS 6 using tarball</a></li><li><a href="http://sharadchhetri.com/2013/03/02/nagios-http-warning-http1-1-403-forbidden/" rel="bookmark">Nagios HTTP WARNING: HTTP/1.1 403 Forbidden</a></li></ol>
+</div>
+</div></section><section id="top-posts-2" class="widget widget_top-posts"><div class="widget-wrap"><h4 class="widget-title widgettitle">Top 10 Hits Post-Buster</h4>
+<ul> <li>
+<a href="http://sharadchhetri.com/2014/05/30/install-pip-centos-rhel-ubuntu-debian/" class="bump-view" data-bump-view="tp">
+How to install pip on CentOS / RHEL / Ubuntu / Debian </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2014/07/31/how-to-install-mysql-server-5-6-on-centos-7-rhel-7/" class="bump-view" data-bump-view="tp">
+How to install MySQL Server 5.6 on CentOS 7 / RHEL 7 </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2014/07/25/ifconfig-command-found-centos-7/" class="bump-view" data-bump-view="tp">
+ifconfig command not found on CentOS 7 </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2014/10/04/install-redis-server-centos-7-rhel-7/" class="bump-view" data-bump-view="tp">
+How to install redis server on CentOS 7 / RHEL 7 </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2013/12/19/how-to-fix-read-only-usb-pen-drive-in-ubuntu/" class="bump-view" data-bump-view="tp">
+How to fix read only USB pen drive in Ubuntu </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2014/10/09/centos-7-rhel-7-install-and-setup-samba-server-file-sharing/" class="bump-view" data-bump-view="tp">
+CentOS 7 / RHEL 7 : Install and setup samba server ( file sharing) </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2013/12/26/install-mysql-server-5-6-in-centos-6-x-and-red-hat-6-x-linux/" class="bump-view" data-bump-view="tp">
+Install MySQL Server 5.6 in CentOS 6.x and Red Hat 6.x Linux </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2014/03/24/install-xampp-centosrhel-6-5/" class="bump-view" data-bump-view="tp">
+How to install XAMPP on CentOS/RHEL 6.5 </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2014/05/07/install-mysql-server-5-6-ubuntu-14-04-lts-trusty-tahr/" class="bump-view" data-bump-view="tp">
+How to install mysql server 5.6 on Ubuntu 14.04 LTS ( Trusty Tahr ) </a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2014/03/01/install-and-configure-rsyslog-on-rhel-6-centos-6/" class="bump-view" data-bump-view="tp">
+Install and configure rsyslog Centralized logging server in CentOS 6.5 </a>
+</li>
+</ul></div></section> <section id="recent-posts-8" class="widget widget_recent_entries"><div class="widget-wrap"> <h4 class="widget-title widgettitle">Recent Posts</h4>
+<ul>
+<li>
+<a href="http://sharadchhetri.com/2015/11/03/vi-remove-space-at-beginning-and-end-of-each-line/">vi : remove space at beginning and end of each line</a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2015/10/31/nagios-monitoring-on-aws-autoscaling-group-instances/">Nagios monitoring on AWS Autoscaling group instances</a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2015/09/26/postfix-ses-sasl-authentication-failed/">Postfix + SES : SASL authentication failed</a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2015/08/26/send-nagios-report-as-pdf-file-via-email/">Send nagios report as pdf file via email</a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2015/08/23/convert-website-page-to-pdf-and-image/">Convert website page to pdf and image</a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2015/08/18/python-headers-are-required-to-build-mercurial-but-werent-found/">Python headers are required to build Mercurial but weren&#8217;t found</a>
+</li>
+<li>
+<a href="http://sharadchhetri.com/2015/07/19/install-ansible-on-ubuntu-centos-rhel/">Install Ansible on Ubuntu / CentOS / RHEL</a>
+</li>
+</ul>
+</div></section><section id="text-265" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Free E-Book</h4>
+<div class="textwidget"><a href="http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&_t=oc:&qf=w_orac407" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://sharadchhetri.tradepub.com/c/pubRD.mpl?sr=oc&amp;_t=oc:&amp;qf=w_orac407', '\n');" target="_blank">
+<img src="http://img.tradepub.com/free/w_orac407/images/w_orac407c8.jpg" height="300" width="220"></a></center></div>
+</div></section></aside></div>  
+<script type="text/rocketscript">
+		window.onload = function(){prettyPrint();};
+	</script>
+<script type="text/rocketscript" data-rocketsrc="http://sharadchhetri.com/wp-content/plugins/wp-code-highlight/js/wp-code-highlight.js"></script>
+ 
+</div><div class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><section id="user-profile-2" class="widget user-profile"><div class="widget-wrap"><h4 class="widget-title widgettitle">Who is Sharad Chhetri</h4>
+<p><span class="alignleft"><img alt='' src='http://2.gravatar.com/avatar/8b4931e195b81c90c1f719a798b44f09?s=65&#038;d=identicon&#038;r=g' srcset='http://2.gravatar.com/avatar/8b4931e195b81c90c1f719a798b44f09?s=130&amp;d=identicon&amp;r=g 2x' class='avatar avatar-65 photo' height='65' width='65'/></span>Sharad Chhetri is an experienced Linux System Engineer. He loves Linux,Open Source Technology &amp; Wordpress.</p>
+<p>For any business related queries contact at admin@sharadchhetri.com .</p>
+</div></section>
+<section id="categories-2" class="widget widget_categories"><div class="widget-wrap"><h4 class="widget-title widgettitle">SERVERS/TOPICS</h4>
+<label class="screen-reader-text" for="cat">SERVERS/TOPICS</label><select name='cat' id='cat' class='postform'>
+<option value='-1'>Select Category</option>
+<option class="level-0" value="107">Amazon AWS</option>
+<option class="level-0" value="30">Apache</option>
+<option class="level-0" value="116">BlogTalks</option>
+<option class="level-0" value="20">BSD</option>
+<option class="level-0" value="151">BSD troubleshooting</option>
+<option class="level-0" value="18">CentOS</option>
+<option class="level-0" value="105">CloudComputing</option>
+<option class="level-0" value="72">Database Server</option>
+<option class="level-0" value="148">DNS Server</option>
+<option class="level-0" value="6">Fedora</option>
+<option class="level-0" value="26">FTP Server</option>
+<option class="level-0" value="115">Git Server</option>
+<option class="level-0" value="284">jekyll</option>
+<option class="level-0" value="2">Linux</option>
+<option class="level-0" value="172">Linux Commands</option>
+<option class="level-0" value="19">Linux Mint</option>
+<option class="level-0" value="159">LinuxMint</option>
+<option class="level-0" value="196">Loadbalancer</option>
+<option class="level-0" value="87">MailServer</option>
+<option class="level-0" value="15">Monitoring Server</option>
+<option class="level-0" value="3">mysql</option>
+<option class="level-0" value="139">nginx</option>
+<option class="level-0" value="243">Octopress</option>
+<option class="level-0" value="80">openerp</option>
+<option class="level-0" value="17">OS Installation</option>
+<option class="level-0" value="85">owncloud</option>
+<option class="level-0" value="29">samba</option>
+<option class="level-0" value="12">Server</option>
+<option class="level-0" value="269">squid</option>
+<option class="level-0" value="136">SSH</option>
+<option class="level-0" value="22">Suse</option>
+<option class="level-0" value="66">Tips And Tricks</option>
+<option class="level-0" value="86">Ubuntu</option>
+<option class="level-0" value="113">Version Control System</option>
+<option class="level-0" value="183">web accelerator</option>
+<option class="level-0" value="39">wordpress</option>
+<option class="level-0" value="79">ZorinOS</option>
+</select>
+<script type="text/rocketscript">
+/* <![CDATA[ */
+(function() {
+	var dropdown = document.getElementById( "cat" );
+	function onCatChange() {
+		if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
+			location.href = "http://sharadchhetri.com/?cat=" + dropdown.options[ dropdown.selectedIndex ].value;
+		}
+	}
+	dropdown.onchange = onCatChange;
+})();
+/* ]]> */
+</script>
+</div></section>
+<section id="archives-2" class="widget widget_archive"><div class="widget-wrap"><h4 class="widget-title widgettitle">Archives</h4>
+<label class="screen-reader-text" for="archives-dropdown-2">Archives</label>
+<select id="archives-dropdown-2" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+<option value="">Select Month</option>
+<option value='http://sharadchhetri.com/2015/11/'> November 2015 </option>
+<option value='http://sharadchhetri.com/2015/10/'> October 2015 </option>
+<option value='http://sharadchhetri.com/2015/09/'> September 2015 </option>
+<option value='http://sharadchhetri.com/2015/08/'> August 2015 </option>
+<option value='http://sharadchhetri.com/2015/07/'> July 2015 </option>
+<option value='http://sharadchhetri.com/2015/06/'> June 2015 </option>
+<option value='http://sharadchhetri.com/2015/05/'> May 2015 </option>
+<option value='http://sharadchhetri.com/2015/04/'> April 2015 </option>
+<option value='http://sharadchhetri.com/2015/03/'> March 2015 </option>
+<option value='http://sharadchhetri.com/2015/02/'> February 2015 </option>
+<option value='http://sharadchhetri.com/2015/01/'> January 2015 </option>
+<option value='http://sharadchhetri.com/2014/12/'> December 2014 </option>
+<option value='http://sharadchhetri.com/2014/11/'> November 2014 </option>
+<option value='http://sharadchhetri.com/2014/10/'> October 2014 </option>
+<option value='http://sharadchhetri.com/2014/09/'> September 2014 </option>
+<option value='http://sharadchhetri.com/2014/08/'> August 2014 </option>
+<option value='http://sharadchhetri.com/2014/07/'> July 2014 </option>
+<option value='http://sharadchhetri.com/2014/06/'> June 2014 </option>
+<option value='http://sharadchhetri.com/2014/05/'> May 2014 </option>
+<option value='http://sharadchhetri.com/2014/04/'> April 2014 </option>
+<option value='http://sharadchhetri.com/2014/03/'> March 2014 </option>
+<option value='http://sharadchhetri.com/2014/02/'> February 2014 </option>
+<option value='http://sharadchhetri.com/2014/01/'> January 2014 </option>
+<option value='http://sharadchhetri.com/2013/12/'> December 2013 </option>
+<option value='http://sharadchhetri.com/2013/11/'> November 2013 </option>
+<option value='http://sharadchhetri.com/2013/10/'> October 2013 </option>
+<option value='http://sharadchhetri.com/2013/09/'> September 2013 </option>
+<option value='http://sharadchhetri.com/2013/08/'> August 2013 </option>
+<option value='http://sharadchhetri.com/2013/07/'> July 2013 </option>
+<option value='http://sharadchhetri.com/2013/06/'> June 2013 </option>
+<option value='http://sharadchhetri.com/2013/05/'> May 2013 </option>
+<option value='http://sharadchhetri.com/2013/04/'> April 2013 </option>
+<option value='http://sharadchhetri.com/2013/03/'> March 2013 </option>
+<option value='http://sharadchhetri.com/2013/02/'> February 2013 </option>
+<option value='http://sharadchhetri.com/2013/01/'> January 2013 </option>
+<option value='http://sharadchhetri.com/2012/12/'> December 2012 </option>
+<option value='http://sharadchhetri.com/2012/08/'> August 2012 </option>
+<option value='http://sharadchhetri.com/2012/07/'> July 2012 </option>
+<option value='http://sharadchhetri.com/2012/05/'> May 2012 </option>
+<option value='http://sharadchhetri.com/2011/12/'> December 2011 </option>
+<option value='http://sharadchhetri.com/2011/11/'> November 2011 </option>
+<option value='http://sharadchhetri.com/2011/09/'> September 2011 </option>
+<option value='http://sharadchhetri.com/2011/07/'> July 2011 </option>
+<option value='http://sharadchhetri.com/2011/06/'> June 2011 </option>
+<option value='http://sharadchhetri.com/2011/05/'> May 2011 </option>
+<option value='http://sharadchhetri.com/2011/02/'> February 2011 </option>
+<option value='http://sharadchhetri.com/2011/01/'> January 2011 </option>
+<option value='http://sharadchhetri.com/2010/12/'> December 2010 </option>
+<option value='http://sharadchhetri.com/2010/10/'> October 2010 </option>
+<option value='http://sharadchhetri.com/2010/08/'> August 2010 </option>
+<option value='http://sharadchhetri.com/2010/05/'> May 2010 </option>
+<option value='http://sharadchhetri.com/2009/08/'> August 2009 </option>
+<option value='http://sharadchhetri.com/2009/04/'> April 2009 </option>
+<option value='http://sharadchhetri.com/2009/03/'> March 2009 </option>
+</select>
+</div></section>
+</div><div class="footer-widgets-2 widget-area"><section id="enews-ext-3" class="widget enews-widget"><div class="widget-wrap"><div class="enews"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+<p>Subscribe to our mailing list to get latest updates from our blog.</p>
+<form id="subscribeenews-ext-3" action="http://sharadchhetri.us3.list-manage.com/subscribe/post?u=c0f38051e90d4d9210f6dbe66&amp;id=054da6886e" method="post" target="_blank" onsubmit="if ( subbox1.value == 'First Name') { subbox1.value = ''; } if ( subbox2.value == 'Last Name') { subbox2.value = ''; }" name="enews-ext-3">
+<label for="subbox1" class="screenread">First Name</label><input type="text" id="subbox1" class="enews-subbox" value="" placeholder="First Name"name="FNAME" />								<label for="subbox" class="screenread">E-Mail Address</label><input type="email" value="" id="subbox" placeholder="E-Mail Address" name="EMAIL" required="required" />
+								<input type="submit" value="SUBSCRIBE" id="subbutton" />
+			</form>
+		</div></div></section>
+<section id="text-153" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Copyrights Protected By DMCA</h4>
+			<div class="textwidget"><center><a href="http://www.dmca.com/Protection/Status.aspx?ID=d749ac75-0fb9-42e8-b969-defae7244f33" onclick="__gaTracker('send', 'event', 'outbound-widget', 'http://www.dmca.com/Protection/Status.aspx?ID=d749ac75-0fb9-42e8-b969-defae7244f33', ' ');" title="DMCA"> <img src ="/wp-content/uploads/2014/12/DMCA_logo-grn-btn200w.png"  alt="DMCA.com" /></a></center>
+</div>
+		</div></section>
+</div><div class="footer-widgets-3 widget-area"><section id="recent-comments-2" class="widget widget_recent_comments"><div class="widget-wrap"><h4 class="widget-title widgettitle">Recent Comments</h4>
+<ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href='http://www.sharadchhetri.com' rel='external nofollow' class='url'>sharad chhetri</a></span> on <a href="http://sharadchhetri.com/2014/02/05/install-subversion-1-8-on-ubuntu-using-apt/comment-page-1/#comment-25375">Install subversion 1.8 on Ubuntu using apt</a></li><li class="recentcomments"><span class="comment-author-link"><a href='http://www.sharadchhetri.com' rel='external nofollow' class='url'>sharad chhetri</a></span> on <a href="http://sharadchhetri.com/2011/12/06/how-to-mount-cddvd-rom-in-redhat-or-centos-linux/comment-page-1/#comment-25374">How to mount CD/DVD ROM in Redhat or CentOS Linux</a></li><li class="recentcomments"><span class="comment-author-link">wdac</span> on <a href="http://sharadchhetri.com/2014/10/09/centos-7-rhel-7-install-and-setup-samba-server-file-sharing/comment-page-1/#comment-25373">CentOS 7 / RHEL 7 : Install and setup samba server ( file sharing)</a></li><li class="recentcomments"><span class="comment-author-link"><a href='http://www.sharadchhetri.com' rel='external nofollow' class='url'>sharad chhetri</a></span> on <a href="http://sharadchhetri.com/2014/06/30/install-jekyll-on-ubuntu-14-04-lts/comment-page-1/#comment-25372">Install Jekyll on Ubuntu 14.04 LTS</a></li><li class="recentcomments"><span class="comment-author-link"><a href='http://www.sharadchhetri.com' rel='external nofollow' class='url'>sharad chhetri</a></span> on <a href="http://sharadchhetri.com/2014/05/30/install-pip-centos-rhel-ubuntu-debian/comment-page-1/#comment-25371">How to install pip on CentOS / RHEL / Ubuntu / Debian</a></li><li class="recentcomments"><span class="comment-author-link"><a href='http://www.sharadchhetri.com' rel='external nofollow' class='url'>sharad chhetri</a></span> on <a href="http://sharadchhetri.com/2013/07/16/how-to-use-email-id-of-gmail-for-sending-nagios-email-alerts/comment-page-1/#comment-25370">How to use email id of Gmail for sending nagios email alerts</a></li><li class="recentcomments"><span class="comment-author-link"><a href='http://www.sharadchhetri.com' rel='external nofollow' class='url'>sharad chhetri</a></span> on <a href="http://sharadchhetri.com/2014/11/29/upgrading-mysql-5-1-5-6-service-failed-start/comment-page-1/#comment-25369">Upgrading MySQL 5.1 to 5.6 service failed to start</a></li></ul></div></section>
+</div></div></div><footer class="site-footer" role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter"><div class="wrap"><div class="creds"><p>Copyright &copy; 2009 - 2015 &middot; All Rights Reserved <a href="http://sharadchhetri.com">sharadchhetri.com</a> &middot &middot; <a href="http://sharadchhetri.com/privacy-policy/">Privacy Policy</a> &middot &middot; <a href="http://www.shareasale.com/r.cfm?b=241369&u=917364&m=28169&urllink=&afftrack=" target="_blank">StudioPress Themes for WordPress</a> &middot<br> &middot; <a href="http://sharadchhetri.com/sitemap_index.xml" target="_blank">sitemap.xml</a> &middot &middot;The content is copyrighted to <a href="http://sharadchhetri.com">sharadchhetri.com</a> and may not be reproduced on other websites without our permission.  &middot</p></div><p></p></div></footer></div>
+<style type="text/css">
+    #wpfront-notification-bar 
+    {
+        background: #3b82de;
+        background: -moz-linear-gradient(top, #3b82de 0%, #3b82de 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3b82de), color-stop(100%,#3b82de));
+        background: -webkit-linear-gradient(top, #3b82de 0%,#3b82de 100%);
+        background: -o-linear-gradient(top, #3b82de 0%,#3b82de 100%);
+        background: -ms-linear-gradient(top, #3b82de 0%,#3b82de 100%);
+        background: linear-gradient(to bottom, #3b82de 0%, #3b82de 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3b82de', endColorstr='#3b82de',GradientType=0 );
+    }
+
+    #wpfront-notification-bar div.wpfront-message
+    {
+        color: #ffffff;
+    }
+
+    #wpfront-notification-bar a.wpfront-button
+    {
+        background: #00b7ea;
+        background: -moz-linear-gradient(top, #00b7ea 0%, #009ec3 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#00b7ea), color-stop(100%,#009ec3));
+        background: -webkit-linear-gradient(top, #00b7ea 0%,#009ec3 100%);
+        background: -o-linear-gradient(top, #00b7ea 0%,#009ec3 100%);
+        background: -ms-linear-gradient(top, #00b7ea 0%,#009ec3 100%);
+        background: linear-gradient(to bottom, #00b7ea 0%, #009ec3 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b7ea', endColorstr='#009ec3',GradientType=0 );
+
+        color: #ffffff;
+    }
+
+    #wpfront-notification-bar-open-button
+    {
+        background-color: #00b7ea;
+    }
+
+    #wpfront-notification-bar  div.wpfront-close 
+    {
+        border: 1px solid #555555;
+        background-color: #555555;
+        color: #000000;
+    }
+
+    #wpfront-notification-bar  div.wpfront-close:hover 
+    {
+        border: 1px solid #fff7ff;
+        background-color: #fff7ff;
+    }
+</style>
+
+
+<div id="wpfront-notification-bar-spacer"  style="display: none;">
+    <div id="wpfront-notification-bar-open-button" class="top wpfront-bottom-shadow"></div>
+    <div id="wpfront-notification-bar" class="wpfront-fixed ">
+                    <div class="wpfront-close">X</div>
+                <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <div class="wpfront-message">
+                        No Kidding !! Download free e-books (including Linux / Unix e-books)                    </div>
+                    <div>
+                                                                                    <a class="wpfront-button" href="http://sharadchhetri.tradepub.com/category/information-technology-servers-and-linux-server-os/806/"  target="_self" >Download e-books</a>
+                                                                                                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<style type="text/css">
+</style>
+<script type="text/rocketscript">if(typeof wpfront_notification_bar == "function") wpfront_notification_bar({"position":1,"height":0,"fixed_position":false,"animate_delay":0.5,"close_button":true,"button_action_close_bar":false,"auto_close_after":0,"display_after":1,"is_admin_bar_showing":false,"display_open_button":false,"keep_closed":"on","keep_closed_for":0,"position_offset":0,"display_scroll":false,"display_scroll_offset":100});</script>
+	<script type="text/rocketscript">
+		window.WPCOM_sharing_counts = {"http:\/\/sharadchhetri.com\/2013\/03\/02\/how-to-install-and-configure-nagios-nrpe-in-centos-and-red-hat\/":661};
+	</script>
+		<script type="text/rocketscript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/rocketscript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/rocketscript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/rocketscript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-tumblr' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtumblr', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/rocketscript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/plugins/akismet/_inc/form.js?ver=3.1.5'></script>
+<link rel='stylesheet' id='yarppRelatedCss-css'  href='http://sharadchhetri.com/wp-content/plugins/yet-another-related-posts-plugin/style/related.css?ver=4.3.1' type='text/css' media='all' />
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/plugins/jetpack/modules/photon/photon.js?ver=20130122'></script>
+<script type="text/rocketscript" data-rocketsrc='http://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201548'></script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-includes/js/comment-reply.min.js?ver=4.3.1'></script>
+<script type="text/rocketscript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/rocketscript" data-rocketsrc='http://sharadchhetri.com/wp-content/plugins/jetpack/modules/sharedaddy/sharing.js?ver=3.8.0'></script>
+<script type="text/rocketscript" data-rocketsrc='http://stats.wp.com/e-201548.js' async defer></script>
+<script type="text/rocketscript">
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:3.8.0',blog:'46982787',post:'661',tz:'0',srv:'sharadchhetri.com'} ]);
+	_stq.push([ 'clickTrackerInit', '46982787', '661' ]);
+</script>
+</body>
+</html>

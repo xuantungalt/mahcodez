@@ -1,0 +1,123 @@
+# dependency
+sudo apt-get install -y tcl tcl-dev libncurses5-dev
+sudo apt-get install -y glib-2.0 libglib2.0-dev 
+
+http://linux-ha.org/wiki/Download
+
+Current Linux-HA Release Downloads
+Heartbeat 3.0.6: http://hg.linux-ha.org/heartbeat-STABLE_3_0/archive/958e11be8686.tar.bz2
+Cluster Glue 1.0.12: http://hg.linux-ha.org/glue/archive/0a7add1d9996.tar.bz2
+Resource Agents 3.9.6: https://github.com/ClusterLabs/resource-agents/archive/v3.9.6.tar.gz
+CRM Shell 2.1.2: https://github.com/crmsh/crmsh/archive/2.1.2.tar.gz
+OBS Repositories: http://download.opensuse.org/repositories/network:/ha-clustering:/Stable/
+Current Pacemaker Downloads
+
+For Pacemaker downloads, please refer to http://clusterlabs.org/wiki/Get_Pacemaker on the ClusterLabs site.
+
+
+# LIBQB
+./configure --prefix=/opt/cluster/libqb --with-socket-dir=/tmp --oldincludedir=/opt/cluster/libqb/include-old
+
+# COROSYNC
+wget http://build.clusterlabs.org/corosync/releases/corosync-1.4.7.tar.gz
+./configure --prefix=/opt/cluster/corosync --with-lcrso-dir=/opt/cluster/corosync/lcrso
+
+# CLUSTER GLUE Reusable-Cluster-Components-glue--0a7add1d9996/
+./configure --prefix=/opt/cluster --enable-doc=no
+
+#HEARTBEAT Heartbeat-3-0-cceeb47a7d8f/]$ 
+export PKG_CONFIG_PATH=/opt/cluster/lib
+./bootstrap
+./configure --prefix=/opt/cluster --with-initdir=/opt/cluster/etc/init.d --with-initdefdir=/opt/cluster/etc/default --enable-fatal-warnings=no
+
+newer versions of glib2 don't allow apps to #include anything but glib.h anymore. You'll need to patch / edit the app to drop references to things like gthread.h gerror.h, etc... and only use
+#include <glib.h>
+
+# RESOURCE AGENTS
+unset LIBS
+export LDFLAGS="-L/opt/cluster/lib"
+export LCRSODIR=/opt/cluster/lcrso
+export CLUSTERLIBS=/opt/cluster/lib
+./configure --prefix=/opt/cluster --with-ocf-root=/opt/cluster/lib --enable-fatal-warnings=no
+
+# PACEMAKER https://github.com/ClusterLabs/pacemaker/archive/Pacemaker-1.1.12.tar.gz 
+unset libqb_LIBS libqb_CFLAGS PKG_CONFIG_PATH LDFLAGS CPPFLAGS
+export PKG_CONFIG_PATH=/opt/cluster/lib/pkgconfig
+export LDFLAGS="-L/opt/cluster/lib"
+export CPPFLAGS="-I/opt/cluster/include"
+./configure --prefix=/opt/cluster --includedir=/opt/cluster/include \
+--with-corosync --with-ais-prefix=/opt/cluster --with-lcrso-dir=/opt/cluster/lcrso \
+--disable-fatal-warnings --enable-snmp-subagent --enable-glib-malloc --with-snmp --with-ais --with-heartbeat \
+--with-cman --with-nagios --host=arm-unknown-linux-gnueabihf --build=arm-unknown-linux-gnueabihf --disable-dependency-tracking 
+
+# Add lib path to ldconfig
+sudo echo '/opt/cluster/lib' > /etc/ld.so.conf.d/z-cluster.conf
+sudo ldconfig
+
+# CRMSH
+./configure --prefix=/opt/cluster PYTHON="/usr/bin/python" LDFLAGS="-L/opt/cluster/lib"
+sudo ln -s /opt/cluster/lib/python2.7/site-packages/crmsh /usr/lib/python2.7/dist-packages/crmsh
+
+svim /opt/cluster/lib/python2.7/site-packages/crmsh/config.py
+opts = {
+        'datadir': ('/opt/cluster/share', '/opt/cluster/local/share', '/opt'),
+        'cachedir': ('/var/cache', '/opt/cache'),
+        'libdir': ('/opt/cluster/lib64', '/opt/cluster/libexec', '/opt/cluster/lib',
+                   '/opt/cluster/local/lib64', '/opt/cluster/local/libexec', '/opt/cluster/local/lib'),
+        'varlib': ('/opt/cluster/var/lib', '/opt/cluster/var/lib')
+    }
+
+
+primitive DRBD_SQL ocf:linbit:drbd \
+        params drbd_resource="msql" \
+        op monitor interval="29s" role="Master" \
+        op monitor interval="31s" role="Slave" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive DRBD_SVN ocf:linbit:drbd \
+        params drbd_resource="svn" \
+        op monitor interval="9s" role="Master" \
+        op monitor interval="11s" role="Slave" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive DRBD_WWW ocf:linbit:drbd \
+        params drbd_resource="www" \
+        op monitor interval="9s" role="Master" \
+        op monitor interval="11s" role="Slave" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive FS_SQL ocf:heartbeat:Filesystem \
+        params device="/dev/drbd2" directory="/opt/mysql" fstype="ext3" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive FS_SVN ocf:heartbeat:Filesystem \
+        params device="/dev/drbd0" directory="/opt/svn" fstype="ext3" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive FS_WWW ocf:heartbeat:Filesystem \
+        params device="/dev/drbd1" directory="/opt/www" fstype="ext3" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive ONERING-ADDR ocf:heartbeat:IPaddr2 \
+        params ip="10.1.1.20" cidr_netmask="32" nic="eth0" \
+        op monitor interval="10s" \
+        meta is-managed="true"
+group INB4 FS_SVN FS_WWW FS_SQL ONERING-ADDR
+ms DRBD_MMS DRBD_SQL \
+        meta master-max="1" master-node-max="1" clone-max="2" clone-node-max="1" notify="true"
+ms DRBD_SMS DRBD_SVN \
+        meta master-max="1" master-node-max="1" clone-max="2" clone-node-max="1" notify="true"
+ms DRBD_WMS DRBD_WWW \
+        meta master-max="1" master-node-max="1" clone-max="2" clone-node-max="1" notify="true"
+colocation MFS_DRBD_COLO inf: INB4 DRBD_MMS:Master
+colocation SFS_DRBD_COLO inf: INB4 DRBD_SMS:Master
+colocation WFS_DRBD_COLO inf: INB4 DRBD_WMS:Master
+order MFS_AFTER_DRBD inf: DRBD_MMS:promote INB4:start
+order SFS_AFTER_DRBD inf: DRBD_SMS:promote INB4:start
+order WFS_AFTER_DRBD inf: DRBD_WMS:promote INB4:start
+property $id="cib-bootstrap-options" \
+        dc-version="1.1.7-ee0730e13d124c3d58f00016c3376a1de5323cff" \
+        cluster-infrastructure="openais" \
+        expected-quorum-votes="2" \
+        stonith-enabled="false" \
+        no-quorum-policy="ignore"

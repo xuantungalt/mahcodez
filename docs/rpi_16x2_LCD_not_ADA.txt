@@ -1,0 +1,112 @@
+Interfacing 16x2 LCD with Raspberry Pi using GPIO & Python
+Posted by Rahul Kar × 1:30 AM
+In my previous post I had used an 8 bit i2c port expander to drive the 16x2 LCD. It saved precious GPIO pins but added complexity and cost. In this post I will be using the RPi.GPIO library and Python to control the LCD.The LCD used in this post is based on Hitachi HD44780 LCD controller.Although the LCD has 16 pins available for interfacing, using the 4 bit mode only 6 GPIO pins are required ( RS,E,D4,D5,D6,D7).                                                                                
+
+
+  LCD Pin		   Pi Pin
+     01  <------>  GPIO-06
+     02  <------>  GPIO-02
+     03  <------>  GPIO-06
+     04  <------>  GPIO-26
+     05  <------>  GPIO-06
+     06  <------>  GPIO-24
+     07
+     08
+     09
+     10
+     11  <------>  GPIO-22
+     12  <------>  GPIO-18
+     13  <------>  GPIO-16
+     14  <------>  GPIO-12
+     15    +5V     
+     16  <------>  GPIO-06
+
+NOTE : With the help of  RW pin the device can be set to read/write mode.Setting [R/W=0] will write to the register and setting [R/W=1] will read from the register.To display data on LCD read access is not required,so the RW in connected to GND. This ensures that there is no outbound data from HD44780 as Pi cannot tolerate 5V.
+
+You can check the pinout of Pi from here.
+
+Code:-
+
+HD44780 based display can be controlled using any programming environment.Here I have used Python & RPi.GPIO library to provide access to the GPIO.
+
+
+#!/usr/bin/python
+
+import RPi.GPIO as GPIO
+from time import sleep
+class HD44780:
+
+    def __init__(self, pin_rs=27, pin_e=22, pins_db=[25, 24, 23, 18]):
+
+        self.pin_rs=pin_rs
+        self.pin_e=pin_e
+        self.pins_db=pins_db
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(self.pin_e, GPIO.OUT)
+        GPIO.setup(self.pin_rs, GPIO.OUT)
+        for pin in self.pins_db:
+            GPIO.setup(pin, GPIO.OUT)
+
+        self.clear()
+
+    def clear(self):
+        """ Blank / Reset LCD """
+
+        self.cmd(0x33) # $33 8-bit mode
+        self.cmd(0x32) # $32 8-bit mode
+        self.cmd(0x28) # $28 8-bit mode
+        self.cmd(0x0C) # $0C 8-bit mode
+        self.cmd(0x06) # $06 8-bit mode
+        self.cmd(0x01) # $01 8-bit mode
+
+    def cmd(self, bits, char_mode=False):
+        """ Send command to LCD """
+
+        sleep(0.01)
+        print bits,
+        bits=bin(bits)[2:].zfill(8)
+        print bits
+
+        GPIO.output(self.pin_rs, char_mode)
+
+        for pin in self.pins_db:
+            GPIO.output(pin, False)
+
+        for i in range(4):
+            if bits[i] == "1":
+                GPIO.output(self.pins_db[::-1][i], True)
+
+        GPIO.output(self.pin_e, True)
+        GPIO.output(self.pin_e, False)
+
+        for pin in self.pins_db:
+            GPIO.output(pin, False)
+
+        for i in range(4,8):
+            if bits[i] == "1":
+                GPIO.output(self.pins_db[::-1][i-4], True)
+
+
+        GPIO.output(self.pin_e, True)
+        GPIO.output(self.pin_e, False)
+
+    def message(self, text):
+        """ Send string to LCD. Newline wraps to second line"""
+
+        for char in text:
+            if char == '\n':
+                self.cmd(0xC0) # next line
+            else:
+                print '"%s" : %s' % (char, ord(char))
+                self.cmd(ord(char),True)
+
+if __name__ == '__main__':
+    lcd = HD44780()
+    lcd.message("""Raspberry Pi
+Take a byte
+akrewiuquigyjaskegbcywegkcrugvwjdagwg4!""")
+    import time
+    time.sleep(30)
+    lcd.clear()

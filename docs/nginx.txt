@@ -1,0 +1,5 @@
+https://www.digitalocean.com/community/tutorials/how-to-compile-nginx-from-source-on-a-centos-6-4-x64-vps
+
+#Prequisites
+sudo apt-get install libpcre3 libpcre3-dev \
+gcc zlibc zlib1g-dev zlib1g-dbg openssl libssl-dev

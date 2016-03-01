@@ -1,0 +1,168 @@
+# http://www.thesysadminhimself.com/2013/02/installing-centreon-24-on-centos-63-x64.html
+
+### IMPORT RPM
+rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
+wget -N http://packages.sw.be/rpmforge-release/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+rpm -i rpmforge-release-0.5.2-2.el6.rf.*.rpm
+
+### INSTALL AND STUFF
+yum -y install httpd php php-mysql php-gd \
+gd fontconfig-devel libjpeg-devel libpng-devel gd-devel perl-GD \
+openssl-devel perl-DBD-MySQL mysql-server mysql-devel \
+php-ldap php-xml php-mbstring \
+perl-DBI perl-DBD-MySQL perl-Config-IniFiles rrdtool perl-rrdtool \
+perl-Crypt-DES perl-Digest-SHA1 perl-Digest-HMAC net-snmp-utils \
+perl-Socket6 perl-IO-Socket-INET6 net-snmp net-snmp-libs php-snmp dmidecode lm_sensors perl-Net-SNMP net-snmp-perl \
+fping cpp gcc gcc-c++ libstdc++ glib2-devel make \
+php-pear
+
+### UPDATE PEAR
+# for those who have a web proxy
+# pear config-set http_proxy http://my_proxy.com:port 
+pear channel-update pear.php.net 
+pear upgrade-all
+
+# add the line rocommunity public 127.0.0.1/32 to snmpd.conf
+sed -i '$ a\rocommunity public 127.0.0.1/32' /etc/snmp/snmpd.conf
+service snmpd start
+chkconfig snmpd on
+
+/usr/sbin/useradd -m nagios
+/usr/sbin/usermod -L nagios
+/usr/sbin/groupadd nagcmd
+/usr/sbin/usermod -G nagios,nagcmd nagios
+/usr/sbin/usermod -G nagios,nagcmd apache
+
+
+#NAGIOS
+# Download & Compile
+cd /usr/local/src/
+wget -N http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.4.4.tar.gz
+tar -xzf nagios-3.4.4.tar.gz
+cd nagios
+ 
+./configure --prefix=/opt/nagios --with-command-group=nagcmd --enable-nanosleep --enable-event-broker
+make all
+make install
+make install-init
+make install-commandmode
+make install-config
+chkconfig nagios on
+
+wget -N http://downloads.sourceforge.net/project/nagios/ndoutils-1.x/ndoutils-1.5.2/ndoutils-1.5.2.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fnagios%2Ffiles%2Fndoutils-1.x%2Fndoutils-1.5.2%2F&ts=1425967498&use_mirror=ncu -O ndoutils-1.5.2.tar.gz
+wget -N http://svn.centreon.com/trunk/ndoutils-patch/ndoutils1.5.2_light.patch
+patch -p1 -N < ndoutils1.5.2_light.patch
+./configure --prefix=/opt/nagios/ --enable-mysql --with-ndo2db-user=nagios --with-ndo2db-group=nagios
+cp -f ./src/ndomod-3x.o /opt/nagios/bin/ndomod.o
+cp -f ./src/ndo2db-3x /opt/nagios/bin/ndo2db
+cp -f ./config/ndo2db.cfg-sample /opt/nagios/etc/ndo2db.cfg
+cp -f ./config/ndomod.cfg-sample /opt/nagios/etc/ndomod.cfg
+chmod 774 /opt/nagios/bin/ndo*
+chown nagios:nagios /opt/nagios/bin/ndo*
+cp -f ./daemon-init /etc/init.d/ndo2db
+chmod +x /etc/init.d/ndo2db
+
+wget https://s3-eu-west-1.amazonaws.com/centreon-download/public/centreon/centreon-2.4.4.tar.gz --no-check-certificate
+
+SELECT table_name,table_schema FROM INFORMATION_SCHEMA.TABLES where table_name='SYS_PROPERTY';
+To resolve this issue I manually added a new column to the cfg_ndo2db table in the centreon database:
+ALTER TABLE `cfg_ndo2db` ADD COLUMN `lock_file` VARCHAR(255) NULL DEFAULT NULL;
+I then populated it with the path of my ndo2db lock file:
+UPDATE `cfg_ndo2db` SET `lock_file`='/usr/local/nagios/var/ndo2db.lock' WHERE `id`=1;
+
+# PLUGINS
+wget -N http://sourceforge.net/projects/nagiosplug/files/nagiosplug/1.4.16/nagios-plugins-1.4.16.tar.gz/download
+yum -y install fping openssl-devel openldap-devel postgresql-devel radiusclient-ng-devel samba-client libsmbclient perl-devel
+wget -N http://search.cpan.org/CPAN/authors/id/M/MS/MSCHWERN/ExtUtils-MakeMaker-6.64.tar.gz
+tar -xzf ExtUtils-MakeMaker-6.64.tar.gz
+cd ExtUtils-MakeMaker-6.64
+perl Makefile.PL
+make
+make install
+tar -xzf nagios-plugins-1.4.16.tar.gz
+cd nagios-plugins-1.4.16
+./configure --prefix=/opt/nagios --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl=/usr/bin/openssl --enable-perl-modules --enable-command-args
+make
+
+# Test-Simple-0.70 fails to compile otherwise so have to do it manually first
+cd ./perlmods/Test-Simple-0.70
+perl Makefile.PL
+make
+make install
+ 
+# go back to nagios-plugins to make install
+cd ../..
+make install
+# 
+
+wget -N http://sourceforge.net/projects/nagios/files/ndoutils-1.x/ndoutils-1.5.2/ndoutils-1.5.2.tar.gz/download
+tar -zxvf ndoutils-1.5.2.tar.gz
+cd ndoutils-1.5.2
+ 
+# get the patch and apply it; wget to same folder as ndoutils
+wget -N http://svn.centreon.com/trunk/ndoutils-patch/ndoutils1.5.2_light.patch
+yum -y install patch
+patch -p1 -N < ndoutils1.5.2_light.patch
+ 
+# continue installation
+./configure --prefix=/opt/nagios --enable-mysql --with-ndo2db-user=nagios --with-ndo2db-group=nagios
+make
+ 
+ 
+# After creating the binaries and libraries they have to be copied
+cp -f ./src/ndomod-3x.o /usr/local/nagios/bin/ndomod.o
+cp -f ./src/ndo2db-3x /usr/local/nagios/bin/ndo2db
+cp -f ./config/ndo2db.cfg-sample /usr/local/nagios/etc/ndo2db.cfg
+cp -f ./config/ndomod.cfg-sample /usr/local/nagios/etc/ndomod.cfg
+sudo chmod 774 /usr/local/nagios/bin/ndo*
+sudo chown nagios:nagios /usr/local/nagios/bin/ndo*
+
+broker_module=/usr/local/nagios/bin/ndomod.o config_file=/usr/local/nagios/etc/ndomod.cfg
+ 
+# make ndo2db daemon autorun
+cp -f ./daemon-init /etc/init.d/ndo2db
+chmod +x /etc/init.d/ndo2db
+chkconfig ndo2db on
+
+# Common Error
+ndomod: Still unable to connect to data sink
+start ndo2db BEFORE nagios
+both ndomod.cfg AND ndo2db.cfg pointo the same socket file output=/tmp/ndo.sock / socket_name=/tmp/ndo.sock
+ndomod: Error writing to data sink
+
+
+service httpd start
+groupadd centreon
+useradd -g centreon centreon
+cd /usr/local/src/
+wget http://download.centreon.com/index.php?id=4264
+ 
+tar -zxf centreon-2.4.0.tar.gz
+cd centreon-2.4.0
+export PATH="$PATH:/opt/nagios/bin/"
+
+# After installation configure SELinux
+yum -y install policycoreutils-python
+semanage fcontext -a -t httpd_sys_rw_content_t "/opt/centreon(/.*)?"
+restorecon -R /opt/centreon/
+semanage fcontext -a -t httpd_sys_rw_content_t "/opt/centreon/etc(/.*)?"
+restorecon -R /opt/centreon/etc
+semanage fcontext -a -t httpd_sys_rw_content_t "/opt/nagios/var/spool(/.*)?"
+semanage fcontext -a -t httpd_sys_content_t "/opt/nagios/share(/.*)?"
+restorecon -R /opt/nagios/
+semanage fcontext -a -t httpd_sys_content_t "/usr/share/php(/.*)?"
+restorecon -R /usr/share/php
+semanage fcontext -a -t httpd_sys_content_t "/usr/share/pear(/.*)?"
+restorecon -R /usr/share/pear
+ 
+# Restart some services
+service httpd restart
+service ndo2db restart
+service nagios restart
+
+
+chkconfig nagios off
+chkconfig centcore off
+chkconfig centstorage off
+chkconfig nrpe off
+chkconfig ndo2db off

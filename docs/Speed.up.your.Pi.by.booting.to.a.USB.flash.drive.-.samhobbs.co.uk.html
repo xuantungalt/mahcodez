@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive -->
+<html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#" class="js wf-montserrat-n4-active wf-istokweb-n4-active wf-active"><!--<![endif]--><head profile="http://www.w3.org/1999/xhtml/vocab"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+<link rel="shortcut icon" href="https://samhobbs.co.uk/sites/all/themes/neptunesam/favicon.ico" type="image/vnd.microsoft.icon">
+<meta name="description" content="Improve the speed of your Raspberry Pi by moving the root filesystem to a USB flash drive.">
+<meta name="generator" content="Drupal 7 (http://drupal.org)">
+<link rel="canonical" href="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk.html">
+<link rel="shortlink" href="https://samhobbs.co.uk/node/18">
+  <title>Speed up your Pi by booting to a USB flash drive | samhobbs.co.uk</title>
+
+  <script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/webfont.js" type="text/javascript" async=""></script><script type="text/javascript">
+  WebFontConfig = { google: { families: [ 'Montserrat', 'Istok Web' ] } };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+  </script>
+
+      <meta name="MobileOptimized" content="width">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="cleartype" content="on">
+
+  <link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_kShW4RPmRstZ3SpIC-ZvVGNFVAi0WEMuCnI0ZkYIaFw.css">
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_J714evCYo_z1kuOk5o0dJ9PKlQN3OdTFDEAcV0YRa8c.css">
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_LIE9eSEFaSYt-z9r5-SniRbXLMlMcg2Mc9NbfHusQQU.css">
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_hDCkdrnoNzDqOljvZ2AWBj2c2oCm6XIqawRd3mR39ZM.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat%7CIstok+Web" media="all"><script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/js_xAPl0qIk9eowy_iS9tNkCWXLUVoat94SQT48UBCFkyQ.js"></script>
+<script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/js_I23gxiikXxx_6GGz6rJ54UoPf8kO1zLBQwc8jUznXYM.js"></script>
+<script>document.createElement( "picture" );</script>
+<script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/js_UaaCpmMK5b7E0DSR5c7R4JgHzhn7JYgmbQw03T3YUsM.js"></script>
+<script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/js_U4NwpHfNvPgCwUUvLae0TEZNVZ-7I9yx6KmWZee00mM.js"></script>
+<script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/js_F9HQMS6iCL_5tm4TDl_PbWOrcvLJXLDDeBafo8_SM7U.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"neptunesam","theme_token":"Wk1eLnnnNZda2v5ax8RA_gFG4SdEHHhk5lh-ZbI7AWc","js":{"sites\/all\/modules\/picture\/picturefill2\/picturefill.min.js":1,"sites\/all\/modules\/picture\/picture.min.js":1,"sites\/all\/modules\/syntaxhighlighter\/syntaxhighlighter.min.js":1,"modules\/statistics\/statistics.js":1,"misc\/jquery.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"misc\/jquery.cookie.js":1,"misc\/form.js":1,"0":1,"sites\/all\/modules\/comment_notify\/comment_notify.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shCore.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushBash.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushPhp.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushXml.js":1,"misc\/textarea.js":1,"modules\/filter\/filter.js":1,"sites\/all\/themes\/neptune\/js\/script.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"sites\/all\/modules\/comment_notify\/comment_notify.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/picture\/picture_wysiwyg.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/styles\/shCore.css":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/styles\/shThemeDefault.css":1,"modules\/filter\/filter.css":1,"public:\/\/LD50\/feed_me.css":1,"sites\/all\/themes\/neptune\/system.menus.css":1,"sites\/all\/themes\/neptune\/css\/normalize.css":1,"sites\/all\/themes\/neptune\/css\/wireframes.css":1,"sites\/all\/themes\/neptune\/css\/layouts\/responsive-sidebars.css":1,"sites\/all\/themes\/neptune\/css\/page-backgrounds.css":1,"sites\/all\/themes\/neptune\/css\/tabs.css":1,"sites\/all\/themes\/neptune\/css\/pages.css":1,"sites\/all\/themes\/neptune\/css\/blocks.css":1,"sites\/all\/themes\/neptune\/css\/navigation.css":1,"sites\/all\/themes\/neptune\/css\/views-styles.css":1,"sites\/all\/themes\/neptune\/css\/nodes.css":1,"sites\/all\/themes\/neptune\/css\/comments.css":1,"sites\/all\/themes\/neptune\/css\/forms.css":1,"sites\/all\/themes\/neptune\/css\/fields.css":1,"sites\/all\/themes\/neptune\/css\/print.css":1,"sites\/all\/themes\/neptunesam\/css\/neptunesam.css":1}},"statistics":{"data":{"nid":"18"},"url":"\/modules\/statistics\/statistics.php"}});</script>
+
+      <!--[if lt IE 9]>
+    <script src="/sites/all/themes/zen/js/html5-respond.js"></script>
+    <![endif]-->
+  </head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-18 node-type-page section-2013 sidebar-right multi-column">
+<!--<canvas id="tri-canvas" height="80"></canvas>-->
+      <p id="skip-link">
+      <a href="https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive#main-menu" class="element-invisible element-focusable">Jump to navigation</a>
+    </p>
+      <div id="page" style="max-width:1024px">
+
+  
+  <header id="header" role="banner">
+
+          <a href="https://samhobbs.co.uk/" title="Home" rel="home" id="logo"><img src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/logo.png" alt="Home"></a>
+    
+          <hgroup id="name-and-slogan">
+                  <h1 id="site-name">
+            <a href="https://samhobbs.co.uk/" title="Home" rel="home"><span>samhobbs.co.uk</span></a>
+          </h1>
+        
+                  <h2 id="site-slogan">Sam Hobbs | Free Software Tutorials</h2>
+              </hgroup><!-- /#name-and-slogan -->
+    
+    
+  </header>
+
+  <div id="navigation" class="nav-processed has-content">
+
+          <nav id="main-menu" role="navigation">
+        <h2 class="element-invisible">Main menu</h2><ul class="links clearfix"><li class="menu-218 first"><a href="https://samhobbs.co.uk/">Home</a></li>
+<li class="menu-317"><a href="https://samhobbs.co.uk/raspberry-pi-email-server">Raspberry Pi Email Server</a></li>
+<li class="menu-406"><a href="https://samhobbs.co.uk/tutorials">Tutorials</a></li>
+<li class="menu-316"><a href="https://samhobbs.co.uk/about-me">About Me</a></li>
+<li class="menu-343"><a href="https://samhobbs.co.uk/get-in-touch">Get In Touch</a></li>
+<li class="menu-689 last"><a href="https://samhobbs.co.uk/archive" title="Historic content, sorted by month of publication">Archives</a></li>
+</ul>      </nav>
+    
+    
+  </div><!-- /#navigation -->
+
+  <div id="main">
+
+    <div id="content" class="column" role="main">
+            <a id="main-content"></a>
+                    <h1 class="title" id="page-title">Speed up your Pi by booting to a USB flash drive</h1>
+                                          
+
+
+<article class="node-18 node node-page view-mode-full clearfix" about="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" typeof="foaf:Document">
+
+      <header>
+                  <span property="dc:title" content="Speed up your Pi by booting to a USB flash drive" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="28" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+      
+          </header>
+  
+  <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p><img src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/RasPi_usb.JPG" width="600" alt="Raspberry Pi USB flash drive"></p>
+<h1>Intro</h1>
+<p>If you’ve read some of the other articles on the site, you may have gathered that I have <em>three</em> RasPis doing useful things around my home:</p>
+<ul><li>Pi #1 is running Raspbmc, an XBMC media centre port for the Raspberry Pi.</li>
+<li>Pi #2 is running this website plus an email server.</li>
+<li>Pi #3 is running the Dropbox replacement OwnCloud.</li>
+</ul><p>All three of these ran reasonably quickly out of the box, but because the Pi is such a low powered device, every little performance boost helps.</p>
+<p>Having said that, this is no small improvement, and the performance gain is instantly apparent.</p>
+<!--break--><h1>To Business</h1>
+<p>Raspbmc’s installer has a built-in boot to SD card function – the first time you power it on, if you have a USB plugged in it will automatically set things up for you. So #1 is taken care of. That leaves #2 and #3, for which the solution is the same (the solution applies to anything running Raspbian, and may work for some of the other Pi distributions too, although I haven’t checked).</p>
+<p>The first thing to understand here is that a Raspberry Pi is currently incapable of booting without an SD card. So although you can move your filesystem to a USB, you still need to keep the SD card plugged in.</p>
+<p>A normal Raspbian image contains two partitions. One is the boot partition and the other is the root filesystem. The boot partition contains all the bits that your Pi looks for when it starts up, and the root filesystem contains all of the programs that you run once the system is up and running, organised in the familiar <a href="https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard">filesystem hierarchy</a>.</p>
+<p>What we are about to do is tell the Raspberry Pi that the root filesystem is on a USB stick, and then delete the old root on the SD card, leaving only the boot partition.</p>
+<p>I’m going to assume that you have already made changes to your Pi that you would like to keep, and are not starting from scratch, as I doubt many people will have been foresighted enough to know that they would like to do this when they started tinkering (I certainly wasn’t!).</p>
+<p>All of these modifications are done on a Linux laptop or desktop (the Pi is off for the duration).</p>
+<h1>Step 1 – back up your SD card</h1>
+<p>Make a note of which drive your SD card is (you can check this in your partition manager).</p>
+<p>Now to make an image of your card and save it to your hard drive, run the following command:</p>
+<pre>sudo dd bs=4M if=/dev/sdb of=~/backup.img</pre><p>
+(Where /dev/sdb is your SD card)</p>
+<p>This should take about 5 minutes, just be patient.</p>
+<h1>Step 2 – copy the image over onto the USB stick</h1>
+<p>Once you have a backup image, you can insert your USB drive and copy the image over.</p>
+<pre>sudo dd bs=4M if=~/backup.img of=/dev/sdc</pre><p>
+(where /dev/sdc is your USB stick – again, you can check this in your partition manager)</p>
+<p>NB: we could have copied directly from the SD card to the USB stick, but it’s useful to have a backup just in case you mess it up, or your drive gets corrupted at a later date.</p>
+<h1>Step 3 – remove the partitions you don’t need</h1>
+<p>You should now have one SD card and one USB drive with identical content. You don’t need the boot partition on the USB drive, and you don’t need the root filesystem on the SD card. You don’t have to do this, but you can open your partition manager and delete those partitions to keep things neater (this will also stop you from getting confused about which is the one in use).</p>
+<p>You may find it easier if you remove the SD card to edit the USB drive and vice versa, it’s easy to mix the two storage devices up.</p>
+<p>Now is also a good time to resize the root filesystem on the USB drive using your partition manager. Extend it to use the free space at the end of the disk, but <em>leave 10 MiB free at the end</em>. I’ll explain why later.</p>
+<h1>Step 4 – work out how you are going to identify your root filesystem</h1>
+<p>Now all you need to do is tell the RasPi where the root filesystem is. This is done in a file called cmdline.txt.</p>
+<p>The key parameter is <code>root=/dev/mmcblk0p2</code>. If you are never going to plug another USB device into the Pi, then you can change this to <code>root=/dev/sda2</code> (the second partition on <code>/dev/sda</code>). Note that even if you deleted the first partition, the second will still identify itself as <code>/dev/sdX2</code> unless you create a new partition table, so stick with <code>/dev/sda2</code>.</p>
+<p><strong>BUT</strong>, if you think you might use another USB device with the Pi, then you may run into problems. You might think that the RasPi always assigns the top USB /dev/sda and the bottom USB /dev/sdb… not so. Which device gets which slot is random, so /dev/sda2 might not be the partition you think it is if more than one USB device is attached.</p>
+<p>Usually, on Ubuntu and other Linux distributions, you can refer to USB drives by their Universally Unique ID (UUID). Undortunately, the Raspberry Pi bootloader isn’t as sophisticated as Ubuntu’s GRUB. I’ve tried assigning the root location by UUID, but it doesn’t work.</p>
+<p>However, I did manage to find a solution <a href="http://www.linux-archive.org/gentoo-user/481167-mounting-root-partition-uuid-no-initrd-needed.html">here</a>. While you can’t use the UUID, you <em>can</em> use the PARTUUID.</p>
+<p>First, you need to convert your partition table from DOS to GPT. To do this, you’ll need the commandline tool gdisk. * If you didn’t leave that extra 10MiB at the end of the disk, you’ll get an error at this stage about the partition table and a partition overlapping.</p>
+<pre>sudo apt-get update
+sudo apt-get install gdisk
+gdisk /dev/sdb</pre><p>
+(where <code>/dev/sdb</code> is the usb drive).</p>
+<p>You will now be greeted with a prompt. Type <strong>?</strong> and press enter to list your options.</p>
+<p>Now choose “<strong>recovery and transformation options (experts only)</strong>”.</p>
+<p>Again, type ? and then choose “<strong>load MBR and build fresh GPT from it</strong>”.</p>
+<p>Finally, type ? and choose “<strong>write table to disk and exit</strong>”.</p>
+<p>Now take the USB drive out, re-insert it, and run gdisk again:</p>
+<pre>sudo gdisk /dev/sdb</pre><p>
+Now press “<strong>i</strong>”, and then “<strong>2</strong>″ to display detailed information on the second partition on the drive /dev/sdb2. You should get output like this:</p>
+<pre>Partition number (1-2): 2
+Partition GUID code: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 (Linux filesystem)
+Partition unique GUID: CA9D1961-4627-46BB-BACA-7C7106977E5C
+First sector: 122880 (at 60.0 MiB)
+Last sector: 60545023 (at 28.9 GiB)
+Partition size: 60422144 sectors (28.8 GiB)
+Attribute flags: 0000000000000000
+Partition name: 'Linux filesystem'</pre><p>
+The “<strong>Partition unique GUID</strong>” is what we’re after. Paste it into a text editor for now, you’ll need it later.</p>
+<h1>Step 5 – edit the boot partition on the SD card</h1>
+<p>Mount the boot partition on the card, locate the partition, and then edit <code>cmdline.txt</code>.</p>
+<p>We need to change <code>root=/dev/mmcblk0p2</code> to <code>root=PARTUUID=XXXXXX</code> (fill in your Partition Unique GUID in the place of XXXXXX).</p>
+<pre>cd /media/boot
+ls
+sudo nano cmdline.txt</pre><p>
+Press CTRL+X when you’re done, and say yes when prompted to save.</p>
+<p>Close the terminal window and unmount the USB drive.</p>
+<h1>Step 6 – Boot your Pi to the USB drive</h1>
+<p>Now all that’s left is to insert your SD card, your USB drive, and reconnect the power cable.</p>
+<p>If all goes well you should boot into a much speedier system, with greater stability and reliability.</p>
+<h1>Important note!</h1>
+<p>I wrote this tutorial in October 2013, and was running an email server and a WordPress website on the Pi from then until March 2014... and then the flash drive bricked and I lost everything because I didn't have a backup!</p>
+<p>So, just remember: USB flash drives are faster and more reliable than SD cards, but they aren't really meant to be used for this kind of application. As a result, you should <strong>keep regular backups</strong>!</p>
+<p>The website I was running was generating <em>1100 visits and about 10k hits every day</em> - imagine how different that is to the occasional reads and writes that the USB drives are designed for. If you want a more reliable server, you can use a self powered HDD and use this tutorial to put the root filesystem on that.</p>
+</div></div></div><div class="field field-name-field-category field-type-taxonomy-term-reference field-label-above"><div class="field-label">Category:&nbsp;</div><div class="field-items"><div class="field-item even"><a href="https://samhobbs.co.uk/taxonomy/term/1" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Raspberry Pi</a></div></div></div><div class="field field-name-field-type field-type-taxonomy-term-reference field-label-above"><div class="field-label">Type:&nbsp;</div><div class="field-items"><div class="field-item even"><a href="https://samhobbs.co.uk/taxonomy/term/9" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Tutorial</a></div></div></div>
+  <ul class="links inline"><li class="comment-add first last active"><a href="https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive#comment-form" title="Share your thoughts and opinions related to this posting." class="active">Add new comment</a></li>
+</ul>
+  <section id="comments" class="comments comment-wrapper">
+        <h2 class="title">Comments</h2>
+    
+  <a id="comment-2125"></a>
+<article class="comment comment-by-anonymous first odd clearfix" about="/comment/2125#comment-2125" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-01T13:10:00+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Chris</span> · <time pubdate="" datetime="2014-05-01T13:10:00+01:00">1st May, 2014 · 1:10pm</time></span>      <a href="https://samhobbs.co.uk/comment/2125#comment-2125" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2125#comment-2125" class="permalink" rel="bookmark">Resizing partition</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam,</p>
+<p>Awesome site - sorry to hear about the pi-crash.  I've followed your email server steps 1-3 but couldn't manage to get the https access working so I'm starting from scratch.  I'm struggling with the "speed up the pi by booting to USB" step now however.  I was going to go with the simpler /dev/sdc option rather than installing gpt and going that route.  What I cannot seem to do however is resize the partition on the USB!</p>
+<p>I have a Mac and a PC, neither of which appear to allow me to resize the partition - in OSX, I cannot edit the partition because it's MBR and on the PC (Win7), I don't have fdisk.  I used fdisk on the Mac, but while the partitions appear to be correct, when the pi boots up, it's not showing the resized space.</p>
+<p>Would you happen to be able to point me to a clear, easy to understand way to resize the partition on the USB?</p>
+<p>Thanks!</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2125">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2126"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2126#comment-2126" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-01T14:14:00+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-05-01T14:14:00+01:00">1st May, 2014 · 2:14pm</time></span>      <a href="https://samhobbs.co.uk/comment/2126#comment-2126" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2126#comment-2126" class="permalink" rel="bookmark">Hi Chris! The Pi crash was</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2125#comment-2125" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Chris! The Pi crash was unfortunate but it taught me a valuable lesson and I certainly won't be making that mistake again! Drupal has a cool command line tool called Drush that can be used to back up and restore whole sites (files and databases all in one), so I'm using that now.</p>
+<p>As for your question, probably the easiest way to do it is to <del>install GParted on your Mac or PC</del> <em>use GParted from a live CD or USB</em>:</p>
+<p>http://gparted.sourceforge.net/download.php</p>
+<p>The download link is to an .iso file, which you burn to a disk (search for free iso burner, there are loads of gratis and open source programs out there for Mac and PC).</p>
+<p>This is the same app I would use on Linux and is very easy to understand (you can drag the partition dividers around to resize, that kind of easy).</p>
+<p>Let me know if you have any problems with it, but I expect you'll be fine!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2126">reply</a></li>
+</ul></article>
+</div><a id="comment-2273"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2273#comment-2273" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-17T19:21:01+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.flipside.nu/" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Andreas</a> · <time pubdate="" datetime="2014-06-17T19:21:01+01:00">17th June, 2014 · 7:21pm</time></span>      <a href="https://samhobbs.co.uk/comment/2273#comment-2273" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2273#comment-2273" class="permalink" rel="bookmark">Great tutorial! I</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Great tutorial! I successfully copied the SD card and installed it to a 2TB harddrive but<br>
+I think it's alot slower than on the SD card. Is it to heavy for the RPi or is it something I<br>
+could do? Like clear cache or something? :)</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2273">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2274"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2274#comment-2274" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-17T19:30:48+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-06-17T19:30:48+01:00">17th June, 2014 · 7:30pm</time></span>      <a href="https://samhobbs.co.uk/comment/2274#comment-2274" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2274#comment-2274" class="permalink" rel="bookmark">Not sure to be honest, I've</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2273#comment-2273" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Not sure to be honest, I've never tried it with a hard drive quite as big as that.</p>
+<p>I would have expected the HDD to be faster than an SD card, how old is the HDD?</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2274">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2276"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2276#comment-2276" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-17T19:51:11+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.flipside.nu/" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Andreas</a> · <time pubdate="" datetime="2014-06-17T19:51:11+01:00">17th June, 2014 · 7:51pm</time></span>      <a href="https://samhobbs.co.uk/comment/2276#comment-2276" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2276#comment-2276" class="permalink" rel="bookmark">2 yeard I think.. It's a 3.5"</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2274#comment-2274" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>2 yeard I think.. It's a 3.5" and 5400rpm, but it was faster writing when i used it on the laptop than the SD card...</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2276">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2278"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2278#comment-2278" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-17T20:06:44+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-06-17T20:06:44+01:00">17th June, 2014 · 8:06pm</time></span>      <a href="https://samhobbs.co.uk/comment/2278#comment-2278" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2278#comment-2278" class="permalink" rel="bookmark">Hmm...I honestly don't know</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2276#comment-2276" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hmm...I honestly don't know why it's slower, but if you can find out I'd be interested to hear why.</p>
+<p>I'm assuming it's a self powered HDD? (not a passport style one)?</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2278">reply</a></li>
+</ul></article>
+</div></div></div><a id="comment-2280"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2280#comment-2280" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-17T20:30:02+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.flipside.nu/" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Andreas</a> · <time pubdate="" datetime="2014-06-17T20:30:02+01:00">17th June, 2014 · 8:30pm</time></span>      <a href="https://samhobbs.co.uk/comment/2280#comment-2280" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2280#comment-2280" class="permalink" rel="bookmark">Of course I will, sharing is</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Of course I will, sharing is caring!<br>
+Yeah it's self powered.. It would be funny though to see a device 5 times bigger that's<br>
+powered through usb on the RPi.. haha</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2280">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2281"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2281#comment-2281" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-17T21:57:08+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-06-17T21:57:08+01:00">17th June, 2014 · 9:57pm</time></span>      <a href="https://samhobbs.co.uk/comment/2281#comment-2281" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2281#comment-2281" class="permalink" rel="bookmark">MOAR power</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2280#comment-2280" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>That's one of the things that they could definitely improve on for RasPi model C: more power to USB ports. It would allow the use of so many more peripherals, people often have problems with flaky wifi etc. because the USB dongles can't draw enough power from the Pi.</p>
+<p>In fact, I think I read about some people doing a bit of a hardware hack to combine the power outputs from the two ports into one for this very reason.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2281">reply</a></li>
+</ul></article>
+</div><a id="comment-2287"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2287#comment-2287" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-18T13:55:00+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.flipside.nu/" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Andreas</a> · <time pubdate="" datetime="2014-06-18T13:55:00+01:00">18th June, 2014 · 1:55pm</time></span>      <a href="https://samhobbs.co.uk/comment/2287#comment-2287" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2287#comment-2287" class="permalink" rel="bookmark">Yeah and it should be USB 3</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Yeah and it should be USB 3 and have at least 2gb RAM :D</p>
+<p>Any how.. I have now found a fix for slow performance on the external hard drive,<br>
+or maybe it was something I missed in the installation?</p>
+<p>First did I check the read speed with hdparm</p>
+<blockquote><p><code>sudo hdparm -tT /dev/sda</code></p>
+<p>/dev/sda:<br>
+ Timing cached reads:   338 MB in  2.01 seconds = 168.17 MB/sec<br>
+ Timing buffered disk reads:  86 MB in  3.07 seconds =  28.03 MB/sec</p>
+<p><code>sudo hdparm -tT /dev/mmcblk0</code></p>
+<p>/dev/mmcblk0:<br>
+ Timing cached reads:   326 MB in  2.00 seconds = 162.68 MB/sec<br>
+ Timing buffered disk reads:  54 MB in  3.04 seconds =  17.73 MB/sec</p></blockquote>
+<p>And it looks pretty normal, so the hard drive should be ok!<br>
+After some searching on DuckDuckGo I found out about FSTAB and how the<br>
+partitions is integrated into the file system. So I looked it up on the Pi via ssh..</p>
+<p><code>sudo nano /etc/fstab</code></p>
+<p>And what do I find if it isn't the good old root partition /dev/mmcblk0p2 that<br>
+was on the SD card that doesn't exists anymore and is equipped with "noatime"<br>
+that gives it a performance gain!</p>
+<blockquote><p>GNU nano 2.2.6              File: /etc/fstab          Modified  </p>
+<p>proc                          /proc           proc    defaults               0       0<br>
+/dev/mmcblk0p1        /boot           vfat     defaults                0       2<br>
+/dev/mmcblk0p2       /                  ext4    defaults,noatime   0       1<br>
+# a swapfile is not a swap partition, so no using swapon|off from here on, use $</p></blockquote>
+<p>I changed the old root partition "/dev/mmcblk0p2" to the new root partition on my hard drive "/dev/sda2".</p>
+<blockquote><p>GNU nano 2.2.6              File: /etc/fstab          Modified  </p>
+<p>proc                          /proc           proc    defaults               0       0<br>
+/dev/mmcblk0p1        /boot           vfat     defaults                0       2<br>
+/dev/sda2                 /                  ext4    defaults,noatime   0       1<br>
+# a swapfile is not a swap partition, so no using swapon|off from here on, use $</p></blockquote>
+<p>CTRL-X and save!</p>
+<p>Then...</p>
+<p><code>sudo mount -oremount /</code></p>
+<p>Then...</p>
+<p><code>sudo reboot</code></p>
+<p>Before.. I had over 10 seconds page load on the wordpress site..<br>
+Now I am down at 2 seconds flat! :D</p>
+<p>Still room for improvement though! ;)</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2287">reply</a></li>
+</ul></article>
+<a id="comment-2309"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2309#comment-2309" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-27T21:48:06+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Josh</span> · <time pubdate="" datetime="2014-06-27T21:48:06+01:00">27th June, 2014 · 9:48pm</time></span>      <a href="https://samhobbs.co.uk/comment/2309#comment-2309" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2309#comment-2309" class="permalink" rel="bookmark">Pure and simple.</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Any way you get it done (and I didn't do it your way...) it still is a great improvement! The performance boosts to the system make it feel "every day" usable to me. Thank you for taking the time to post information like this, you are a boon to the community.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2309">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2310"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2310#comment-2310" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-06-27T22:31:04+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-06-27T22:31:04+01:00">27th June, 2014 · 10:31pm</time></span>      <a href="https://samhobbs.co.uk/comment/2310#comment-2310" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/2310#comment-2310" class="permalink" rel="bookmark">Hi Josh,</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2309#comment-2309" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Josh,</p>
+<p>Thanks for your kind comment.</p>
+<p>I agree that it makes a massive difference to the speed, I use one of my Pi as a print server and didn't think it was worth a USB stick, but doing updates is <em><strong>so slow</strong></em>!</p>
+<p>I still feel like other people have spent more time helping me than the other way round (particularly on <a href="http://www.kubuntuforums.net/">Kubuntu Forums</a>, a particularly helpful and friendly forum).</p>
+<p>I tend to write things like this up when I have to trawl through loads of information to work out how to do something (it's always out there somewhere). Most of the problems that I have are due to not knowing what to search for, so I think it's worthwhile writing specific guides to make the task a little less daunting.</p>
+<p>Anyway, I hope you come back to check out the site again!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/2310">reply</a></li>
+</ul></article>
+</div><a id="comment-3016"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3016#comment-3016" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-15T01:21:12+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Paul</span> · <time pubdate="" datetime="2014-11-15T01:21:12+00:00">15th November, 2014 · 1:21am</time></span>      <a href="https://samhobbs.co.uk/comment/3016#comment-3016" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3016#comment-3016" class="permalink" rel="bookmark">Hi I followed your steps and</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi I followed your steps and when booting the pi up I got cannot execute bin/bash exec format error... do you have any advice</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3016">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3018"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/3018#comment-3018" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-15T10:06:07+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-11-15T10:06:07+00:00">15th November, 2014 · 10:06am</time></span>      <a href="https://samhobbs.co.uk/comment/3018#comment-3018" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3018#comment-3018" class="permalink" rel="bookmark">Hmm, I don't know really,</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3016#comment-3016" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hmm, I don't know really, could be an error in your disk image?</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3018">reply</a></li>
+</ul></article>
+</div><a id="comment-3064"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3064#comment-3064" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-12-04T19:49:21+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Judicaël CLAIR</span> · <time pubdate="" datetime="2014-12-04T19:49:21+00:00">4th December, 2014 · 7:49pm</time></span>      <a href="https://samhobbs.co.uk/comment/3064#comment-3064" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3064#comment-3064" class="permalink" rel="bookmark">If I follow this tutorial, does that mean I can...</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>If I follow this tutorial, does that mean I can just have a boot partition on my SD card which mounts all my hardrware like external usb drives, dvd player... and then it calls the usb stick/drive and loads an os? So all I'd need to do is replace the root file system and I could instantly change from like raspbian to kali linux...?</p>
+<p>Thanks,</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3064">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3065"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/3065#comment-3065" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-12-04T20:50:00+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-12-04T20:50:00+00:00">4th December, 2014 · 8:50pm</time></span>      <a href="https://samhobbs.co.uk/comment/3065#comment-3065" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3065#comment-3065" class="permalink" rel="bookmark">Good question</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3064#comment-3064" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>The honest answer is I don't know for sure.</p>
+<p>Give this a read, the boot process is quite complicated, but interesting:</p>
+<p><a href="http://thekandyancode.wordpress.com/2013/09/21/how-the-raspberry-pi-boots-up/">http://thekandyancode.wordpress.com/2013/09/21/how-the-raspberry-pi-boots-up/</a></p>
+<p>Berryboot also looks like it might be relevant to you:</p>
+<p><a href="http://www.berryterminal.com/doku.php/berryboot">http://www.berryterminal.com/doku.php/berryboot</a></p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3065">reply</a></li>
+</ul></article>
+</div><a id="comment-3068"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3068#comment-3068" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-12-09T03:21:34+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.modsbyus.com/" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Gary</a> · <time pubdate="" datetime="2014-12-09T03:21:34+00:00">9th December, 2014 · 3:21am</time></span>      <a href="https://samhobbs.co.uk/comment/3068#comment-3068" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3068#comment-3068" class="permalink" rel="bookmark">Sucessful with one issue</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I am running off my USB drive now and the performance boost is awesome! Thanks for the great write up! My issue is that even though I was able to grow the partition on the USB drive sucessfully, raspbmc thinks it only has 8% left. The origonal image was on a 4 gig sd. raspbmc sees all the drive it just thinks its mostly full. Any idea as to why it thinks the drive is just about full, and or how I might recover that space to use?</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3068">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3069"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/3069#comment-3069" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-12-09T08:16:04+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2014-12-09T08:16:04+00:00">9th December, 2014 · 8:16am</time></span>      <a href="https://samhobbs.co.uk/comment/3069#comment-3069" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3069#comment-3069" class="permalink" rel="bookmark">Did you delete the root FS</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3068#comment-3068" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Did you delete the root FS partition on the SD card? I'm wondering if you might have copied everything over to the USB drive but somehow you're still booting from the SD card?</p>
+<p>Could you run this command please?</p>
+<pre>sudo df -h</pre><p>
+Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3069">reply</a></li>
+</ul></article>
+</div><a id="comment-3114"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3114#comment-3114" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-01-06T13:13:09+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Dan</span> · <time pubdate="" datetime="2015-01-06T13:13:09+00:00">6th January, 2015 · 1:13pm</time></span>      <a href="https://samhobbs.co.uk/comment/3114#comment-3114" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3114#comment-3114" class="permalink" rel="bookmark">BerryBoot</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi</p>
+<p>I find your guide to be interesting as I am looking for to also separate the boot from the root.<br>
+But what is the difference by using BerryBoot ?</p>
+<p>Thanks in advance</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3114">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3115"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/3115#comment-3115" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-01-06T13:47:19+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2015-01-06T13:47:19+00:00">6th January, 2015 · 1:47pm</time></span>      <a href="https://samhobbs.co.uk/comment/3115#comment-3115" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3115#comment-3115" class="permalink" rel="bookmark">Never used it</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3114#comment-3114" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Dan,</p>
+<p>I've never used BerryBoot so I can't say! Sorry I can't be more helpful.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3115">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3116"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3116#comment-3116" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-01-06T15:16:56+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Dan</span> · <time pubdate="" datetime="2015-01-06T15:16:56+00:00">6th January, 2015 · 3:16pm</time></span>      <a href="https://samhobbs.co.uk/comment/3116#comment-3116" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3116#comment-3116" class="permalink" rel="bookmark">Thanks for your reply anyways</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3115#comment-3115" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Thanks for your reply anyways :)</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3116">reply</a></li>
+</ul></article>
+</div></div><a id="comment-3138"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/3138#comment-3138" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-01-12T14:43:59+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Filipe</span> · <time pubdate="" datetime="2015-01-12T14:43:59+00:00">12th January, 2015 · 2:43pm</time></span>      <a href="https://samhobbs.co.uk/comment/3138#comment-3138" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3138#comment-3138" class="permalink" rel="bookmark">Wireless collapsed my system</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam.<br>
+I read your tutorials and tried this one.<br>
+This was something I was looking for some time (as I'm a RPi newbie) since I wanted to use my "minimum storage" SDCard avaiable (4 GB).<br>
+I installed latest NOOBs and done what's in your tutorial. However I did not have success with the PARTUUID step but "sda" was OK to me because I only use one passport drive with this RPi (partitions work fine so I got what I wanted anyway).<br>
+Despite this I got this weird failure:<br>
+1) I set up my Raspbian and changed "root" to USB. Everything was OK.<br>
+2) I connect to internet via ethernet cable and everything was OK.<br>
+3) I set up my wireless connection (before or after using ethernet) and after I get wireless connection status "connected" my system begins to fail in cascade. First icons disappear and if I restart my RPi, booting screen reads a lot of missing files.</p>
+<p>Since I wanted to use my RPi as a multisystem machibne (Raspbian, RetroPie and Raspbmc), using an external harddrive would be awesome if I even could get to use it via wi-fi.</p>
+<p>Have you experienced this or read about it before?</p>
+<p>Thanks in advance.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3138">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3140"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/3140#comment-3140" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-01-12T17:50:49+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2015-01-12T17:50:49+00:00">12th January, 2015 · 5:50pm</time></span>      <a href="https://samhobbs.co.uk/comment/3140#comment-3140" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3140#comment-3140" class="permalink" rel="bookmark">Possibly a power issue...</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3138#comment-3138" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>It could be a power issue, especially if your wifi dongle doesn't have a separate power supply - the max power output of the USB connections on the Pi is pretty low. This seems to make sense, because you were ok with one USB item connected (the passport drive) and your problems began when another USB connected item (the dongle) started to draw power, which could have messed up the power supply to the passport drive.</p>
+<p>Try something like this if you want to connect wifi dongles and "passport" style HDDs - I have two, one for several HDDs connected to the Pi behind my TV (raspbmc), and another for the wifi dongle connected to the Pi behind the TV in my bedroom. They're not particularly elegant, but they work well:</p>
+<p><a href="http://www.amazon.co.uk/gp/product/B005I4009O?psc=1&redirect=true&ref_=oh_aui_search_detailpage">Newlink 4 port USB hub</a></p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3140">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3142"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/3142#comment-3142" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-01-12T18:13:39+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Filipe</span> · <time pubdate="" datetime="2015-01-12T18:13:39+00:00">12th January, 2015 · 6:13pm</time></span>      <a href="https://samhobbs.co.uk/comment/3142#comment-3142" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3142#comment-3142" class="permalink" rel="bookmark">Wrong scenario</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3140#comment-3140" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I'm sorry Sam but I said the wrong thing in my comment...<br>
+I have a passport working fine with a powered usb hub. The problem was with a SATA HDD powered with it's own power source. My fault... I was thinking in another thing when writing last comment.<br>
+I have that HDD working with an owncloud server and it's OK but when I was preparing it I tried to do the installation via Wi-Fi and got that errors.<br>
+It was missing some "lib*" files so it could not boot.<br>
+I load the original image again into the SDCard and with the ethernet it ran OK.<br>
+As I can't find this specific error with google I will try other things during this week, like making an upgrade and wi-fi connection before doing my SDCard image.<br>
+I will give feedback then.<br>
+I will try to make root fs as well from a dualboot system (raspbian+raspbmc) to run in an external USB drive. Have you tried this already?<br>
+Thank you</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3142">reply</a></li>
+</ul></article>
+</div></div><a id="comment-3145"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/3145#comment-3145" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-01-13T12:25:32+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Filipe</span> · <time pubdate="" datetime="2015-01-13T12:25:32+00:00">13th January, 2015 · 12:25pm</time></span>      <a href="https://samhobbs.co.uk/comment/3145#comment-3145" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3145#comment-3145" class="permalink" rel="bookmark">Wifi Issue</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi there Sam.<br>
+So here's the thing:<br>
+I've done all my tests and I got everything working.<br>
+Somehow I figured out that I must set up my wi-fi connection first (perhaps to load all files for my dongle) and then make my backup image.<br>
+I installed latest Raspbian via NOOB, set my wi-fi connection, reboot, tried ethernet, reboot, tried wi-fi and got success in all operations not losing data and using an USB external drive (a 4GB pen with root fs inside).<br>
+So my conclusion is that we need to setup our wifi dongle before thinking to make the backup image in order to not lose some needed library files to run in our USB drive after that.<br>
+Picking up the point I told you in my last comment, about using a multisystem, not having an sdcard just for Kodi (Raspbmc) is pointless because after all any extra files (like movies) we can run them directly from USB.<br>
+My multisystem machine will be composed with three SDcards and one 1TB passport HD. I will use the SD's to boot Raspbian, Raspbmc and Retropie. My passport will be to store root partitions and a partition set as an usb hdd.</p>
+<p>Hope first part of this comment help somebody in the future.<br>
+Cheers!</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3145">reply</a></li>
+</ul></article>
+<a id="comment-3606"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/3606#comment-3606" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-04-24T06:39:10+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Jacob</span> · <time pubdate="" datetime="2015-04-24T06:39:10+01:00">24th April, 2015 · 6:39am</time></span>      <a href="https://samhobbs.co.uk/comment/3606#comment-3606" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3606#comment-3606" class="permalink" rel="bookmark">Copy to existing fs?</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi</p>
+<p>I have a 2TB USB disk with 1 partition and formatted with ext4. And I have alot of data on it that I like to keep.</p>
+<p>Can I somehow copy or rsync the root fs into my existing drive without repartition? </p>
+<p>Cheers<br>
+Jacob</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3606">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3607"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/3607#comment-3607" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-04-24T08:22:10+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2015-04-24T08:22:10+01:00">24th April, 2015 · 8:22am</time></span>      <a href="https://samhobbs.co.uk/comment/3607#comment-3607" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/3607#comment-3607" class="permalink" rel="bookmark">Nope, partitioning required</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3606#comment-3606" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Nope.</p>
+<p>Assuming your 2TB drive isn't full, the best thing to do is probably to create a new partition at the back of the disk for the root FS (this way you won't have to move the rest of the data on the disk). Then you can use the dd command to copy the disk image, but your target will be a partition instead of a whole drive (for example, <code>/dev/sdb1</code> might be your data partition and <code>/dev/sdb2</code> the new root FS partition).</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/3607">reply</a></li>
+</ul></article>
+</div><a id="comment-4270"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/4270#comment-4270" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-05-10T23:48:38+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://baroquedub.co.uk/" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Jerome</a> · <time pubdate="" datetime="2015-05-10T23:48:38+01:00">10th May, 2015 · 11:48pm</time></span>      <a href="https://samhobbs.co.uk/comment/4270#comment-4270" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/4270#comment-4270" class="permalink" rel="bookmark">16GB USB is smaller than 16GB SD</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam,</p>
+<p>Thanks for a great tutorial, and for sharing your expertise.</p>
+<p>I've run into a problem copying the SD card image to a supposedly same sized USB stick. Although both are quoted as 16GB, the stick is marginally smaller than the card and the image won't copy (<code>error writing '/dev/sdc': No space left on the device</code>)</p>
+<p>I've tried using GParted to resize the SD card's filesystem partition (only 3.6GB are actually being used) but the image created by <code>sudo dd bs=4M if=/dev/sdb of=~/backup.img</code> remains the same size (i.e. the full capacity of the SD)</p>
+<p>Is there any way of sizing down the image being copied copy? Or maybe just copying the filesystem partition? (since the boot partition is to remain on the SD card anyway)</p>
+<p>Thanks,</p>
+<p>Jerome</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/4270">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-4277"></a>
+<article class="comment comment-by-node-author last even clearfix" about="/comment/4277#comment-4277" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-05-11T00:18:36+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> · <time pubdate="" datetime="2015-05-11T00:18:36+01:00">11th May, 2015 · 12:18am</time></span>      <a href="https://samhobbs.co.uk/comment/4277#comment-4277" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="https://samhobbs.co.uk/comment/4277#comment-4277" class="permalink" rel="bookmark">Yep, you should be able to do</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/4270#comment-4270" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Yep, you should be able to do something like:</p>
+<pre> sudo dd bs=4M if=/dev/sdb2 of=~/backup.img</pre><p>
+...assuming sdb2 is the root filesystem partition on the SD card. You have exactly the right idea, it's best to reduce the size of the partition on the SD card before making the images if you can (dd is <em>so slow!</em>).</p>
+<p>When I did mine I was using a 4GB SD card so it wouldn't have made a huge difference (it was mostly full) but you certainly don't want to wait for your box to copy an extra 8GB of nothing :)</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="https://samhobbs.co.uk/comment/reply/18/4277">reply</a></li>
+</ul></article>
+</div>
+      <h2 class="title comment-form">Add new comment</h2>
+    <form class="comment-form user-info-from-cookie user-info-from-cookie-processed" action="https://samhobbs.co.uk/comment/reply/18" method="post" id="comment-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
+  <label for="edit-name">Your name </label>
+ <input type="text" id="edit-name" name="name" value="" size="30" maxlength="60" class="form-text">
+</div>
+<div class="form-item form-type-textfield form-item-mail">
+  <label for="edit-mail">E-mail </label>
+ <input type="text" id="edit-mail" name="mail" value="" size="30" maxlength="64" class="form-text">
+<div class="description">The content of this field is kept private and will not be shown publicly.</div>
+</div>
+<div class="form-item form-type-textfield form-item-homepage">
+  <label for="edit-homepage">Homepage </label>
+ <input type="text" id="edit-homepage" name="homepage" value="" size="30" maxlength="255" class="form-text">
+</div>
+<div class="form-item form-type-textfield form-item-subject">
+  <label for="edit-subject">Subject </label>
+ <input type="text" id="edit-subject" name="subject" value="" size="60" maxlength="64" class="form-text">
+</div>
+<div class="field-type-text-long field-name-comment-body field-widget-text-textarea form-wrapper" id="edit-comment-body"><div id="comment-body-add-more-wrapper"><div class="text-format-wrapper"><div class="form-item form-type-textarea form-item-comment-body-und-0-value">
+  <label for="edit-comment-body-und-0-value">Comment <span class="form-required" title="This field is required.">*</span></label>
+ <div class="form-textarea-wrapper resizable textarea-processed resizable-textarea"><textarea class="text-full form-textarea required" id="edit-comment-body-und-0-value" name="comment_body[und][0][value]" cols="60" rows="5"></textarea><div class="grippie"></div></div>
+</div>
+<fieldset class="filter-wrapper form-wrapper" id="edit-comment-body-und-0-format"><div class="fieldset-wrapper"><div class="filter-help form-wrapper" id="edit-comment-body-und-0-format-help"><p><a href="https://samhobbs.co.uk/filter/tips" target="_blank">More information about text formats</a></p></div><div class="form-item form-type-select form-item-comment-body-und-0-format">
+  <label for="edit-comment-body-und-0-format--2">Text format </label>
+ <select class="filter-list form-select" id="edit-comment-body-und-0-format--2" name="comment_body[und][0][format]"><option value="filtered_html" selected="selected">Filtered HTML</option><option value="plain_text">Plain text</option></select>
+</div>
+<div class="filter-guidelines form-wrapper filter-guidelines-processed" id="edit-comment-body-und-0-format-guidelines"><div class="filter-guidelines-item filter-guidelines-filtered_html" style="display: block;"><h3 style="display: none;">Filtered HTML</h3><ul class="tips"><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;</li><li>Lines and paragraphs break automatically.</li></ul></div><div class="filter-guidelines-item filter-guidelines-plain_text" style="display: none;"><h3 style="display: none;">Plain text</h3><ul class="tips"><li>No HTML tags allowed.</li><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Lines and paragraphs break automatically.</li></ul></div></div></div></fieldset>
+</div>
+</div></div><input type="hidden" name="form_build_id" value="form-_ELmtxkfcwV6Usxlv9BRm0CGKgVIy8k4509grK77Ok4">
+<input type="hidden" name="form_id" value="comment_node_page_form">
+<div class="form-item form-type-checkbox form-item-notify">
+ <input type="checkbox" id="edit-notify" name="notify" value="1" checked="checked" class="form-checkbox">  <label class="option" for="edit-notify">Notify me when new comments are posted </label>
+
+</div>
+<div id="edit-notify-type" class="form-radios"><div class="form-item form-type-radio form-item-notify-type">
+ <input type="radio" id="edit-notify-type-1" name="notify_type" value="1" class="form-radio">  <label class="option" for="edit-notify-type-1">All comments </label>
+
+</div>
+<div class="form-item form-type-radio form-item-notify-type">
+ <input type="radio" id="edit-notify-type-2" name="notify_type" value="2" checked="checked" class="form-radio">  <label class="option" for="edit-notify-type-2">Replies to my comment </label>
+
+</div>
+</div><div class="edit-feed-me-wrapper"><div class="form-item form-type-textfield form-item-feed-me">
+  <label for="edit-feed-me">feed me </label>
+ <input type="text" id="edit-feed-me" name="feed_me" value="" size="20" maxlength="128" class="form-text">
+<div class="description">What's your favourite topic?</div>
+</div>
+</div><div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Save" class="form-submit"><input type="submit" id="edit-preview" name="op" value="Preview" class="form-submit"></div></div></form>  </section>
+
+</article>
+          </div><!-- /#content -->
+
+    
+    
+    
+    <nav class="breadcrumb" role="navigation"><h2 class="element-invisible">You are here</h2><ol><li><a href="https://samhobbs.co.uk/">Home</a> › </li><li>Speed up your Pi by booting to a USB flash drive</li></ol></nav>
+  </div><!-- /#main -->
+
+    <footer id="footer" class="region region-footer">
+    <div id="block-system-powered-by" class="block block-system first last odd" role="complementary">
+
+      
+  <span>Powered by <a href="https://www.drupal.org/">Drupal</a></span>
+</div>
+  </footer>
+
+  
+</div><!-- /#page -->
+  <script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/js_SPb-2zHnEZ2uMzSnALv_OrI0EHyRY9yc6hC49NxOk6U.js"></script>
+<script src="./Speed up your Pi by booting to a USB flash drive _ samhobbs.co.uk_files/js_VU7P4CTgUZdF2SyFko5LLAg9ZK0OSVjXVaAFnTLgVt0.js"></script>
+
+
+</body></html>

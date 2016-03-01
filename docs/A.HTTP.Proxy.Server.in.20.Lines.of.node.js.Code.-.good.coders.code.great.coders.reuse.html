@@ -1,0 +1,3488 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>A HTTP Proxy Server in 20 Lines of node.js Code - good coders code, great coders reuse</title>
+
+    <meta name="description" content="In this article I write a fully functioning HTTP proxy in 20 lines of node.js code, and then add various features such as ip-based access control, and host-based deny list.">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css?v=1" media="screen, projection">
+    <link rel="stylesheet" type="text/css" href="/static/css/catonmat.css?v=20" media="screen, projection">
+    <!--[if lte IE 7]>
+    <style type="text/css">
+      #wrapper { margin-top: -1px; }
+    </style>
+    <![endif]-->
+
+    <script type="text/javascript" src="/static/js/jquery-1.3.2.js"></script>
+    <script type="text/javascript" src="/static/js/catonmat.js?v=4"></script>
+
+    
+
+
+    <link rel="alternate" type="application/atom+xml" title="catonmat feed" href="http://www.catonmat.net/feed/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" /> 
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" /> 
+
+    <meta name="google-site-verification" content="aXAUFOiWFF_OiqrmlUrhZN1sqJf5tnuYdMDpuXc1w8w" />
+    <meta name="msvalidate.01" content="CD96F4810C690ED2612624D7D2A0C5E8" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        
+  <div id="tabs">
+  <ul>
+    <li><a href="/" title="Return to homepage/blog">Home</a></li>
+    <li><a href="/books/" title="Books that Peteris krumins has written">Books</a></li>
+    <li><a href="/projects/" title="Projects that Peteris Krumins has done">Projects</a></li>
+    <li><a href="/sitemap/" title="Catonmat sitemap">Sitemap</a></li>
+    <li><a href="/feedback/" title="Contact Peteris Krumins/Leave feedback">Feedback</a></li>
+    <li><a href="/about/" title="About Peteris Krumins">About Me</a></li>
+    <li><a class="advertise" href="/consulting/" title="Consulting">Consulting</a></li>
+    <li><a class="advertise" href="/advertise/" title="Advertise on catonmat.net">Advertising</a></li>
+  </ul>
+  <!--
+  <div id="tab-ad">
+  </div>
+  -->
+</div>
+<div class="clear"></div>
+<div id="hspace">
+  <div id="first">
+    <a href="/" class="wide" title="Return to good coders code, great reuse">
+    <img src="/static/img/good-coders-code-great-reuse.gif" alt="good coders code, great reuse">
+    </a>
+    <div id="first-real">
+      <table width="100%" height="145" valign="middle">
+        <tr>
+          <td>
+            <p class="quote">Alas, to wear the mantle of Galileo it is not enough that you be persecuted by an unkind establishment, you must also be right.</p>
+            <!-- <span class="quotes"><a href="/quotes/" title="more programming related quotes">more quotes</a></span>-->
+            <p class="author">Bob Park</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="second">
+    <div id="second-real">
+      <div id="announcements">
+        <div id="browserling">
+          <p class="title"><a href="http://www.catonmat.net/blog/launching-browserling/" title="I am doing a startup!">I am doing a startup!</a></p>
+          <p class="browserling-logo"><a href="http://www.browserling.com" title="Cross-browser testing"><img src="/static/img/browserling-logo-180px.png" alt="Browserling"></a></p>
+          <p>Cross-browser testing from your browser!</p>
+        </div>
+        <div id="books">
+          <p class="title"><a href="http://www.catonmat.net/blog/perl-one-liners-no-starch-press/">I have written my fourth book!</a>
+          <p class="awk-logo"><a href="http://www.catonmat.net/blog/perl-one-liners-no-starch-press/" title="Perl One-Liners by No Starch Press"><img src="/static/img/perl-book-no-starch-press-180x61.png" alt="Perl Book"></a></p>
+          <p>Be faster than Larry Wall at command line!</p>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+
+      </div>
+      <div id="wrapper">
+        <div id="content">
+          
+
+
+
+
+
+
+
+
+
+
+<div class="welcome">
+  <div class="twitter">
+    <p><a href="http://twitter.com/pkrumins" title="Peteris Krumins on Twitter"><img src="/static/img/twitter-16x16.gif">Follow me on Twitter</a> for my latest adventures!</p>
+  </div>
+</div>
+
+
+
+<div class="page">
+  <div class="header">
+    <span class="category next"><a href="/category/programming" title="See all posts in category &quot;Programming&quot;">Programming</a></span>
+
+    <span class="commentsc">
+        <a href="/http-proxy-in-nodejs/#comments" title="65 people have commented on &quot;A HTTP Proxy Server in 20 Lines of node.js Code&quot;"><strong>65</strong> Comments</a>
+    </span>
+
+    <span class="date right">April 28, 2010</span>
+
+    <div class="clear"></div>
+    <div class="hrb"></div>
+    <h1><a href="/http-proxy-in-nodejs/" title="A HTTP Proxy Server in 20 Lines of node.js Code">A HTTP Proxy Server in 20 Lines of node.js Code</a></h1>
+    <!--
+    <div class="hr lighter"></div>
+    -->
+  </div>
+
+
+  <div class="content">
+    
+
+
+    
+
+    
+
+    
+
+    
+      <div style="margin-bottom: 10px; text-align:center">
+    <a href="https://www.browserling.com?from=catonmat" title="Cross-browser testing" target="_blank"><img src="http://www.catonmat.net/images/browserling-effortless-cross-browser-testing.png"></a>
+    </div>
+<div class="highlight"><pre ><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">proxy</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">])</span>
+  <span class="kd">var</span> <span class="nx">proxy_request</span> <span class="o">=</span> <span class="nx">proxy</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">proxy_response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="p">});</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</pre>
+</div>
+<p>This is just amazing. In 20 lines of <a href="http://nodejs.org/">node.js</a> code and 10 minutes of time I was able to write a HTTP proxy. And it scales well, too. It's not a blocking HTTP proxy, it's event driven and asynchronous, meaning hundreds of people can use simultaneously and it will work well.</p>
+<p>To get the proxy running all you have to do is download node.js, compile it, and run the proxy program via the <code>node</code> program:</p>
+<pre >
+$ ./configure --prefix=/home/pkrumins/installs/nodejs-0.1.92
+$ make
+$ make install
+
+$ PATH=$PATH:/home/pkrumins/installs/nodejs-0.1.92/bin
+
+$ node proxy.js
+</pre>
+<p>And from here you can take this proxy wherever your imagination takes. For example, you can start by adding logging:</p>
+<div class="highlight"><pre ><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">sys</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sys&#39;</span><span class="p">);</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">remoteAddress</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">method</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">proxy</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">])</span>
+  <span class="kd">var</span> <span class="nx">proxy_request</span> <span class="o">=</span> <span class="nx">proxy</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">proxy_response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="p">});</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</pre>
+</div>
+<p>Next, you can add a regex-based host blacklist in 15 additional lines:</p>
+<div class="highlight"><pre class="lotsofcode"><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">sys</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sys&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fs</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">blacklist</span> <span class="o">=</span> <span class="p">[];</span>
+
+<span class="nx">fs</span><span class="p">.</span><span class="nx">watchFile</span><span class="p">(</span><span class="s1">&#39;./blacklist&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span> <span class="nx">update_blacklist</span><span class="p">();</span> <span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">update_blacklist</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Updating blacklist.&quot;</span><span class="p">);</span>
+  <span class="nx">blacklist</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;./blacklist&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+              <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">rx</span><span class="p">.</span><span class="nx">length</span> <span class="p">})</span>
+              <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">RegExp</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">blacklist</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">blacklist</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">test</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Denied: &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">method</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">remoteAddress</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">method</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">proxy</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">])</span>
+  <span class="kd">var</span> <span class="nx">proxy_request</span> <span class="o">=</span> <span class="nx">proxy</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="p">});</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary);</span>
+<span class="s1">  });</span>
+<span class="s1">  request.addListener(&#39;</span><span class="nx">end</span><span class="err">&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+
+<span class="nx">update_blacklist</span><span class="p">();</span>
+</pre>
+</div>
+<p>Now to block proxy users from using Facebook, just echo <code>facebook.com</code> to <code>blacklist</code> file:</p>
+<pre >
+$ echo 'facebook.com' >> blacklist
+</pre>
+<p>The proxy server will automatically notice the changes to the file and update the blacklist.</p>
+<p>Surely, a proxy server without IP control is no proxy server, so let's add that as well:</p>
+<div class="highlight"><pre class="lotsofcode"><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">sys</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sys&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fs</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">blacklist</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">var</span> <span class="nx">iplist</span>    <span class="o">=</span> <span class="p">[];</span>
+
+<span class="nx">fs</span><span class="p">.</span><span class="nx">watchFile</span><span class="p">(</span><span class="s1">&#39;./blacklist&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span> <span class="nx">update_blacklist</span><span class="p">();</span> <span class="p">});</span>
+<span class="nx">fs</span><span class="p">.</span><span class="nx">watchFile</span><span class="p">(</span><span class="s1">&#39;./iplist&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span> <span class="nx">update_iplist</span><span class="p">();</span> <span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">update_blacklist</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Updating blacklist.&quot;</span><span class="p">);</span>
+  <span class="nx">blacklist</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;./blacklist&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+              <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">rx</span><span class="p">.</span><span class="nx">length</span> <span class="p">})</span>
+              <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">RegExp</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">update_iplist</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Updating iplist.&quot;</span><span class="p">);</span>
+  <span class="nx">iplist</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;./iplist&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+           <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ip</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">ip</span><span class="p">.</span><span class="nx">length</span> <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">allowed_ip</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">iplist</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">iplist</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">remoteAddress</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">allowed_ip</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">allowed_ip</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;IP &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">remoteAddress</span> <span class="o">+</span> <span class="s2">&quot; is not allowed&quot;</span><span class="p">);</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">blacklist</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">blacklist</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">test</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Denied: &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">method</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">remoteAddress</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">method</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">proxy</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">])</span>
+  <span class="kd">var</span> <span class="nx">proxy_request</span> <span class="o">=</span> <span class="nx">proxy</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="p">});</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+
+<span class="nx">update_blacklist</span><span class="p">();</span>
+<span class="nx">update_iplist</span><span class="p">();</span>
+</pre>
+</div>
+<p>By default the proxy server will not allow any connections, so add all the IPs you want the proxy to be accessible from to <code>iplist</code> file:</p>
+<pre >
+$ echo '1.2.3.4' >> iplist
+</pre>
+<p>Finally, let's refactor the code a little:</p>
+<div class="highlight"><pre class="lotsofcode"><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">sys</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sys&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fs</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">blacklist</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">var</span> <span class="nx">iplist</span>    <span class="o">=</span> <span class="p">[];</span>
+
+<span class="nx">fs</span><span class="p">.</span><span class="nx">watchFile</span><span class="p">(</span><span class="s1">&#39;./blacklist&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span> <span class="nx">update_blacklist</span><span class="p">();</span> <span class="p">});</span>
+<span class="nx">fs</span><span class="p">.</span><span class="nx">watchFile</span><span class="p">(</span><span class="s1">&#39;./iplist&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span> <span class="nx">update_iplist</span><span class="p">();</span> <span class="p">});</span>
+
+<span class="kd">function</span> <span class="nx">update_blacklist</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Updating blacklist.&quot;</span><span class="p">);</span>
+  <span class="nx">blacklist</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;./blacklist&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+              <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">rx</span><span class="p">.</span><span class="nx">length</span> <span class="p">})</span>
+              <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">RegExp</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">update_iplist</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Updating iplist.&quot;</span><span class="p">);</span>
+  <span class="nx">iplist</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;./iplist&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span>
+           <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">rx</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">rx</span><span class="p">.</span><span class="nx">length</span> <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">ip_allowed</span><span class="p">(</span><span class="nx">ip</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">iplist</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">iplist</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">==</span> <span class="nx">ip</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">host_allowed</span><span class="p">(</span><span class="nx">host</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">blacklist</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">blacklist</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">test</span><span class="p">(</span><span class="nx">host</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">deny</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">401</span><span class="p">);</span>
+  <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+  <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">ip</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">connection</span><span class="p">.</span><span class="nx">remoteAddress</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">ip_allowed</span><span class="p">(</span><span class="nx">ip</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nx">msg</span> <span class="o">=</span> <span class="s2">&quot;IP &quot;</span> <span class="o">+</span> <span class="nx">ip</span> <span class="o">+</span> <span class="s2">&quot; is not allowed to use this proxy&quot;</span><span class="p">;</span>
+    <span class="nx">deny</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">msg</span><span class="p">);</span>
+    <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">host_allowed</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nx">msg</span> <span class="o">=</span> <span class="s2">&quot;Host &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span> <span class="o">+</span> <span class="s2">&quot; has been denied by proxy configuration&quot;</span><span class="p">;</span>
+    <span class="nx">deny</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">msg</span><span class="p">);</span>
+    <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">sys</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ip</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">method</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">proxy</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createClient</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">])</span>
+  <span class="kd">var</span> <span class="nx">proxy_request</span> <span class="o">=</span> <span class="nx">proxy</span><span class="p">.</span><span class="nx">request</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+    <span class="p">});</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="nx">proxy_response</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">proxy_response</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="s1">&#39;binary);</span>
+<span class="s1">  });</span>
+<span class="s1">  request.addListener(&#39;</span><span class="nx">end</span><span class="err">&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+
+<span class="nx">update_blacklist</span><span class="p">();</span>
+<span class="nx">update_iplist</span><span class="p">();</span>
+</pre>
+</div>
+<p>Again, it's amazing how fast you can write server software in node.js and JavaScript. It would have probably taken me a day to write the same in C. I love how fast you can prototype the software nowadays.</p>
+<div class="download"><div class="download-title"><p>Download proxy.js</p>
+</div>
+<p>Download link: <a href="/download/proxy.js" title="Download &quot;proxy server written in node.js&quot;">proxy server written in node.js</a><br>
+Download URL: <code>http://www.catonmat.net/download/proxy.js</code><br>
+Downloaded: 22141 times</p>
+<p>I am gonna build this proxy up, so I also put it on GitHub: <a href="http://github.com/pkrumins/nodejs-proxy">proxy.js on GitHub</a></p>
+</div>
+<p>Happy proxying!</p>
+
+  </div>
+
+
+  <div class="social">
+    <div class="twitter">
+      <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+    <div class="facebook">
+      
+      <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.catonmat.net%2Fhttp-proxy-in-nodejs&amp;layout=button_count&amp;show_faces=true&amp;width=110&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+    </div>
+    <div class="googleplus">
+      <g:plusone size="small"></g:plusone>
+    </div>
+    <div class="clear"></div>
+  </div>
+
+  <div style="margin-bottom: 0.5em">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- catonmat before article 468x60 blue -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:468px;height:60px"
+     data-ad-client="ca-pub-0433925538517663"
+     data-ad-slot="9246395270"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+  </div>
+
+  <div class="footer">
+      <div class="tags"><a href="/tags" title="All catonmat tags" class="tags_link">Tags</a>:
+        
+        <a href="/tag/401" title="See all pages tagged &quot;401&quot;">401</a>, 
+        <a href="/tag/80" title="See all pages tagged &quot;80&quot;">80</a>, 
+        <a href="/tag/8080" title="See all pages tagged &quot;8080&quot;">8080</a>, 
+        <a href="/tag/blacklist" title="See all pages tagged &quot;blacklist&quot;">blacklist</a>, 
+        <a href="/tag/http" title="See all pages tagged &quot;http&quot;">http</a>, 
+        <a href="/tag/http-proxy" title="See all pages tagged &quot;http proxy&quot;">http proxy</a>, 
+        <a href="/tag/iplist" title="See all pages tagged &quot;iplist&quot;">iplist</a>, 
+        <a href="/tag/javascript" title="See all pages tagged &quot;javascript&quot;">javascript</a>, 
+        <a href="/tag/node" title="See all pages tagged &quot;node&quot;">node</a>, 
+        <a href="/tag/node.js" title="See all pages tagged &quot;node.js&quot;">node.js</a>, 
+        <a href="/tag/proxy" title="See all pages tagged &quot;proxy&quot;">proxy</a>, 
+        <a href="/tag/proxy.js" title="See all pages tagged &quot;proxy.js&quot;">proxy.js</a>, 
+        <a href="/tag/request" title="See all pages tagged &quot;request&quot;">request</a>, 
+        <a href="/tag/response" title="See all pages tagged &quot;response&quot;">response</a>
+      </div>
+
+    <span class="comment_url">
+        <a href="/http-proxy-in-nodejs/#comments" title="Comment on &quot;A HTTP Proxy Server in 20 Lines of node.js Code&quot;"><strong>65</strong> Comments</a>
+    </span>
+
+    <span class="views">
+       <strong>635,069</strong> Views
+    </span>
+
+    <span class="short_url">
+      Short URL <input type="text" size="30" value="http://catonmat.net/p/215" onclick="this.select()" readonly>
+    </span>
+  </div>
+
+
+  <div class="related-posts">
+    <h3>Related Posts</h3>
+    <ul>
+      <li><a href="/blog/stripe-payments-with-node/" title="How to setup Stripe payments with node.js">How to setup Stripe payments with node.js</a></li>
+      <li><a href="/blog/nodejs-modules-dnode/" title="Node.js modules you should know about: dnode">Node.js modules you should know about: dnode</a></li>
+      <li><a href="/blog/node-js-knockout-competition/" title="Reflections on Node.js Knockout Competition">Reflections on Node.js Knockout Competition</a></li>
+      <li><a href="/blog/nodejs-modules-request/" title="Node.js modules you should know about: request">Node.js modules you should know about: request</a></li>
+      <li><a href="/blog/nodejs-modules-express/" title="Node.js modules you should know about: express">Node.js modules you should know about: express</a></li>
+      <li><a href="/blog/nodejs-modules-jsonstream/" title="Node.js modules you should know about: jsonstream">Node.js modules you should know about: jsonstream</a></li>
+      <li><a href="/blog/perl-tcp-proxy/" title="A TCP Proxy in Perl">A TCP Proxy in Perl</a></li>
+      <li><a href="/blog/curious-case-of-des-algorithm/" title="The curious case of the DES algorithm">The curious case of the DES algorithm</a></li>
+      <li><a href="/blog/nodejs-knockout-2011/" title="Reflections on Node.js Knockout Competition 2011">Reflections on Node.js Knockout Competition 2011</a></li>
+      <li><a href="/blog/nodejs-modules-read/" title="Node.js modules you should know about: read">Node.js modules you should know about: read</a></li>
+      <li>
+    </ul>
+  </div>
+
+  <a name="comments"></a>
+  <div class="comments">
+    <div id="comment_list"><!-- TODO: change id to class -->
+      <h3>Comments</h3>
+        
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2873"></a>
+  <div class="gravatar">
+    <img src="/static/img/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">questions</span>
+
+
+
+        <span class="permalink"><a href="/c/2873" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 11:50</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>i have no clue about js event model.<br>
+so,<br>
+does the order in which proxy_response 'data' and 'end' events are received guarantee the order in which the respective callbacks are processed?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2873?reply" class="reply" id="reply_a_2873" title="Reply to comment by questions">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2877"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2877" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 15:20</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Well events get queued. If there was 'data', then 'data' callback gets called. If the connection closes 'end' gets called. So they are in order.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2877?reply" class="reply" id="reply_a_2877" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2874"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/08e412a08cdf11a3dcb0f37952c7577a.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://juvenn.github.com" title="http://juvenn.github.com" rel="nofollow">Juvenn Woo</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/juvenn" title="juvenn on Twitter" rel="nofollow">juvenn</a></span>
+
+
+        <span class="permalink"><a href="/c/2874" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 12:02</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Glad you're following node.js as well.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2874?reply" class="reply" id="reply_a_2874" title="Reply to comment by Juvenn Woo">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2891"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2891" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 14:09</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>:)</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2891?reply" class="reply" id="reply_a_2891" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2875"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/43739b33ee2faf9d3224c8e7d57db831.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.proxy.ps" title="http://www.proxy.ps" rel="nofollow">Ruslan Abuzant</a></span>
+
+
+
+        <span class="permalink"><a href="/c/2875" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 12:21</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Great code, well done.<br>
+Maybe, we can think of something for my www.proxy.ps domain with this? Just in case.. Best wishes, Ruslan</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2875?reply" class="reply" id="reply_a_2875" title="Reply to comment by Ruslan Abuzant">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2878"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2878" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 15:21</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>You could! With a bit of hacking and improvements. JavaScript is not that difficult!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2878?reply" class="reply" id="reply_a_2878" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2876"></a>
+  <div class="gravatar">
+    <img src="/static/img/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">eugene</span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/kaluchi" title="kaluchi on Twitter" rel="nofollow">kaluchi</a></span>
+
+
+        <span class="permalink"><a href="/c/2876" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 14:15</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>//var proxy = http.createClient(80, request.headers['host'])</p>
+<p>This line means that the proxy is only HTTP1.1 compatible</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2876?reply" class="reply" id="reply_a_2876" title="Reply to comment by eugene">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2879"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2879" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 15:21</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Well there is HTTP 1.0 and HTTP 1.1. What do you mean then by <b>only</b>?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2879?reply" class="reply" id="reply_a_2879" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-2881"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/f7018e4ff71d45d34a4f28d94d88351e.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://dfgsdfgsd.ca" title="http://dfgsdfgsd.ca" rel="nofollow">asdfa</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/dfgsdfgf" title="dfgsdfgf on Twitter" rel="nofollow">dfgsdfgf</a></span>
+
+
+        <span class="permalink"><a href="/c/2881" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 17:28</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Why port 80 only? some webservers run on alternate ports.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2881?reply" class="reply" id="reply_a_2881" title="Reply to comment by asdfa">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 60px">
+  <a name="comment-2890"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2890" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 14:09</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Port 80 because I wanted the code to fit in 20 lines.</p>
+<p>You can just split on ':' on request.url and see if another port is specified...</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2890?reply" class="reply" id="reply_a_2890" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-2898"></a>
+  <div class="gravatar">
+    <img src="/static/img/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">eugene</span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/kaluchi" title="kaluchi on Twitter" rel="nofollow">kaluchi</a></span>
+
+
+        <span class="permalink"><a href="/c/2898" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 30, 2010, 07:33</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Header 'host' present in http-headers since v1.1 You must parse URL in first-line of http request.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2898?reply" class="reply" id="reply_a_2898" title="Reply to comment by eugene">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 60px">
+  <a name="comment-2905"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2905" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 30, 2010, 15:48</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I am just forwarding all headers, the 'host' is in there!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2905?reply" class="reply" id="reply_a_2905" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2880"></a>
+  <div class="gravatar">
+    <img src="/static/img/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">prime</span>
+
+
+
+        <span class="permalink"><a href="/c/2880" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 16:33</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>It is as simple as using tornado, gevents, etc... But the problem is still one in most async solutions, if you need to block in one one call, all other connections will block. I am not talking about a socket block here though, but more of an intensive computation kind of block.<br>
+Erlang has a different solution for that.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2880?reply" class="reply" id="reply_a_2880" title="Reply to comment by prime">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2887"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2887" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 14:07</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>What's the Erlang's solution?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2887?reply" class="reply" id="reply_a_2887" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-31123"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/f0f2ee087377182b1e7bb0057dcee4e0.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://buffered.io/" title="http://buffered.io/" rel="nofollow">OJ</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/TheColonial" title="TheColonial on Twitter" rel="nofollow">TheColonial</a></span>
+
+
+        <span class="permalink"><a href="/c/31123" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">August 05, 2011, 22:13</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I wouldn't say "Erlang has a solution" as this implies that it had the problem in the first place, which it didn't. Erlang's processes are concurrent, so there is no blocking in the same way that Node.js blocks. One process per request, one does not block on another unless you deliberately put something in place to make it happen.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/31123?reply" class="reply" id="reply_a_31123" title="Reply to comment by OJ">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2882"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/943a6a1bb8566735b1bfaf8bd8c0d45d.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.mynext.co.uk" title="http://www.mynext.co.uk" rel="nofollow">steve</a></span>
+
+
+
+        <span class="permalink"><a href="/c/2882" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 28, 2010, 19:32</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Very handy bit of code there. A useful little weight forwarding proxy</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2882?reply" class="reply" id="reply_a_2882" title="Reply to comment by steve">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2888"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2888" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 14:08</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Indeed.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2888?reply" class="reply" id="reply_a_2888" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2884"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/559e64e85f82a693de9ee88a1cf5e03c.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">arjun</span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/arjuntank" title="arjuntank on Twitter" rel="nofollow">arjuntank</a></span>
+
+
+        <span class="permalink"><a href="/c/2884" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 02:05</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>that is so small! very useful!<br>
+i guess we can make that in python with simplehttpserver. that would be smaller. or not?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2884?reply" class="reply" id="reply_a_2884" title="Reply to comment by arjun">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2889"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2889" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 14:08</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>It would be smaller but it also would be blocking. :(</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2889?reply" class="reply" id="reply_a_2889" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2894"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/8c3eeed949c64ad62e4e36cde41f2b0e.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.tomaz-muraus.info" title="http://www.tomaz-muraus.info" rel="nofollow">Tomaž Muraus</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/KamiSLO" title="KamiSLO on Twitter" rel="nofollow">KamiSLO</a></span>
+
+
+        <span class="permalink"><a href="/c/2894" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 16:26</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>You could do it using the Twisted Python framework in a three lines or so (Twisted is asynchronous and event driven like nodejs) :)</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2894?reply" class="reply" id="reply_a_2894" title="Reply to comment by Tomaž Muraus">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2895"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2895" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 29, 2010, 17:11</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Can you show me how to do it in 3 loc of Twisted?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2895?reply" class="reply" id="reply_a_2895" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-2925"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/8c3eeed949c64ad62e4e36cde41f2b0e.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.tomaz-muraus.info/" title="http://www.tomaz-muraus.info/" rel="nofollow">Tomaž Muraus</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/KamiSLO" title="KamiSLO on Twitter" rel="nofollow">KamiSLO</a></span>
+
+
+        <span class="permalink"><a href="/c/2925" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 06, 2010, 19:41</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>from twisted.web import proxy, http<br>
+from twisted.internet import reactor<br>
+ <br>
+class ProxyFactory(http.HTTPFactory):<br>
+    protocol = proxy.Proxy<br>
+ <br>
+reactor.listenTCP(8080, ProxyFactory())<br>
+reactor.run()</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2925?reply" class="reply" id="reply_a_2925" title="Reply to comment by Tomaž Muraus">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 60px">
+  <a name="comment-4460"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/c99485f3d6e1dea8d92460d4a0c0cdf4.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">jherber</span>
+
+
+
+        <span class="permalink"><a href="/c/4460" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 20, 2010, 02:18</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Bah, this is pre-packaged class, not the actual proxy implemented in Twisted.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/4460?reply" class="reply" id="reply_a_4460" title="Reply to comment by jherber">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 80px">
+  <a name="comment-36828"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/a0f46b03b0094475bc4a76870b5dbf21.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">tom</span>
+
+
+
+        <span class="permalink"><a href="/c/36828" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">December 28, 2011, 03:39</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Um, what did you think the node.js one was? Did you not see the require('http') and require('sys') at the top?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/36828?reply" class="reply" id="reply_a_36828" title="Reply to comment by tom">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 60px">
+  <a name="comment-45408"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/1b410af969d5ab30e07299e6982d3f6d.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Alexei Colin</span>
+
+
+
+        <span class="permalink"><a href="/c/45408" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 13, 2013, 23:42</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>This twisted proxy supports HTTP 1.0 only.<br>
+They added a HTTP11ClientProtocol [1] in Twisted, but building a proxy on top of that would require a bunch more lines.</p>
+<p>[1] http://twistedmatrix.com/documents/current/api/twisted.web._newclient.HTTP11ClientProtocol.html</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/45408?reply" class="reply" id="reply_a_45408" title="Reply to comment by Alexei Colin">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-2901"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/8cf354b32dda921b6e32cbd9452f0672.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Tom</span>
+
+
+
+        <span class="permalink"><a href="/c/2901" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 30, 2010, 11:45</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>does it support https ?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2901?reply" class="reply" id="reply_a_2901" title="Reply to comment by Tom">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-2903"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/9055b6c1d07708555ec584d03c387f15.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.catonmat.net" title="http://www.catonmat.net">Peteris Krumins</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/pkrumins" title="pkrumins on Twitter">pkrumins</a></span>
+
+
+        <span class="permalink"><a href="/c/2903" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 30, 2010, 12:07</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Sorry, it does not.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/2903?reply" class="reply" id="reply_a_2903" title="Reply to comment by Peteris Krumins">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-41136"></a>
+  <div class="gravatar">
+    <img src="/static/img/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://kjunichi.github.com/" title="http://kjunichi.github.com/" rel="nofollow">kjunichi</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/kjunichi" title="kjunichi on Twitter" rel="nofollow">kjunichi</a></span>
+
+
+        <span class="permalink"><a href="/c/41136" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 06, 2012, 01:50</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hello!</p>
+<p>I've tried to write http proxy whichi can handle https in node.js.</p>
+<p>source is here:<br>
+https://github.com/kjunichi/wsproxy/blob/master/myproxy0.js</p>
+<p>Alomost it's work fine, but It's have some problem.</p>
+<p>Yes,It's 200 lines over.</p>
+<p>Thanks.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/41136?reply" class="reply" id="reply_a_41136" title="Reply to comment by kjunichi">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-3018"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/eb2d36ea5e24d8f788e2884f689e2099.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">f00li5h</span>
+
+
+
+        <span class="permalink"><a href="/c/3018" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 24, 2010, 12:46</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>meow!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/3018?reply" class="reply" id="reply_a_3018" title="Reply to comment by f00li5h">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-3702"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/77705dc70e837ee9a85cc7bcb6c7e637.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">seeker</span>
+
+
+
+        <span class="permalink"><a href="/c/3702" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 25, 2010, 03:55</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I am trying to do a slight improvement to the proxy, I would like to block sites if they contain certain words, the problem I am facing is that some sites are encoding their content via gzip. I am trying to use node-compress to decompress the stream, but was unsuccessful. If you've got an ideas or if you can add another example that would be greatly appreciated.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/3702?reply" class="reply" id="reply_a_3702" title="Reply to comment by seeker">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-40659"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/b8b1657e3d9725114383b2763d367a3a.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://tlrobinson.net/" title="http://tlrobinson.net/" rel="nofollow">Tom Robinson</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/tlrobinson" title="tlrobinson on Twitter" rel="nofollow">tlrobinson</a></span>
+
+
+        <span class="permalink"><a href="/c/40659" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">September 25, 2012, 02:38</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>The "easy" solution would be to strip any "Accept-Encoding" headers from incoming requests before forwarding them.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/40659?reply" class="reply" id="reply_a_40659" title="Reply to comment by Tom Robinson">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-14742"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/3ada0abbee8f59b8797086f2f78ee3af.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://blog.lagentz.at" title="http://blog.lagentz.at" rel="nofollow">Florian Dorfbauer</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/lagentz" title="lagentz on Twitter" rel="nofollow">lagentz</a></span>
+
+
+        <span class="permalink"><a href="/c/14742" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 14, 2011, 17:21</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Thanks for your nice proxy - we were quite inspired by your idea and wrote a translucent intercepting proxy (tip.js), and we're using it to modify the response of our web-service:</p>
+<p><a href="http://blog.lagentz.com/nodejs/translucent-intercepting-proxy-built-with-nodejs-tip-js/">Translucent Intercepting Proxy</a></p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/14742?reply" class="reply" id="reply_a_14742" title="Reply to comment by Florian Dorfbauer">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-25114"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/b569a616b13eda9dfea07719a8dc2acc.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">sami</span>
+
+
+
+        <span class="permalink"><a href="/c/25114" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">June 10, 2011, 10:20</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>read file function should be updated: </p>
+<p>fs.readFileSync('whitelist.txt', "utf8")</p>
+<p>otherwise this returns an error:  Object </p>
+&lt;filename&gt;<p> has no method 'split'</p>
+<p>Apparently node core has been modified: https://github.com/joyent/node/issues/186</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/25114?reply" class="reply" id="reply_a_25114" title="Reply to comment by sami">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-28816"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/38f92fdb9ac1b5213d40c595b14ec620.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.mnot.net/" title="http://www.mnot.net/" rel="nofollow">Mark Nottingham</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/mnot" title="mnot on Twitter" rel="nofollow">mnot</a></span>
+
+
+        <span class="permalink"><a href="/c/28816" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 18, 2011, 01:10</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>That's really cool -- node is great for this sort of thing.</p>
+<p>However, HTTP proxies aren't *quite* that simple; for example, you really need to strip hop-by-hop headers, or it'll break some things.</p>
+<p>See <a href="http://www.mnot.net/blog/2011/07/11/what_proxies_must_do">what proxies must do</a>.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/28816?reply" class="reply" id="reply_a_28816" title="Reply to comment by Mark Nottingham">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-29532"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/004e78a7e0aaf9f1eb0009668cd84b1a.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://danielchoi.com" title="http://danielchoi.com" rel="nofollow">Daniel Choi</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/danchoi" title="danchoi on Twitter" rel="nofollow">danchoi</a></span>
+
+
+        <span class="permalink"><a href="/c/29532" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 25, 2011, 00:45</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>This works, but not on a lot of YouTube pages. I seems like YouTube rejects web requests that go through a proxy server and redirects you to a page not found page. I tried it using EventMachine in Ruby too, and the same result. Any ideas?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/29532?reply" class="reply" id="reply_a_29532" title="Reply to comment by Daniel Choi">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-33638"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/f255799f3d25fe071272ae30a8bd01ad.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">respectTheCode</span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/respectTheCode" title="respectTheCode on Twitter" rel="nofollow">respectTheCode</a></span>
+
+
+        <span class="permalink"><a href="/c/33638" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">September 17, 2011, 13:02</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>You can actually take 4 lines of code out by passing the end function directly to the end event listener. For example</p>
+<div class="highlight"><pre><span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+<span class="p">});</span>
+</pre>
+</div>
+<p>can be written as </p>
+<div class="highlight"><pre><span class="nx">request</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="nx">proxy_request</span><span class="p">.</span><span class="nx">end</span><span class="p">);</span>
+</pre>
+</div>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/33638?reply" class="reply" id="reply_a_33638" title="Reply to comment by respectTheCode">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-45272"></a>
+  <div class="gravatar">
+    <img src="/static/img/nogravatar.gif" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">iRespectTheCode</span>
+
+
+
+        <span class="permalink"><a href="/c/45272" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 05, 2013, 14:59</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>No, I think this won't work:<br>
+Peter's code passes proxy_request as this to proxy_request.end whereas yours drops the context. I guess it would crash.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/45272?reply" class="reply" id="reply_a_45272" title="Reply to comment by iRespectTheCode">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-34110"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/ae565e77f2a09ef3ceb106bf00aec07d.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">giuseppe</span>
+
+
+
+        <span class="permalink"><a href="/c/34110" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">September 24, 2011, 14:06</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>You proxy fails for this video server (IExplorer)<br>
+http://87.22.235.24/index.htm<br>
+Regards and thanks for any tip</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/34110?reply" class="reply" id="reply_a_34110" title="Reply to comment by giuseppe">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-34795"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/157b8d37790a11e03892a0851a56677b.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">mobeen</span>
+
+
+
+        <span class="permalink"><a href="/c/34795" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 07, 2011, 05:32</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>hi,<br>
+I want to create a proxy on the web server. I pass the url of the image I want to a specific route on my server and then it downloads the image data and returns it to my javascript thus hiding its true origins.All i want to deal with my localhost only.The actual web server remain hide<br>
+How i can done this please help<br>
+thanks</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/34795?reply" class="reply" id="reply_a_34795" title="Reply to comment by mobeen">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-37585"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/109b4dc3cebc4eebfb2b6063d981c303.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">danny</span>
+
+
+
+        <span class="permalink"><a href="/c/37585" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">February 14, 2012, 18:08</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Try to use this proxy code, most of the Web sites can be loaded but I am wondering why it can't fully loading this site -> </p>
+<p>http://en.wikipedia.org/wiki/List_of_HTTP_header_fields   </p>
+<p>For this site, I am getting lot of "404 Not Found" shown in Firebug.</p>
+<p>Anyone, pls help. </p>
+<p>Thanks.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/37585?reply" class="reply" id="reply_a_37585" title="Reply to comment by danny">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-38360"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/948f9855d01d7944acfda0254cf75249.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://juhap.iki.fi" title="http://juhap.iki.fi" rel="nofollow">Juha</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/jpalomaki" title="jpalomaki on Twitter" rel="nofollow">jpalomaki</a></span>
+
+
+        <span class="permalink"><a href="/c/38360" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 12, 2012, 11:42</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>See this Q&A on Stackoverflow:<br>
+http://stackoverflow.com/questions/5924490/http-1-1-request-line</p>
+<p>I made some quick tests and Wikipedia was the only site where I noticed this issue.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/38360?reply" class="reply" id="reply_a_38360" title="Reply to comment by Juha">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-37659"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/070477450efa8b8a0251080d7a5ec8d9.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">kumar</span>
+
+
+
+        <span class="permalink"><a href="/c/37659" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">February 17, 2012, 14:30</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi every body .I need a python code for sending and getting response from the server automatically .If you people will help ,It would be beter for me.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/37659?reply" class="reply" id="reply_a_37659" title="Reply to comment by kumar">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-37754"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/3b39502b3e4b617d1282baeaaed2f848.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Eric Stob</span>
+
+
+
+        <span class="permalink"><a href="/c/37754" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">February 24, 2012, 19:22</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Coffee version = 11 lines</p>
+<pre>http = require 'http'
+http.createServer (request, response) ->
+  proxy = http.createClient 80, request.headers['host']
+  proxy_request = proxy.request request.method, request.url, request.headers
+  proxy_request.addListener 'response', (proxy_response) ->
+    proxy_response.addListener 'data', (chunk) -> response.write chunk, 'binary'
+    proxy_response.addListener 'end', response.end
+    response.writeHead proxy_response.statusCode, proxy_response.headers;
+  request.addListener 'data', (chunk) -> proxy_request.write chunk, 'binary'
+  request.addListener 'end', proxy_request.end
+.listen 8080</pre>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/37754?reply" class="reply" id="reply_a_37754" title="Reply to comment by Eric Stob">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-37842"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/af693fb1a05ea2be609ed761c69c147a.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">AndDM</span>
+
+
+
+        <span class="permalink"><a href="/c/37842" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 01, 2012, 17:14</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi, i saw that http.createClient is deprecated and the documentation suggest http.request to substitute it. What do you think about that? Maybe can you rewrite your code?</p>
+<p>Thanks, regards.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/37842?reply" class="reply" id="reply_a_37842" title="Reply to comment by AndDM">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-39777"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/0da39368336e0ee2e8660d18b5999303.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://blog.e0ne.info" title="http://blog.e0ne.info" rel="nofollow">Ivan Kolodyazhny</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/e0ne" title="e0ne on Twitter" rel="nofollow">e0ne</a></span>
+
+
+        <span class="permalink"><a href="/c/39777" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 21, 2012, 17:18</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Here is adapted version for the newes NodeJS: https://gist.github.com/3156463</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/39777?reply" class="reply" id="reply_a_39777" title="Reply to comment by Ivan Kolodyazhny">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-37892"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/b91fb9820dbbc5153dc27ce22508d947.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">helder</span>
+
+
+
+        <span class="permalink"><a href="/c/37892" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 05, 2012, 17:39</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hello,</p>
+<p>thanks for your code.<br>
+I start working with your code to make a nodejs proxy, but with lots of changes already, but your code was a very good base.</p>
+<p>I'm having a problem controlling DNS errors when the request domain is not available or does not exists, can you tip me about how can i catch the DNS error ?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/37892?reply" class="reply" id="reply_a_37892" title="Reply to comment by helder">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-38020"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/e25c1feedd22d0b9a9a499a1a916f216.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">george</span>
+
+
+
+        <span class="permalink"><a href="/c/38020" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 14, 2012, 15:21</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I ran the entire code and I get an error message which says Object 'facebook.com' has no method split. What does that mean? Sorry, i'm new to proxies</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/38020?reply" class="reply" id="reply_a_38020" title="Reply to comment by george">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-39044"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/5920799b8d8eddd8266b9947380b49c2.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://search.npmjs.org/#/realsimpleserver" title="http://search.npmjs.org/#/realsimpleserver" rel="nofollow">James Grey</a></span>
+
+
+
+        <span class="permalink"><a href="/c/39044" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 30, 2012, 17:19</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>If you're looking for something a bit simpler, available as a package check out: http://search.npmjs.org/#/realsimpleserver - works great for me.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/39044?reply" class="reply" id="reply_a_39044" title="Reply to comment by James Grey">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-39769"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/1c00573125c1175f0b63cf54a613cb2d.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Marco</span>
+
+
+
+        <span class="permalink"><a href="/c/39769" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 20, 2012, 09:59</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi, i don't know how to call the proxy for retrieve the response.<br>
+I always get a proxy loop message.</p>
+<p>I need to call the proxy with jquery and retrieve the body in a jsonp response. </p>
+<p>Or if is not possible to call with another http.get nodejs request.</p>
+<p>Thanks</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/39769?reply" class="reply" id="reply_a_39769" title="Reply to comment by Marco">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-39779"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/0da39368336e0ee2e8660d18b5999303.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://blog.e0ne.info" title="http://blog.e0ne.info" rel="nofollow">Ivan Kolodyazhny</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/e0ne" title="e0ne on Twitter" rel="nofollow">e0ne</a></span>
+
+
+        <span class="permalink"><a href="/c/39779" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 21, 2012, 17:28</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Try something like this one:</p>
+<p>proxy_response.on('data', function (chunk) {<br>
+    console.log(chunck.toString()<br>
+}</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/39779?reply" class="reply" id="reply_a_39779" title="Reply to comment by Ivan Kolodyazhny">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 40px">
+  <a name="comment-39804"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/1c00573125c1175f0b63cf54a613cb2d.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Marco</span>
+
+
+
+        <span class="permalink"><a href="/c/39804" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">July 23, 2012, 21:14</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Thanks Ivan, but my problem is that i don't know how to pass the url parameter to the proxy. <br>
+I've tried with:<br>
+http://myproxy:myport/url=urltoget.com<br>
+http://myproxy:myport/u=urltoget.com<br>
+http://myproxy:myport/?url=urltoget.com<br>
+http://myproxy:myport/?u=urltoget.com<br>
+but i receive always the same message "Proxy loop!"</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/39804?reply" class="reply" id="reply_a_39804" title="Reply to comment by Marco">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-40664"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/54f9beb082c0771af47339bcc59e9d75.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Elmer Bulthuis</span>
+
+
+
+        <span class="permalink"><a href="/c/40664" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">September 25, 2012, 15:54</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>i proxy like this:</p>
+<pre>
+function serveProxy(host, port, url, req, res){
+	var proxy = http.createClient(port, host);
+	var proxy_req = proxy.request(req.method, url, req.headers);
+	proxy_req.addListener('response', function (proxy_res) {
+		res.writeHead(proxy_res.statusCode, proxy_res.headers);
+		proxy_res.pipe(res);
+	});
+	req.pipe(proxy_req);
+}
+</pre>
+<p>a little shorter!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/40664?reply" class="reply" id="reply_a_40664" title="Reply to comment by Elmer Bulthuis">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-40978"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/63678c310e39b0da24341d6a7e2a513c.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Marc</span>
+
+
+
+        <span class="permalink"><a href="/c/40978" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 21, 2012, 07:03</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Would you mind knocking together a simple *reverse* proxy with node? Everyone seems to recommend using one of the modules (like http-proxy or bounce) but surely a simple reverse proxy (which listens on localhost:80 and forwards to google.com:80) is a trivial excercise. Googling so far has produced nothing!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/40978?reply" class="reply" id="reply_a_40978" title="Reply to comment by Marc">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-40991"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/63678c310e39b0da24341d6a7e2a513c.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Marc</span>
+
+
+
+        <span class="permalink"><a href="/c/40991" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 22, 2012, 13:39</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Aha, just changing this line:<br>
+   var proxy = http.createClient(80, request.headers['host'])<br>
+to<br>
+   var proxy = http.createClient(80, 'google.com')<br>
+makes it a reverse proxy instead of a normal HTTP proxy.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/40991?reply" class="reply" id="reply_a_40991" title="Reply to comment by Marc">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-41023"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/323538b6f855bfb2bafe14e3c6fa6cf9.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Leonardo Veríssimo</span>
+
+
+
+        <span class="permalink"><a href="/c/41023" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">October 25, 2012, 13:09</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>This proxy is using an old version of Node. Today, I needed a simple proxy, like yours, and using the latest version (0.8.12), a new proxy could be written this way:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+
+<span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">proxyRequest</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+		<span class="nx">host</span><span class="o">:</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">],</span>
+		<span class="nx">port</span><span class="o">:</span> <span class="mi">80</span><span class="p">,</span>
+		<span class="nx">path</span><span class="o">:</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span>
+		<span class="nx">method</span><span class="o">:</span> <span class="nx">request</span><span class="p">.</span><span class="nx">method</span><span class="p">,</span>
+		<span class="nx">headers</span><span class="o">:</span> <span class="nx">request</span><span class="p">.</span><span class="nx">headers</span>
+	<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">proxyResponse</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="nx">proxyResponse</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">,</span> <span class="nx">proxyResponse</span><span class="p">.</span><span class="nx">headers</span><span class="p">);</span>
+		<span class="nx">proxyResponse</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+	<span class="p">});</span>
+	<span class="nx">request</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">proxyRequest</span><span class="p">);</span>	
+<span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</pre>
+</div>
+<p>Just 14 lines!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/41023?reply" class="reply" id="reply_a_41023" title="Reply to comment by Leonardo Veríssimo">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-41327"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/2ed4652df1e5d03f461b3b1561ac1326.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Daniel</span>
+
+
+
+        <span class="permalink"><a href="/c/41327" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 20, 2012, 07:18</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>I created a version compatible with node.js v0.84.<br>
+My version can modify the html-content and optimize page-load times. </p>
+<p>https://github.com/ayurmedia/proxy.git</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/41327?reply" class="reply" id="reply_a_41327" title="Reply to comment by Daniel">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-42105"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/70e0b2db1e296af4b591b7c58a0ea49c.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">vin obieze</span>
+
+
+
+        <span class="permalink"><a href="/c/42105" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">January 15, 2013, 08:29</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>hello please am looking for someone to write a proxy software for me with user authentication system so that i register people and gv them their id before they can use the proxy software.Please mail me on dzzl_dizzle@yahoo.com if you can lets talk.Is a project for my school work please.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/42105?reply" class="reply" id="reply_a_42105" title="Reply to comment by vin obieze">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-43327"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/532c512a6222c71f5a459c49bf436cca.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">pieter joubert</span>
+
+
+
+        <span class="permalink"><a href="/c/43327" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">March 29, 2013, 07:46</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Hi,<br>
+If you watch the first part of this video http://www.youtube.com/watch?v=hzyz3u3dlTg<br>
+it talks all about how the http module progressed (with the help of the guy in the video) and how writing a proxy in node changed from a 2 page program to eventually a 1 line (without requires and console loging) program</p>
+<p>var http = require('http'),<br>
+    request = require('request');<br>
+http.createServer(function(req,res){<br>
+    req.pipe(request(req.url)).pipe(res)<br>
+}).listen(8000)<br>
+console.log("Server running at http://127.0.0.1:8000/")</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/43327?reply" class="reply" id="reply_a_43327" title="Reply to comment by pieter joubert">Reply to this comment</a>
+    </div>
+</div>
+
+
+    
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-46663"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/d776278245ba87e110a8da2059e0e514.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Doo Dah</span>
+
+
+
+        <span class="permalink"><a href="/c/46663" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">December 25, 2013, 05:56</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Very nice.  Thanks for the excellent tip!</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/46663?reply" class="reply" id="reply_a_46663" title="Reply to comment by Doo Dah">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 20px">
+  <a name="comment-76489"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/d8b7a8f678544835c3aca79e0754beb7.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      
+      <span class="name"><a href="http://www.sneaq.co.za" title="http://www.sneaq.co.za" rel="nofollow">Quinton</a></span>
+
+      
+      <span class="twitter"><a href="http://twitter.com/djsneaq" title="djsneaq on Twitter" rel="nofollow">djsneaq</a></span>
+
+
+        <span class="permalink"><a href="/c/76489" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">April 17, 2015, 07:41</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Wow, thanks for that quick snippet of code. </p>
+<p>I was looking many hours for something like that!<br>
+I was trying to do something similar using the http-proxy, but was hard...</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/76489?reply" class="reply" id="reply_a_76489" title="Reply to comment by Quinton">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-44830"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/c5eaf5dda307428444ad16467e5ae3f2.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Marty</span>
+
+
+
+        <span class="permalink"><a href="/c/44830" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 30, 2013, 03:55</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>you can test proxies from http://www.proxybridge.com<br>
+It's free.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/44830?reply" class="reply" id="reply_a_44830" title="Reply to comment by Marty">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-46375"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/24f30f0b5e23b78cd9bee8490bab8ca3.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">mike belshe</span>
+
+
+
+        <span class="permalink"><a href="/c/46375" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">November 09, 2013, 00:54</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>This was a nice article once, but it is so out of date it would be nice if you just delete it before people waste their time trying to figure out why the apis you cite are no longer available or working....</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/46375?reply" class="reply" id="reply_a_46375" title="Reply to comment by mike belshe">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-48505"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/348b97a42a06d377ffebdec31dcd6cc5.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">A Alyan</span>
+
+
+
+        <span class="permalink"><a href="/c/48505" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">May 08, 2014, 11:09</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>Can you inject headers in the response?</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/48505?reply" class="reply" id="reply_a_48505" title="Reply to comment by A Alyan">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-62641"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/c4182676e0258bffba612792561f446b.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Koka</span>
+
+
+
+        <span class="permalink"><a href="/c/62641" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">August 27, 2014, 10:33</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>After i set up proxy, I get the following error :</p>
+<p>{ [Error: getaddrinfo ENOTFOUND] code: 'ENOTFOUND', errno: 'ENOTFOUND', syscall: 'getaddrinfo' }</p>
+<p>whenever i access a localhost port. eg http://localhost:8080</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/62641?reply" class="reply" id="reply_a_62641" title="Reply to comment by Koka">Reply to this comment</a>
+    </div>
+</div>
+
+
+  
+
+
+<div class="icomment" style="margin-left: 0px">
+  <a name="comment-77469"></a>
+  <div class="gravatar">
+    <img src="http://www.gravatar.com/avatar/1c3523a21596b146b6976d0a1c2caabf.jpg?s=40" width="40" height="40">
+  </div>
+  <div class="userinfo">
+    <div>
+      <span class="name">Josh</span>
+
+
+
+        <span class="permalink"><a href="/c/77469" title="Permanent link to the comment">Permalink</a></span>
+    </div>
+    <div>
+      <span class="time">September 16, 2015, 11:13</span>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="comment_text">
+    <p>How can we use it? I have a app.js where I put the proxy code, now how can I use it in several js pages. Sorry I am new and using node first time.</p>
+
+  </div>
+
+    <div class="comment_reply">
+      <a href="/c/77469?reply" class="reply" id="reply_a_77469" title="Reply to comment by Josh">Reply to this comment</a>
+    </div>
+</div>
+
+
+
+
+        <script>
+          catonmat.init_comments('page', '');
+        </script>
+    </div>
+
+    <div class="add">
+      <h3>Leave a new comment</h3>
+      
+
+<div id="comment_form">
+    <div id="comment_error" class="hidden"></div>
+
+    <div id="comment_preview" class="hidden"></div>
+
+  <form action="/http-proxy-in-nodejs" method="POST">
+    <input type="hidden" name="page_id" id="page_id" value="215">
+    <input type="hidden" name="parent_id" id="parent_id" value="">
+
+    <p>
+      <label for="name" class="name">Name:</label>
+      <input tabindex="1" type="text" name="name" id="name" maxlength="64" size="30">
+    </p>
+    <div class="clear"></div>
+
+    <p>
+      <label for="email" class="email">E-mail:</label>
+      <input tabindex="2" type="text" name="email" id="email" maxlength="128" size="30">
+      <span class="small">(<a href="#" id="why_email_a" title="Why do I need your email?">why do I need your e-mail?</a>)</span>
+    </p>
+    <div class="clear"></div>
+
+    <div id="why_email_explain" class="hidden">
+      <p>
+        It would be nice if you left your e-mail address. Sometimes I want to send a private message, or just thank for the great comment. Having your e-mail really helps.
+      </p>
+      <p><b>I will never ever spam you.</b></p>
+    </div>
+
+    <p>
+      <label for="twitter" class="twitter">Twitter:</label>
+      <input tabindex="3" type="text" name="twitter" id="twitter" maxlength="128" size="30">
+      <span class="small">(Your twitter name, if you have one. (I'm <a href="http://twitter.com/pkrumins">@pkrumins</a>, btw.))</span>
+    </p>
+    <div class="clear"></div>
+
+    <p class="website">
+      <label for="website" class="website">Website:</label>
+      <input tabindex="4" type="text" name="website" id="website" maxlength="256" size="50">
+    </p>
+    <div class="clear"></div>
+
+    <div class="c">
+      <label for="comment" class="comment">Comment:</label>
+      <div class="a">
+        </p>
+        <textarea tabindex="5" name="comment" rows="8" cols="50" id="comment"></textarea>
+        <script>
+          if ($.browser.safari) {
+            /* i can't solve the 2px offset bug in chrome via css manipulations */
+            $('#comment_form .a').css('margin-left', '94px');
+
+            /* i also can't solve a problem of labels being offset by 3px in vertical direction */
+            $('#comment_form label').css('margin-top','3px')
+          }
+        </script>
+        <div class="comment-help-link"><a href="#" id="ch">Comment Help</a></div>
+        <div class="clear"></div>
+        <div id="comment_help" class="hidden">
+          <p>* use <code>&lt;pre>...&lt;/pre></code> to insert a plain code snippet.</p>
+          <p>
+            * use <code>&lt;pre lang="<strong>lang</strong>">...&lt;/pre></code> to insert a syntax highlighted code snippet.<br>
+            For example, <code>&lt;pre lang="<strong>python</strong>">...&lt;/pre></code> will insert Python highlighted code.
+          </p>
+          <p>* use <code>&lt;code>...&lt;/code></code> to highlight a variable or a single shell command.</p>
+          <p>* use <code>&lt;a href="url" nospam>title&lt/a></code> to insert links.</p>
+          <p>* use other HTML tags, such as, <code>&lt;b></code>, <code>&lt;i></code>, <code>&lt;blockquote></code>, <code>&lt;sup></code>, <code>&lt;sub></code> for text formatting.</p>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="e">
+      <p>
+        <input type="hidden" name="captcha_nr" value="16">
+        
+        Type the word "<b>0day_215</b>": <input tabindex="6" type="text" name="commentc" size="10"> (just to make sure you're a human)
+      </p>
+
+      <p>
+        <input tabindex="6" id="preview" type="submit" name="preview" value="Preview comment">
+        <input tabindex="7" id="submit" type="submit" name="submit" value="Submit comment">
+      </p>
+
+      <p>
+        <span id="comment_please">Please <b>preview</b> the comment before submitting to make sure it's OK.<br></span>
+      </p>
+    </div>
+
+  </form>
+</div>
+
+
+      <script>
+        catonmat.init_why_email();
+        catonmat.init_comment_help();
+        catonmat.init_preview_comment();
+        catonmat.init_submit_comment('');
+      </script>
+    </div>
+  </div>
+
+  <div class="after_comments_ads">
+    <h3>Advertisements</h3>
+    <div class="after_comments_ad300">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- catonmat after comments -->
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:300px;height:250px"
+           data-ad-client="ca-pub-0433925538517663"
+           data-ad-slot="2261906812"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+    <div class="clear">
+    </div>
+  </div>
+</div>
+
+
+
+
+        </div>
+        <div id="sidebar">
+          
+  <!-- begin sidebar.tmpl.html -->
+
+<div class="item search">
+  <form name="search" action="/search" method="GET">
+    <input name="q" type="text">
+    <input name="submit" type="submit" value="Search">
+  </form>
+</div>
+
+<!-- About the site -->
+<div class="item aboutsite">
+  <div class="title">About the site:</div>
+  <div class="content">
+    <p>
+      <a href="/about/" title="About Peteris Krumins">
+        <img src="/static/img/peteris-krumins-small.jpg" alt="Peteris Krumins" class="peter">
+      </a>
+      Peteris Krumins' blog about programming, hacking, software reuse, software ideas, computer security, browserling, google and technology.
+    </p>
+    <div class="hr"></div>
+    <p class="contact smallmargin">Reach me at:</p>
+    <img src="/static/img/peter-catonmat-net.gif" class="eml">
+    <p class="contact">Or meet me on:</p>
+    <div class="social">
+      <ul>
+        <li class="twitter"><a href="http://www.twitter.com/pkrumins" title="Peteris Krumins on Twitter"><img src="/static/img/twitter-16x16.gif">Twitter</a></li>
+        <li class="facebook"><a href="http://www.facebook.com/pkrumins" title="Peteris Krumins on Facebook"><img src="/static/img/facebook-16x16.gif">Facebook</a></li>
+        <!-- TODO: exchange plurk with github -->
+        <li class="plurk almost-last"><a href="http://www.plurk.com/pkrumins" title="Peteris Krumins on Plurk"><img src="/static/img/plurk-16x16.gif">Plurk</a></li>
+        <li class="more"><a href="#" id="a-more-contacts" class="more" title="More ways to contact Peteris Krumins"><img src="/static/img/more-10x10.gif" class="more">more</a></li>
+      </ul>
+      <div class="clear"></div>
+      <script>
+        catonmat.init_toggle_contacts();
+      </script>
+    </div>
+    <div class="social hidden" id="div-more-contacts">
+      <ul>
+        <li class="github"><a href="http://www.github.com/pkrumins" title="Peteris Krumins programming projects on GitHub"><img src="/static/img/github-16x16.gif">GitHub</a></li>
+        <li class="linkedin"><a href="http://www.linkedin.com/in/pkrumins" title="Peteris Krumins CV on LinkedIn"><img src="/static/img/linkedin-16x16.gif">LinkedIn</a></li>
+        <li class="friendfeed"><a href="http://www.friendfeed.com/pkrumins" title="Peteris Krumins on FriendFeed"><img src="/static/img/friendfeed-16x16.gif">FriendFeed</a></li>
+      </ul>
+      <div class="clear"></div>
+      <div style="padding-bottom: 5px"></div>
+      <ul>
+        <li><a href="http://google.com/profiles/peteris.krumins" title="Peteris Krumins on Google Plus"><img src="/static/img/google-plus-16x16.png">Google Plus</a></li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Subscribe to my posts -->
+<div class="item subscribe">
+  <div class="title">Subscribe to my posts:</div>
+  <div class="content">
+    <p>Subscribe through an RSS feed:</p>
+    <p class="feed">
+      <a href="http://feeds2.feedburner.com/catonmat" rel="alternate" type="application/rss+xml" class="rss" title="Catonmat RSS Feed">
+        <img src="/static/img/rss-feed-16x16.png" class="rss">
+        <img src="http://www.catonmat.net/images/feedcounter-crontab.gif" height="19" width="88" class="counter">
+      </a>
+      <span class="rss">(<a href="/what-is-rss/" title="What is an RSS feed?">what is rss?</a>)</span>
+    </p>
+    <div class="hr"></div>
+    <p>Subscribe through email:</p>
+    <!-- begin generated by feedburner.com -->
+    <p>
+      <form style="border:1px solid #ccc;padding:3px;text-align:center;" action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=catonmat', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true">
+        <p>Enter your email address:</p>
+        <p>
+          <input type="text" style="width:140px" name="email"/>
+        </p>
+        <input type="hidden" value="catonmat" name="uri"/>
+        <input type="hidden" name="loc" value="en_US"/>
+        <p>
+          <input type="submit" value="Subscribe" />
+        </p>
+        <p>
+          Delivered by <a href="http://feedburner.google.com" target="_blank">FeedBurner</a>
+        </p>
+      </form>
+    </p>
+    <!-- end generated by feedburner.com -->
+  </div>
+</div>
+
+
+<div class="item">
+  <div class="title">My Amazon Wish List</div>
+  <div class="content">
+    <p>I love to read science books. They make my day and I get ideas for awesome blog posts, such as <a href="http://www.catonmat.net/blog/busy-beaver/">Busy Beaver</a>, <a href="http://www.catonmat.net/blog/on-functors/">On Functors</a>, <a href="http://www.catonmat.net/blog/recursive-regular-expressions/">Recursive Regular Expressions</a> and <a href="http://www.catonmat.net/archive">many others</a>.</p>
+
+    <p>Take a look at my <a href="http://www.amazon.com/registry/wishlist/QDKYO6OQUU4O?reveal=unpurchased&filter=all&sort=priority&layout=standard" title="Peteris Krumins Amazon Wish List"><img src="/static/img/amazon-16x16.gif" style="position: relative; top: 5px; padding-right: 5px">Amazon wish list</a>, if you're curious about what I have planned reading next, and want to surprise me. :)</p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">My Books</div>
+  <div class="content">
+    <ul>
+      <li><a href="http://www.catonmat.net/blog/awk-book/" title="Awk Programming Book">Awk Programming Book</a></li>
+      <li><a href="http://www.catonmat.net/blog/sed-book/" title="Sed Programming Book">Sed Programming Book</a></li>
+      <li><a href="http://www.catonmat.net/blog/perl-book/" title="Perl Programming Book">Perl Programming Book</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">My Other Websites</div>
+  <div class="content">
+    <ul>
+      <li><a href="http://freescienceonline.blogspot.com">Free Science Online</a></li>
+      <li><a href="http://www.freesciencelectures.com">Free Science Videos</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Top Ten Articles:</div>
+  <div class="content">
+    <ul>
+     <li><a href="/blog/top-ten-one-liners-from-commandlinefu-explained/" title="Read &quot;Top Ten One-Liners from CommandLineFu Explained&quot; (has been read 1,216,534 times)">Top Ten One-Liners from CommandLineFu Explained</a></li>
+     <li><a href="/blog/my-job-interview-at-google/" title="Read &quot;My Job Interview at Google&quot; (has been read 1,054,471 times)">My Job Interview at Google</a></li>
+     <li><a href="/blog/sed-one-liners-explained-part-one/" title="Read &quot;Famous Sed One-Liners Explained, Part I: File Spacing, Numbering and Text Conversion and Substitution&quot; (has been read 953,206 times)">Famous Sed One-Liners Explained, Part I: File Spacing, Numbering and Text Conversion and Substitution</a></li>
+     <li><a href="/blog/mit-introduction-to-algorithms-part-one/" title="Read &quot;MIT's Introduction to Algorithms, Lectures 1 and 2: Analysis of Algorithms&quot; (has been read 879,614 times)">MIT&#39;s Introduction to Algorithms, Lectures 1 and 2: Analysis of Algorithms</a></li>
+     <li><a href="/blog/awk-one-liners-explained-part-one/" title="Read &quot;Awk One-Liners Explained, Part I: File Spacing, Numbering and Calculations&quot; (has been read 746,284 times)">Awk One-Liners Explained, Part I: File Spacing, Numbering and Calculations</a></li>
+     <li><a href="/blog/the-definitive-guide-to-bash-command-line-history/" title="Read &quot;The Definitive Guide to Bash Command Line History&quot; (has been read 720,457 times)">The Definitive Guide to Bash Command Line History</a></li>
+     <li><a href="/blog/linux-socks5-proxy/" title="Read &quot;Turn any Linux computer into SOCKS5 proxy in one command&quot; (has been read 712,655 times)">Turn any Linux computer into SOCKS5 proxy in one command</a></li>
+     <li><a href="/blog/low-level-bit-hacks-you-absolutely-must-know/" title="Read &quot;Low Level Bit Hacks You Absolutely Must Know&quot; (has been read 653,276 times)">Low Level Bit Hacks You Absolutely Must Know</a></li>
+     <li><a href="/http-proxy-in-nodejs/" title="Read &quot;A HTTP Proxy Server in 20 Lines of node.js Code&quot; (has been read 635,069 times)">A HTTP Proxy Server in 20 Lines of node.js Code</a></li>
+     <li><a href="/blog/bash-vi-editing-mode-cheat-sheet/" title="Read &quot;Working Productively in Bash's Vi Command Line Editing Mode (with Cheat Sheet)&quot; (has been read 604,753 times)">Working Productively in Bash&#39;s Vi Command Line Editing Mode (with Cheat Sheet)</a></li>
+    </ul>
+    <p class="moreinfo">
+      <a href="/archive?sorted_by=views" title="Top catonmat articles">See all top articles</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Top Ten Downloads:</div>
+  <div class="content">
+    <ul>
+    <li><a href="/download/bash-redirections-cheat-sheet.pdf" title="Download &quot;bash redirections cheat sheet (.pdf)&quot;">bash redirections cheat sheet (.pdf)</a> (<span title="Total 221,236 downloads">221,236</span>)</li>
+    <li><a href="/download/perl1line.txt" title="Download &quot;perl1line.txt&quot;">perl1line.txt</a> (<span title="Total 202,140 downloads">202,140</span>)</li>
+    <li><a href="/download/bash-history-cheat-sheet.pdf" title="Download &quot;bash history cheat sheet (.pdf)&quot;">bash history cheat sheet (.pdf)</a> (<span title="Total 201,618 downloads">201,618</span>)</li>
+    <li><a href="/download/awk.cheat.sheet.pdf" title="Download &quot;awk cheat sheet (.pdf)&quot;">awk cheat sheet (.pdf)</a> (<span title="Total 197,797 downloads">197,797</span>)</li>
+    <li><a href="/download/sed.stream.editor.cheat.sheet.pdf" title="Download &quot;sed stream editor cheat sheet (.pdf)&quot;">sed stream editor cheat sheet (.pdf)</a> (<span title="Total 146,141 downloads">146,141</span>)</li>
+    <li><a href="/download/screen.cheat.sheet.pdf" title="Download &quot;screen cheat sheet (.pdf)&quot;">screen cheat sheet (.pdf)</a> (<span title="Total 137,279 downloads">137,279</span>)</li>
+    <li><a href="/download/perl.pack.unpack.printf.cheat.sheet.pdf" title="Download &quot;perl&#39;s pack/unpack and printf cheat sheet (.pdf)&quot;">perl&#39;s pack/unpack and printf cheat sheet (.pdf)</a> (<span title="Total 134,270 downloads">134,270</span>)</li>
+    <li><a href="/download/bash-vi-editing-mode-cheat-sheet.pdf" title="Download &quot;bash vi editing mode cheat sheet (.pdf)&quot;">bash vi editing mode cheat sheet (.pdf)</a> (<span title="Total 129,320 downloads">129,320</span>)</li>
+    <li><a href="/download/perl.predefined.variables.pdf" title="Download &quot;perl&#39;s special variable cheat sheet (.pdf)&quot;">perl&#39;s special variable cheat sheet (.pdf)</a> (<span title="Total 118,565 downloads">118,565</span>)</li>
+    <li><a href="/download/awk.cheat.sheet.txt" title="Download &quot;awk cheat sheet (.txt)&quot;">awk cheat sheet (.txt)</a> (<span title="Total 115,483 downloads">115,483</span>)</li>
+    </ul>
+    <p class="moreinfo">
+      <a href="/downloads" title="All catonmat downloads">See all downloads</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Recent Articles:</div>
+  <div class="content">
+    <ul>
+     <li><a href="/blog/front-end-vs-back-end/" title="Read &quot;Front-end vs. Back-end (my new cartoon that went viral!)&quot; (was published on December 11, 2015)">Front-end vs. Back-end (my new cartoon that went viral!)</a></li>
+     <li><a href="/blog/browserling-product-hunt/" title="Read &quot;Browserling was product of the day on Product Hunt!&quot; (was published on December 01, 2015)">Browserling was product of the day on Product Hunt!</a></li>
+     <li><a href="/blog/browserling-bookmarklets/" title="Read &quot;Browserling now has bookmarklets!&quot; (was published on November 26, 2015)">Browserling now has bookmarklets!</a></li>
+     <li><a href="/blog/three-new-web-cartoons/" title="Read &quot;Three new web cartoons - Cookie Monster, Browser History, Bathroom&quot; (was published on November 07, 2015)">Three new web cartoons - Cookie Monster, Browser History, Bathroom</a></li>
+     <li><a href="/blog/browserling-firefox-extension/" title="Read &quot;Browserling now has a Firefox extension!&quot; (was published on November 05, 2015)">Browserling now has a Firefox extension!</a></li>
+     <li><a href="/blog/blogger-of-the-day/" title="Read &quot;I was awarded Blogger of the Day title&quot; (was published on November 01, 2015)">I was awarded Blogger of the Day title</a></li>
+     <li><a href="/blog/browserling-opera-addon/" title="Read &quot;Browserling now has an Opera add-on!&quot; (was published on October 29, 2015)">Browserling now has an Opera add-on!</a></li>
+     <li><a href="/blog/settimeout-setinterval/" title="Read &quot;How to make setTimeout and setInterval work with large timeout values&quot; (was published on October 28, 2015)">How to make setTimeout and setInterval work with large timeout values</a></li>
+     <li><a href="/blog/cartoon-java-cafe/" title="Read &quot;New cartoon - Java Cafe&quot; (was published on October 27, 2015)">New cartoon - Java Cafe</a></li>
+     <li><a href="/blog/hacker-in-residence/" title="Read &quot;I&#39;ve joined Hackers &amp; Founders as Hacker in Residence!&quot; (was published on October 19, 2015)">I&#39;ve joined Hackers &amp; Founders as Hacker in Residence!</a></li>
+    </ul>
+    <p class="moreinfo">
+      <a href="/archive" title="All catonmat articles">See more detailed list of recent articles</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Article Categories:</div>
+  <div class="content">
+    <ul>
+      
+      <li><a href="/category/awk-programming" title="Awk Programming: AWK is a very important UNIX programming language for manipulating text very quickly. I have mastered it and now I am teaching others.">Awk Programming</a> (<span title="There are 8 articles in &quot;Awk Programming&quot; category">8</span>)</li>
+      
+      <li><a href="/category/stackvm-startup" title="Browserling Startup: Articles about my and James Halliday startup - Browserling (earlier called StackVM) - which brings virtual machines to the web!">Browserling Startup</a> (<span title="There are 48 articles in &quot;Browserling Startup&quot; category">48</span>)</li>
+      
+      <li><a href="/category/cheat-sheets" title="Cheat Sheets: All kinds of programming and computer science cheat sheets - vt100/ansi cheat sheet, shell emacs editing mode cheat sheet, iptables cheat sheets and many many others.">Cheat Sheets</a> (<span title="There are 13 articles in &quot;Cheat Sheets&quot; category">13</span>)</li>
+      
+      <li><a href="/category/computer-science" title="Computer Science: I love computer science.">Computer Science</a> (<span title="There are 9 articles in &quot;Computer Science&quot; category">9</span>)</li>
+      
+      <li><a href="/category/hackers-approach" title="Hacker&#39;s Approach: Using the hacker&#39;s approach one can develop cool software in a matter of hours without really going into details how it all works but using the right pieces and putting them together. Also a real hacker would be able to do the right things with the wrong tools.">Hacker&#39;s Approach</a> (<span title="There are 8 articles in &quot;Hacker&#39;s Approach&quot; category">8</span>)</li>
+      
+      <li><a href="/category/howto" title="Howto: Howto guides - howto download youtube videos, how to upload them, how to be a real hacker, how to become immortal, etc ;)">Howto</a> (<span title="There are 12 articles in &quot;Howto&quot; category">12</span>)</li>
+      
+      <li><a href="/category/idea-for-later" title="Idea for Later: Ideas that I want to build at some time later.">Idea for Later</a> (<span title="There are 1 articles in &quot;Idea for Later&quot; category">1</span>)</li>
+      
+      <li><a href="/category/interviews" title="Interviews: Interviews with me, Peteris Krumins.">Interviews</a> (<span title="There are 7 articles in &quot;Interviews&quot; category">7</span>)</li>
+      
+      <li><a href="/category/introduction-to-algorithms" title="Introduction to Algorithms: Analysis of MIT&#39;s &#34;Introduction to Algorithms&#34; video lectures. Contains embedded videos with timestamped list of topics and scanned lecture notes.">Introduction to Algorithms</a> (<span title="There are 15 articles in &quot;Introduction to Algorithms&quot; category">15</span>)</li>
+      
+      <li><a href="/category/linear-algebra" title="Linear Algebra: Analysis of MIT&#39;s &#34;Linear Algebra&#34; course. Contains embedded videos with timestamped list of topics and scanned lecture notes.">Linear Algebra</a> (<span title="There are 6 articles in &quot;Linear Algebra&quot; category">6</span>)</li>
+      
+      <li><a href="/category/mathematics" title="Mathematics: A good computer scientist has to know mathematics.">Mathematics</a> (<span title="There are 1 articles in &quot;Mathematics&quot; category">1</span>)</li>
+      
+      <li><a href="/category/misc" title="Misc: Articles that don&#39;t fit in other categories. They include interviews and blogging related stuff.">Misc</a> (<span title="There are 24 articles in &quot;Misc&quot; category">24</span>)</li>
+      
+      <li><a href="/category/musical-geek-friday" title="Musical Geek Friday: Really funny and geeky songs I found in my mp3 collection.">Musical Geek Friday</a> (<span title="There are 17 articles in &quot;Musical Geek Friday&quot; category">17</span>)</li>
+      
+      <li><a href="/category/my-favorite-books" title="My Favorite Books: My favorite software development books, programming books, coding books and science books.">My Favorite Books</a> (<span title="There are 4 articles in &quot;My Favorite Books&quot; category">4</span>)</li>
+      
+      <li><a href="/category/nodejs-modules" title="Node.js Modules: Article series &#34;node.js modules you should know about.&#34;">Node.js Modules</a> (<span title="There are 15 articles in &quot;Node.js Modules&quot; category">15</span>)</li>
+      
+      <li><a href="/category/perl-programming" title="Perl Programming: Perl is one of the best languages ever invented. I have mastered it and now I am teaching others.">Perl Programming</a> (<span title="There are 16 articles in &quot;Perl Programming&quot; category">16</span>)</li>
+      
+      <li><a href="/category/programming" title="Programming: I love programming. Language I know are python, perl, haskell, scheme, awk, c++  and others.">Programming</a> (<span title="There are 37 articles in &quot;Programming&quot; category">37</span>)</li>
+      
+      <li><a href="/category/projects" title="Projects: All the various projects that I have done, they include digpicz, reddit media, reddit river, and others.">Projects</a> (<span title="There are 13 articles in &quot;Projects&quot; category">13</span>)</li>
+      
+      <li><a href="/category/security" title="Security: Computer security is a field close to my heart.">Security</a> (<span title="There are 4 articles in &quot;Security&quot; category">4</span>)</li>
+      
+      <li><a href="/category/the-new-catonmat" title="The New Catonmat: Everything about the new catonmat website.">The New Catonmat</a> (<span title="There are 1 articles in &quot;The New Catonmat&quot; category">1</span>)</li>
+      
+      <li><a href="/category/tools" title="Tools: Tools - small programs that do great things. Actually this category is not very useful, I am going to merge it with some other category soon.">Tools</a> (<span title="There are 1 articles in &quot;Tools&quot; category">1</span>)</li>
+      
+      <li><a href="/category/unix-shell" title="Unix Shell: This category contains various articles on how to work in Unix shell.">Unix Shell</a> (<span title="There are 29 articles in &quot;Unix Shell&quot; category">29</span>)</li>
+      
+      <li><a href="/category/video-lectures" title="Video Lectures: I love watching video lectures, they make me smarter and I love it. I also like to write about what I just saw, so here are some of the lectures I have seen.">Video Lectures</a> (<span title="There are 18 articles in &quot;Video Lectures&quot; category">18</span>)</li>
+      
+      <li><a href="/category/visual-math-friday" title="Visual Math Friday: I have collected hundreds of visual math proofs. In these articles I explain them and prove their correctness.">Visual Math Friday</a> (<span title="There are 1 articles in &quot;Visual Math Friday&quot; category">1</span>)</li>
+    </ul>
+    <p class="moreinfo">
+      <a href="/categories" title="Detailed catonmat category information">See more detailed category information</a>
+    </p>
+  </div>
+</div>
+
+<div class="item list">
+  <div class="title">Article Archive:</div>
+  <div class="content">
+    <ul>
+     <li><a href="/archive/2015/12" title="All articles written in December, 2015" rel="nofollow">December, 2015</a> (<span title="2 articles were published in December, 2015">2</span>)</li>
+     <li><a href="/archive/2015/11" title="All articles written in November, 2015" rel="nofollow">November, 2015</a> (<span title="4 articles were published in November, 2015">4</span>)</li>
+     <li><a href="/archive/2015/10" title="All articles written in October, 2015" rel="nofollow">October, 2015</a> (<span title="7 articles were published in October, 2015">7</span>)</li>
+     <li><a href="/archive/2015/09" title="All articles written in September, 2015" rel="nofollow">September, 2015</a> (<span title="9 articles were published in September, 2015">9</span>)</li>
+     <li><a href="/archive/2015/08" title="All articles written in August, 2015" rel="nofollow">August, 2015</a> (<span title="1 articles were published in August, 2015">1</span>)</li>
+     <li><a href="/archive/2015/07" title="All articles written in July, 2015" rel="nofollow">July, 2015</a> (<span title="2 articles were published in July, 2015">2</span>)</li>
+     <li><a href="/archive/2015/06" title="All articles written in June, 2015" rel="nofollow">June, 2015</a> (<span title="2 articles were published in June, 2015">2</span>)</li>
+     <li><a href="/archive/2015/05" title="All articles written in May, 2015" rel="nofollow">May, 2015</a> (<span title="1 articles were published in May, 2015">1</span>)</li>
+     <li><a href="/archive/2015/04" title="All articles written in April, 2015" rel="nofollow">April, 2015</a> (<span title="6 articles were published in April, 2015">6</span>)</li>
+     <li><a href="/archive/2015/03" title="All articles written in March, 2015" rel="nofollow">March, 2015</a> (<span title="1 articles were published in March, 2015">1</span>)</li>
+     <li><a href="/archive/2015/02" title="All articles written in February, 2015" rel="nofollow">February, 2015</a> (<span title="1 articles were published in February, 2015">1</span>)</li>
+     <li><a href="/archive/2015/01" title="All articles written in January, 2015" rel="nofollow">January, 2015</a> (<span title="1 articles were published in January, 2015">1</span>)</li>
+     <li><a href="/archive/2014/12" title="All articles written in December, 2014" rel="nofollow">December, 2014</a> (<span title="1 articles were published in December, 2014">1</span>)</li>
+     <li><a href="/archive/2014/11" title="All articles written in November, 2014" rel="nofollow">November, 2014</a> (<span title="1 articles were published in November, 2014">1</span>)</li>
+     <li><a href="/archive/2014/10" title="All articles written in October, 2014" rel="nofollow">October, 2014</a> (<span title="2 articles were published in October, 2014">2</span>)</li>
+     <li><a href="/archive/2014/09" title="All articles written in September, 2014" rel="nofollow">September, 2014</a> (<span title="1 articles were published in September, 2014">1</span>)</li>
+     <li><a href="/archive/2014/08" title="All articles written in August, 2014" rel="nofollow">August, 2014</a> (<span title="1 articles were published in August, 2014">1</span>)</li>
+     <li><a href="/archive/2014/07" title="All articles written in July, 2014" rel="nofollow">July, 2014</a> (<span title="1 articles were published in July, 2014">1</span>)</li>
+     <li><a href="/archive/2014/06" title="All articles written in June, 2014" rel="nofollow">June, 2014</a> (<span title="1 articles were published in June, 2014">1</span>)</li>
+     <li><a href="/archive/2014/05" title="All articles written in May, 2014" rel="nofollow">May, 2014</a> (<span title="1 articles were published in May, 2014">1</span>)</li>
+     <li><a href="/archive/2014/04" title="All articles written in April, 2014" rel="nofollow">April, 2014</a> (<span title="1 articles were published in April, 2014">1</span>)</li>
+     <li><a href="/archive/2014/03" title="All articles written in March, 2014" rel="nofollow">March, 2014</a> (<span title="3 articles were published in March, 2014">3</span>)</li>
+     <li><a href="/archive/2014/02" title="All articles written in February, 2014" rel="nofollow">February, 2014</a> (<span title="3 articles were published in February, 2014">3</span>)</li>
+     <li><a href="/archive/2014/01" title="All articles written in January, 2014" rel="nofollow">January, 2014</a> (<span title="5 articles were published in January, 2014">5</span>)</li>
+     <li><a href="/archive/2013/12" title="All articles written in December, 2013" rel="nofollow">December, 2013</a> (<span title="1 articles were published in December, 2013">1</span>)</li>
+     <li><a href="/archive/2013/11" title="All articles written in November, 2013" rel="nofollow">November, 2013</a> (<span title="1 articles were published in November, 2013">1</span>)</li>
+     <li><a href="/archive/2013/10" title="All articles written in October, 2013" rel="nofollow">October, 2013</a> (<span title="1 articles were published in October, 2013">1</span>)</li>
+     <li><a href="/archive/2013/09" title="All articles written in September, 2013" rel="nofollow">September, 2013</a> (<span title="1 articles were published in September, 2013">1</span>)</li>
+     <li><a href="/archive/2013/08" title="All articles written in August, 2013" rel="nofollow">August, 2013</a> (<span title="1 articles were published in August, 2013">1</span>)</li>
+     <li><a href="/archive/2013/07" title="All articles written in July, 2013" rel="nofollow">July, 2013</a> (<span title="1 articles were published in July, 2013">1</span>)</li>
+     <li><a href="/archive/2013/06" title="All articles written in June, 2013" rel="nofollow">June, 2013</a> (<span title="1 articles were published in June, 2013">1</span>)</li>
+     <li><a href="/archive/2013/05" title="All articles written in May, 2013" rel="nofollow">May, 2013</a> (<span title="1 articles were published in May, 2013">1</span>)</li>
+     <li><a href="/archive/2013/04" title="All articles written in April, 2013" rel="nofollow">April, 2013</a> (<span title="1 articles were published in April, 2013">1</span>)</li>
+     <li><a href="/archive/2013/03" title="All articles written in March, 2013" rel="nofollow">March, 2013</a> (<span title="1 articles were published in March, 2013">1</span>)</li>
+     <li><a href="/archive/2013/02" title="All articles written in February, 2013" rel="nofollow">February, 2013</a> (<span title="2 articles were published in February, 2013">2</span>)</li>
+     <li><a href="/archive/2013/01" title="All articles written in January, 2013" rel="nofollow">January, 2013</a> (<span title="4 articles were published in January, 2013">4</span>)</li>
+     <li><a href="/archive/2012/12" title="All articles written in December, 2012" rel="nofollow">December, 2012</a> (<span title="1 articles were published in December, 2012">1</span>)</li>
+     <li><a href="/archive/2012/11" title="All articles written in November, 2012" rel="nofollow">November, 2012</a> (<span title="3 articles were published in November, 2012">3</span>)</li>
+     <li><a href="/archive/2012/10" title="All articles written in October, 2012" rel="nofollow">October, 2012</a> (<span title="4 articles were published in October, 2012">4</span>)</li>
+     <li><a href="/archive/2012/09" title="All articles written in September, 2012" rel="nofollow">September, 2012</a> (<span title="3 articles were published in September, 2012">3</span>)</li>
+     <li><a href="/archive/2012/08" title="All articles written in August, 2012" rel="nofollow">August, 2012</a> (<span title="2 articles were published in August, 2012">2</span>)</li>
+     <li><a href="/archive/2012/07" title="All articles written in July, 2012" rel="nofollow">July, 2012</a> (<span title="2 articles were published in July, 2012">2</span>)</li>
+     <li><a href="/archive/2012/06" title="All articles written in June, 2012" rel="nofollow">June, 2012</a> (<span title="1 articles were published in June, 2012">1</span>)</li>
+     <li><a href="/archive/2012/05" title="All articles written in May, 2012" rel="nofollow">May, 2012</a> (<span title="4 articles were published in May, 2012">4</span>)</li>
+     <li><a href="/archive/2012/04" title="All articles written in April, 2012" rel="nofollow">April, 2012</a> (<span title="4 articles were published in April, 2012">4</span>)</li>
+     <li><a href="/archive/2012/03" title="All articles written in March, 2012" rel="nofollow">March, 2012</a> (<span title="2 articles were published in March, 2012">2</span>)</li>
+     <li><a href="/archive/2012/02" title="All articles written in February, 2012" rel="nofollow">February, 2012</a> (<span title="1 articles were published in February, 2012">1</span>)</li>
+     <li><a href="/archive/2012/01" title="All articles written in January, 2012" rel="nofollow">January, 2012</a> (<span title="4 articles were published in January, 2012">4</span>)</li>
+     <li><a href="/archive/2011/12" title="All articles written in December, 2011" rel="nofollow">December, 2011</a> (<span title="15 articles were published in December, 2011">15</span>)</li>
+     <li><a href="/archive/2011/11" title="All articles written in November, 2011" rel="nofollow">November, 2011</a> (<span title="3 articles were published in November, 2011">3</span>)</li>
+     <li><a href="/archive/2011/10" title="All articles written in October, 2011" rel="nofollow">October, 2011</a> (<span title="2 articles were published in October, 2011">2</span>)</li>
+     <li><a href="/archive/2011/09" title="All articles written in September, 2011" rel="nofollow">September, 2011</a> (<span title="2 articles were published in September, 2011">2</span>)</li>
+     <li><a href="/archive/2011/08" title="All articles written in August, 2011" rel="nofollow">August, 2011</a> (<span title="3 articles were published in August, 2011">3</span>)</li>
+     <li><a href="/archive/2011/07" title="All articles written in July, 2011" rel="nofollow">July, 2011</a> (<span title="1 articles were published in July, 2011">1</span>)</li>
+     <li><a href="/archive/2011/06" title="All articles written in June, 2011" rel="nofollow">June, 2011</a> (<span title="2 articles were published in June, 2011">2</span>)</li>
+     <li><a href="/archive/2011/05" title="All articles written in May, 2011" rel="nofollow">May, 2011</a> (<span title="1 articles were published in May, 2011">1</span>)</li>
+     <li><a href="/archive/2011/04" title="All articles written in April, 2011" rel="nofollow">April, 2011</a> (<span title="1 articles were published in April, 2011">1</span>)</li>
+     <li><a href="/archive/2011/03" title="All articles written in March, 2011" rel="nofollow">March, 2011</a> (<span title="2 articles were published in March, 2011">2</span>)</li>
+     <li><a href="/archive/2011/02" title="All articles written in February, 2011" rel="nofollow">February, 2011</a> (<span title="2 articles were published in February, 2011">2</span>)</li>
+     <li><a href="/archive/2011/01" title="All articles written in January, 2011" rel="nofollow">January, 2011</a> (<span title="1 articles were published in January, 2011">1</span>)</li>
+     <li><a href="/archive/2010/12" title="All articles written in December, 2010" rel="nofollow">December, 2010</a> (<span title="2 articles were published in December, 2010">2</span>)</li>
+     <li><a href="/archive/2010/11" title="All articles written in November, 2010" rel="nofollow">November, 2010</a> (<span title="1 articles were published in November, 2010">1</span>)</li>
+     <li><a href="/archive/2010/10" title="All articles written in October, 2010" rel="nofollow">October, 2010</a> (<span title="2 articles were published in October, 2010">2</span>)</li>
+     <li><a href="/archive/2010/09" title="All articles written in September, 2010" rel="nofollow">September, 2010</a> (<span title="1 articles were published in September, 2010">1</span>)</li>
+     <li><a href="/archive/2010/08" title="All articles written in August, 2010" rel="nofollow">August, 2010</a> (<span title="2 articles were published in August, 2010">2</span>)</li>
+     <li><a href="/archive/2010/07" title="All articles written in July, 2010" rel="nofollow">July, 2010</a> (<span title="2 articles were published in July, 2010">2</span>)</li>
+     <li><a href="/archive/2010/06" title="All articles written in June, 2010" rel="nofollow">June, 2010</a> (<span title="2 articles were published in June, 2010">2</span>)</li>
+     <li><a href="/archive/2010/05" title="All articles written in May, 2010" rel="nofollow">May, 2010</a> (<span title="2 articles were published in May, 2010">2</span>)</li>
+     <li><a href="/archive/2010/04" title="All articles written in April, 2010" rel="nofollow">April, 2010</a> (<span title="2 articles were published in April, 2010">2</span>)</li>
+     <li><a href="/archive/2010/03" title="All articles written in March, 2010" rel="nofollow">March, 2010</a> (<span title="5 articles were published in March, 2010">5</span>)</li>
+     <li><a href="/archive/2010/02" title="All articles written in February, 2010" rel="nofollow">February, 2010</a> (<span title="5 articles were published in February, 2010">5</span>)</li>
+     <li><a href="/archive/2010/01" title="All articles written in January, 2010" rel="nofollow">January, 2010</a> (<span title="7 articles were published in January, 2010">7</span>)</li>
+     <li><a href="/archive/2009/12" title="All articles written in December, 2009" rel="nofollow">December, 2009</a> (<span title="6 articles were published in December, 2009">6</span>)</li>
+     <li><a href="/archive/2009/11" title="All articles written in November, 2009" rel="nofollow">November, 2009</a> (<span title="6 articles were published in November, 2009">6</span>)</li>
+     <li><a href="/archive/2009/10" title="All articles written in October, 2009" rel="nofollow">October, 2009</a> (<span title="2 articles were published in October, 2009">2</span>)</li>
+     <li><a href="/archive/2009/09" title="All articles written in September, 2009" rel="nofollow">September, 2009</a> (<span title="3 articles were published in September, 2009">3</span>)</li>
+     <li><a href="/archive/2009/08" title="All articles written in August, 2009" rel="nofollow">August, 2009</a> (<span title="2 articles were published in August, 2009">2</span>)</li>
+     <li><a href="/archive/2009/07" title="All articles written in July, 2009" rel="nofollow">July, 2009</a> (<span title="4 articles were published in July, 2009">4</span>)</li>
+     <li><a href="/archive/2009/06" title="All articles written in June, 2009" rel="nofollow">June, 2009</a> (<span title="1 articles were published in June, 2009">1</span>)</li>
+     <li><a href="/archive/2009/05" title="All articles written in May, 2009" rel="nofollow">May, 2009</a> (<span title="1 articles were published in May, 2009">1</span>)</li>
+     <li><a href="/archive/2009/04" title="All articles written in April, 2009" rel="nofollow">April, 2009</a> (<span title="1 articles were published in April, 2009">1</span>)</li>
+     <li><a href="/archive/2009/03" title="All articles written in March, 2009" rel="nofollow">March, 2009</a> (<span title="2 articles were published in March, 2009">2</span>)</li>
+     <li><a href="/archive/2009/02" title="All articles written in February, 2009" rel="nofollow">February, 2009</a> (<span title="7 articles were published in February, 2009">7</span>)</li>
+     <li><a href="/archive/2009/01" title="All articles written in January, 2009" rel="nofollow">January, 2009</a> (<span title="4 articles were published in January, 2009">4</span>)</li>
+     <li><a href="/archive/2008/12" title="All articles written in December, 2008" rel="nofollow">December, 2008</a> (<span title="8 articles were published in December, 2008">8</span>)</li>
+     <li><a href="/archive/2008/11" title="All articles written in November, 2008" rel="nofollow">November, 2008</a> (<span title="7 articles were published in November, 2008">7</span>)</li>
+     <li><a href="/archive/2008/10" title="All articles written in October, 2008" rel="nofollow">October, 2008</a> (<span title="4 articles were published in October, 2008">4</span>)</li>
+     <li><a href="/archive/2008/09" title="All articles written in September, 2008" rel="nofollow">September, 2008</a> (<span title="5 articles were published in September, 2008">5</span>)</li>
+     <li><a href="/archive/2008/08" title="All articles written in August, 2008" rel="nofollow">August, 2008</a> (<span title="9 articles were published in August, 2008">9</span>)</li>
+     <li><a href="/archive/2008/07" title="All articles written in July, 2008" rel="nofollow">July, 2008</a> (<span title="14 articles were published in July, 2008">14</span>)</li>
+     <li><a href="/archive/2008/06" title="All articles written in June, 2008" rel="nofollow">June, 2008</a> (<span title="4 articles were published in June, 2008">4</span>)</li>
+     <li><a href="/archive/2008/05" title="All articles written in May, 2008" rel="nofollow">May, 2008</a> (<span title="5 articles were published in May, 2008">5</span>)</li>
+     <li><a href="/archive/2008/04" title="All articles written in April, 2008" rel="nofollow">April, 2008</a> (<span title="8 articles were published in April, 2008">8</span>)</li>
+     <li><a href="/archive/2008/03" title="All articles written in March, 2008" rel="nofollow">March, 2008</a> (<span title="3 articles were published in March, 2008">3</span>)</li>
+     <li><a href="/archive/2008/02" title="All articles written in February, 2008" rel="nofollow">February, 2008</a> (<span title="1 articles were published in February, 2008">1</span>)</li>
+     <li><a href="/archive/2008/01" title="All articles written in January, 2008" rel="nofollow">January, 2008</a> (<span title="1 articles were published in January, 2008">1</span>)</li>
+     <li><a href="/archive/2007/12" title="All articles written in December, 2007" rel="nofollow">December, 2007</a> (<span title="1 articles were published in December, 2007">1</span>)</li>
+     <li><a href="/archive/2007/11" title="All articles written in November, 2007" rel="nofollow">November, 2007</a> (<span title="1 articles were published in November, 2007">1</span>)</li>
+     <li><a href="/archive/2007/10" title="All articles written in October, 2007" rel="nofollow">October, 2007</a> (<span title="3 articles were published in October, 2007">3</span>)</li>
+     <li><a href="/archive/2007/09" title="All articles written in September, 2007" rel="nofollow">September, 2007</a> (<span title="5 articles were published in September, 2007">5</span>)</li>
+     <li><a href="/archive/2007/08" title="All articles written in August, 2007" rel="nofollow">August, 2007</a> (<span title="10 articles were published in August, 2007">10</span>)</li>
+     <li><a href="/archive/2007/07" title="All articles written in July, 2007" rel="nofollow">July, 2007</a> (<span title="9 articles were published in July, 2007">9</span>)</li>
+    </ul>
+    <p class="moreinfo">
+      <a href="/archive" title="All catonmat articles">See more detailed list of all articles</a>
+    </p>
+  </div>
+</div>
+
+<div class="item">
+  <div class="title">Advertisements</div>
+  <div class="content">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- 160x600, catonmat sidebar, created 2/15/09 -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:160px;height:600px"
+         data-ad-client="ca-pub-0433925538517663"
+         data-ad-slot="2288848838"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+</div>
+
+
+<!-- end sidebar.tmpl.html -->
+
+
+
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div id="footer">
+        
+  <center>
+<a href="http://www.amazon.com/The-Little-Schemer-4th-Edition/dp/0262560992?tag=catonmat-20"><img src="/static/img/jelly-stains.gif"></a>
+<br>
+<a href="/advertise">(advertise on catonmat)</a>
+</center>
+
+
+      </div>
+    </div>
+
+<!-- google analytics -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  var id1 = (1093316+16)/4;
+  var id2 = (81-4)/77;
+
+  _gaq.push(['_set' + 'Account', 'U' + 'A-' + id1 + '-' + id2]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<!-- google plus -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=3189873;
+var sc_invisible=1;
+var sc_security="dc7255a7";
+</script>
+
+<script type="text/javascript" src="http://www.statcounter.com/counter/counter_xhtml.js"></script><noscript><div class="statcounter"><a title="tumblr tracker" class="statcounter" href="http://statcounter.com/tumblr/"><img class="statcounter" src="http://c.statcounter.com/3189873/0/dc7255a7/1/" alt="tumblr tracker" /></a></div></noscript>
+<!-- End of StatCounter Code -->
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

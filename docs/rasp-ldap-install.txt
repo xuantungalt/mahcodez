@@ -1,0 +1,53 @@
+#@ http://www.ducky-pond.com/posts/2012/Jul/installing-an-ldap-server-on-rpi/
+
+Server Setup
+The first thing we want to do is actually install slapd which provides the LDAP serving and ldap-utils which is a set of tools for testing and connecting to LDAP.
+
+$ sudo apt-get install slapd ldap-utils
+# Configure
+$ sudo dpkg-reconfigure slapd
+$ vim /etc/ldap/ldap.conf
+$ sudo service slapd restart
+
+
+And with that our actual LDAP server is up and running now, but we need an easy way to manage it. Next we'll install PHP, Nginx, and phpldapadmin so that we can manage our LDAP server using a web interface. We're also going to install APC for PHP while we're at it. This will help reduce the amount of recompiling that PHP does when we request web pages.
+
+$ sudo apt-get install php5-fpm php5-cli php5-ldap php-apc phpldapadmin nginx
+$ sudo nano /etc/phpldapadmin/config.php
+We need to look for the following lines and modify them slightly.
+
+//Original line
+$servers->setValue('server','base',array('dc=example,dc=com'));
+//Change to this domain so it matches yours like below
+$servers->setValue('server','base',array('dc=ducky-pond,dc=lan'));
+
+//Original line
+$servers->setValue('login','bind_id','cn=admin,dc=example,dc=com');
+//Change the line so it matches your LDAP admin user, my example below
+$servers->setValue('login','bind_id','cn=admin,dc=ducky-pond,dc=lan');
+
+
+Client Setup
+For setting up the client I'm going to just use the server we just setup LDAP on but you could perform these same steps for any Debian installation that you want to authenticate against LDAP.
+The process of setting up a client for LDAP authentication used to be more manual, thankfully it's lot easier to do. We'll need to run the command below to install two packages which will get things going.
+
+$ sudo apt-get install libpam-ldapd libnss-ldapd
+# Configure
+$ sudo dpkg-reconfigure libnss-ldapd # to reconfigure
+$ vim /etc/nslcd.conf
+$ vim /etc/nscd.conf
+$ sudo service nslcd restart
+$ sudo service nscd restart
+
+
+At the first screen we need to enter the LDAP server address (port is optional). Since I'm doing this on the LDAP server I'm using the localhost address.
+
+
+Now we need to open /etc/pam.d/common-session and the add the following line. What this will do is create the LDAP users home directories upon login if they don't exist.
+# session required pam_mkhomedir.so umask=0022 skel=/etc/skel
+At this point LDAP client authentication is setup, so if we run the following command you should see the user you added to the LDAP server previously at the bottom of the output.
+
+$ sudo getent passwd
+
+--> Refer to rasp-ldap-ssh-access.html for more info if get invalid user in /var/log/auth.log
+IMPORTANT: ldap FQDN must be defined in host

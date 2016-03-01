@@ -1,0 +1,2240 @@
+<!DOCTYPE html>
+<html class='v2' dir='ltr'>
+<head>
+<meta content='width=1100' name='viewport'/>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+<script type="text/javascript">(function() { (function(){function c(a){this.t={};this.tick=function(a,c,b){var d=void 0!=b?b:(new Date).getTime();this.t[a]=[d,c];if(void 0==b)try{window.console.timeStamp("CSI/"+a)}catch(e){}};this.tick("start",null,a)}var a;window.performance&&(a=window.performance.timing);var h=a?new c(a.responseStart):new c;window.jstiming={Timer:c,load:h};if(a){var b=a.navigationStart,e=a.responseStart;0<b&&e>=b&&(window.jstiming.srt=e-b)}if(a){var d=window.jstiming.load;0<b&&e>=b&&(d.tick("_wtsrt",void 0,b),d.tick("wtsrt_",
+"_wtsrt",e),d.tick("tbsd_","wtsrt_"))}try{a=null,window.chrome&&window.chrome.csi&&(a=Math.floor(window.chrome.csi().pageT),d&&0<b&&(d.tick("_tbnd",void 0,window.chrome.csi().startE),d.tick("tbnd_","_tbnd",b))),null==a&&window.gtbExternal&&(a=window.gtbExternal.pageT()),null==a&&window.external&&(a=window.external.pageT,d&&0<b&&(d.tick("_tbnd",void 0,window.external.startE),d.tick("tbnd_","_tbnd",b))),a&&(window.jstiming.pt=a)}catch(k){}})();window.tickAboveFold=function(c){var a=0;if(c.offsetParent){do a+=c.offsetTop;while(c=c.offsetParent)}c=a;750>=c&&window.jstiming.load.tick("aft")};var f=!1;function g(){f||(f=!0,window.jstiming.load.tick("firstScrollTime"))}window.addEventListener?window.addEventListener("scroll",g,!1):window.attachEvent("onscroll",g);
+ })();</script>
+<meta content='blogger' name='generator'/>
+<link href='http://gagsap37.blogspot.com/favicon.ico' rel='icon' type='image/x-icon'/>
+<link href='http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html' rel='canonical'/>
+<link rel="alternate" type="application/atom+xml" title="gagsap37 - Atom" href="http://gagsap37.blogspot.com/feeds/posts/default" />
+<link rel="alternate" type="application/rss+xml" title="gagsap37 - RSS" href="http://gagsap37.blogspot.com/feeds/posts/default?alt=rss" />
+<link rel="service.post" type="application/atom+xml" title="gagsap37 - Atom" href="https://www.blogger.com/feeds/8446679048775031519/posts/default" />
+
+<link rel="alternate" type="application/atom+xml" title="gagsap37 - Atom" href="http://gagsap37.blogspot.com/feeds/4161111687404077445/comments/default" />
+<!--[if IE]><script type="text/javascript" src="https://www.blogger.com/static/v1/jsbin/1494333581-ieretrofit.js"></script>
+<![endif]-->
+<link href='http://3.bp.blogspot.com/-8Kxr8oYNV88/VZi71w1BKMI/AAAAAAAAB40/yp9ZItqqHF4/s640/proxy-setup-firefox.jpg' rel='image_src'/>
+<!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+<title>gagsap37: Setting up Squid (3) Transparent Proxy on Raspberry Pi </title>
+<link type='text/css' rel='stylesheet' href='https://www.blogger.com/static/v1/widgets/2973171168-css_bundle_v2.css' />
+<link type='text/css' rel='stylesheet' href='//www.google.com/uds/css/gsearch.css' />
+<link type='text/css' rel='stylesheet' href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=8446679048775031519&zx=a34aa164-0049-4e12-a7d5-ebc056a43b44' />
+<style id='page-skin-1' type='text/css'><!--
+/*
+-----------------------------------------------
+Blogger Template Style
+Name:     Travel
+Designer: Sookhee Lee
+URL:      www.plyfly.net
+----------------------------------------------- */
+/* Variable definitions
+====================
+<Variable name="keycolor" description="Main Color" type="color" default="#539bcd"/>
+<Group description="Page Text" selector="body">
+<Variable name="body.font" description="Font" type="font"
+default="normal normal 13px 'Trebuchet MS',Trebuchet,sans-serif"/>
+<Variable name="body.text.color" description="Text Color" type="color" default="#bbbbbb"/>
+</Group>
+<Group description="Backgrounds" selector=".body-fauxcolumns-outer">
+<Variable name="body.background.color" description="Outer Background" type="color" default="#539bcd"/>
+<Variable name="content.background.color" description="Main Background" type="color" default="transparent"/>
+</Group>
+<Group description="Links" selector=".main-outer">
+<Variable name="link.color" description="Link Color" type="color" default="#ff9900"/>
+<Variable name="link.visited.color" description="Visited Color" type="color" default="#b87209"/>
+<Variable name="link.hover.color" description="Hover Color" type="color" default="#ff9900"/>
+</Group>
+<Group description="Blog Title" selector=".header h1">
+<Variable name="header.font" description="Font" type="font"
+default="normal normal 60px 'Trebuchet MS',Trebuchet,sans-serif"/>
+<Variable name="header.text.color" description="Text Color" type="color" default="#ffffff" />
+</Group>
+<Group description="Blog Description" selector=".header .description">
+<Variable name="description.text.color" description="Description Color" type="color"
+default="#b4b4b4" />
+</Group>
+<Group description="Tabs Text" selector=".tabs-inner .widget li a">
+<Variable name="tabs.font" description="Font" type="font"
+default="normal bold 16px 'Trebuchet MS',Trebuchet,sans-serif"/>
+<Variable name="tabs.text.color" description="Text Color" type="color" default="#ffffff"/>
+<Variable name="tabs.selected.text.color" description="Selected Color" type="color" default="#ffffff"/>
+</Group>
+<Group description="Tabs Background" selector=".tabs-outer .PageList">
+<Variable name="tabs.background.color" description="Background Color" type="color" default="transparent"/>
+<Variable name="tabs.selected.background.color" description="Selected Color" type="color" default="transparent"/>
+</Group>
+<Group description="Date Header" selector=".main-inner h2.date-header">
+<Variable name="date.font" description="Font" type="font"
+default="normal normal 14px 'Trebuchet MS',Trebuchet,sans-serif"/>
+<Variable name="date.text.color" description="Text Color" type="color" default="#b4b4b4"/>
+</Group>
+<Group description="Post Title" selector="h3.post-title a">
+<Variable name="post.title.font" description="Font" type="font"
+default="normal bold 20px 'Trebuchet MS',Trebuchet,sans-serif"/>
+<Variable name="post.title.text.color" description="Text Color" type="color"
+default="#ffffff"/>
+</Group>
+<Group description="Post Background" selector=".column-center-inner">
+<Variable name="post.background.color" description="Background Color" type="color"
+default="transparent"/>
+<Variable name="post.background.url" description="Post Background URL" type="url" default="none"/>
+</Group>
+<Group description="Gadget Title Color" selector="h2">
+<Variable name="widget.title.font" description="Font" type="font"
+default="normal bold 14px 'Trebuchet MS',Trebuchet,sans-serif"/>
+<Variable name="widget.title.text.color" description="Title Color" type="color" default="#ffffff"/>
+</Group>
+<Group description="Gadget Text" selector=".footer-inner .widget, .sidebar .widget">
+<Variable name="widget.font" description="Font" type="font"
+default="normal normal 13px 'Trebuchet MS',Trebuchet,sans-serif"/>
+<Variable name="widget.text.color" description="Text Color" type="color" default="#b4b4b4"/>
+</Group>
+<Group description="Gadget Links" selector=".sidebar .widget">
+<Variable name="widget.link.color" description="Link Color" type="color" default="#b4b4b4"/>
+<Variable name="widget.link.visited.color" description="Visited Color" type="color" default="#787d06"/>
+<Variable name="widget.alternate.text.color" description="Alternate Color" type="color" default="#ffffff"/>
+</Group>
+<Group description="Sidebar Background" selector=".column-left-inner .column-right-inner">
+<Variable name="widget.outer.background.color" description="Background Color" type="color" default="transparent" />
+<Variable name="widget.border.bevel.color" description="Bevel Color" type="color" default="transparent" />
+</Group>
+<Variable name="body.background" description="Body Background" type="background"
+color="#4256c8" default="$(color) none repeat-x scroll top center"/>
+<Variable name="content.background" description="Content Background" type="background"
+color="transparent" default="$(color) none repeat scroll top center"/>
+<Variable name="comments.background" description="Comments Background" type="background"
+default="#cccccc none repeat scroll top center"/>
+<Variable name="content.imageBorder.top.space" description="Content Image Border Top Space" type="length" default="0" min="0" max="100px"/>
+<Variable name="content.imageBorder.top" description="Content Image Border Top" type="url" default="none"/>
+<Variable name="content.margin" description="Content Margin Top" type="length" default="20px" min="0" max="100px"/>
+<Variable name="content.padding" description="Content Padding" type="length" default="20px" min="0" max="100px"/>
+<Variable name="content.posts.padding" description="Posts Content Padding" type="length" default="10px" min="0" max="100px"/>
+<Variable name="tabs.background.gradient" description="Tabs Background Gradient" type="url"
+default="url(//www.blogblog.com/1kt/travel/bg_black_50.png)"/>
+<Variable name="tabs.selected.background.gradient" description="Tabs Selected Background Gradient" type="url"
+default="url(//www.blogblog.com/1kt/travel/bg_black_50.png)"/>
+<Variable name="widget.outer.background.gradient" description="Sidebar Gradient" type="url"
+default="url(//www.blogblog.com/1kt/travel/bg_black_50.png)"/>
+<Variable name="footer.background.gradient" description="Footer Background Gradient" type="url" default="none"/>
+<Variable name="mobile.background.overlay" description="Mobile Background Overlay" type="string"
+default="transparent none repeat scroll top left"/>
+<Variable name="mobile.button.color" description="Mobile Button Color" type="color" default="#ffffff" />
+<Variable name="startSide" description="Side where text starts in blog language" type="automatic" default="left"/>
+<Variable name="endSide" description="Side where text ends in blog language" type="automatic" default="right"/>
+*/
+/* Content
+----------------------------------------------- */
+body {
+font: normal normal 13px 'Trebuchet MS',Trebuchet,sans-serif;
+color: #b4b4b4;
+background: #212c6a url(//themes.googleusercontent.com/image?id=1hCfLZuvAMTaPFcYWfwMqSUvHQ40WoSRINV1LYkgf4RuUOJ_E3-iX-hl2rlpon2quJCUu) no-repeat fixed top center /* Credit: RBFried (http://www.istockphoto.com/googleimages.php?id=2524046&platform=blogger) */;
+}
+html body .region-inner {
+min-width: 0;
+max-width: 100%;
+width: auto;
+}
+a:link {
+text-decoration:none;
+color: #d9e200;
+}
+a:visited {
+text-decoration:none;
+color: #787d06;
+}
+a:hover {
+text-decoration:underline;
+color: #d9e200;
+}
+.content-outer .content-cap-top {
+height: 0;
+background: transparent none repeat-x scroll top center;
+}
+.content-outer {
+margin: 0 auto;
+padding-top: 20px;
+}
+.content-inner {
+background: transparent url(//blogblog.com/1kt/travel/bg_black_70.png) repeat scroll top left;
+background-position: left -0;
+background-color: transparent;
+padding: 20px;
+}
+.main-inner .date-outer {
+margin-bottom: 2em;
+}
+/* Header
+----------------------------------------------- */
+.header-inner .Header .titlewrapper,
+.header-inner .Header .descriptionwrapper {
+padding-left: 10px;
+padding-right: 10px;
+}
+.Header h1 {
+font: normal normal 60px 'Trebuchet MS',Trebuchet,sans-serif;
+color: #ffffff;
+}
+.Header h1 a {
+color: #ffffff;
+}
+.Header .description {
+font-size: 130%;
+}
+/* Tabs
+----------------------------------------------- */
+.tabs-inner {
+margin: 1em 0 0;
+padding: 0;
+}
+.tabs-inner .section {
+margin: 0;
+}
+.tabs-inner .widget ul {
+padding: 0;
+background: transparent url(//www.blogblog.com/1kt/travel/bg_black_50.png) repeat scroll top center;
+}
+.tabs-inner .widget li {
+border: none;
+}
+.tabs-inner .widget li a {
+display: inline-block;
+padding: 1em 1.5em;
+color: #ffffff;
+font: normal bold 16px 'Trebuchet MS',Trebuchet,sans-serif;
+}
+.tabs-inner .widget li.selected a,
+.tabs-inner .widget li a:hover {
+position: relative;
+z-index: 1;
+background: transparent url(//www.blogblog.com/1kt/travel/bg_black_50.png) repeat scroll top center;
+color: #ffffff;
+}
+/* Headings
+----------------------------------------------- */
+h2 {
+font: normal bold 14px 'Trebuchet MS',Trebuchet,sans-serif;
+color: #ffffff;
+}
+.main-inner h2.date-header {
+font: normal normal 14px 'Trebuchet MS',Trebuchet,sans-serif;
+color: #b4b4b4;
+}
+.footer-inner .widget h2,
+.sidebar .widget h2 {
+padding-bottom: .5em;
+}
+/* Main
+----------------------------------------------- */
+.main-inner {
+padding: 20px 0;
+}
+.main-inner .column-center-inner {
+padding: 10px 0;
+}
+.main-inner .column-center-inner .section {
+margin: 0 10px;
+}
+.main-inner .column-right-inner {
+margin-left: 20px;
+}
+.main-inner .fauxcolumn-right-outer .fauxcolumn-inner {
+margin-left: 20px;
+background: transparent url(//www.blogblog.com/1kt/travel/bg_black_50.png) repeat scroll top left;
+}
+.main-inner .column-left-inner {
+margin-right: 20px;
+}
+.main-inner .fauxcolumn-left-outer .fauxcolumn-inner {
+margin-right: 20px;
+background: transparent url(//www.blogblog.com/1kt/travel/bg_black_50.png) repeat scroll top left;
+}
+.main-inner .column-left-inner,
+.main-inner .column-right-inner {
+padding: 15px 0;
+}
+/* Posts
+----------------------------------------------- */
+h3.post-title {
+margin-top: 20px;
+}
+h3.post-title a {
+font: normal bold 20px 'Trebuchet MS',Trebuchet,sans-serif;
+color: #ffffff;
+}
+h3.post-title a:hover {
+text-decoration: underline;
+}
+.main-inner .column-center-outer {
+background: transparent none repeat scroll top left;
+_background-image: none;
+}
+.post-body {
+line-height: 1.4;
+position: relative;
+}
+.post-header {
+margin: 0 0 1em;
+line-height: 1.6;
+}
+.post-footer {
+margin: .5em 0;
+line-height: 1.6;
+}
+#blog-pager {
+font-size: 140%;
+}
+#comments {
+background: transparent url(//blogblog.com/1kt/travel/bg_black_50.png) repeat scroll top center;
+padding: 15px;
+}
+#comments .comment-author {
+padding-top: 1.5em;
+}
+#comments h4,
+#comments .comment-author a,
+#comments .comment-timestamp a {
+color: #ffffff;
+}
+#comments .comment-author:first-child {
+padding-top: 0;
+border-top: none;
+}
+.avatar-image-container {
+margin: .2em 0 0;
+}
+/* Comments
+----------------------------------------------- */
+#comments a {
+color: #ffffff;
+}
+.comments .comments-content .icon.blog-author {
+background-repeat: no-repeat;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB9sLFwMeCjjhcOMAAAD+SURBVDjLtZSvTgNBEIe/WRRnm3U8RC1neQdsm1zSBIU9VVF1FkUguQQsD9ITmD7ECZIJSE4OZo9stoVjC/zc7ky+zH9hXwVwDpTAWWLrgS3QAe8AZgaAJI5zYAmc8r0G4AHYHQKVwII8PZrZFsBFkeRCABYiMh9BRUhnSkPTNCtVXYXURi1FpBDgArj8QU1eVXUzfnjv7yP7kwu1mYrkWlU33vs1QNu2qU8pwN0UpKoqokjWwCztrMuBhEhmh8bD5UDqur75asbcX0BGUB9/HAMB+r32hznJgXy2v0sGLBcyAJ1EK3LFcbo1s91JeLwAbwGYu7TP/3ZGfnXYPgAVNngtqatUNgAAAABJRU5ErkJggg==);
+}
+.comments .comments-content .loadmore a {
+border-top: 1px solid #ffffff;
+border-bottom: 1px solid #ffffff;
+}
+.comments .comment-thread.inline-thread {
+background: transparent;
+}
+.comments .continue {
+border-top: 2px solid #ffffff;
+}
+/* Widgets
+----------------------------------------------- */
+.sidebar .widget {
+border-bottom: 2px solid transparent;
+padding-bottom: 10px;
+margin: 10px 0;
+}
+.sidebar .widget:first-child {
+margin-top: 0;
+}
+.sidebar .widget:last-child {
+border-bottom: none;
+margin-bottom: 0;
+padding-bottom: 0;
+}
+.footer-inner .widget,
+.sidebar .widget {
+font: normal normal 13px 'Trebuchet MS',Trebuchet,sans-serif;
+color: #b4b4b4;
+}
+.sidebar .widget a:link {
+color: #b4b4b4;
+text-decoration: none;
+}
+.sidebar .widget a:visited {
+color: #787d06;
+}
+.sidebar .widget a:hover {
+color: #b4b4b4;
+text-decoration: underline;
+}
+.footer-inner .widget a:link {
+color: #d9e200;
+text-decoration: none;
+}
+.footer-inner .widget a:visited {
+color: #787d06;
+}
+.footer-inner .widget a:hover {
+color: #d9e200;
+text-decoration: underline;
+}
+.widget .zippy {
+color: #ffffff;
+}
+.footer-inner {
+background: transparent none repeat scroll top center;
+}
+/* Mobile
+----------------------------------------------- */
+body.mobile  {
+background-size: 100% auto;
+}
+body.mobile .AdSense {
+margin: 0 -10px;
+}
+.mobile .body-fauxcolumn-outer {
+background: transparent none repeat scroll top left;
+}
+.mobile .footer-inner .widget a:link {
+color: #b4b4b4;
+text-decoration: none;
+}
+.mobile .footer-inner .widget a:visited {
+color: #787d06;
+}
+.mobile-post-outer a {
+color: #ffffff;
+}
+.mobile-link-button {
+background-color: #d9e200;
+}
+.mobile-link-button a:link, .mobile-link-button a:visited {
+color: #ffffff;
+}
+.mobile-index-contents {
+color: #b4b4b4;
+}
+.mobile .tabs-inner .PageList .widget-content {
+background: transparent url(//www.blogblog.com/1kt/travel/bg_black_50.png) repeat scroll top center;
+color: #ffffff;
+}
+.mobile .tabs-inner .PageList .widget-content .pagelist-arrow {
+border-left: 1px solid #ffffff;
+}
+
+--></style>
+<style id='template-skin-1' type='text/css'><!--
+body {
+min-width: 960px;
+}
+.content-outer, .content-fauxcolumn-outer, .region-inner {
+min-width: 960px;
+max-width: 960px;
+_width: 960px;
+}
+.main-inner .columns {
+padding-left: 0;
+padding-right: 310px;
+}
+.main-inner .fauxcolumn-center-outer {
+left: 0;
+right: 310px;
+/* IE6 does not respect left and right together */
+_width: expression(this.parentNode.offsetWidth -
+parseInt("0") -
+parseInt("310px") + 'px');
+}
+.main-inner .fauxcolumn-left-outer {
+width: 0;
+}
+.main-inner .fauxcolumn-right-outer {
+width: 310px;
+}
+.main-inner .column-left-outer {
+width: 0;
+right: 100%;
+margin-left: -0;
+}
+.main-inner .column-right-outer {
+width: 310px;
+margin-right: -310px;
+}
+#layout {
+min-width: 0;
+}
+#layout .content-outer {
+min-width: 0;
+width: 800px;
+}
+#layout .region-inner {
+min-width: 0;
+width: auto;
+}
+--></style>
+<script type="text/javascript">var a="&m=1",d="(^|&)m=",e="?",f="?m=1";function g(){var b=window.location.href,c=b.split(e);switch(c.length){case 1:return b+f;case 2:return 0<=c[1].search(d)?null:b+a;default:return null}}var h=navigator.userAgent;if(-1!=h.indexOf("Mobile")&&-1!=h.indexOf("WebKit")&&-1==h.indexOf("iPad")||-1!=h.indexOf("Opera Mini")||-1!=h.indexOf("IEMobile")){var k=g();k&&window.location.replace(k)};
+</script><script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('headEnd');
+</script></head>
+<body class='loading variant-studio'>
+<div class='navbar section' id='navbar' name='Navbar'><div class='widget Navbar' id='Navbar1'><script type="text/javascript">
+    function setAttributeOnload(object, attribute, val) {
+      if(window.addEventListener) {
+        window.addEventListener('load',
+          function(){ object[attribute] = val; }, false);
+      } else {
+        window.attachEvent('onload', function(){ object[attribute] = val; });
+      }
+    }
+  </script>
+<div id="navbar-iframe-container"></div>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+        gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
+          if (gapi.iframes && gapi.iframes.getContext) {
+            gapi.iframes.getContext().openChild({
+                url: 'https://www.blogger.com/navbar.g?targetBlogID\758446679048775031519\46blogName\75gagsap37\46publishMode\75PUBLISH_MODE_BLOGSPOT\46navbarType\75LIGHT\46layoutType\75LAYOUTS\46searchRoot\75//gagsap37.blogspot.com/search\46blogLocale\75en\46v\0752\46homepageUrl\75http://gagsap37.blogspot.com/\46targetPostID\0754161111687404077445\46blogPostOrPageUrl\75http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html\46vt\75-4212929453693650973',
+                where: document.getElementById("navbar-iframe-container"),
+                id: "navbar-iframe"
+            });
+          }
+        });
+      </script><script type="text/javascript">
+(function() {
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = '//pagead2.googlesyndication.com/pagead/js/google_top_exp.js';
+var head = document.getElementsByTagName('head')[0];
+if (head) {
+head.appendChild(script);
+}})();
+</script>
+</div></div>
+<div class='body-fauxcolumns'>
+<div class='fauxcolumn-outer body-fauxcolumn-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</div>
+<div class='content'>
+<div class='content-fauxcolumns'>
+<div class='fauxcolumn-outer content-fauxcolumn-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</div>
+<div class='content-outer'>
+<div class='content-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left content-fauxborder-left'>
+<div class='fauxborder-right content-fauxborder-right'></div>
+<div class='content-inner'>
+<header>
+<div class='header-outer'>
+<div class='header-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left header-fauxborder-left'>
+<div class='fauxborder-right header-fauxborder-right'></div>
+<div class='region-inner header-inner'>
+<div class='header section' id='header' name='Header'><div class='widget Header' id='Header1'>
+<div id='header-inner'>
+<div class='titlewrapper'>
+<h1 class='title'>
+<a href='http://gagsap37.blogspot.com/'>gagsap37</a>
+</h1>
+</div>
+<div class='descriptionwrapper'>
+<p class='description'><span>a little bit of everything about oracle, mysql, postgresql, hadoop, linux, raspberry pi, and me.</span></p>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class='header-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</header>
+<div class='tabs-outer'>
+<div class='tabs-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left tabs-fauxborder-left'>
+<div class='fauxborder-right tabs-fauxborder-right'></div>
+<div class='region-inner tabs-inner'>
+<div class='tabs section' id='crosscol' name='Cross-Column'></div>
+<div class='tabs section' id='crosscol-overflow' name='Cross-Column 2'></div>
+</div>
+</div>
+<div class='tabs-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<div class='main-outer'>
+<div class='main-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left main-fauxborder-left'>
+<div class='fauxborder-right main-fauxborder-right'></div>
+<div class='region-inner main-inner'>
+<div class='columns fauxcolumns'>
+<div class='fauxcolumn-outer fauxcolumn-center-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<div class='fauxcolumn-outer fauxcolumn-left-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<div class='fauxcolumn-outer fauxcolumn-right-outer'>
+<div class='cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left'>
+<div class='fauxborder-right'></div>
+<div class='fauxcolumn-inner'>
+</div>
+</div>
+<div class='cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<!-- corrects IE6 width calculation -->
+<div class='columns-inner'>
+<div class='column-center-outer'>
+<div class='column-center-inner'>
+<div class='main section' id='main' name='Main'><div class='widget Blog' id='Blog1'>
+<div class='blog-posts hfeed'>
+
+          <div class="date-outer">
+        
+<h2 class='date-header'><span>Sunday, July 5, 2015</span></h2>
+
+          <div class="date-posts">
+        
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='http://3.bp.blogspot.com/-8Kxr8oYNV88/VZi71w1BKMI/AAAAAAAAB40/yp9ZItqqHF4/s640/proxy-setup-firefox.jpg' itemprop='image_url'/>
+<meta content='8446679048775031519' itemprop='blogId'/>
+<meta content='4161111687404077445' itemprop='postId'/>
+<a name='4161111687404077445'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+Setting up Squid (3) Transparent Proxy on Raspberry Pi 
+</h3>
+<div class='post-header'>
+<div class='post-header-line-1'></div>
+</div>
+<div class='post-body entry-content' id='post-body-4161111687404077445' itemprop='description articleBody'>
+<br />
+<b>Here are the steps on how I setup squid (3) transparent proxy on raspberry pi.</b><br />
+<br />
+Update the package list<br />
+<br />
+<span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;">sudo apt-get update</span></span><br />
+<br />
+Install squid3 package<br />
+<br />
+<span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;">sudo apt-get install squid3</span></span><br />
+<br />
+I'll be using a different directory for cache and logs to save some space on my sdcard. For steps on how to use and automount flash drive on raspberry pi you can follow this guide:<br />
+<br />
+<a href="http://gagsap37.blogspot.com/2013/09/automount-usb-flash-drive-on-raspbian.html">http://gagsap37.blogspot.com/2013/09/automount-usb-flash-drive-on-raspbian.html</a><br />
+<br />
+Create the directory where the cache and logs will be saved. Here my mountpoint is <b>/mnt/usbdrive</b><br />
+<br />
+<span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;">mkdir -p&nbsp; /mnt/usbdrive/proxy/cache<br />mkdir -p&nbsp; /mnt/usbdrive/proxy/logs</span></span><br />
+<br />
+change owner &amp; group of proxy directory to proxy:proxy<br />
+<br />
+<span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;">cd /mnt/usbdrive<br />chown -Rv proxy:proxy proxy</span></span><br />
+<br />
+Edit the squid3 configuration file "/etc/squid3/squid.conf"<br />
+<br />
+<span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;">sudo nano /etc/squid3/squid.conf</span></span><br />
+<br />
+Here is my squid.conf file and I highlighted the lines that I've change<br />
+<br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;">acl manager proto cache_object<br />acl localhost src 127.0.0.1/32 ::1<br />acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br /><span style="color: lime;">acl localnet src 192.168.137.0/24 #change this to reflect my network settings usually this is 192.168.0.0</span><br />acl SSL_ports port 443<br />acl Safe_ports port 80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # http<br />acl Safe_ports port 21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # ftp<br />acl Safe_ports port 443&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # https<br />acl Safe_ports port 70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # gopher<br />acl Safe_ports port 210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # wais<br />acl Safe_ports port 1025-65535&nbsp; # unregistered ports<br />acl Safe_ports port 280&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # http-mgmt<br />acl Safe_ports port 488&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # gss-http<br />acl Safe_ports port 591&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # filemaker<br />acl Safe_ports port 777&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # multiling http<br />acl CONNECT method CONNECT<br />http_access allow manager localhost<br />http_access deny manager<br />http_access deny !Safe_ports<br />http_access deny CONNECT !SSL_ports<br />http_access allow localhost<br /><span style="color: lime;">http_access allow localnet #tells squid to allow any client on my network to use the proxy service</span><br />http_access deny all<br /><span style="color: lime;">http_port 3128 transparent #add the keywork transparent to enable tranparent proxy</span></span><br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">&nbsp;</span><br /><span style="color: lime;">cache_dir ufs /mnt/usbdrive/proxy/cache 2048 16 256 #points cache_dir to the directory on my flash drive</span><br /><span style="color: lime;">maximum_object_size 51200 KB #adjust the size of the objects to be cache on the proxy server anything larger will not be cache</span><br /><span style="color: lime;">access_log /mnt/usbdrive/proxy/logs/access.log squid </span></span><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">#points access_log to the directory on my flash drive</span></span></span><br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">cache_store_log /mnt/usbdrive/proxy/logs/store.log</span> </span><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">#points cache_store_log to the directory on my flash drive</span></span></span><br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">cache_log /mnt/usbdrive/proxy/logs/cache.log </span></span><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">#points cache_log to the directory on my flash drive</span></span></span><br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">coredump_dir /mnt/usbdrive/proxy/ </span></span><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">#points </span></span></span></span></span><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><span style="color: lime;">coredump_dir</span></span> to the directory on my flash drive</span></span></span></span> <br />refresh_pattern ^ftp:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1440&nbsp;&nbsp;&nbsp; 20%&nbsp;&nbsp;&nbsp;&nbsp; 10080<br />refresh_pattern ^gopher:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1440&nbsp;&nbsp;&nbsp; 0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1440<br />refresh_pattern -i (/cgi-bin/|\?) 0&nbsp;&nbsp;&nbsp;&nbsp; 0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0<br />refresh_pattern .&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 20%&nbsp;&nbsp;&nbsp;&nbsp; 4320<br /><span style="color: lime;">dns_nameservers 192.168.137.1 #points squid to use the caching dns that is setup on my router</span></span><br />
+<br />
+Save.<br />
+<br />
+initialize the cache directory<br />
+<br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;">sudo squid3 &#8211;z&nbsp;</span><br />
+<br />
+start the squid3 server<br />
+<br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;">sudo service squid3 start</span><br />
+<br />
+Test squid by pointing your browsers proxy setting to the raspberry pi ip address then set the port to 3128.<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://3.bp.blogspot.com/-8Kxr8oYNV88/VZi71w1BKMI/AAAAAAAAB40/yp9ZItqqHF4/s1600/proxy-setup-firefox.jpg" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="384" src="http://3.bp.blogspot.com/-8Kxr8oYNV88/VZi71w1BKMI/AAAAAAAAB40/yp9ZItqqHF4/s640/proxy-setup-firefox.jpg" width="640" /></a></div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+Try to browse somewebsite and see if its working.<br />
+<br />
+We can also take a look at the access log to see.:<br />
+<br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;">tail -f /mnt/usbdrive/proxy/log/access.log</span><br />
+<br />
+sample output:<br />
+<span style="font-size: x-small;"><br /></span>
+<span style="font-size: x-small;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;">1436073354.688&nbsp;&nbsp; 6429 192.168.137.17 TCP_MISS/200 293 GET http://aax.amazon-adsystem.com/e/dtb/bid? - DIRECT/54.240.250.205 text/javascript<br />1436073354.743&nbsp;&nbsp;&nbsp; 247 192.168.137.17 TCP_MISS/200 6529 GET http://www.google.com/jsapi - DIRECT/122.2.152.251 text/javascript<br />1436073354.760&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 192.168.137.17 TCP_MEM_HIT/200 4602 GET http://pad2.whstatic.com/images/thumb/9/91/Dissuade-Yourself-from-Becoming-a-Blogger-Step-4-Version-2.jpg/-crop-127-140-127px-Dissuade-Yourself-from-Becoming-a-Blogger-Step-4-Version-2.jpg - NONE/- image/jpeg<br />1436073354.763&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 192.168.137.17 TCP_MEM_HIT/200 7126 GET http://pad2.whstatic.com/images/thumb/a/aa/Make-Your-Blog-Content-Scannable-Step-10.jpg/-crop-127-140-127px-Make-Your-Blog-Content-Scannable-Step-10.jpg - NONE/- image/jpeg<br />1436073354.766&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 192.168.137.17 TCP_MEM_HIT/200 5734 GET http://pad1.whstatic.com/images/thumb/f/f7/Start-a-Blog-Step-24-Version-2.jpg/-crop-127-140-127px-Start-a-Blog-Step-24-Version-2.jpg - NONE/- image/jpeg<br />1436073354.769&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 192.168.137.17 TCP_MEM_HIT/200 5001 GET http://pad2.whstatic.com/images/thumb/5/54/Be-Special-Step-14.jpg/-crop-126-120-126px-Be-Special-Step-14.jpg - NONE/- image/jpeg<br />1436073354.769&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 192.168.137.17 TCP_MEM_HIT/200 3297 GET http://pad3.whstatic.com/images/thumb/8/89/Sharpen-Hair-Clippers-Step-11.jpg/-crop-126-120-126px-Sharpen-Hair-Clippers-Step-11.jpg - NONE/- image/jpeg<br />1436073354.769&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 192.168.137.17 TCP_MEM_HIT/200 3609 GET http://pad1.whstatic.com/images/thumb/0/05/Write-a-Resignation-Letter-Step-11.jpg/-crop-126-120-126px-Write-a-Resignation-Letter-Step-11.jpg - NONE/- image/jpeg</span></span><br />
+<br />
+<br />
+<br />
+Once squid is confirmed working, next step is to setup my router to re-route any traffic destined to port 80 to port 3128 of raspberry pi.<br />
+<br />
+<br />
+For that I add the following rules on iptables of my router (which is running tomato by shibby).<br />
+<br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;">iptables -t nat -A PREROUTING -i br0 -s 192.168.137.1 -d 255.255.255.0 -p tcp --dport 80 -j ACCEPT<br />iptables -t nat -A PREROUTING -i br0 -s ! 192.168.137.71 -p tcp --dport 80 -j DNAT --to 192.168.137.71:3128</span><br />
+<span style="font-family: &quot;Courier New&quot;,Courier,monospace;">iptables -t nat -I POSTROUTING -o br0 -s 192.168.137.1 -d 192.168.137.71 -p tcp -j SNAT --to 192.168.137.1<br />iptables -I FORWARD -i br0 -o br0 -s 192.168.137.1 -d 192.168.137.71 -p tcp --dport 3128 -j ACCEPT</span><br />
+<br />
+Remove the proxy settings on your browser, and try again to browse any website. If all is well you see see the website loads.<br />
+<br />
+Another thing to check is the access logs:<br />
+&nbsp;sample output<br />
+<span style="font-size: x-small;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;"><br /></span></span>
+<span style="font-size: x-small;"><span style="font-family: &quot;Courier New&quot;,Courier,monospace;">1436075325.876&nbsp;&nbsp;&nbsp; 269 192.168.137.1 TCP_REFRESH_UNMODIFIED/304 313 GET http://a.disquscdn.com/next/embed/lounge.load.2e3f4861c5633a3894949c6c2cd9d726.js - DIRECT/23.235.47.196 -<br />1436075325.907&nbsp;&nbsp;&nbsp; 426 192.168.137.1 TCP_CLIENT_REFRESH_MISS/200 4125 GET http://pu5h.info/sites/pu5h.com/files/PU5H-icon.png - DIRECT/85.234.203.56 image/png<br />1436075325.937&nbsp;&nbsp; 1464 192.168.137.1 TCP_MISS/200 673 GET http://urls.api.twitter.com/1/urls/count.json? - DIRECT/192.229.237.25 application/javascript<br />1436075326.809&nbsp;&nbsp;&nbsp; 475 192.168.137.1 TCP_REFRESH_UNMODIFIED/200 35850 GET http://platform.twitter.com/widgets.js - DIRECT/199.96.57.6 application/javascript<br />1436075327.133&nbsp;&nbsp; 2293 192.168.137.1 TCP_MISS/200 137506 GET http://www.microsofttranslator.com/ajax/v2/toolkit.ashx? - DIRECT/131.253.14.125 application/x-javascript<br />1436075327.407&nbsp;&nbsp;&nbsp; 328 192.168.137.1 TCP_MISS/200 2530 GET http://disqus.com/next/config.js - DIRECT/23.235.37.134 application/javascript<br />1436075328.086&nbsp;&nbsp;&nbsp; 574 192.168.137.1 TCP_MISS/200 831 GET http://api.microsofttranslator.com/V2/Ajax.svc/TranslateArray? - DIRECT/111.221.29.48 application/x-javascript<br />1436075328.570&nbsp;&nbsp; 1153 192.168.137.1 TCP_REFRESH_MODIFIED/200 33133 GET http://www.bing.com/widget/metrics.js - DIRECT/204.79.197.200 text/javascript<br />1436075329.292&nbsp;&nbsp;&nbsp; 655 192.168.137.1 TCP_CLIENT_REFRESH_MISS/200 455 GET http://www.pihomeserver.fr/favicon.ico - DIRECT/104.18.52.26 image/vnd.microsoft.icon<br />1436075329.531&nbsp;&nbsp;&nbsp; 361 192.168.137.1 TCP_REFRESH_UNMODIFIED/304 278 GET http://a.disquscdn.com/next/current/embed/lang/fr.js - DIRECT/23.235.47.196 -<br />1436075330.670&nbsp;&nbsp; 1581 192.168.137.1 TCP_MISS/404 824 POST http://www.pihomeserver.fr/wp-admin/admin-ajax.php - DIRECT/104.18.52.26 text/html<br />1436075332.679&nbsp;&nbsp;&nbsp; 536 192.168.137.1 TCP_MISS/200 7633 GET http://disqus.com/api/3.0/discovery/listRelated.json? - DIRECT/23.235.37.134 application/json<br />14360</span></span><br />
+<br />
+<br />
+<br />
+<br />
+from the sample logs above you can see that the ip address reflected is the ip of the router, this indicated that the router is successfully rerouting our port 80 traffic to the squid server on the raspberry pi.<br />
+<br />
+Done.
+<div style='clear: both;'></div>
+</div>
+<div class='post-footer'>
+<div class='post-footer-line post-footer-line-1'>
+<span class='post-author vcard'>
+Posted by
+<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
+<meta content='https://plus.google.com/114861986257878807975' itemprop='url'/>
+<a class='g-profile' href='https://plus.google.com/114861986257878807975' rel='author' title='author profile'>
+<span itemprop='name'>gagamba sapot</span>
+</a>
+</span>
+</span>
+<span class='post-timestamp'>
+at
+<meta content='http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html' itemprop='url'/>
+<a class='timestamp-link' href='http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html' rel='bookmark' title='permanent link'><abbr class='published' itemprop='datePublished' title='2015-07-05T13:55:00+08:00'>1:55 PM</abbr></a>
+</span>
+<span class='reaction-buttons'>
+</span>
+<span class='post-comment-link'>
+</span>
+<span class='post-backlinks post-comment-link'>
+</span>
+<span class='post-icons'>
+</span>
+<div class='post-share-buttons goog-inline-block'>
+<a class='goog-inline-block share-button sb-email' href='https://www.blogger.com/share-post.g?blogID=8446679048775031519&postID=4161111687404077445&target=email' target='_blank' title='Email This'><span class='share-button-link-text'>Email This</span></a><a class='goog-inline-block share-button sb-blog' href='https://www.blogger.com/share-post.g?blogID=8446679048775031519&postID=4161111687404077445&target=blog' onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target='_blank' title='BlogThis!'><span class='share-button-link-text'>BlogThis!</span></a><a class='goog-inline-block share-button sb-twitter' href='https://www.blogger.com/share-post.g?blogID=8446679048775031519&postID=4161111687404077445&target=twitter' target='_blank' title='Share to Twitter'><span class='share-button-link-text'>Share to Twitter</span></a><a class='goog-inline-block share-button sb-facebook' href='https://www.blogger.com/share-post.g?blogID=8446679048775031519&postID=4161111687404077445&target=facebook' onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target='_blank' title='Share to Facebook'><span class='share-button-link-text'>Share to Facebook</span></a><a class='goog-inline-block share-button sb-pinterest' href='https://www.blogger.com/share-post.g?blogID=8446679048775031519&postID=4161111687404077445&target=pinterest' target='_blank' title='Share to Pinterest'><span class='share-button-link-text'>Share to Pinterest</span></a><div class='goog-inline-block google-plus-share-container'><g:plusone source='blogger:blog:plusone' href='http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html' size='medium' width='300' annotation='inline'/></div>
+</div>
+</div>
+<div class='post-footer-line post-footer-line-2'>
+<span class='post-labels'>
+Labels:
+<a href='http://gagsap37.blogspot.com/search/label/raspberry%20pi' rel='tag'>raspberry pi</a>,
+<a href='http://gagsap37.blogspot.com/search/label/raspbian' rel='tag'>raspbian</a>,
+<a href='http://gagsap37.blogspot.com/search/label/SQUID' rel='tag'>SQUID</a>,
+<a href='http://gagsap37.blogspot.com/search/label/squid3' rel='tag'>squid3</a>,
+<a href='http://gagsap37.blogspot.com/search/label/Transparent' rel='tag'>Transparent</a>
+</span>
+</div>
+<div class='post-footer-line post-footer-line-3'>
+<span class='post-location'>
+</span>
+</div>
+</div>
+</div>
+<script src='https://apis.google.com/js/plusone.js' type='text/javascript'></script>
+<div class='cmt_iframe_holder' data-href='http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html' data-viewtype='FILTERED_POSTMOD'></div>
+</div>
+
+        </div></div>
+      
+</div>
+<div class='blog-pager' id='blog-pager'>
+<span id='blog-pager-newer-link'>
+<a class='blog-pager-newer-link' href='http://gagsap37.blogspot.com/2015/07/my-first-lazada-experience.html' id='Blog1_blog-pager-newer-link' title='Newer Post'>Newer Post</a>
+</span>
+<span id='blog-pager-older-link'>
+<a class='blog-pager-older-link' href='http://gagsap37.blogspot.com/2015/06/setting-up-transmission-on-rasbery-pi.html' id='Blog1_blog-pager-older-link' title='Older Post'>Older Post</a>
+</span>
+<a class='home-link' href='http://gagsap37.blogspot.com/'>Home</a>
+</div>
+<div class='clear'></div>
+<div class='post-feeds'>
+<div class='feed-links'>
+Subscribe to:
+<a class='feed-link' href='http://gagsap37.blogspot.com/feeds/4161111687404077445/comments/default' target='_blank' type='application/atom+xml'>Post Comments (Atom)</a>
+</div>
+</div>
+<script type="text/javascript">window.___gcfg = {'lang': 'en'};</script>
+</div></div>
+</div>
+</div>
+<div class='column-left-outer'>
+<div class='column-left-inner'>
+<aside>
+</aside>
+</div>
+</div>
+<div class='column-right-outer'>
+<div class='column-right-inner'>
+<aside>
+<div class='sidebar section' id='sidebar-right-1'><div class='widget CustomSearch' id='CustomSearch1'>
+<h2 class='title'>Search</h2>
+<div class='widget-content'>
+<div id='CustomSearch1_form'>
+<span class='cse-status'>Loading...</span>
+</div>
+</div>
+<style type='text/css'>
+      #uds-searchControl .gs-result .gs-title,
+      #uds-searchControl .gs-result .gs-title *,
+      #uds-searchControl .gsc-results .gsc-trailing-more-results,
+      #uds-searchControl .gsc-results .gsc-trailing-more-results * {
+        color:#d9e200;
+      }
+
+      #uds-searchControl .gs-result .gs-title a:visited,
+      #uds-searchControl .gs-result .gs-title a:visited * {
+        color:#787d06;
+      }
+
+      #uds-searchControl .gs-relativePublishedDate,
+      #uds-searchControl .gs-publishedDate {
+        color: #6f6f6f;
+      }
+
+      #uds-searchControl .gs-result a.gs-visibleUrl,
+      #uds-searchControl .gs-result .gs-visibleUrl {
+        color: #d9e200;
+      }
+
+      #uds-searchControl .gsc-results {
+        border-color: #6f6f6f;
+        background-color: transparent;
+      }
+
+      #uds-searchControl .gsc-tabhActive {
+        border-color: #6f6f6f;
+        border-top-color: #6f6f6f;
+        background-color: transparent;
+        color: #b4b4b4;
+      }
+
+      #uds-searchControl .gsc-tabhInactive {
+        border-color: #6f6f6f;
+        background-color: transparent;
+        color: #d9e200;
+      }
+
+      #uds-searchClearResults {
+        border-color: #6f6f6f;
+      }
+
+      #uds-searchClearResults:hover {
+        border-color: #6f6f6f;
+      }
+
+      #uds-searchControl .gsc-cursor-page {
+        color: #d9e200;
+      }
+
+      #uds-searchControl .gsc-cursor-current-page {
+        color: #b4b4b4;
+      }
+    </style>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=CustomSearch&widgetId=CustomSearch1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("CustomSearch1"));' target='configCustomSearch1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div><div class='widget HTML' id='HTML1'>
+<h2 class='title'>Buy me a coffee</h2>
+<div class='widget-content'>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick" />
+<input type="hidden" name="hosted_button_id" value="BWW5F4XFQ8AJU" />
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" />
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+</form>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=HTML&widgetId=HTML1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML1"));' target='configHTML1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div><div class='widget PageList' id='PageList1'>
+<h2>Pages</h2>
+<div class='widget-content'>
+<ul>
+<li><a href='http://gagsap37.blogspot.com/'>Home</a></li>
+<li><a href='http://gagsap37.blogspot.com/p/about-me.html'>About me</a></li>
+</ul>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=PageList&widgetId=PageList1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("PageList1"));' target='configPageList1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget BlogArchive' id='BlogArchive1'>
+<h2>Blog Archive</h2>
+<div class='widget-content'>
+<div id='ArchiveList'>
+<div id='BlogArchive1_ArchiveList'>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>
+
+        &#9660;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2015-01-01T00:00:00%2B08:00&amp;updated-max=2016-01-01T00:00:00%2B08:00&amp;max-results=10'>
+2015
+</a>
+<span class='post-count' dir='ltr'>(10)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2015_12_01_archive.html'>
+December
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2015_11_01_archive.html'>
+November
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2015_09_01_archive.html'>
+September
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>
+
+        &#9660;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2015_07_01_archive.html'>
+July
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+<ul class='posts'>
+<li><a href='http://gagsap37.blogspot.com/2015/07/smart-bro-wimax-freedns.html'>Smart Bro Wimax + FreeDNS</a></li>
+<li><a href='http://gagsap37.blogspot.com/2015/07/dvd-to-mkv-convertion-using-handbreak.html'>DVD to MKV convertion using HANDBREAK and VOBMerge...</a></li>
+<li><a href='http://gagsap37.blogspot.com/2015/07/my-first-lazada-experience.html'>My first Lazada experience</a></li>
+<li><a href='http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html'>Setting up Squid (3) Transparent Proxy on Raspberr...</a></li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2015_06_01_archive.html'>
+June
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2015_05_01_archive.html'>
+May
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2014-01-01T00:00:00%2B08:00&amp;updated-max=2015-01-01T00:00:00%2B08:00&amp;max-results=17'>
+2014
+</a>
+<span class='post-count' dir='ltr'>(17)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2014_11_01_archive.html'>
+November
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2014_10_01_archive.html'>
+October
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2014_07_01_archive.html'>
+July
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2014_06_01_archive.html'>
+June
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2014_04_01_archive.html'>
+April
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2014_03_01_archive.html'>
+March
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2014_02_01_archive.html'>
+February
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2013-01-01T00:00:00%2B08:00&amp;updated-max=2014-01-01T00:00:00%2B08:00&amp;max-results=26'>
+2013
+</a>
+<span class='post-count' dir='ltr'>(26)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_10_01_archive.html'>
+October
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_09_01_archive.html'>
+September
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_08_01_archive.html'>
+August
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_07_01_archive.html'>
+July
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_06_01_archive.html'>
+June
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_04_01_archive.html'>
+April
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_03_01_archive.html'>
+March
+</a>
+<span class='post-count' dir='ltr'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2013_02_01_archive.html'>
+February
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2012-01-01T00:00:00%2B08:00&amp;updated-max=2013-01-01T00:00:00%2B08:00&amp;max-results=36'>
+2012
+</a>
+<span class='post-count' dir='ltr'>(36)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_12_01_archive.html'>
+December
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_11_01_archive.html'>
+November
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_10_01_archive.html'>
+October
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_09_01_archive.html'>
+September
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_08_01_archive.html'>
+August
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_07_01_archive.html'>
+July
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_06_01_archive.html'>
+June
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_05_01_archive.html'>
+May
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_04_01_archive.html'>
+April
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_03_01_archive.html'>
+March
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_02_01_archive.html'>
+February
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2012_01_01_archive.html'>
+January
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2011-01-01T00:00:00%2B08:00&amp;updated-max=2012-01-01T00:00:00%2B08:00&amp;max-results=13'>
+2011
+</a>
+<span class='post-count' dir='ltr'>(13)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2011_11_01_archive.html'>
+November
+</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2011_10_01_archive.html'>
+October
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2011_08_01_archive.html'>
+August
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2011_07_01_archive.html'>
+July
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2011_05_01_archive.html'>
+May
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2011_04_01_archive.html'>
+April
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2011_01_01_archive.html'>
+January
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2010-01-01T00:00:00%2B08:00&amp;updated-max=2011-01-01T00:00:00%2B08:00&amp;max-results=5'>
+2010
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2010_10_01_archive.html'>
+October
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2010_09_01_archive.html'>
+September
+</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2010_04_01_archive.html'>
+April
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2009-01-01T00:00:00%2B08:00&amp;updated-max=2010-01-01T00:00:00%2B08:00&amp;max-results=5'>
+2009
+</a>
+<span class='post-count' dir='ltr'>(5)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2009_11_01_archive.html'>
+November
+</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2009_03_01_archive.html'>
+March
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2009_01_01_archive.html'>
+January
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/search?updated-min=2007-01-01T00:00:00%2B08:00&amp;updated-max=2008-01-01T00:00:00%2B08:00&amp;max-results=1'>
+2007
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='http://gagsap37.blogspot.com/2007_08_01_archive.html'>
+August
+</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=BlogArchive&widgetId=BlogArchive1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("BlogArchive1"));' target='configBlogArchive1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget BlogList' id='BlogList1'>
+<h2 class='title'>My Blog List</h2>
+<div class='widget-content'>
+<div class='blog-list-container' id='BlogList1_container'>
+<ul id='BlogList1_blogs'>
+<li style='display: block;'>
+<div class='blog-icon'>
+<img data-lateloadsrc='http://www.linuxjournal.com/favicon.ico' height='16' width='16'/>
+</div>
+<div class='blog-content'>
+<div class='blog-title'>
+<a href='http://www.linuxjournal.com/' target='_blank'>
+Linux Journal - The Original Magazine of the Linux Community</a>
+</div>
+<div class='item-content'>
+<span class='item-title'>
+<a href='http://feedproxy.google.com/~r/linuxjournalcom/~3/cDPWMt3QaJ8/symbolic-algebra-everywhere' target='_blank'>
+Symbolic Algebra Everywhere</a>
+</span>
+<div class='item-time'>
+6 hours ago
+</div>
+</div>
+</div>
+<div style='clear: both;'></div>
+</li>
+<li style='display: block;'>
+<div class='blog-icon'>
+<img data-lateloadsrc='http://design.tutsplus.com/favicon.ico' height='16' width='16'/>
+</div>
+<div class='blog-content'>
+<div class='blog-title'>
+<a href='http://design.tutsplus.com' target='_blank'>
+Psdtuts+</a>
+</div>
+<div class='item-content'>
+<span class='item-title'>
+<a href='http://design.tutsplus.com/tutorials/how-to-create-a-snowy-window-scene-in-adobe-illustrator--cms-25330' target='_blank'>
+How to Create a Snowy Window Scene in Adobe Illustrator</a>
+</span>
+<div class='item-time'>
+9 hours ago
+</div>
+</div>
+</div>
+<div style='clear: both;'></div>
+</li>
+<li style='display: block;'>
+<div class='blog-icon'>
+<img data-lateloadsrc='http://www.smashingmagazine.com/favicon.ico' height='16' width='16'/>
+</div>
+<div class='blog-content'>
+<div class='blog-title'>
+<a href='http://www.smashingmagazine.com' target='_blank'>
+Smashing Magazine Feed</a>
+</div>
+<div class='item-content'>
+<span class='item-title'>
+<a href='http://www.smashingmagazine.com/2015/12/passphrases-more-user-friendly-passwords/' target='_blank'>
+Why Passphrases Are More User-Friendly Than Passwords</a>
+</span>
+<div class='item-time'>
+11 hours ago
+</div>
+</div>
+</div>
+<div style='clear: both;'></div>
+</li>
+<li style='display: block;'>
+<div class='blog-icon'>
+<img data-lateloadsrc='http://code.tutsplus.com/favicon.ico' height='16' width='16'/>
+</div>
+<div class='blog-content'>
+<div class='blog-title'>
+<a href='http://code.tutsplus.com' target='_blank'>
+Nettuts+</a>
+</div>
+<div class='item-content'>
+<span class='item-title'>
+<a href='http://code.tutsplus.com/tutorials/how-to-use-assembla-to-collaborate-on-client-projects--cms-25423' target='_blank'>
+How to Use Assembla to Collaborate on Client Projects</a>
+</span>
+<div class='item-time'>
+12 hours ago
+</div>
+</div>
+</div>
+<div style='clear: both;'></div>
+</li>
+<li style='display: block;'>
+<div class='blog-icon'>
+<img data-lateloadsrc='https://www.howtoforge.com/favicon.ico' height='16' width='16'/>
+</div>
+<div class='blog-content'>
+<div class='blog-title'>
+<a href='https://www.howtoforge.com' target='_blank'>
+HowtoForge - Linux Howtos and Tutorials -</a>
+</div>
+<div class='item-content'>
+<span class='item-title'>
+<a href='https://www.howtoforge.com/tutorial/how-to-install-onlyoffice-enterprise-edition-on-ubuntu/' target='_blank'>
+How to create a web-office using ONLYOFFICE Enterprise Edition on Ubuntu 
+14.04</a>
+</span>
+<div class='item-time'>
+16 hours ago
+</div>
+</div>
+</div>
+<div style='clear: both;'></div>
+</li>
+<li style='display: block;'>
+<div class='blog-icon'>
+<img data-lateloadsrc='http://webdesignerwall.com/favicon.ico' height='16' width='16'/>
+</div>
+<div class='blog-content'>
+<div class='blog-title'>
+<a href='http://webdesignerwall.com' target='_blank'>
+Web Designer Wall - Design Trends and Tutorials</a>
+</div>
+<div class='item-content'>
+<span class='item-title'>
+<a href='http://webdesignerwall.com/general/fitc-web-unleashed-2015-ticket-giveaway' target='_blank'>
+FITC Web Unleashed 2015 Ticket Giveaway</a>
+</span>
+<div class='item-time'>
+3 months ago
+</div>
+</div>
+</div>
+<div style='clear: both;'></div>
+</li>
+</ul>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=BlogList&widgetId=BlogList1&action=editWidget&sectionId=sidebar-right-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("BlogList1"));' target='configBlogList1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div>
+</div></div>
+<table border='0' cellpadding='0' cellspacing='0' class='section-columns columns-2'>
+<tbody>
+<tr>
+<td class='first columns-cell'>
+<div class='sidebar section' id='sidebar-right-2-1'><div class='widget Followers' id='Followers1'>
+<h2 class='title'>Followers</h2>
+<div class='widget-content'>
+<div id='Followers1-wrapper'>
+<div style='margin-right:2px;'>
+<div><script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<div id="followers-iframe-container"></div>
+<script type="text/javascript">
+    window.followersIframe = null;
+    function followersIframeOpen(url) {
+      gapi.load("gapi.iframes", function() {
+        if (gapi.iframes && gapi.iframes.getContext) {
+          window.followersIframe = gapi.iframes.getContext().openChild({
+            url: url,
+            where: document.getElementById("followers-iframe-container"),
+            messageHandlersFilter: gapi.iframes.CROSS_ORIGIN_IFRAMES_FILTER,
+            messageHandlers: {
+              '_ready': function(obj) {
+                window.followersIframe.getIframeEl().height = obj.height;
+              },
+              'reset': function() {
+                window.followersIframe.close();
+                followersIframeOpen("https://www.blogger.com/followers.g?blogID\x3d8446679048775031519\x26origin\x3dhttp://gagsap37.blogspot.com/\x26colors\x3dCgt0cmFuc3BhcmVudBILdHJhbnNwYXJlbnQaBmI0YjRiNCIGZDllMjAwKgpyYW5zcGFyZW50MgZmZmZmZmY6BmI0YjRiNEIGZDllMjAwSgZmZmZmZmZSBmQ5ZTIwMFoLdHJhbnNwYXJlbnQ%3D\x26postID\x3d4161111687404077445");
+              },
+              'open': function(url) {
+                window.followersIframe.close();
+                followersIframeOpen(url);
+              }
+            }
+          });
+        }
+      });
+    }
+    followersIframeOpen("https://www.blogger.com/followers.g?blogID\x3d8446679048775031519\x26origin\x3dhttp://gagsap37.blogspot.com/\x26colors\x3dCgt0cmFuc3BhcmVudBILdHJhbnNwYXJlbnQaBmI0YjRiNCIGZDllMjAwKgpyYW5zcGFyZW50MgZmZmZmZmY6BmI0YjRiNEIGZDllMjAwSgZmZmZmZmZSBmQ5ZTIwMFoLdHJhbnNwYXJlbnQ%3D\x26postID\x3d4161111687404077445");
+  </script></div>
+</div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=Followers&widgetId=Followers1&action=editWidget&sectionId=sidebar-right-2-1' onclick='return _WidgetManager._PopupConfig(document.getElementById("Followers1"));' target='configFollowers1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div></div>
+</td>
+<td class='columns-cell'>
+<div class='sidebar section' id='sidebar-right-2-2'><div class='widget PlusFollowers' id='PlusFollowers1'>
+<h2 class='title'>Google+ Followers</h2>
+<div class='widget-content'>
+<div class='g-plus' data-action='followers' data-height='300' data-href='https://plus.google.com/114861986257878807975' data-source='blogger:blog:followers' data-theme='DARK' data-width='115'></div>
+<script type='text/javascript'>
+        window.___gcfg = {'lang': 'en'};
+      </script>
+</div>
+</div></div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class='sidebar section' id='sidebar-right-3'><div class='widget Gadget' id='Gadget1'>
+<h2 class='title'>Tweets</h2>
+<script type="text/javascript">
+        if (!window.google || !google.friendconnect) {
+          document.write('<script type="text/javascript"' +
+              'src="//www.google.com/friendconnect/script/friendconnect.js">' +
+              '</scr' + 'ipt>');
+        }
+      </script>
+<script type="text/javascript">
+      if (!window.registeredBloggerCallbacks) {
+        window.registeredBloggerCallbacks = true;
+
+        
+
+        
+        gadgets.rpc.register('requestReload', function() {
+          document.location.reload();
+        });
+
+        
+        gadgets.rpc.register('requestSignOut', function(siteId) {
+          
+          google.friendconnect.container.openSocialSiteId = siteId;
+          google.friendconnect.requestSignOut();
+        });
+      }
+    </script>
+<script type="text/javascript">
+    
+    function registerGetBlogUrls() {
+      gadgets.rpc.register('getBlogUrls', function() {
+        var holder = {};
+        
+          
+            
+            
+              holder.currentPost = "https://www.blogger.com/feeds/8446679048775031519/posts/default/4161111687404077445";
+            
+            
+            
+              holder.currentComments = "https://www.blogger.com/feeds/8446679048775031519/4161111687404077445/comments/default";
+            
+            holder.currentPostUrl = "";
+            holder.currentPostId = 4161111687404077445
+          
+          
+          
+            holder.postFeed = "https://www.blogger.com/feeds/8446679048775031519/posts/default";
+          
+          
+          
+            holder.commentFeed = "https://www.blogger.com/feeds/8446679048775031519/comments/default";
+          
+          holder.currentBlogUrl = "http://gagsap37.blogspot.com/";
+          holder.currentBlogId = "8446679048775031519";
+        
+        return holder;
+      });
+    }
+  </script>
+<script type="text/javascript">
+  if (!window.registeredCommonBloggerCallbacks) {
+    window.registeredCommonBloggerCallbacks = true;
+
+    gadgets.rpc.register('resize_iframe', function(height) {
+      var el = document.getElementById(this['f']);
+      if (el) {
+        el.style.height = height + 'px';
+      }
+    });
+
+    
+    gadgets.rpc.register('set_pref', function() {});
+
+    registerGetBlogUrls();
+  }
+  </script>
+<div id="div-1nf5vm7zb5pte" style="width: 100%; "></div>
+<script type="text/javascript">
+    var skin = {};
+    skin['FACE_SIZE'] = '32';
+    skin['HEIGHT'] = "200";
+    skin['BORDER_COLOR'] = "transparent";
+    skin['ENDCAP_BG_COLOR'] = "transparent";
+    skin['ENDCAP_TEXT_COLOR'] = "#b4b4b4";
+    skin['ENDCAP_LINK_COLOR'] = "#d9e200";
+    
+    skin['CONTENT_BG_COLOR'] = "transparent";
+    skin['CONTENT_LINK_COLOR'] = "#d9e200";
+    skin['CONTENT_TEXT_COLOR'] = "#b4b4b4";
+    skin['CONTENT_SECONDARY_LINK_COLOR'] = "#d9e200";
+    skin['CONTENT_SECONDARY_TEXT_COLOR'] = "#ffffff";
+    skin['CONTENT_HEADLINE_COLOR'] = "#ffffff";
+    google.friendconnect.container.setParentUrl("/");
+    google.friendconnect.container["renderOpenSocialGadget"](
+    {id: "div-1nf5vm7zb5pte",
+     height: 200,
+     
+       url: "http://indicebloggerfiles.googlepages.com/GadgetTwitterUpdates2.2.xml",
+     
+     
+       "view-params": {"CONTENT_TEXT_COLOR":"#000000","myUsername":"philip37santos","CONTENT_LINK_COLOR":"#0000ff","displayLink":true,"myUpdates":"5"},
+     
+     
+       "prefs": {"CONTENT_TEXT_COLOR":"#000000","myUsername":"philip37santos","CONTENT_LINK_COLOR":"#0000ff","displayLink":"1","myUpdates":"5"},
+     
+     site: "17750535320080041607",
+     locale: 'en' },
+     skin);
+  </script>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=Gadget&widgetId=Gadget1&action=editWidget&sectionId=sidebar-right-3' onclick='return _WidgetManager._PopupConfig(document.getElementById("Gadget1"));' target='configGadget1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div></div>
+</aside>
+</div>
+</div>
+</div>
+<div style='clear: both'></div>
+<!-- columns -->
+</div>
+<!-- main -->
+</div>
+</div>
+<div class='main-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+<footer>
+<div class='footer-outer'>
+<div class='footer-cap-top cap-top'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+<div class='fauxborder-left footer-fauxborder-left'>
+<div class='fauxborder-right footer-fauxborder-right'></div>
+<div class='region-inner footer-inner'>
+<div class='foot section' id='footer-1'></div>
+<table border='0' cellpadding='0' cellspacing='0' class='section-columns columns-2'>
+<tbody>
+<tr>
+<td class='first columns-cell'>
+<div class='foot section' id='footer-2-1'></div>
+</td>
+<td class='columns-cell'>
+<div class='foot section' id='footer-2-2'></div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- outside of the include in order to lock Attribution widget -->
+<div class='foot section' id='footer-3' name='Footer'><div class='widget Attribution' id='Attribution1'>
+<div class='widget-content' style='text-align: center;'>
+Travel template. Template images by <a href='http://www.istockphoto.com/googleimages.php?id=2524046&platform=blogger&langregion=en' target='_blank'>RBFried</a>. Powered by <a href='https://www.blogger.com' target='_blank'>Blogger</a>.
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8446679048775031519&widgetType=Attribution&widgetId=Attribution1&action=editWidget&sectionId=footer-3' onclick='return _WidgetManager._PopupConfig(document.getElementById("Attribution1"));' target='configAttribution1' title='Edit'>
+<img alt='' height='18' src='//img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div></div>
+</div>
+</div>
+<div class='footer-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</footer>
+<!-- content -->
+</div>
+</div>
+<div class='content-cap-bottom cap-bottom'>
+<div class='cap-left'></div>
+<div class='cap-right'></div>
+</div>
+</div>
+</div>
+<script type='text/javascript'>
+    window.setTimeout(function() {
+        document.body.className = document.body.className.replace('loading', '');
+      }, 10);
+  </script>
+<script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('widgetJsBefore');
+</script><script type="text/javascript" src="https://www.blogger.com/static/v1/widgets/278981662-widgets.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script type='text/javascript'>
+if (typeof(BLOG_attachCsiOnload) != 'undefined' && BLOG_attachCsiOnload != null) { window['blogger_templates_experiment_id'] = "templatesV2";window['blogger_blog_id'] = '8446679048775031519';BLOG_attachCsiOnload('item_'); }_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d8446679048775031519','//gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html','8446679048775031519');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '8446679048775031519', 'bloggerUrl': 'https://www.blogger.com', 'title': 'gagsap37', 'pageType': 'item', 'postId': '4161111687404077445', 'url': 'http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html', 'canonicalUrl': 'http://gagsap37.blogspot.com/2015/07/setting-up-squid3-transparent-proxy-on.html', 'homepageUrl': 'http://gagsap37.blogspot.com/', 'canonicalHomepageUrl': 'http://gagsap37.blogspot.com/', 'blogspotFaviconUrl': 'http://gagsap37.blogspot.com/favicon.ico', 'enabledCommentProfileImages': true, 'adultContent': false, 'analyticsAccountNumber': '', 'useUniversalAnalytics': false, 'pageName': 'Setting up Squid (3) Transparent Proxy on Raspberry Pi ', 'pageTitle': 'gagsap37: Setting up Squid (3) Transparent Proxy on Raspberry Pi ', 'encoding': 'UTF-8', 'locale': 'en', 'localeUnderscoreDelimited': 'en', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'languageDirection': 'ltr', 'feedLinks': '\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42gagsap37 - Atom\42 href\75\42http://gagsap37.blogspot.com/feeds/posts/default\42 /\76\n\74link rel\75\42alternate\42 type\75\42application/rss+xml\42 title\75\42gagsap37 - RSS\42 href\75\42http://gagsap37.blogspot.com/feeds/posts/default?alt\75rss\42 /\76\n\74link rel\75\42service.post\42 type\75\42application/atom+xml\42 title\75\42gagsap37 - Atom\42 href\75\42https://www.blogger.com/feeds/8446679048775031519/posts/default\42 /\76\n\n\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42gagsap37 - Atom\42 href\75\42http://gagsap37.blogspot.com/feeds/4161111687404077445/comments/default\42 /\76\n', 'meTag': '', 'openIdOpTag': '', 'postImageThumbnailUrl': 'http://3.bp.blogspot.com/-8Kxr8oYNV88/VZi71w1BKMI/AAAAAAAAB40/yp9ZItqqHF4/s72-c/proxy-setup-firefox.jpg', 'postImageUrl': 'http://3.bp.blogspot.com/-8Kxr8oYNV88/VZi71w1BKMI/AAAAAAAAB40/yp9ZItqqHF4/s640/proxy-setup-firefox.jpg', 'latencyHeadScript': '\74script type\75\42text/javascript\42\76(function() { (function(){function c(a){this.t\75{};this.tick\75function(a,c,b){var d\75void 0!\75b?b:(new Date).getTime();this.t[a]\75[d,c];if(void 0\75\75b)try{window.console.timeStamp(\42CSI/\42+a)}catch(e){}};this.tick(\42start\42,null,a)}var a;window.performance\46\46(a\75window.performance.timing);var h\75a?new c(a.responseStart):new c;window.jstiming\75{Timer:c,load:h};if(a){var b\75a.navigationStart,e\75a.responseStart;0\74b\46\46e\76\75b\46\46(window.jstiming.srt\75e-b)}if(a){var d\75window.jstiming.load;0\74b\46\46e\76\75b\46\46(d.tick(\42_wtsrt\42,void 0,b),d.tick(\42wtsrt_\42,\n\42_wtsrt\42,e),d.tick(\42tbsd_\42,\42wtsrt_\42))}try{a\75null,window.chrome\46\46window.chrome.csi\46\46(a\75Math.floor(window.chrome.csi().pageT),d\46\0460\74b\46\46(d.tick(\42_tbnd\42,void 0,window.chrome.csi().startE),d.tick(\42tbnd_\42,\42_tbnd\42,b))),null\75\75a\46\46window.gtbExternal\46\46(a\75window.gtbExternal.pageT()),null\75\75a\46\46window.external\46\46(a\75window.external.pageT,d\46\0460\74b\46\46(d.tick(\42_tbnd\42,void 0,window.external.startE),d.tick(\42tbnd_\42,\42_tbnd\42,b))),a\46\46(window.jstiming.pt\75a)}catch(k){}})();window.tickAboveFold\75function(c){var a\0750;if(c.offsetParent){do a+\75c.offsetTop;while(c\75c.offsetParent)}c\75a;750\76\75c\46\46window.jstiming.load.tick(\42aft\42)};var f\75!1;function g(){f||(f\75!0,window.jstiming.load.tick(\42firstScrollTime\42))}window.addEventListener?window.addEventListener(\42scroll\42,g,!1):window.attachEvent(\42onscroll\42,g);\n })();\74/script\076', 'mobileHeadScript': '', 'ieCssRetrofitLinks': '\74!--[if IE]\76\74script type\75\42text/javascript\42 src\75\42https://www.blogger.com/static/v1/jsbin/1494333581-ieretrofit.js\42\76\74/script\76\n\74![endif]--\076', 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/9d8c91ef2b5d4a3e', 'plusOneApiSrc': 'https://apis.google.com/js/plusone.js', 'sf': 'n', 'tf': ''}}, {'name': 'messages', 'data': {'archive': 'Archive', 'deleteBacklink': 'Delete Backlink', 'deleteComment': 'Delete Comment', 'emailAddress': 'Email Address', 'getEmailNotifications': 'Get email notifications', 'keepReading': 'Keep reading', 'labels': 'Labels', 'loadMorePosts': 'Load more posts', 'loading': 'Loading...', 'myBlogList': 'My Blog List', 'myFavoriteSites': 'My favorite sites', 'newer': 'Newer', 'newerPosts': 'Newer Posts', 'newest': 'Newest', 'noResultsFound': 'No results found', 'noTitle': 'No title', 'older': 'Older', 'olderPosts': 'Older Posts', 'oldest': 'Oldest', 'onlyTeamMembersCanComment': 'Note: Only a member of this blog may post a comment.', 'popularPosts': 'Popular Posts', 'popularPostsFromThisBlog': 'Popular posts from this blog', 'postAComment': 'Post a Comment', 'reportAbuse': 'Report Abuse', 'search': 'Search', 'share': 'Share', 'showAll': 'Show all', 'subscribe': 'Subscribe', 'subscribeToThisBlog': 'Subscribe to this blog', 'theresNothingHere': 'There\47s nothing here!'}}, {'name': 'skin', 'data': {'vars': {'link_color': '#d9e200', 'tabs_text_color': '#ffffff', 'content_imageBorder_top_space': '0', 'widget_link_visited_color': '#787d06', 'body_background': '#212c6a url(//themes.googleusercontent.com/image?id\0751hCfLZuvAMTaPFcYWfwMqSUvHQ40WoSRINV1LYkgf4RuUOJ_E3-iX-hl2rlpon2quJCUu) no-repeat fixed top center /* Credit: RBFried (http://www.istockphoto.com/googleimages.php?id\0752524046\46platform\75blogger) */', 'content_imageBorder_top': 'none', 'tabs_background_gradient': 'url(//www.blogblog.com/1kt/travel/bg_black_50.png)', 'header_font': 'normal normal 60px \47Trebuchet MS\47,Trebuchet,sans-serif', 'startSide': 'left', 'tabs_font': 'normal bold 16px \47Trebuchet MS\47,Trebuchet,sans-serif', 'widget_title_text_color': '#ffffff', 'widget_title_font': 'normal bold 14px \47Trebuchet MS\47,Trebuchet,sans-serif', 'tabs_selected_background_color': 'transparent', 'post_background_url': 'none', 'description_text_color': '#b4b4b4', 'post_title_font': 'normal bold 20px \47Trebuchet MS\47,Trebuchet,sans-serif', 'post_title_text_color': '#ffffff', 'content_margin': '20px', 'body_text_color': '#b4b4b4', 'widget_text_color': '#b4b4b4', 'content_padding': '20px', 'content_posts_padding': '10px', 'mobile_background_overlay': 'transparent none repeat scroll top left', 'endSide': 'right', 'tabs_background_color': 'transparent', 'content_background_color': 'transparent', 'body_background_color': '#4256c8', 'header_text_color': '#ffffff', 'content_background': 'transparent url(//blogblog.com/1kt/travel/bg_black_70.png) repeat scroll top left', 'tabs_selected_background_gradient': 'url(//www.blogblog.com/1kt/travel/bg_black_50.png)', 'comments_background': 'transparent url(//blogblog.com/1kt/travel/bg_black_50.png) repeat scroll top center', 'widget_alternate_text_color': '#ffffff', 'widget_link_color': '#b4b4b4', 'link_visited_color': '#787d06', 'body_font': 'normal normal 13px \47Trebuchet MS\47,Trebuchet,sans-serif', 'footer_background_gradient': 'none', 'link_hover_color': '#d9e200', 'keycolor': '#212c6a', 'widget_outer_background_gradient': 'url(//www.blogblog.com/1kt/travel/bg_black_50.png)', 'widget_border_bevel_color': 'transparent', 'mobile_button_color': '#ffffff', 'tabs_selected_text_color': '#ffffff', 'date_text_color': '#b4b4b4', 'post_background_color': 'transparent', 'widget_font': 'normal normal 13px \47Trebuchet MS\47,Trebuchet,sans-serif', 'date_font': 'normal normal 14px \47Trebuchet MS\47,Trebuchet,sans-serif', 'widget_outer_background_color': 'transparent'}, 'override': ''}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '?view\75classic'}, 'flipcard': {'name': 'flipcard', 'url': '?view\75flipcard'}, 'magazine': {'name': 'magazine', 'url': '?view\75magazine'}, 'mosaic': {'name': 'mosaic', 'url': '?view\75mosaic'}, 'sidebar': {'name': 'sidebar', 'url': '?view\75sidebar'}, 'snapshot': {'name': 'snapshot', 'url': '?view\75snapshot'}, 'timeslide': {'name': 'timeslide', 'url': '?view\75timeslide'}}}]);
+_WidgetManager._RegisterWidget('_NavbarView', new _WidgetInfo('Navbar1', 'navbar', null, document.getElementById('Navbar1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', null, document.getElementById('Header1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', null, document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'showBacklinks': true, 'postId': '4161111687404077445', 'legacyCommentModerationUrl': 'https://www.blogger.com/moderate-legacy-comment.g?blogID\758446679048775031519', 'iframeCommentsId': 'gpluscomments', 'viewType': 'FILTERED_POSTMOD', 'lightboxEnabled': true, 'lightboxModuleUrl': 'https://www.blogger.com/static/v1/jsbin/4156661259-lbx.js', 'lightboxCssUrl': 'https://www.blogger.com/static/v1/v-css/1185134592-lightbox_bundle.css'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_CustomSearchView', new _WidgetInfo('CustomSearch1', 'sidebar-right-1', null, document.getElementById('CustomSearch1'), {'title': 'Search', 'includeBlog': true, 'includePostLinks': false, 'includeWeb': false, 'linkLists': [{'id': 'BlogList1', 'title': 'My Blog List'}], 'blogUrl': 'http://gagsap37.blogspot.com/', 'loadingMsg': 'Loading...', 'thisBlogMsg': 'This Blog', 'linkedFromHereMsg': 'Linked From Here', 'theWebMsg': 'The Web', 'backgroundColor': 'transparent', 'textColor': '#b4b4b4', 'dateColor': '#6f6f6f', 'linkColor': '#d9e200', 'urlColor': '#d9e200', 'visitedLinkColor': '#787d06', 'borderColor': '#6f6f6f', 'activeBorderColor': '#6f6f6f', 'cse_ua': true}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML1', 'sidebar-right-1', null, document.getElementById('HTML1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_PageListView', new _WidgetInfo('PageList1', 'sidebar-right-1', null, document.getElementById('PageList1'), {'title': 'Pages', 'links': [{'href': 'http://gagsap37.blogspot.com/', 'title': 'Home', 'isCurrentPage': false}, {'href': 'http://gagsap37.blogspot.com/p/about-me.html', 'title': 'About me', 'isCurrentPage': false, 'id': '3543386743106006155'}], 'mobile': false}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar-right-1', null, document.getElementById('BlogArchive1'), {'languageDirection': 'ltr', 'loadingMessage': 'Loading...'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogListView', new _WidgetInfo('BlogList1', 'sidebar-right-1', null, document.getElementById('BlogList1'), {'numItemsToShow': 0, 'totalItems': 6}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_FollowersView', new _WidgetInfo('Followers1', 'sidebar-right-2-1', null, document.getElementById('Followers1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_PlusFollowersView', new _WidgetInfo('PlusFollowers1', 'sidebar-right-2-2', null, document.getElementById('PlusFollowers1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_GadgetView', new _WidgetInfo('Gadget1', 'sidebar-right-3', null, document.getElementById('Gadget1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_AttributionView', new _WidgetInfo('Attribution1', 'footer-3', null, document.getElementById('Attribution1'), {'attribution': 'Travel template. Template images by \74a href\75\47http://www.istockphoto.com/googleimages.php?id\0752524046\46platform\75blogger\46langregion\75en\47 target\75\47_blank\47\76RBFried\74/a\76. Powered by \74a href\75\47https://www.blogger.com\47 target\75\47_blank\47\76Blogger\74/a\76.'}, 'displayModeFull'));
+</script>
+</body>
+</html>

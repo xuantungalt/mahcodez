@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Generate an OpenSSL Certificate Request with SHA256 Signature | IT Igloo</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://itigloo.com/xmlrpc.php">
+	<!--[if lt IE 9]>
+		<script src="https://s0.wp.com/wp-content/themes/pub/suits/js/html5.js" type="text/javascript"></script>
+	<![endif]-->
+	<meta name="google-site-verification" content="iEA_GVpPnYkjEOzBdYtuGilrDsvWpmk7kpmYhTi-GjE" />
+		<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=itigloo.com&amp;id=9120134&amp;t=1456455557&amp;back=http%3A%2F%2Fitigloo.com%2Fsecurity%2Fgenerate-an-openssl-certificate-request-with-sha-256-signature%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="alternate" type="application/rss+xml" title="IT Igloo &raquo; Feed" href="http://itigloo.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="IT Igloo &raquo; Comments Feed" href="http://itigloo.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="IT Igloo &raquo; Generate an OpenSSL Certificate Request with SHA256&nbsp;Signature Comments Feed" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+	<link rel='stylesheet' id='all-css-0' href='https://s2.wp.com/_static/??-eJx9jtEOgjAMRX/IuRgQeTF+C4w6Bi1t2JaFv3eQGDUYXpre5pz06iTK8BRgCpqiEozWTV57cgiLzDyACb/pbLw/6f8auhG8HiBIY0a1pR3eItuPwNZCxzGoJyNy0sl1Fg5/GJ4h30masBIEnWsAgTJ2pJFUb2td+1xw3+2LT5Jp1bYyg/cqT3KRVOjzo8170P1SXquyqOtbMbwAI/B6sA==' type='text/css' media='all' />
+<link rel='stylesheet' id='suits-font-css'  href='https://fonts.googleapis.com/css?family=Lato%3A100%2C300%2C400%26subset%3Dlatin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2' href='https://s2.wp.com/_static/??-eJx9i9EKgzAMRX9oXRgryh7GvkVLViNpU0zK8O/XIQx98eVyLpwDn+KCZMNsYBMmVCh1BK1kCmor4zWoXmCnpeoK10hZAZPMtO2mEWQxaqb+4ayPKI4lDEaSD8e9eaDlLF1wZIkNIzRrd3/RKz1v3j+6e9/1fv4CidBUmw==' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-3' href='https://s1.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1444132114g' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-4' href='https://s0.wp.com/_static/??-eJx1i0EKgCAQRS+UTYJQLaKzWExq6CiO0vWrRatq9T68/+BIYo1UkAqEKpKvxhFDilzE5rXLwFZnR+ZhuzI38F0ZJMzuEj/z1RaLARmsAuPjov19mMMklRr7rpfDuJ8lmzr3' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s0.wp.com/_static/??-eJyFzs0KwjAMAOAXsiub8+BBfJb9ZCW1bWqTrujTW0EP4lAIJCRfQnSJCsPk8gysbY1rhnR7pcbyTv8CyqNJg0DjMbzxREEgyNN6GtGBygxpMLVXDy204SKxeGCuaGP6+RKGFaH8ZRYkDtNFJWC8f10dHRkVXTYYWNfawExZ1ELOUdEFZwNSd87+1Pb9vuvaY3uwD0gZb60='></script>
+<link rel='stylesheet' id='all-css-0' href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://itigloo.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/" />
+<link rel='shortlink' href='http://wp.me/PCgyW-7C' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fitigloo.com%2Fsecurity%2Fgenerate-an-openssl-certificate-request-with-sha-256-signature%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fitigloo.com%2Fsecurity%2Fgenerate-an-openssl-certificate-request-with-sha-256-signature%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Generate an OpenSSL Certificate Request with SHA256 Signature" />
+<meta property="og:url" content="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/" />
+<meta property="og:description" content="Google have recently announced that they are going to start reporting that SSL certificates that are signed with a SHA-1 Hash will be treated as having a lower security than those signed with newer…" />
+<meta property="article:published_time" content="2014-09-12T09:01:04+00:00" />
+<meta property="article:modified_time" content="2015-01-22T14:05:47+00:00" />
+<meta property="og:site_name" content="IT Igloo" />
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:card" content="summary" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='http://itigloo.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://itigloo.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://itigloo.com/osd.xml" title="IT Igloo" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#ffffff" />
+<style type="text/css">
+.widget_twitter li {
+	word-wrap: break-word;
+}
+</style>
+<meta name="application-name" content="IT Igloo" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Linux for everyone" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://itigloo.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="title" content="Generate an OpenSSL Certificate Request with SHA256&nbsp;Signature | IT Igloo on WordPress.com" />
+<meta name="description" content="Google have recently announced that they are going to start reporting that SSL certificates that are signed with a SHA-1 Hash will be treated as having a lower security than those signed with newer, higher strength hashes such as SHA-256 or SHA-512. Google&#039;s announcement can be found here at http://googleonlinesecurity.blogspot.co.uk/2014/09/gradually-sunsetting-sha-1.html Technically at the moment there isn&#039;t&hellip;" />
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+</head>
+
+<body class="page page-id-472 page-child parent-pageid-430 page-template-default mp6 customizer-styles-applied single-author no-footer-sidebar highlander-enabled highlander-light">
+	<div id="page" class="hfeed site">
+
+		<header id="masthead" class="site-header" role="banner">
+
+			<a class="home-link" href="http://itigloo.com/" title="IT Igloo" rel="home">
+				<h1 class="site-title">IT Igloo</h1>
+				<h2 class="site-description">Linux for everyone</h2>
+			</a><!-- #navbar .header-navigation -->
+
+			<div id="navbar" class="header-navigation">
+
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<h3 class="menu-toggle">Menu</h3>
+					<div class="nav-menu"><ul><li class="page_item page-item-2"><a href="http://itigloo.com/about/">About Me</a></li><li class="page_item page-item-266"><a href="http://itigloo.com/contact/">Contact</a></li><li class="page_item page-item-57 page_item_has_children"><a href="http://itigloo.com/how-do-i/">How do I?</a><ul class='children'><li class="page_item page-item-59"><a href="http://itigloo.com/how-do-i/binrm-argument-list-too-long-error/">Linux &#8216;/bin/rm: Argument list too long&#8217;&nbsp;error</a></li><li class="page_item page-item-531"><a href="http://itigloo.com/how-do-i/vim-useful-commands/">Vim &#8211; Useful&nbsp;Commands</a></li></ul></li><li class="page_item page-item-432 page_item_has_children"><a href="http://itigloo.com/raspberry-pi/">Raspberry Pi</a><ul class='children'><li class="page_item page-item-434"><a href="http://itigloo.com/raspberry-pi/london-underground-tube-service-display/">London Underground Tube Service&nbsp;Display</a></li></ul></li><li class="page_item page-item-12 page_item_has_children"><a href="http://itigloo.com/scripts/">Scripts</a><ul class='children'><li class="page_item page-item-104"><a href="http://itigloo.com/scripts/perl/">Perl</a></li><li class="page_item page-item-191"><a href="http://itigloo.com/scripts/python/">Python</a></li><li class="page_item page-item-107 page_item_has_children"><a href="http://itigloo.com/scripts/vbscript/">VBScript</a><ul class='children'><li class="page_item page-item-113"><a href="http://itigloo.com/scripts/vbscript/delete-shortcuts-from-all-users-profile-directory/">Delete Shortcuts from All Users profile&nbsp;directory</a></li></ul></li></ul></li><li class="page_item page-item-430 page_item_has_children current_page_ancestor current_page_parent"><a href="http://itigloo.com/security/">Security</a><ul class='children'><li class="page_item page-item-498"><a href="http://itigloo.com/security/change-openssl-default-signature-algorithm/">Change OpenSSL Default Signature&nbsp;Algorithm</a></li><li class="page_item page-item-472 current_page_item"><a href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/">Generate an OpenSSL Certificate Request with SHA256&nbsp;Signature</a></li><li class="page_item page-item-586"><a href="http://itigloo.com/security/how-to-configure-http-strict-transport-security-hsts-on-apache-nginx/">How to configure HTTP Strict Transport Security (HSTS) on Apache &amp;&nbsp;NGINX</a></li><li class="page_item page-item-555"><a href="http://itigloo.com/security/how-to-configure-ocsp-stapling-on-apache-http-server/">How to Configure OCSP Stapling on Apache HTTP&nbsp;Server</a></li></ul></li></ul></div>
+					<form role="search" method="get" class="search-form" action="http://itigloo.com/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" title="Search for:" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form>				</nav><!-- #site-navigation .navigation .main-navigation -->
+
+			</div><!-- #navbar .header-navigation -->
+
+		</header><!-- #masthead .site-header -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+
+		<div id="content" class="site-content" role="main">
+
+			
+<article id="post-472" class="post-472 page type-page status-publish hentry">
+
+	<header class="entry-header">
+
+		
+		<h1 class="entry-title">Generate an OpenSSL Certificate Request with SHA256&nbsp;Signature</h1>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p>Google have recently announced that they are going to start reporting that SSL certificates that are signed with a SHA-1 Hash will be treated as having a lower security than those signed with newer, higher strength hashes such as SHA-256 or SHA-512.</p>
+<p>Google&#8217;s announcement can be found here at <a title="Gradually sunsetting SHA-1" href="http://googleonlinesecurity.blogspot.co.uk/2014/09/gradually-sunsetting-sha-1.html">http://googleonlinesecurity.blogspot.co.uk/2014/09/gradually-sunsetting-sha-1.html</a></p>
+<p>Technically at the moment there isn&#8217;t anything really wrong with the SHA-1 hash function, but it is now quite old and is starting to show potential cracks. Hence the reason that the security industry is advising to move to something better. In this case SHA-256.</p>
+<p><strong>1. Generate a SSL Key File</strong></p>
+<p style="padding-left:30px;">Firstly you will need to generate a key  file. The example below will generate a 2048 bit key file with a SHA-256 signature.</p>
+<blockquote>
+<pre id="vcc_sp_pre_49" class="pre codeblock" style="padding-left:30px;"><code id="vcc_sp_code_50">openssl genrsa -out <var id="vcc_sp_var_51" class="keyword varname">key_name</var>.key 2048 </code></pre>
+</blockquote>
+<p style="padding-left:30px;">If you want extra security you could increase the bit lengths.</p>
+<blockquote>
+<pre style="padding-left:30px;"><code>openssl genrsa -out key_name.key 4096</code></pre>
+</blockquote>
+<p style="padding-left:30px;">** Please note that both these examples will not add a password to the key file. To do that you will need to add -des3 to the command.</p>
+<p><strong>2. Create a Certificate Signing Request (CSR)</strong></p>
+<p style="padding-left:30px;"> This step will create the actually request file that you will submit to the Certificate Authority (CA) of your choice.</p>
+<blockquote>
+<pre style="padding-left:30px;"><code>openssl req -out <span style="text-decoration:underline;">CSR.csr</span> -key key_name<span style="text-decoration:underline;">.key</span> -new -sha256</code></pre>
+</blockquote>
+<p style="padding-left:30px;">You can check that your Certificate Signing Request (CSR) has the correct signature by running the following.</p>
+<blockquote>
+<pre style="padding-left:30px;"><code>openssl req -in CSR.csr -noout -text</code></pre>
+</blockquote>
+<p style="padding-left:30px;">It should display the following if the signature is correct.</p>
+<blockquote>
+<pre style="padding-left:30px;"><code>Signature Algorithm: sha256WithRSAEncryption</code></pre>
+</blockquote>
+<p><strong>3. Install the Certificate (CRT)</strong></p>
+<p style="padding-left:30px;">This step is very dependant of the software you use and I won&#8217;t really cover. All I will say is that these certificates are supported by a multitude of software, including Apache HTTPD and NGINX.</p>
+<p><strong>4. Test your installed Certificate</strong></p>
+<p style="padding-left:30px;">This step is extremely important and will show you any security problems with your SSL configuration.</p>
+<p style="padding-left:30px;">Qualys have a free hosted service that tests the SSL configuration of Internet facing web servers for SSL issues. The sites tested are rated from A to F, and a report is generated. This report is really useful for tuning your SSL configuration.</p>
+<p style="padding-left:60px;"><a title="SSL Labs" href="https://www.ssllabs.com/">https://www.ssllabs.com/</a></p>
+<p style="padding-left:30px;">The SSL Labs tests are regularly updated when new issues are discovered. This means that if your server is rated as A today, next week it maybe rated as C.</p>
+<p>&nbsp;</p>
+<p class="pre codeblock">
+<div id="jp-post-flair" class="sharedaddy sd-rating-enabled sd-like-enabled sd-sharing-enabled"><div class="sd-block sd-rating"><h3 class="sd-title">Rate this:</h3><div class="pd-rating" id="pd_rating_holder_675490_page_472"></div></div><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-472" class="share-google-plus-1 sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-472" class="share-twitter sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-472" class="share-facebook sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=facebook" target="_blank" title="Share on Facebook"><span></span><span class="sharing-screen-reader-text">Share on Facebook (Opens in new window)</span></a></li><li class="share-reddit"><a rel="nofollow" data-shared="" class="share-reddit sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=reddit" target="_blank" title="Click to share on Reddit"><span></span><span class="sharing-screen-reader-text">Click to share on Reddit (Opens in new window)</span></a></li><li class="share-tumblr"><a rel="nofollow" data-shared="" class="share-tumblr sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=tumblr" target="_blank" title="Click to share on Tumblr"><span></span><span class="sharing-screen-reader-text">Click to share on Tumblr (Opens in new window)</span></a></li><li><a href="#" class="sharing-anchor sd-button share-more"><span>More</span></a></li><li class="share-end"></li></ul><div class="sharing-hidden"><div class="inner" style="display: none;"><ul><li class="share-email"><a rel="nofollow" data-shared="" class="share-email sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=email" target="_blank" title="Click to email"><span></span><span class="sharing-screen-reader-text">Click to email (Opens in new window)</span></a></li><li class="share-print"><a rel="nofollow" data-shared="" class="share-print sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/#print" target="_blank" title="Click to print"><span></span><span class="sharing-screen-reader-text">Click to print (Opens in new window)</span></a></li><li class="share-end"></li><li class="share-pinterest"><a rel="nofollow" data-shared="sharing-pinterest-472" class="share-pinterest sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=pinterest" target="_blank" title="Click to share on Pinterest"><span></span><span class="sharing-screen-reader-text">Click to share on Pinterest (Opens in new window)</span></a></li><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-472" class="share-linkedin sd-button share-icon no-text" href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span></span><span class="sharing-screen-reader-text">Click to share on LinkedIn (Opens in new window)</span></a></li><li class="share-end"></li><li class="share-end"></li></ul></div></div></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-9120134-472-56cfbf8546e85' data-src='//widgets.wp.com/likes/#blog_id=9120134&amp;post_id=472&amp;origin=itigloo.wordpress.com&amp;obj_id=9120134-472-56cfbf8546e85' data-name='like-post-frame-9120134-472-56cfbf8546e85'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+			</footer><!-- .entry-meta -->
+
+</article><!-- #post-# .#post-class-# -->
+
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			4 comments		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-3146" class="pingback even thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href='http://itigloo.com/2014/09/17/openssl-sha256-certificate-migration/' rel='external nofollow' class='url'>OpenSSL SHA256 Certificate Migration | IT Igloo</a> 			</div>
+</li><!-- #comment-## -->
+		<li id="comment-3680" class="comment odd alt thread-odd thread-alt depth-1 highlander-comment">
+			<article id="div-comment-3680" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt='' src='http://2.gravatar.com/avatar/bd912e038877c0ebc573b39a04e4f88d?s=40&#038;d=http%3A%2F%2F2.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&#038;r=G' class='avatar avatar-40' height='40' width='40' />						<b class="fn">Dave Pastern</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/#comment-3680">
+							<time datetime="2015-04-09T05:57:00+00:00">
+								April 9, 2015 at 5:57 AM							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Can&#8217;t you just do it all in One hit:</p>
+<p>openssl req -nodes -newkey rsa:4096 -sha256 -keyout test.key -out test.csr</p>
+<p>Dave</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel='nofollow' class='comment-reply-link' href='http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/?replytocom=3680#respond' onclick='return addComment.moveForm( "div-comment-3680", "3680", "respond", "472" )' aria-label='Reply to Dave Pastern'>Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-3738" class="pingback even thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href='https://armantutorial.wordpress.com/2015/04/28/generate-private-key-and-csr-certificates-in-openssl-for-apache/' rel='external nofollow' class='url'>GENERATE PRIVATE KEY AND CSR CERTIFICATES IN OPENSSL FOR APACHE | armantutorial</a> 			</div>
+</li><!-- #comment-## -->
+		<li id="comment-3743" class="pingback odd alt thread-odd thread-alt depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href='https://armantutorial.wordpress.com/2015/05/29/generate-an-openssl-certificate-request-with-sha256-signature/' rel='external nofollow' class='url'>GENERATE AN OPENSSL CERTIFICATE REQUEST WITH SHA256 SIGNATURE | armantutorial</a> 			</div>
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		
+	
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/security/generate-an-openssl-certificate-request-with-sha-256-signature/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="http://itigloo.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate>
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="4cc58a4910" /><input type="hidden" name="_wp_http_referer" value="/security/generate-an-openssl-certificate-request-with-sha-256-signature/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p><p class="post-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" tabindex="7"/> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog"  style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='472' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b196b1e1b2" /></p>
+<input type="hidden" name="genseq" value="1456455557" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="17"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments .comments-area -->
+		</div><!-- #content .site-content -->
+
+	</div><!-- #primary .content-area -->
+
+
+	<div id="secondary" class="sidebar-container" role="complementary">
+		<div class="widget-area">
+			<aside id="linkcat-2200" class="widget widget_links"><h3 class="widget-title">Links</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="https://grc.com" target="_blank">Gibson Research Corporation</a></li>
+<li><a href="https://launchpad.net/~cwoollard" title="Chris Woollard&#8217;s Launchpad">My Launchpad</a></li>
+<li><a href="http://planet.ubuntu.com" title="Planet Ubuntu" target="_blank">Planet Ubuntu</a></li>
+<li><a href="http://kryogenix.org/days/" title="Stuart Langridge&#8217;s Blog" target="_blank">Stuart Langridge</a></li>
+<li><a href="http://www.rhyspowell.com/" title="Rhys Powell&#8217;s Blog" target="_blank">The Random Ramblings</a></li>
+
+	</ul>
+</aside>
+<aside id="twitter-3" class="widget widget_twitter"><h3 class="widget-title"><a href='http://twitter.com/cwoollard'>Twitter</a></h3><ul class='tweets'>
+			<li>
+				@<a href='http://twitter.com/loothi'>loothi</a> I like your profile picture. You haven&#039;t really changed. I do however remember the incident with your pink hair :) 				<a href="http://twitter.com/cwoollard/statuses/702806438138224640" class="timesince">16&nbsp;hours&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				@<a href='http://twitter.com/SouthernRailUK'>SouthernRailUK</a> thanks a bunch. Took 3.5 hours to get from Brighton to London Bridge today 				<a href="http://twitter.com/cwoollard/statuses/689024567235444736" class="timesince">1&nbsp;month&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				@<a href='http://twitter.com/All4'>All4</a> Apple TV app would be more usefull 				<a href="http://twitter.com/cwoollard/statuses/688335417205198848" class="timesince">1&nbsp;month&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				@<a href='http://twitter.com/JeremyClarkson'>JeremyClarkson</a> Somebody doesn&#039;t like your opinion about caravans 😀 <a href="https://t.co/gF63isRlVz" rel="nofollow">https://t.co/gF63isRlVz</a> 				<a href="http://twitter.com/cwoollard/statuses/684746998071869440" class="timesince">1&nbsp;month&nbsp;ago</a>
+			</li>
+
+			
+			<li>
+				@<a href='http://twitter.com/BrightonHoveBus'>BrightonHoveBus</a> Also the one that did stop at the station wouldn&#039;t let anybody on and was very rude 				<a href="http://twitter.com/cwoollard/statuses/676837367215489027" class="timesince">2&nbsp;months&nbsp;ago</a>
+			</li>
+
+			</ul></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+					<li>
+				<a href="http://itigloo.com/2015/03/03/raspberry-pi-line-status-display-instructions-updated/">Raspberry Pi Line Status Display Instructions&nbsp;Updated</a>
+						</li>
+					<li>
+				<a href="http://itigloo.com/2015/02/28/linux-shell-scripting-cookbook-available-free-today-only/">Linux Shell Scripting Cookbook available Free &#8211; Today&nbsp;Only</a>
+						</li>
+					<li>
+				<a href="http://itigloo.com/2015/02/19/free-it-ebooks-from-packpub-until-5th-march/">Free IT eBooks from Packpub until 5th&nbsp;March</a>
+						</li>
+					<li>
+				<a href="http://itigloo.com/2015/01/22/configuring-hsts-ocsp-stapling/">Configuring HSTS &amp; OCSP&nbsp;Stapling</a>
+						</li>
+					<li>
+				<a href="http://itigloo.com/2015/01/14/david-cameron-wants-new-data-laws/">David Cameron wants new laws to restrict terrorists&nbsp;communication</a>
+						</li>
+				</ul>
+		</aside>		<aside id="archives-3" class="widget widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+			<li><a href='http://itigloo.com/2015/03/'>March 2015</a></li>
+	<li><a href='http://itigloo.com/2015/02/'>February 2015</a></li>
+	<li><a href='http://itigloo.com/2015/01/'>January 2015</a></li>
+	<li><a href='http://itigloo.com/2014/09/'>September 2014</a></li>
+	<li><a href='http://itigloo.com/2012/01/'>January 2012</a></li>
+	<li><a href='http://itigloo.com/2011/12/'>December 2011</a></li>
+	<li><a href='http://itigloo.com/2011/09/'>September 2011</a></li>
+	<li><a href='http://itigloo.com/2011/06/'>June 2011</a></li>
+	<li><a href='http://itigloo.com/2011/03/'>March 2011</a></li>
+	<li><a href='http://itigloo.com/2011/01/'>January 2011</a></li>
+	<li><a href='http://itigloo.com/2010/12/'>December 2010</a></li>
+	<li><a href='http://itigloo.com/2010/10/'>October 2010</a></li>
+	<li><a href='http://itigloo.com/2010/04/'>April 2010</a></li>
+	<li><a href='http://itigloo.com/2010/01/'>January 2010</a></li>
+	<li><a href='http://itigloo.com/2009/12/'>December 2009</a></li>
+	<li><a href='http://itigloo.com/2009/11/'>November 2009</a></li>
+	<li><a href='http://itigloo.com/2009/10/'>October 2009</a></li>
+		</ul>
+		</aside><aside id="blog_subscription-3" class="widget widget_blog_subscription"><h3 class="widget-title"><label for="subscribe-field">Email Subscription</label></h3>
+				<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>Enter your email address to subscribe to this blog and receive notifications of new posts by email.</p>
+<p>Join 822 other followers</p>
+						<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" placeholder="Enter your email address" value="" id="subscribe-field"/></p>
+					
+					<p>
+						<input type="hidden" name="action" value="subscribe"/>
+						<input type="hidden" name="blog_id" value="9120134"/>
+						<input type="hidden" name="source" value="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/"/>
+						<input type="hidden" name="sub-type" value="widget"/>
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-3" />
+						<input type="hidden" id="_wpnonce" name="_wpnonce" value="566eccf4cf" />						<input type="submit" value="Sign me up!" />
+					</p>
+				</form>
+			
+</aside><aside id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h3 class="widget-title"></h3><div style="overflow:hidden"><a href='http://itigloo.com/tag/10-04/' class='tag-link-21459063' title='1 topic' style='font-size: 8pt;'>10.04</a>
+<a href='http://itigloo.com/tag/android/' class='tag-link-641922' title='1 topic' style='font-size: 8pt;'>Android</a>
+<a href='http://itigloo.com/tag/apache/' class='tag-link-3768' title='2 topics' style='font-size: 14.3pt;'>Apache</a>
+<a href='http://itigloo.com/tag/apple/' class='tag-link-291' title='1 topic' style='font-size: 8pt;'>Apple</a>
+<a href='http://itigloo.com/tag/books-2/' class='tag-link-20909451' title='1 topic' style='font-size: 8pt;'>books</a>
+<a href='http://itigloo.com/tag/csr/' class='tag-link-23818' title='1 topic' style='font-size: 8pt;'>csr</a>
+<a href='http://itigloo.com/tag/david-cameron/' class='tag-link-101236' title='1 topic' style='font-size: 8pt;'>David Cameron</a>
+<a href='http://itigloo.com/tag/fail/' class='tag-link-112207' title='1 topic' style='font-size: 8pt;'>Fail</a>
+<a href='http://itigloo.com/tag/firefox/' class='tag-link-45' title='1 topic' style='font-size: 8pt;'>Firefox</a>
+<a href='http://itigloo.com/tag/free-ebooks/' class='tag-link-26398' title='2 topics' style='font-size: 14.3pt;'>free ebooks</a>
+<a href='http://itigloo.com/tag/google-chrome/' class='tag-link-10625068' title='1 topic' style='font-size: 8pt;'>google chrome</a>
+<a href='http://itigloo.com/tag/hsts/' class='tag-link-3122897' title='1 topic' style='font-size: 8pt;'>hsts</a>
+<a href='http://itigloo.com/tag/htc/' class='tag-link-164620' title='1 topic' style='font-size: 8pt;'>HTC</a>
+<a href='http://itigloo.com/tag/html5/' class='tag-link-53242' title='1 topic' style='font-size: 8pt;'>html5</a>
+<a href='http://itigloo.com/tag/karmic/' class='tag-link-1211948' title='1 topic' style='font-size: 8pt;'>Karmic</a>
+<a href='http://itigloo.com/tag/linux/' class='tag-link-610' title='4 topics' style='font-size: 22pt;'>Linux</a>
+<a href='http://itigloo.com/tag/london/' class='tag-link-1618' title='1 topic' style='font-size: 8pt;'>London</a>
+<a href='http://itigloo.com/tag/london-underground/' class='tag-link-12277' title='1 topic' style='font-size: 8pt;'>London Underground</a>
+<a href='http://itigloo.com/tag/lucid/' class='tag-link-316925' title='2 topics' style='font-size: 14.3pt;'>lucid</a>
+<a href='http://itigloo.com/tag/netflix/' class='tag-link-1182' title='2 topics' style='font-size: 14.3pt;'>Netflix</a>
+<a href='http://itigloo.com/tag/nginx-2/' class='tag-link-44527530' title='1 topic' style='font-size: 8pt;'>nginx</a>
+<a href='http://itigloo.com/tag/ocsp-stapling/' class='tag-link-122475051' title='1 topic' style='font-size: 8pt;'>ocsp stapling</a>
+<a href='http://itigloo.com/tag/openssl/' class='tag-link-1359391' title='1 topic' style='font-size: 8pt;'>openssl</a>
+<a href='http://itigloo.com/tag/opera/' class='tag-link-1906' title='1 topic' style='font-size: 8pt;'>Opera</a>
+<a href='http://itigloo.com/tag/oreilly/' class='tag-link-18600' title='1 topic' style='font-size: 8pt;'>oreilly</a>
+<a href='http://itigloo.com/tag/packtpub/' class='tag-link-13618216' title='1 topic' style='font-size: 8pt;'>Packtpub</a>
+<a href='http://itigloo.com/tag/perl/' class='tag-link-5226' title='1 topic' style='font-size: 8pt;'>Perl</a>
+<a href='http://itigloo.com/tag/pi/' class='tag-link-97468' title='1 topic' style='font-size: 8pt;'>Pi</a>
+<a href='http://itigloo.com/tag/pi-media-case/' class='tag-link-276975319' title='1 topic' style='font-size: 8pt;'>Pi Media Case</a>
+<a href='http://itigloo.com/tag/raspberry-pi/' class='tag-link-49695267' title='3 topics' style='font-size: 18.5pt;'>Raspberry Pi</a>
+<a href='http://itigloo.com/tag/register-hacked/' class='tag-link-63879249' title='1 topic' style='font-size: 8pt;'>register hacked</a>
+<a href='http://itigloo.com/tag/search/' class='tag-link-2373' title='1 topic' style='font-size: 8pt;'>Search</a>
+<a href='http://itigloo.com/tag/secure-shell/' class='tag-link-483768' title='1 topic' style='font-size: 8pt;'>Secure Shell</a>
+<a href='http://itigloo.com/tag/security-2/' class='tag-link-21587494' title='4 topics' style='font-size: 22pt;'>security</a>
+<a href='http://itigloo.com/tag/security-breach/' class='tag-link-67382' title='1 topic' style='font-size: 8pt;'>Security Breach</a>
+<a href='http://itigloo.com/tag/sha-256/' class='tag-link-11040365' title='1 topic' style='font-size: 8pt;'>sha-256</a>
+<a href='http://itigloo.com/tag/shell-scripting/' class='tag-link-290243' title='1 topic' style='font-size: 8pt;'>Shell Scripting</a>
+<a href='http://itigloo.com/tag/silverlight-is-evil/' class='tag-link-74390865' title='1 topic' style='font-size: 8pt;'>Silverlight is evil</a>
+<a href='http://itigloo.com/tag/smoking/' class='tag-link-52420' title='1 topic' style='font-size: 8pt;'>smoking</a>
+<a href='http://itigloo.com/tag/ssh/' class='tag-link-49320' title='1 topic' style='font-size: 8pt;'>SSH</a>
+<a href='http://itigloo.com/tag/ssh-ciphers/' class='tag-link-317605056' title='1 topic' style='font-size: 8pt;'>SSH Ciphers</a>
+<a href='http://itigloo.com/tag/ssl/' class='tag-link-58302' title='1 topic' style='font-size: 8pt;'>ssl</a>
+<a href='http://itigloo.com/tag/subversion/' class='tag-link-42964' title='1 topic' style='font-size: 8pt;'>Subversion</a>
+<a href='http://itigloo.com/tag/tfl-line-status/' class='tag-link-333195547' title='1 topic' style='font-size: 8pt;'>Tfl Line Status</a>
+<a href='http://itigloo.com/tag/tube/' class='tag-link-70340' title='1 topic' style='font-size: 8pt;'>Tube</a>
+<a href='http://itigloo.com/tag/ubuntu/' class='tag-link-255' title='2 topics' style='font-size: 14.3pt;'>Ubuntu</a>
+<a href='http://itigloo.com/tag/ubuntu-9-10/' class='tag-link-20402240' title='1 topic' style='font-size: 8pt;'>Ubuntu 9.10</a>
+<a href='http://itigloo.com/tag/ubuntu-10-04/' class='tag-link-21113898' title='1 topic' style='font-size: 8pt;'>Ubuntu 10.04</a>
+<a href='http://itigloo.com/tag/uk-government/' class='tag-link-77047' title='1 topic' style='font-size: 8pt;'>UK Government</a></div></aside>		</div><!-- .widget-area -->
+	</div><!-- #secondary .sidebar-container -->
+
+
+		</div><!-- #main .site-main -->
+
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			<div class="site-info-container">
+
+				<div class="site-info">
+										<a href="https://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com.</a>
+					<a href="https://wordpress.com/themes/suits/" title="Learn more about this theme">The Suits Theme</a>.				</div><!-- .site-info -->
+
+			</div><!-- .site-info-container -->
+
+		</footer><!-- #colophon .site-footer -->
+
+	</div><!-- #page -->
+
+<!-- wpcom_wp_footer -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201608y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781g'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-bd912e038877c0ebc573b39a04e4f88d">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/itigloo.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/itigloo.wordpress.com\/wp-login.php?action=logout&_wpnonce=a7986043d7","homeURL":"http:\/\/itigloo.com\/","postID":"472","gravDefault":"mystery","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1424115551j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;IT Igloo&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+						<p class="bit-follow-count">Join 822 other followers</p>
+			<p><input type="email" name="email" placeholder="Enter your email address" id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="9120134"/>
+			<input type="hidden" name="source" value="http://itigloo.com/security/generate-an-openssl-certificate-request-with-sha-256-signature/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="566eccf4cf" /><input type="hidden" name="_wp_http_referer" value="/security/generate-an-openssl-certificate-request-with-sha-256-signature/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="https://wordpress.com/?ref=lof">Build a website with WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+<script type='text/javascript' charset='UTF-8' id='polldaddyRatings'><!--//--><![CDATA[//><!--
+PDRTJS_settings_675490_page_472={"id":675490,"unique_id":"wp-page-472","title":"Generate%20an%20OpenSSL%20Certificate%20Request%20with%20SHA256%26nbsp%3BSignature","permalink":"http:\/\/itigloo.com\/security\/generate-an-openssl-certificate-request-with-sha-256-signature\/","item_id":"_page_472"}; if ( typeof PDRTJS_RATING !== 'undefined' ){if ( typeof PDRTJS_675490_page_472 == 'undefined' ){PDRTJS_675490_page_472 = new PDRTJS_RATING( PDRTJS_settings_675490_page_472 );}}
+//--><!]]></script><script type='text/javascript' charset='UTF-8' src='http://i0.poll.fm/js/rating/rating.js'></script>
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"http:\/\/itigloo.com\/security\/generate-an-openssl-certificate-request-with-sha-256-signature\/":472};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-tumblr' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtumblr', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+		});
+		</script>
+			<div id="sharing_email" style="display: none;">
+		<form action="/security/generate-an-openssl-certificate-request-with-sha-256-signature/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="" />
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="" />
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="" />
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" />
+			<script> document.getElementById('jetpack-source_f_name').value = ''; </script>
+			<div class="recaptcha" id="sharing_recaptcha"></div><input type="hidden" name="recaptcha_public_key" id="recaptcha_public_key" value="6LcYW8MSAAAAADBAuEH9yaPcF7lWh11Iq62ZKtoo" />
+			<img style="float: right; display: none" class="loading" src="http://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/images/loading.gif?m=1315610318g" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a rel="nofollow" href="#cancel" class="sharing_cancel">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+					<script type="text/javascript">
+				jQuery(document).on('ready', function(){
+					jQuery('body').on('click', 'a.share-pinterest', function(e){
+						e.preventDefault();
+						// Load Pinterest Bookmarklet code
+						var s = document.createElement("script");
+						s.type = "text/javascript";
+						s.src = window.location.protocol + "//assets.pinterest.com/js/pinmarklet.js?r=" + ( Math.random() * 99999999 );
+						var x = document.getElementsByTagName("script")[0];
+						x.parentNode.insertBefore(s, x);
+						// Trigger Stats
+						var s = document.createElement("script");
+						s.type = "text/javascript";
+						s.src = this + ( this.toString().indexOf( '?' ) ? '&' : '?' ) + 'js_only=1';
+						var x = document.getElementsByTagName("script")[0];
+						x.parentNode.insertBefore(s, x);
+					});
+				});
+			</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-linkedin' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='http://widgets.wp.com/likes/master.html?ver=20151208#ver=20151208&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesWidgetBatch = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesBatchHandler() {
+				var requests = [];
+				jQuery( 'div.jetpack-likes-widget-unloaded' ).each( function( i ) {
+					if ( jetpackLikesWidgetBatch.indexOf( this.id ) > -1 )
+						return;
+					jetpackLikesWidgetBatch.push( this.id );
+					var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+					var match = regex.exec( this.id );
+					if ( ! match || match.length != 5 )
+						return;
+
+					var info = {
+						blog_id: match[2],
+						width:   this.width
+					};
+
+					if ( 'post' == match[1] ) {
+						info.post_id = match[3];
+					} else if ( 'comment' == match[1] ) {
+						info.comment_id = match[3];
+					}
+
+					info.obj_id = match[4];
+
+					requests.push( info );
+				});
+
+				if ( requests.length > 0 ) {
+					JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+				}
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' ),
+								isRtl: ( 'rtl' == jQuery( '#wpadminbar' ).css( 'direction' ) )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						JetpackLikesBatchHandler();
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'clickReblogFlair' == event.event ) {
+					wpcom_reblog.toggle_reblog_box_flair( event.obj_id );
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Grab any unloaded widgets for a batch request
+					JetpackLikesBatchHandler();
+
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				if ( 'undefined' === typeof wrapperID ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431g'></script>
+<script type='text/javascript' src='http://platform.twitter.com/widgets.js?ver=20111117'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var JetpackEmojiSettings = {"base_url":"http:\/\/s0.wp.com\/wp-content\/mu-plugins\/emoji\/twemoji\/"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyNy0ESgjAMheELWSIOjrpwPAuWAKlt2iGp6O2tzrDQDa7e4n0/zMnYyIqs4AQ6vJPF9KicbKBcxNbnDuX92RhCYWbC5J9VIF7Q0uuIodCUryCZ9BP1ma1SZPnFIZvk80AsgCE6Ap2/dtU71NTam/lPr6kURU3vW5pAxnYiHpYt0SWc62a/O9THZntyL4nzchI='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "itigloo.wordpress.com";
+	</script>
+	<script type="text/javascript" src="http://s.skimresources.com/js/725X1342.skimlinks.js"></script><script src="//stats.wp.com/w.js?51" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'9120134','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'9120134','v':'wpcom','tz':'0','user_id':'0','post':'472','subd':'itigloo'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1LVmwrVi5vQS5fVFtfdHBbPyw1VXIrU3hWLHhzVndTdktBX0ddJnpXRjVaOTd6fj1YMX4ydzRUSk0wbVRfODlnNUZzfmJrbl9wTE15SE10Rm1PZlZXMS4vcnVLZGhaNEgxaDZGMzUsRTJSQ0FuOHViTE5KJnFQNVdHWzBqLnZBcEN6NXROXS1UP0MwfGQ4OFoxVFpjOU5TeURNXVsmREQrY3csej9qdz0mRD9qZHZdfkJYYzliPVp5RUQmWDV1RDc1NXdGcmZVMV9GcHU4YiZ0QT9PenVVL0l8d35QUkZCJUZuaG5yaCVlVEc4Z1tXZCZycT1dMlUlLD95cVVmLzVWL1c4VFVoVmU9LnVxeT9yNGQ5V0l5eDJVTG4vLg=='}]);
+_stq.push([ 'clickTrackerInit', '9120134', '472' ]);
+	</script>
+<noscript><img src="http://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>

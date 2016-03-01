@@ -1,0 +1,11 @@
+# http://howtolamp.com/lamp/mysql/5.6/installing/
+
+sudo apt-get install cmake libaio-dev \
+libncurses5 libncurses5-dev \
+perl libgd-gd2-perl google-mock \
+libevent-2.0-5 libevent-dev libevent-perl
+
+sudo useradd -r -U mysql -M -d /opt/mysql/data
+
+# http://dev.mysql.com/doc/mysql-sourcebuild-excerpt/5.6/en/source-configuration-options.html
+cmake . -DCMAKE_INSTALL_PREFIX=/opt/mysql -DMYSQL_DATADIR=/opt/mysql/data -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci

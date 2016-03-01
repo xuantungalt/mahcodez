@@ -1,0 +1,32 @@
+DRBD
+
+Step 1 : Create the Image file
+Use “dd” to create the 512Mb file as given below.
+$ dd if=/dev/zero of=test.img bs=1024 count=524288
+$ dd if=/dev/urandom of=file bs=1MB count=512
+How much is 512MB?
+512MB => 512*1024 = 524288
+
+Step 2 : Test the image file
+$ fdisk test.img -lu
+Disk test.img doesn’t contain a valid partition table since we haven’t created one yet.
+
+Step 3 : Create a partition
+For creating a partition table using fdisk in the image, we have to set the following settings.
+
+1. Set cylinder number , based on image size we have created.
+2. Create partition
+
+$ fdisk -u test.img
+Command (m for help): p
+Command (m for help): x
+Expert command (m for help): c
+Number of cylinders (1-1048576): NOC (from above equation) # no. of cylinders (NOC) = (size of the image in bytes / (255*63))
+Command (m for help): w
+
+Step 4 : Loop mount the partition and format it as EXT3
+$ losetup –offset 63*512 /dev/loop0 test.img
+$ mkfs.ext3 /dev/loop0
+
+Step 5 : Umount the loop device
+$ losetup -d /dev/loop0

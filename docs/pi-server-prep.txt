@@ -1,0 +1,39 @@
+# reference
+https://help.ubuntu.com/community/NFSv4Howto
+http://www.tldp.org/HOWTO/NFS-HOWTO/security.html
+
+sudo dpkg-reconfigure tzdata
+sudo update-alternatives --config editor
+sudo raspi-config
+
+sudo unlink /bin/sh
+sudo ln -s /bin/bash /bin/sh
+~/.vimrc
+scp /usr/share/vim/vim73/colors/vividchalk.vim root@10.1.1.21:/usr/share/vim/vim73/colors/vividchalk.vim
+
+ssh-keygen -C rp-blc-21@xuantungalt@ddns.net
+
+# NFS
+sudo apt-get purge nfs-common rpcbind nfs-kernel-server
+sudo apt-get update
+sudo apt-get install nfs-kernel-server nfs-common rpcbind nfs4-acl-tools nfswatch
+sudo modprobe ipv6
+sudo service nfs-kernel-server start
+# error 
+could not open connection for tcp6
+edit /etc/netconfig and disable the lines that configure udp and tcp settings for IPv6
+Not starting: portmapper is not running ... (warning).
+
+
+# server
+vim /etc/exports
+/home/alt/softwares 10.1.1.*(rw,sync,crossmnt,no_subtree_check,root_squash)
+sudo exportfs -a
+sudo /etc/init.d/nfs-kernel-server restart
+sudo 'echo "0" > /selinux/config'
+# client
+showmount -e 10.1.1.21
+mount -t nfs4 -vv 10.1.1.21:/home/alt/softwares /home/alt/softwares
+
+sudo usermod -a -G root alt
+

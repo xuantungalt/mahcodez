@@ -1,0 +1,157 @@
+<!DOCTYPE html> <!--[if IE 6]><html
+id="ie6" lang="en-US"> <![endif]--> <!--[if IE 7]><html
+id="ie7" lang="en-US"> <![endif]--> <!--[if IE 8]><html
+id="ie8" lang="en-US"> <![endif]--> <!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!--><html
+lang="en-US"> <!--<![endif]--><head><link
+rel='stylesheet' href='http://openstack.prov12n.com/wp-content/plugins/wp-minify/min/?f=wp-content/themes/twentyeleven/style.css&amp;m=1383149705' type='text/css' media='screen' /> <script type='text/javascript' src='http://openstack.prov12n.com/wp-content/plugins/wp-minify/min/?f=wp-content/themes/twentyeleven/js/html5.js,wp-includes/js/comment-reply.min.js&amp;m=1383149705'></script> <meta
+charset="UTF-8" /><meta
+name="viewport" content="width=device-width" /><title>OpenStack on Raspberry Pi: Part 2 &ndash; Getting Started | Professional OpenStack</title><link
+rel="profile" href="http://gmpg.org/xfn/11" /><link
+rel="pingback" href="http://openstack.prov12n.com/xmlrpc.php" /> <!--[if lt IE 9]> <![endif]--><link
+rel="alternate" type="application/rss+xml" title="Professional OpenStack &raquo; Feed" href="http://openstack.prov12n.com/feed/" /><link
+rel="alternate" type="application/rss+xml" title="Professional OpenStack &raquo; Comments Feed" href="http://openstack.prov12n.com/comments/feed/" /><link
+rel="alternate" type="application/rss+xml" title="Professional OpenStack &raquo; OpenStack on Raspberry Pi: Part 2 &ndash; Getting Started Comments Feed" href="http://openstack.prov12n.com/openstack-on-raspberry-pi-part-2-getting-started/feed/" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://openstack.prov12n.com/xmlrpc.php?rsd" /><link
+rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://openstack.prov12n.com/wp-includes/wlwmanifest.xml" /><link
+rel='prev' title='OpenStack on Raspberry Pi: Part 1 &ndash; Why?' href='http://openstack.prov12n.com/openstack-on-raspberry-pi-part-1-why/' /><link
+rel='canonical' href='http://openstack.prov12n.com/openstack-on-raspberry-pi-part-2-getting-started/' /><link
+rel='shortlink' href='http://openstack.prov12n.com/?p=459' /> <script type="text/javascript">var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-34099280-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();</script> <style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style></head><body
+class="single single-post postid-459 single-format-standard singular two-column right-sidebar"><div
+id="page" class="hfeed"> <header
+id="branding" role="banner"> <hgroup><h1 id="site-title"><span><a
+href="http://openstack.prov12n.com/" title="Professional OpenStack" rel="home">Professional OpenStack</a></span></h1><h2 id="site-description">Turtles All The Way Down</h2> </hgroup> <a
+href="http://openstack.prov12n.com/"> <img
+src="http://openstack.prov12n.com/wp-content/themes/twentyeleven/images/headers/shore.jpg" width="1000" height="288" alt="" /> </a><form
+method="get" id="searchform" action="http://openstack.prov12n.com/"> <label
+for="s" class="assistive-text">Search</label> <input
+type="text" class="field" name="s" id="s" placeholder="Search" /> <input
+type="submit" class="submit" name="submit" id="searchsubmit" value="Search" /></form> <nav
+id="access" role="navigation"><h3 class="assistive-text">Main menu</h3><div
+class="skip-link"><a
+class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div><div
+class="skip-link"><a
+class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div><div
+class="menu"><ul><li ><a
+href="http://openstack.prov12n.com/">Home</a></li><li
+class="page_item page-item-277"><a
+href="http://openstack.prov12n.com/about-cody-bunch/">About Cody Bunch</a></li><li
+class="page_item page-item-449"><a
+href="http://openstack.prov12n.com/about-couch-to-openstack/">About Couch to OpenStack</a></li><li
+class="page_item page-item-247"><a
+href="http://openstack.prov12n.com/openstack_phase_1/">Couch to OpenStack Phase 1: Getting Started with OpenStack</a></li></ul></div> </nav> </header><div
+id="main"><div
+id="primary"><div
+id="content" role="main"> <nav
+id="nav-single"><h3 class="assistive-text">Post navigation</h3> <span
+class="nav-previous"><a
+href="http://openstack.prov12n.com/openstack-on-raspberry-pi-part-1-why/" rel="prev"><span
+class="meta-nav">&larr;</span> Previous</a></span> <span
+class="nav-next"></span> </nav> <article
+id="post-459" class="post-459 post type-post status-publish format-standard hentry category-ghettosan category-openstack category-raspberry-pi"> <header
+class="entry-header"><h1 class="entry-title">OpenStack on Raspberry Pi: Part 2 &ndash; Getting Started</h1><div
+class="entry-meta"> <span
+class="sep">Posted on </span><a
+href="http://openstack.prov12n.com/openstack-on-raspberry-pi-part-2-getting-started/" title="3:44 pm" rel="bookmark"><time
+class="entry-date" datetime="2013-11-23T15:44:01+00:00">2013/11/23</time></a><span
+class="by-author"> <span
+class="sep"> by </span> <span
+class="author vcard"><a
+class="url fn n" href="http://openstack.prov12n.com/author/openstackpro/" title="View all posts by OpenStackPro" rel="author">OpenStackPro</a></span></span></div> </header><div
+class="entry-content"><p>In part 1 we talked about the “Why” behind this project. In this, we start talking about the “How”. In this post, the “How” that we will cover, will get us from “Ok I have a rPI” to where we’re ready to install OpenStack.</p><p>We’ll cover:</p><ul><li>What we’re building<li>Getting an OS onto the rPI<li>Connecting to the rPI<li>Building an LXC compatible Kernel<li>Launching an LXC container</li></ul><p>Note: Rather than cover all of these steps explicitly (as there are a lot of them) I will link out to the resources used along the way.</p><h2>What we’re building</h2><p>For this setup, I have two Raspberry Pi’s that will be used in a “Controller / All-in-one” and “Compute” node type setup. Here they are:</p><p><img
+src="http://i.imgur.com/Cofqh27.jpg" width="400" height="300"></p><p>More specifically, the architecture will look something like this:</p><p><img
+src="http://openstack.prov12n.com/screens/Windows_8_x64_20131123_144958.jpg"></p><p>The rPI’s themselves are the <a
+href="http://www.amazon.com/RASPBERRY-MODEL-700Mhz-512Mb-RAM/dp/B009SQQF9C">Model B</a>.</p><h2>Getting an OS onto the rPI</h2><p>This was likely one of the easiest steps. In this case I used the directions provided by the Raspberry Pi folks, installed Noobs onto an SD card, and on first boot selected Raspian. Additionally, I over clocked both Pi as high as they would run, and reduced the video memory to 16MB.</p><p>Directions <a
+href="http://www.raspberrypi.org/quick-start-guide">here</a>.</p><h2>Connecting to the rPI</h2><p>Once installed, I configured the wifi whilst I still had it connected to a monitor. From there, however, everything is DHCP, so how to find them? For that, I used the following:</p><pre>$ sudo nmap -sP 10.0.1.0/24</pre><p>Which yielded:</p><pre>Nmap scan report for 10.0.1.16
+Host is up (0.51s latency).
+MAC Address: 80:1F:02:BC:07:45 (Edimax Technology Co.) </pre><p>From there, you can ssh to the rPI using:</p><p>ssh pi@10.0.1.16 (or putty on Windows)</p><h2>Building an LXC compatible Kernel</h2><p>This step took a REALLY long time. Over 5 hours or so. Before you get started, you will want to install screen and run these commands from within a screen session. It will make your life easier should the network flake out in the middle of this process.</p><pre><p>sudo apt-get update &amp;&amp; sudo apt-get install -y screen</p><p>screen</p></pre><p>Once you are in screen you can change windows and otherwise operate using some of the bits found <a
+href="http://www.rackaid.com/resources/linux-screen-tutorial-and-how-to/">here</a>.</p><p>The most comprehensive / working set of steps to get LXC running I found were <a
+href="http://raspberrypicloud.wordpress.com/2013/03/12/building-an-lxc-friendly-kernel-for-the-raspberry-pi/">these</a>. You will need to complete all of them before moving on.</p><h2>Launching an LXC container</h2><p>After you’ve let the rPI do it’s compiling and rebooting run this command to ensure that LXC is happy enough to work:</p><pre># lxc-checkconfig
+--- Namespaces ---
+Namespaces: enabled
+Utsname namespace: enabled
+Ipc namespace: enabled
+Pid namespace: enabled
+User namespace: missing
+Network namespace: enabled
+Multiple /dev/pts instances: enabled
+--- Control groups ---
+Cgroup: enabled
+Cgroup clone_children flag: enabled
+Cgroup device: enabled
+Cgroup sched: enabled
+Cgroup cpu account: enabled
+Cgroup memory controller: enabled
+--- Misc ---
+Veth pair device: enabled
+Macvlan: enabled
+Vlan: enabled
+File capabilities: enabled
+Note : Before booting a new kernel, you can check its configuration
+usage : CONFIG=/path/to/config /usr/local/bin/lxc-checkconfig</pre><p>Next up, you will need to complete these <a
+href="http://raspberrypicloud.wordpress.com/2013/03/12/creating-an-lxc-container-on-the-raspberry-pi/">instructions</a> to build and launch your first LXC container. Make sure it launches before you attempt to move into part 3.</p><h1>Summary</h1><p>Wee! So, 5 hours or 7 or so. Whatever… it’s LXC on an rPI! You did follow these directions on <em>both</em> units, right? It’s ok if you didn’t, the ‘controller’ Pi will still work with a single compute Pi.</p></div> <footer
+class="entry-meta"> This entry was posted in <a
+href="http://openstack.prov12n.com/category/ghettosan/" title="View all posts in GhettoSAN" rel="category tag">GhettoSAN</a>, <a
+href="http://openstack.prov12n.com/category/openstack/" title="View all posts in OpenStack" rel="category tag">OpenStack</a>, <a
+href="http://openstack.prov12n.com/category/raspberry-pi/" title="View all posts in raspberry pi" rel="category tag">raspberry pi</a> by <a
+href="http://openstack.prov12n.com/author/openstackpro/">OpenStackPro</a>. Bookmark the <a
+href="http://openstack.prov12n.com/openstack-on-raspberry-pi-part-2-getting-started/" title="Permalink to OpenStack on Raspberry Pi: Part 2 &ndash; Getting Started" rel="bookmark">permalink</a>. </footer> </article><div
+id="disqus_thread"></div> <script type="text/javascript">/*  */
+    var disqus_url = 'http://openstack.prov12n.com/openstack-on-raspberry-pi-part-2-getting-started/';
+    var disqus_identifier = '459 http://openstack.prov12n.com/?p=459';
+    var disqus_container_id = 'disqus_thread';
+    var disqus_domain = 'disqus.com';
+    var disqus_shortname = 'professionalopenstack';
+    var disqus_title = "OpenStack on Raspberry Pi: Part 2 &ndash; Getting Started";
+        var disqus_config = function () {
+        var config = this; // Access to the config object
+        config.language = '';
+        /*
+           All currently supported events:
+            * preData — fires just before we request for initial data
+            * preInit - fires after we get initial data but before we load any dependencies
+            * onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+            * afterRender - fires when template is rendered but before we show it
+            * onReady - everything is done
+         */
+        config.callbacks.preData.push(function() {
+            // clear out the container (its filled for SEO/legacy purposes)
+            document.getElementById(disqus_container_id).innerHTML = '';
+        });
+                config.callbacks.onReady.push(function() {
+            // sync comments in the background so we don't block the page
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=459';
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        });
+                    };
+/*  */</script> <script type="text/javascript">/*  */
+    var DsqLocal = {
+        'trackbacks': [
+        ],
+        'trackback_url': "http:\/\/openstack.prov12n.com\/openstack-on-raspberry-pi-part-2-getting-started\/trackback\/"    };
+/*  */</script> <script type="text/javascript">/*  */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.' + 'disqus.com' + '/embed.js?pname=wordpress&pver=2.74';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+/*  */</script> </div></div></div> <footer
+id="colophon" role="contentinfo"><div
+id="site-generator"> <a
+href="http://wordpress.org/" title="Semantic Personal Publishing Platform">Proudly powered by WordPress</a></div> </footer></div>
+</body>
+</html>
+<!-- Dynamic page generated in 2.371 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2013-11-23 15:52:20 -->
+
+<!-- Compression = gzip -->

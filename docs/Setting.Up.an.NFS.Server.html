@@ -1,0 +1,302 @@
+
+<!-- saved from url=(0047)http://www.tldp.org/HOWTO/NFS-HOWTO/server.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><title>Setting Up an NFS Server</title><meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.76b+
+"><link rel="HOME" title="Linux NFS-HOWTO" href="http://www.tldp.org/HOWTO/NFS-HOWTO/index.html"><link rel="PREVIOUS" title="Introduction" href="http://www.tldp.org/HOWTO/NFS-HOWTO/intro.html"><link rel="NEXT" title="Setting up an NFS Client" href="http://www.tldp.org/HOWTO/NFS-HOWTO/client.html"></head><body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="NAVHEADER"><table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tbody><tr><th colspan="3" align="center">Linux NFS-HOWTO</th></tr><tr><td width="10%" align="left" valign="bottom"><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/intro.html" accesskey="P">Prev</a></td><td width="80%" align="center" valign="bottom"></td><td width="10%" align="right" valign="bottom"><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/client.html" accesskey="N">Next</a></td></tr></tbody></table><hr align="LEFT" width="100%"></div><div class="SECT1"><h1 class="SECT1"><a name="SERVER">3. Setting Up an NFS Server</a></h1><div class="SECT2"><h2 class="SECT2"><a name="SERVERINTRO">3.1. Introduction to the server setup</a></h2><p><a name="SERVERINTRO">    It is assumed that you will be setting up both a server and a
+    client.  If you are just setting up a client to work off of
+    somebody else's server (say in your department), you can skip
+    to </a><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/client.html">Section 4</a>.  However, every client that is set up requires
+    modifications on the server to authorize that client (unless 
+    the server setup is done in a very insecure way), so even if you
+    are not setting up a server you may wish to read this section to
+    get an idea what kinds of authorization problems to look out for.
+ </p><p>    Setting up the server will be done in two steps: Setting up the 
+    configuration files for NFS, and then starting the NFS services.
+ </p></div><div class="SECT2"><h2 class="SECT2"><a name="CONFIG">3.2. Setting up the Configuration Files</a></h2><p><a name="CONFIG">   There are three main configuration files you will need to edit to 
+   set up an NFS server: <tt class="FILENAME">/etc/exports</tt>,
+   <tt class="FILENAME">/etc/hosts.allow</tt>, and  <tt class="FILENAME">/etc/hosts.deny</tt>. 
+   Strictly speaking, you only need to edit <tt class="FILENAME">/etc/exports</tt> to get 
+   NFS to work, but you would be left with an extremely insecure setup. You may also need 
+   to edit your startup scripts; see </a><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/server.html#DAEMONS">Section 3.3.3</a> for more on that.
+ </p><div class="SECT3"><h3 class="SECT3"><a name="EXPORTS">3.2.1. /etc/exports</a></h3><p><a name="EXPORTS">   This file contains a list of entries; each entry indicates a volume
+   that is shared and how it is shared.  Check the man pages (<b class="COMMAND">man 
+   exports</b>) for a complete description of all the setup options for 
+   the file, although the description here will probably satistfy 
+   most people's needs.
+ </a></p><p><a name="EXPORTS">   An entry in <tt class="FILENAME">/etc/exports</tt> will typically look like this:
+ <table border="0" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="PROGRAMLISTING"> directory machine1(option11,option12) machine2(option21,option22)</pre></font></td></tr></tbody></table></a></p><p><a name="EXPORTS">  where 
+  </a></p><div class="GLOSSLIST"><dl><dt><a name="EXPORTS"><b>directory</b></a></dt><dd><p><a name="EXPORTS">    the directory that you want to share.  It may be an 
+    entire volume though it need not be.  If you share a directory, 
+    then all directories under it within the same file system will 
+    be shared as well.
+   </a></p></dd><dt><a name="EXPORTS"><b>machine1 and machine2</b></a></dt><dd><p><a name="EXPORTS">    client machines that will have access to the directory. The machines
+    may be listed by their DNS address or their IP address 
+    (e.g., <em>machine.company.com</em> or <em>192.168.0.8</em>).
+    Using IP addresses is more reliable and more secure.  If you need to
+    use DNS addresses, and they do not seem to be resolving to the right
+    machine, see </a><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/troubleshooting.html#SYMPTOM3">Section 7.3</a>.
+   </p></dd><dt><b>optionxx</b></dt><dd><p>    the option listing for each machine will describe what kind of 
+    access that machine will have.  Important options are:
+    </p><p></p><ul><li><p>       <tt class="USERINPUT"><b>ro</b></tt>:  The directory is shared read only; the client machine 
+      will not be able to write to it.  This is the default.
+    </p></li><li><p>       <tt class="USERINPUT"><b>rw</b></tt>:  The client machine will have read and write access to the 
+      directory.
+     </p></li><li><p>       <tt class="USERINPUT"><b>no_root_squash</b></tt>: By default,
+       any file request made by user <tt class="COMPUTEROUTPUT">root</tt> 
+       on the client machine is treated as if it is made by user 
+       <tt class="COMPUTEROUTPUT">nobody</tt> on the 
+       server.  (Excatly which UID the request is 
+       mapped to depends on the UID of user "nobody" on the server,
+       not the client.)  If <tt class="USERINPUT"><b>no_root_squash</b></tt> 
+       is selected, then 
+       root on the client machine will have the same level of access 
+       to the files on the system as root on the server.  This 
+       can have serious security implications, although it may be 
+       necessary if you want to perform any administrative work on 
+       the client machine that involves the exported directories.
+       You should not specify this option without a good reason.
+     </p></li><li><p>       <tt class="USERINPUT"><b>no_subtree_check</b></tt>: If only part of a volume is exported, a
+       routine called subtree checking verifies that a file that is 
+       requested from the client is in the appropriate part of the 
+       volume.  If the entire volume is exported, disabling this check
+       will speed up transfers.
+     </p></li><li><p>       <tt class="USERINPUT"><b>sync</b></tt>:
+       By default, all but the most recent version (version 1.11)
+       of the <b class="COMMAND">exportfs</b> command will use 
+       <tt class="USERINPUT"><b>async</b></tt> behavior, telling a client 
+       machine that a file write is complete - that is, has been written 
+       to stable storage - when NFS has finished handing the write over to 
+       the filesysytem.  This behavior may cause data corruption if the 
+       server reboots, and the <tt class="USERINPUT"><b>sync</b></tt> option prevents 
+       this.  See <a href="http://www.tldp.org/HOWTO/NFS-HOWTO/performance.html#SYNC-ASYNC">Section 5.9</a> for a complete discussion of 
+       <tt class="USERINPUT"><b>sync</b></tt> and <tt class="USERINPUT"><b>async</b></tt> behavior.
+    </p></li></ul>
+  <p></p></dd></dl></div><p></p><p>  Suppose we have two client machines, <em>slave1</em> and <em>slave2</em>, that have IP
+  addresses <em>192.168.0.1</em> and <em>192.168.0.2</em>, respectively.  We wish to share
+  our software binaries and home directories with these machines.
+  A typical setup for <tt class="FILENAME">/etc/exports</tt> might look like this:
+ <table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">  /usr/local   192.168.0.1(ro) 192.168.0.2(ro)
+  /home        192.168.0.1(rw) 192.168.0.2(rw)
+ </pre></font></td></tr></tbody></table></p><p>  Here we are sharing <tt class="FILENAME">/usr/local</tt> read-only to slave1 and slave2, 
+  because it probably contains our software and there may not be 
+  benefits to allowing slave1 and slave2 to write to it that outweigh 
+  security concerns.  On the other hand, home directories need to be 
+  exported read-write if users are to save work on them.</p><p>  If you have a large installation, you may find that you have a bunch 
+  of computers all on the same local network that require access to 
+  your server.  There are a few ways of simplifying references
+  to large numbers of machines.  First, you can give access to a range 
+  of machines at once by specifying a network and a netmask.  For 
+  example, if you wanted to allow access to all the machines with IP 
+  addresses between <em>192.168.0.0</em> and
+<em>192.168.0.255</em> then you could have the entries:
+ <table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">  /usr/local 192.168.0.0/255.255.255.0(ro)
+  /home      192.168.0.0/255.255.255.0(rw)
+ </pre></font></td></tr></tbody></table></p><p>  See the <a href="http://www.linuxdoc.org/HOWTO/Networking-Overview-HOWTO.html" target="_top">Networking-Overview HOWTO</a>
+  for further information about how netmasks work, and you may also wish to 
+  look at the man pages for <tt class="FILENAME">init</tt> and <tt class="FILENAME">hosts.allow</tt>.</p><p>  Second, you can use NIS netgroups in your entry. To specify a
+  netgroup in your exports file, simply prepend the name of the
+  netgroup with an "@".  See the <a href="http://www.linuxdoc.org/HOWTO/NIS-HOWTO.html" target="_top">NIS HOWTO</a>
+  for details on how netgroups work. </p><p>  Third, you can use wildcards such as <em>*.foo.com</em> or
+ <em>192.168.</em> instead of hostnames.  There were problems
+  with wildcard implementation in the 2.2 kernel series that were fixed
+  in kernel 2.2.19.</p><p>  However, you should keep in mind that any of these simplifications
+  could cause a security risk if there are machines in your netgroup
+  or local network that you do not trust completely.</p><p>  A few cautions are in order about what cannot (or should not) be
+  exported.  First, if a directory is exported, its parent and child
+  directories cannot be exported if they are in the same filesystem.
+  However, exporting both should not be necessary because listing the
+  parent directory in the <tt class="FILENAME">/etc/exports</tt> file will cause all underlying
+  directories within that file system to be exported.  </p><p>  Second, it is a poor idea to export a FAT or VFAT (i.e., MS-DOS or 
+  Windows 95/98) filesystem with NFS.  FAT is not designed for use on a 
+  multi-user machine, and as a result, operations that depend on 
+  permissions will not work well.  Moreover, some of the underlying 
+  filesystem design is reported to work poorly with NFS's expectations.  </p><p>  Third, device or other special files may not export correctly to non-Linux 
+  clients.  See <a href="http://www.tldp.org/HOWTO/NFS-HOWTO/interop.html">Section 8</a> for details on particular operating systems.</p></div><div class="SECT3"><h3 class="SECT3"><a name="HOSTS">3.2.2. /etc/hosts.allow and /etc/hosts.deny</a></h3><p><a name="HOSTS">   These two files specify which computers on the network can use 
+   services on your machine.  Each line of the file 
+   contains a single entry listing 
+   a service and a set of machines.  When the server gets a request 
+   from a machine, it does the following:
+  </a></p><p></p><ul><li><p><a name="HOSTS">     It first checks <tt class="FILENAME">hosts.allow</tt> to see if the machine 
+     matches a description listed in there. If it does, then the machine
+     is allowed access.  
+   </a></p></li><li><p><a name="HOSTS">     If the machine does not match an entry in <tt class="FILENAME">hosts.allow</tt>, the
+     server then checks <tt class="FILENAME">hosts.deny</tt> to see if the client matches a 
+     listing in there.  If it does then the machine is denied  access.  
+   </a></p></li><li><p><a name="HOSTS">     If the client matches no listings in either file, then it
+     is allowed access.
+   </a></p></li></ul><a name="HOSTS">
+ <p></p><p>   In addition to controlling access to services 
+   handled by <b class="COMMAND">inetd</b> (such 
+   as telnet and FTP), this file can also control access to NFS
+   by restricting connections to the daemons that provide NFS services.
+   Restrictions are done on a per-service basis.
+ </p></a><p><a name="HOSTS">   The first daemon to restrict access to is the portmapper.  This daemon
+   essentially just tells requesting clients how to find all the NFS
+   services on the system.  Restricting access to the portmapper is the
+   best defense against someone breaking into your system through NFS
+   because completely unauthorized clients won't know where to find the
+   NFS daemons.  However, there are two things to watch out for.  First,
+   restricting portmapper isn't enough if the intruder already knows
+   for some reason how to find those daemons.  And second, if you are
+   running NIS, restricting portmapper will also restrict requests to NIS.
+   That should usually be harmless since you usually want
+   to restrict NFS and NIS in a similar way, but just be cautioned.
+   (Running NIS is generally a good idea if you are running NFS, because
+   the client machines need a way of knowing who owns what files on the
+   exported volumes.  Of course there are other ways of doing this such
+   as syncing password files.  See the </a><a href="http://www.linuxdoc.org/HOWTO/NIS-HOWTO.html" target="_top">NIS HOWTO</a> for information on
+   setting up NIS.)
+ </p><p>   In general it is a good idea with NFS (as with most internet services)
+   to explicitly deny access to IP addresses that you don't need
+   to allow access to.
+ </p><p>   The first step in doing this is to add the followng entry to 
+   <tt class="FILENAME">/etc/hosts.deny</tt>:
+ </p><p>  <table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">   portmap:ALL
+  </pre></font></td></tr></tbody></table>
+ </p><p>   Starting with <span class="APPLICATION">nfs-utils</span> 0.2.0, you can be a bit more careful by
+   controlling access to individual daemons.  It's a good precaution
+   since an intruder will often be able to weasel around the portmapper.
+   If you have a newer version of <span class="APPLICATION">nfs-utils</span>, add entries for each of the
+   NFS daemons (see the next section to find out what these daemons are;
+   for now just put entries for them in hosts.deny):
+ </p><p>  <table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">    lockd:ALL
+    mountd:ALL
+    rquotad:ALL
+    statd:ALL
+  </pre></font></td></tr></tbody></table>
+ </p><p> 
+   Even if you have an older version of <span class="APPLICATION">nfs-utils</span>, adding these entries
+   is at worst harmless (since they will just be ignored) and at best 
+   will save you some trouble when you upgrade.  Some sys admins choose
+   to put the entry <tt class="USERINPUT"><b>ALL:ALL</b></tt> in the file <tt class="FILENAME">/etc/hosts.deny</tt>, 
+   which causes  any service that looks at these files to deny access to all 
+   hosts unless it is explicitly allowed.  While this is more secure 
+   behavior, it may also get you in trouble when you are installing new 
+   services,  you forget you put it there, and you can't figure out for 
+   the life of you why they won't work.
+ </p><p>   Next, we need to add an entry to <tt class="FILENAME">hosts.allow</tt> to give any hosts 
+   access that we want to have access.  (If we just leave the above 
+   lines in <tt class="FILENAME">hosts.deny</tt> then nobody will have access to NFS.)  Entries 
+   in <tt class="FILENAME">hosts.allow</tt> follow the format
+  </p><div class="INFORMALEXAMPLE"><a name="AEN282"><p></p><table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">    service: host [or network/netmask] , host [or network/netmask]
+   </pre></font></td></tr></tbody></table><p></p></a></div><a name="AEN282">
+ <p></p><p>   Here, host is IP address of a potential client; it may be possible 
+   in some versions to use the DNS name of the host, but it is strongly 
+   discouraged.
+ </p><p>   Suppose we have the setup above and we just want to allow access
+   to <em>slave1.foo.com</em> and <em>slave2.foo.com</em>, 
+   and suppose that the IP addresses of these machines are <em>192.168.0.1</em>
+   and <em>192.168.0.2</em>, respectively.  We could add the following entry to 
+   <tt class="FILENAME">/etc/hosts.allow</tt>:
+  </p></a><div class="INFORMALEXAMPLE"><a name="AEN282"></a><a name="AEN291"><p></p><table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">   portmap: 192.168.0.1 , 192.168.0.2
+   </pre></font></td></tr></tbody></table><p></p></a></div><a name="AEN291">
+ <p></p><p>   For recent nfs-utils versions, we would also add the following
+   (again, these entries are harmless even if they are not supported):
+  </p></a><div class="INFORMALEXAMPLE"><a name="AEN291"></a><a name="AEN294"><p></p><table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">    lockd: 192.168.0.1 , 192.168.0.2
+    rquotad: 192.168.0.1 , 192.168.0.2
+    mountd: 192.168.0.1 , 192.168.0.2
+    statd: 192.168.0.1 , 192.168.0.2
+   </pre></font></td></tr></tbody></table><p></p></a></div><a name="AEN294">
+ <p></p><p>   If you intend to run NFS on a large number of machines in a local
+   network, <tt class="FILENAME">/etc/hosts.allow</tt> also allows for network/netmask style 
+   entries in the same manner as <tt class="FILENAME">/etc/exports</tt> above.
+ </p></a></div></div><div class="SECT2"><h2 class="SECT2"><a name="SERVICESTART">3.3. Getting the services started</a></h2><div class="SECT3"><h3 class="SECT3"><a name="PREREQ">3.3.1. Pre-requisites</a></h3><p><a name="PREREQ">    The NFS server should now be configured and we can start it running.
+    First, you will need to have the appropriate packages installed.  
+    This consists mainly of a new enough kernel and a new enough version
+    of the <span class="APPLICATION">nfs-utils</span> package.  
+    See </a><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/intro.html#SWPREREQ">Section 2.4</a> if you are in doubt.
+  </p><p>    Next, before you can start NFS, you will need to have TCP/IP 
+    networking functioning correctly on your machine.  If you can use 
+    telnet, FTP, and so on, then chances are your TCP networking is fine.
+  </p><p>    That said, with most recent Linux distributions you may be able to 
+    get NFS up and running simply by rebooting your machine, and the 
+    startup scripts should detect that you have set up your <tt class="FILENAME">/etc/exports</tt>
+    file and will start up NFS correctly.  If you try this, see <a href="http://www.tldp.org/HOWTO/NFS-HOWTO/server.html#VERIFY">Section 3.4</a>
+    Verifying that NFS is running.  If this does not work, or if 
+    you are not in a position to reboot your machine, then the following
+    section will tell you which daemons need to be started in order to 
+    run NFS services.  If for some reason <b class="COMMAND">nfsd</b> 
+    was already running when
+    you edited your configuration files above, you will have to flush 
+    your configuration; see <a href="http://www.tldp.org/HOWTO/NFS-HOWTO/server.html#LATER">Section 3.5</a> for details.
+  </p></div><div class="SECT3"><h3 class="SECT3"><a name="PORTMAPPER">3.3.2. Starting the Portmapper</a></h3><p><a name="PORTMAPPER">     NFS depends on the portmapper daemon, either called <b class="COMMAND">portmap</b> or 
+     <b class="COMMAND">rpc.portmap</b>.  It will need to be started first.  It should be 
+     located in <tt class="FILENAME">/sbin</tt> but is sometimes in <tt class="FILENAME">/usr/sbin</tt>.  
+     Most recent Linux distributions start this daemon in the boot scripts, but it is 
+     worth making sure that it is running before you begin working with 
+     NFS (just type <b class="COMMAND">ps aux | grep portmap</b>).
+   </a></p></div><div class="SECT3"><h3 class="SECT3"><a name="DAEMONS">3.3.3. The Daemons</a></h3><p><a name="DAEMONS">     NFS serving is taken care of by five daemons: <b class="COMMAND">rpc.nfsd</b>, 
+     which does most of the work; <b class="COMMAND">rpc.lockd</b> and 
+     <b class="COMMAND">rpc.statd</b>, which handle file locking;
+     <b class="COMMAND">rpc.mountd</b>, which handles the initial mount requests, 
+     and <b class="COMMAND">rpc.rquotad</b>, which handles user file quotas on 
+     exported volumes. Starting with 2.2.18, <b class="COMMAND">lockd</b> 
+     is called by <b class="COMMAND">nfsd</b> upon demand, so you do
+     not need to worry about starting it yourself. <b class="COMMAND">statd</b> 
+     will need to be started separately. Most recent Linux distributions will
+     have startup scripts for these daemons.
+   </a></p><p><a name="DAEMONS">     The daemons are all part of the nfs-utils package, and may be either
+     in the <tt class="FILENAME">/sbin</tt> directory or the <tt class="FILENAME">/usr/sbin</tt> directory.
+   </a></p><p><a name="DAEMONS">    If your distribution does not include them in the startup scripts, 
+    then then you should add them, configured to start in the following 
+    order:
+  </a></p><p></p><table border="0"><tbody><tr><td><b class="COMMAND">rpc.portmap</b></td></tr><tr><td><b class="COMMAND">rpc.mountd</b>, <b class="COMMAND">rpc.nfsd</b></td></tr><tr><td><b class="COMMAND">rpc.statd</b>, <b class="COMMAND">rpc.lockd</b> (if necessary), and <b class="COMMAND">rpc.rquotad</b></td></tr></tbody></table><p></p><a name="DAEMONS">
+ <p></p><p>   The nfs-utils package has sample startup scripts for RedHat and
+   Debian.  If you are using a different distribution, in general you
+   can just copy the RedHat script, but you will probably have to take
+   out the line that says:
+   <table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">    . ../init.d/functions
+   </pre></font></td></tr></tbody></table>
+   to avoid getting error messages.
+ </p></a></div></div><div class="SECT2"><h2 class="SECT2"><a name="VERIFY">3.4. Verifying that NFS is running</a></h2><p><a name="VERIFY">    To do this, query the portmapper with the command <b class="COMMAND">rpcinfo -p</b> to 
+    find out what services it is providing.  You should get something 
+    like this:
+   <table border="1" bgcolor="#E0E0E0" width="100%"><tbody><tr><td><font color="#000000"><pre class="SCREEN">    program vers proto   port
+    100000    2   tcp    111  portmapper
+    100000    2   udp    111  portmapper
+    100011    1   udp    749  rquotad
+    100011    2   udp    749  rquotad
+    100005    1   udp    759  mountd
+    100005    1   tcp    761  mountd
+    100005    2   udp    764  mountd
+    100005    2   tcp    766  mountd
+    100005    3   udp    769  mountd
+    100005    3   tcp    771  mountd
+    100003    2   udp   2049  nfs
+    100003    3   udp   2049  nfs
+    300019    1   tcp    830  amd
+    300019    1   udp    831  amd
+    100024    1   udp    944  status
+    100024    1   tcp    946  status
+    100021    1   udp   1042  nlockmgr
+    100021    3   udp   1042  nlockmgr
+    100021    4   udp   1042  nlockmgr
+    100021    1   tcp   1629  nlockmgr
+    100021    3   tcp   1629  nlockmgr
+    100021    4   tcp   1629  nlockmgr
+  </pre></font></td></tr></tbody></table>
+ </a></p><p><a name="VERIFY">   This says that we have NFS versions 2 and 3, rpc.statd version 1, 
+   network lock manager (the service name for rpc.lockd) versions 1, 3, 
+   and 4.  There are also different service listings depending on 
+   whether NFS is travelling over TCP or UDP.  Linux systems use UDP
+   by default unless TCP is explicitly requested; however other OSes 
+   such as Solaris default to TCP.
+ </a></p><p><a name="VERIFY">   If you do not at least see a line that says 
+   <tt class="COMPUTEROUTPUT">portmapper</tt>, a line that says 
+   <tt class="COMPUTEROUTPUT">nfs</tt>, and a line that says 
+   <tt class="COMPUTEROUTPUT">mountd</tt> then you will need 
+   to backtrack and try again to start up the daemons 
+   (see </a><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/troubleshooting.html">Section 7</a>, 
+   Troubleshooting, if this still doesn't work).
+ </p><p>   If you do see these services listed, then you should be ready to 
+   set up NFS clients to access files from your server.
+ </p></div><div class="SECT2"><h2 class="SECT2"><a name="LATER">3.5. Making changes to /etc/exports later on</a></h2><p><a name="LATER">   If you come back and change your <tt class="FILENAME">/etc/exports</tt> file, the changes you 
+   make may not take effect immediately.  You should run the command 
+   <b class="COMMAND">exportfs -ra</b> to force <b class="COMMAND">nfsd</b> to re-read the <tt class="FILENAME">/etc/exports</tt>
+&nbsp;  file.  If you can't find the <b class="COMMAND">exportfs</b> command, then you can kill <b class="COMMAND">nfsd</b> with the 
+  <tt class="USERINPUT"><b> -HUP</b></tt> flag (see the man pages for kill for details).
+ </a></p><p><a name="LATER">   If that still doesn't work, don't forget to check <tt class="FILENAME">hosts.allow</tt> to 
+   make sure you haven't forgotten to list any new client machines 
+   there.  Also check the host listings on any firewalls you may have 
+   set up (see </a><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/troubleshooting.html">Section 7</a> and 
+   <a href="http://www.tldp.org/HOWTO/NFS-HOWTO/security.html">Section 6</a> for more details on firewalls and NFS).
+ </p></div></div><div class="NAVFOOTER"><hr align="LEFT" width="100%"><table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td width="33%" align="left" valign="top"><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/intro.html" accesskey="P">Prev</a></td><td width="34%" align="center" valign="top"><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/index.html" accesskey="H">Home</a></td><td width="33%" align="right" valign="top"><a href="http://www.tldp.org/HOWTO/NFS-HOWTO/client.html" accesskey="N">Next</a></td></tr><tr><td width="33%" align="left" valign="top">Introduction</td><td width="34%" align="center" valign="top">&nbsp;</td><td width="33%" align="right" valign="top">Setting up an NFS Client</td></tr></tbody></table></div></body></html>

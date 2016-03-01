@@ -1,0 +1,119 @@
+Refer : http://www.drbd.org/users-guide-8.3/
+Reads : http://blog.clusterlabs.org/blog/2010/pacemaker-heartbeat-corosync-wtf/
+		http://www.linux-ha.org/wiki/OCF_Resource_Agents
+		https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/High_Availability_Add-On_Reference/s1-configfileoverview-HAAR.html
+
+CLS: /etc/cluster/corosync.conf
+CIB: /var/lib/pacemaker/cib/cib.xml
+OCF: /usr/lib/ocf/resource.d/
+
+/* COMMON */
+rpm -Uvh http://www.elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm
+yum install drbd83-utils.x86_64 kmod-drbd83.x86_64
+modprobe drbd	# If encountered "Starting DRBD resources: Can not load the drbd module." => reboot
+
+fdisk /dev/sdb
+mkfs -t ext3 /dev/sdb1
+dd if=/dev/zero of=/dev/sdb1 bs=1M count=128	#zero out the device
+
+#cp /usr/share/doc/drbd*/drbd.conf /etc/drbd.conf	#obsolete
+vim /etc/drbd.conf
+resource mysql {
+		protocol C;
+		startup { wfc-timeout 0; degr-wfc-timeout 120; }
+		disk { on-io-error detach; }
+		syncer { rate 6M; }
+	
+		on drbd_01 {
+			device /dev/drbd0;
+			disk /dev/sdb1;
+			address 10.1.1.147:7789;
+			meta-disk internal;
+		}
+		on drbd_02 {
+			device /dev/drbd0;
+			disk /dev/sdb1;
+			address 10.1.1.146:7789;
+			meta-disk internal;
+		}
+	}
+
+drbdadm create-md mysql
+drbdadm up mysql
+cat /proc/drbd
+	0: cs:Connected ro:Secondary/Secondary ds:Inconsistent/Inconsistent C r-----
+	#Sample of a success connection (note connection state (cs): Connected)
+	#The Inconsistent/Inconsistent disk state is expected at this point.
+
+/* ON NODE DRBD PRIMARY */
+#Select an initial sync source. If you are dealing with newly-initialized, empty disk, this choice is entirely arbitrary. 
+#If one of your nodes already has valuable data that you need to preserve, however, it is of crucial importance that you select that node as your synchronization source. 
+#If you do initial device synchronization in the wrong direction, you will lose that data. Exercise caution.
+
+#Start the initial full synchronization. 
+#This step must be performed on only one node, only on initial resource configuration, and only on the node you selected as the synchronization source. 
+#To perform this step, issue this command:
+drbdadm -- --overwrite-data-of-peer primary mysql
+watch cat /proc/drbd	#to monitor the initial sync progress
+
+
+/* BOTH INSTALL PACEMAKER & MANAGEMENT TOOLS */
+#REFER: http://clusterlabs.org/quickstart-redhat.html
+REFER: http://clusterlabs.org/doc/en-US/Pacemaker/1.1-crmsh/html-single/Clusters_from_Scratch/
+
+yum install pacemaker pcs cman
+yum install -y pacemaker.x86_64 pacemaker-cli.x86_64 pacemaker-libs.x86_64 pacemaker-libs-devel.x86_64 pacemaker-cluster-libs.x86_64 pacemaker-cts.x86_64
+yum install corosync corosync-cmapctl
+yum install mysql mysql-server
+
+chkconfig drbd off
+chkconfig corosync off
+
+/* ON EITHER NODE */
+pcs cluster auth drbd_01 drbd_02
+pcs cluster setup --name mysqlcluster drbd_01 drbd_02
+
+/* EITHER NODE IMPORTANT */
+pcs property set stonith-enabled=false
+
+/* EITHER NODE CONFIGURE RESOURCE */
+pcs resource create MySQL_IP ocf:heartbeat:IPaddr2 ip=10.1.1.145 cidr_netmask=32 op monitor interval=10s
+
+pcs cluster cib drbd_cfg
+pcs -f drbd_cfg resource create MySQL_DATA ocf:linbit:drbd drbd_resource=mysql op monitor interval=10s timeout=5s
+pcs -f drbd_cfg resource master MySQL_DATA_CLONE MySQL_DATA master-max=1 master-node-max=1 clone-max=2 clone-node-max=1 notify=true
+pcs -f drbd_cfg resource show
+pcs cluster cib-push drbd_cfg
+pcs resource show
+
+pcs cluster cib fs_cfg
+pcs -f fs_cfg resource create MySQL_FS Filesystem device="/dev/drbd/by-res/mysql" directory="/opt/mysql/data" fstype="ext3"
+pcs -f fs_cfg constraint colocation add MySQL_FS MySQL_DATA_CLONE INFINITY with-rsc-role=Master
+pcs -f fs_cfg constraint order promote MySQL_DATA_CLONE then start MySQL_FS
+pcs -f fs_cfg resource show
+pcs cluster cib-push fs_cfg
+pcs resource show
+
+pcs resource create MySQLD ocf:heartbeat:mysql config="/etc/my.cnf" datadir="/opt/mysql/data" log="/var/log/mysqld.log" \
+pid="/var/run/mysqld/mysqld.pid" socket="/tmp/mysql.sock" op monitor interval="10s" timeout="5s" #\
+#op start timeout="120s" op stop timeout="120s"
+pcs resource group add MySQL_CLUSTER MySQL_IP MySQL_FS MySQLD
+pcs constraint order set MySQL_IP MySQL_FS MySQLD
+
+
+
+
+
+pcs constraint colocation add MySQL_FS MySQL_DATA_CLONE INFINITY with-rsc-role=Master
+pcs constraint order promote MySQL_DATA_CLONE then start MySQL_FS
+
+pcs constraint colocation set MySQL_IP MySQL_DATA_CLONE MySQL_FS MySQLD
+pcs constraint order set MySQL_IP MySQL_DATA_CLONE MySQL_FS MySQLD
+
+pcs constraint colocation add MySQL_DATA_CLONE MySQL_IP INFINITY
+pcs constraint colocation add MySQL_FS MySQL_DATA_CLONE INFINITY
+pcs constraint colocation add MySQLD MySQL_FS INFINITY
+
+pcs constraint order start MySQL_IP then start MySQL_DATA_CLONE
+pcs constraint order promote MySQL_DATA_CLONE then start MySQL_FS
+pcs constraint order start MySQL_FS then start MySQLD

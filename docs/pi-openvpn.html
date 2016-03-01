@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="" />
+<meta name="viewport" content="width=device-width" />
+
+
+<title>Raspberry Pi &bull; View topic - How to set up a Raspberry Pi VPN server</title>
+
+<link rel="shortcut icon" href="http://www.raspberrypi.org/favicon.ico" type="image/vnd.microsoft.icon"/>
+<link rel="icon" href="http://www.raspberrypi.org/favicon.ico" type="image/x-ico"/>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+
+<link rel="stylesheet" type="text/css" media="all" href="./styles/raspite/theme/style.css" />
+<link rel="stylesheet" type="text/css" href="./styles/raspite/theme/css/custom.css">
+<link rel="stylesheet" type="text/css" href="./styles/raspite/theme/css/bootstrap-raspi.css">
+<!--[if lt IE 8]>
+<link rel="stylesheet" type="text/css" href="./styles/raspite/theme/css/ie7.css">
+<![endif]-->
+<link href='http://fonts.googleapis.com/css?family=Asap:700|Chivo:900|Signika:700' rel='stylesheet' type='text/css'>
+<!--[if lt IE 9]>
+<script src="./styles/raspite/theme/js/html5shiv.js"></script>
+<![endif]-->
+<link rel="pingback" href="" />
+
+<link rel="alternate" type="application/atom+xml" title="Feed - Raspberry Pi" href="http://www.raspberrypi.org/forums/feed.php" /><link rel="alternate" type="application/atom+xml" title="Feed - New Topics" href="http://www.raspberrypi.org/forums/feed.php?mode=topics" /><link rel="alternate" type="application/atom+xml" title="Feed - Forum - Networking and servers" href="http://www.raspberrypi.org/forums/feed.php?f=36" /><link rel="alternate" type="application/atom+xml" title="Feed - Topic - How to set up a Raspberry Pi VPN server" href="http://www.raspberrypi.org/forums/feed.php?f=36&amp;t=81657" />
+
+
+<script type="text/javascript">
+// <![CDATA[
+	var jump_page = 'Enter the page number you wish to go to:';
+	var on_page = '1';
+	var per_page = '25';
+	var base_url = './viewtopic.php?f=36&amp;t=81657&amp;sid=7b64319efa81ad265c6d00e01c0d7d58';
+	var style_cookie = 'phpBBstyle';
+	var style_cookie_settings = '; path=/; domain=.raspberrypi.org';
+	var onload_functions = new Array();
+	var onunload_functions = new Array();
+
+	
+
+	/**
+	* Find a member
+	*/
+	function find_username(url)
+	{
+		popup(url, 760, 570, '_usersearch');
+		return false;
+	}
+
+	/**
+	* New function for handling multiple calls to window.onload and window.unload by pentapenguin
+	*/
+	window.onload = function()
+	{
+		for (var i = 0; i < onload_functions.length; i++)
+		{
+			eval(onload_functions[i]);
+		}
+	};
+
+	window.onunload = function()
+	{
+		for (var i = 0; i < onunload_functions.length; i++)
+		{
+			eval(onunload_functions[i]);
+		}
+	};
+
+// ]]>
+</script>
+<link href="./styles/raspite/theme/stylesheet.css" rel="stylesheet" type="text/css" media="screen, projection" />
+
+
+
+</head>
+
+<body>
+<a name="top"></a>
+
+<header class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<!-- Cross-site Navigation -->
+
+		<nav class="container" role="navigation">
+			<h3 class="assistive-text">Main menu</h3>
+
+			<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+
+		  <a href="#" class="btn btn-navbar pull-right" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="icon-bar"></i>
+            <i class="icon-bar"></i>
+            <i class="icon-bar"></i>
+          </a>
+
+			<div class="nav-collapse">
+				<div class="nav pull-right">
+
+					<ul id="menu-test-menu" class="nav">
+						<li id="menu-item-1862" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1862"><a href="http://www.raspberrypi.org/quick-start-guide" >Quick Start</a></li>
+						<li id="menu-item-1864" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1864"><a href="http://www.raspberrypi.org/downloads" >Downloads</a></li>
+						<li id="menu-item-1870" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1870"><a href="http://www.raspberrypi.com" onclick="javascript:_gaq.push(['_trackEvent','outbound-menu','http://www.raspberrypi.com']);">Buy Codecs</a></li>
+						<li id="menu-item-1867" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1867"><a href="http://www.raspberrypi.org/phpBB3" >Forum</a></li>
+						<li id="menu-item-1869" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1869"><a href="http://www.raspberrypi.org/faqs" >FAQs</a></li>
+						<li id="menu-item-1861" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1861 dropdown"><a href="#" data-toggle="dropdown" data-target="#" class="dropdown-toggle">About <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li id="menu-item-1865" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1865"><a href="http://www.raspberrypi.org/about" >About us</a></li>
+								<li id="menu-item-1866" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1866"><a href="http://www.raspberrypi.org/contact-us" >Contact us</a></li>
+								<li id="menu-item-4662" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4662"><a href="http://www.raspberrypi.org/technical-help-and-resource-documents" >Technical, help and resource documents</a></li>
+								<li id="menu-item-1863" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1863"><a href="http://www.raspberrypi.org/trademark-rules" >Trademark rules</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<a class="nav-logo" href="http://www.raspberrypi.org/" title="Raspberry Pi" rel="home">Raspberry Pi</a>
+		</nav>
+
+
+
+	</div>
+</header>
+
+<div class="container">
+	
+	<div class="row-fluid searchbar">
+		<div class="span6">
+		<a href="./faq.php?sid=7b64319efa81ad265c6d00e01c0d7d58" title="Frequently Asked Questions">FAQ</a>
+		<a href="./ucp.php?mode=register&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">Register</a>
+			<a href="./ucp.php?mode=login&amp;sid=7b64319efa81ad265c6d00e01c0d7d58" title="Login" accesskey="x">Login</a>
+			
+		</div>
+		<div class="span6 text-right">
+			
+			<form action="./search.php?sid=7b64319efa81ad265c6d00e01c0d7d58" method="get" id="search" class="form-search" style="display:inline-block; *display:inline; zoom:1;">
+				<input name="keywords" id="keywords" type="text" maxlength="128" title="Search for keywords" class="search-query input-small" value="Search…" onclick="if(this.value=='Search…')this.value='';" onblur="if(this.value=='')this.value='Search…';" />
+				<button class="btn" value="Search" type="submit" title="Search"><i class="icon icon-search"></i></button>
+				<input type="hidden" name="sid" value="7b64319efa81ad265c6d00e01c0d7d58" />
+
+			</form>
+		
+		</div>
+	</div>
+	
+</div>
+
+<a name="content"></a>
+<div class="container" role="main">
+
+<div class="row-fluid">
+	<div class="span9">
+		<h2>How to set up a Raspberry Pi VPN server</h2>
+		
+		<!-- ICONS! -->
+			
+	</div>
+
+</div>
+
+<!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
+
+<br>
+<div class="row-fluid">
+	<div class="topic-actions span8">
+	
+		<a href="./posting.php?mode=reply&amp;f=36&amp;t=81657&amp;sid=7b64319efa81ad265c6d00e01c0d7d58" class="btn btn-info" title="Post a reply">Post a reply</a> 
+	&nbsp;</div>
+	
+	
+	<div class="paging span4 text-right">
+		33 posts
+		 &nbsp; <a href="#" onclick="jumpto(); return false;" title="Click to jump to page…">Page <strong>1</strong> of <strong>2</strong></a> &nbsp; <span><strong>1</strong><span class="page-sep">, </span><a href="./viewtopic.php?f=36&amp;t=81657&amp;sid=7b64319efa81ad265c6d00e01c0d7d58&amp;start=25">2</a></span>
+	</div>
+	
+	
+</div>
+	<div id="p577109" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=114502&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">rmurr</a></strong> &raquo; Sun Jul 13, 2014 2:06 am </div>
+
+			
+
+			<div class="content">After a lot of frustration, I've finally set up a working TLS VPN server with the Raspberry Pi. Initially I had set up a Static Key server which worked nicely, but I decided that a TLS server would be better because of the <a href="http://openvpn.net/index.php/open-source/documentation/miscellaneous/78-static-key-mini-howto.html" class="postlink">disadvantages</a> associated with the former. There are a lot of tutorials out there on how to do this, but I didn't find one complete solution that worked for me in any once place; in the end, the solution I found came from a few different sources. Among them, <a href="hhttp://readwrite.com/2014/04/10/raspberry-pi-vpn-tutorial-server-secure-web-browsing" class="postlink">this</a> from readwrite, a great <a href="http://www.sans.org/reading-room/whitepapers/hsoffice/soho-remote-access-vpn-easy-pie-raspberry-pi-34427" class="postlink">paper</a>  by Eric Jodoin, and the OpenVPN website's <a href="http://openvpn.net/index.php/open-source/documentation/howto.html#pki" class="postlink">HOWTO</a>.<br /><br />To be clear, my goal was to have a Pi VPN server at home that I could connect to as a client while on public wifi networks. Importantly, all of the client's network traffic would be routed through the encrypted VPN connection. The main reason I wanted to post this howto is to make it easier for others who might be facing difficulty trying to do the same thing. I've tried to provide both the rationale behind why something is being done throughout and the relevant citation for those interested in reading more. I've assumed that the starting point is a new version of Raspbian with a strong password and ssh enabled. Also, it is assumed that all commands are entered as root. <br /><br /><ol style="list-style-type: decimal"><li><span style="font-weight: bold">Update and Upgrade:</span><br /><br />Enter the following into a terminal:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>sudo -s&nbsp; #&nbsp; **rest of the instructions assume you've already done this<br />sudo apt-get update<br />sudo apt-get upgrade</code></dd></dl></li><li><span style="font-weight: bold">Install OpenVPN, make a few changes:</span><br />Install OpenVPN with <br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>&nbsp;sudo apt-get install openvpn </code></dd></dl><br />Once installed, move the <span style="font-style: italic">easy-rsa</span> directory to <span style="font-style: italic">/etc/openvpn</span>, because, <br /><blockquote class="uncited"><div>it's best to copy this directory to another location such as /etc/openvpn, before any edits, so that future OpenVPN package upgrades won't overwrite your modifications (from OpenVPN's HOWTO).</div></blockquote> <br />That can be done with:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa</code></dd></dl><br />Then:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>nano /etc/openvpn/easy-rsa/vars<br /></code></dd></dl><br />Find the <span style="font-style: italic">export EASY_RSA=</span> line and change it to <dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>export EASY_RSA=”/etc/openvpn/easy-rsa” </code></dd></dl><br />If you want, you can also change <span style="font-style: italic">export KEY_SIZE=1024</span> to <dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>export KEY_SIZE=2048</code></dd></dl></li><li><span style="font-weight: bold">Generate certificate and key:</span><br />In the terminal, enter:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>cd /etc/openvpn/easy-rsa<br />. ./vars<br />./clean-all<br />./build-ca<br /></code></dd></dl><br />After <span style="font-style: italic">./build-ca</span> you only need to enter something (for example, &quot;VPNserver&quot;) for &quot;Common Name&quot;. For everything else you can just press Enter. You'll also have to enter 'y' a couple of times at the end.<br />Now generate a certificate and private server key:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>./build-key-server server<br /></code></dd></dl><br />You can press Enter for everything again, but enter &quot;server&quot; as the common name.<br />Now create a client:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>./build-key-pass client1<br /></code></dd></dl><br />Press Enter for everything except enter &quot;client1&quot; as the common name and something for the PEM passphrase (you'll be asked that when you log in).<br />Now, <br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>./build-dh<br /></code></dd></dl><br />Then generate a static preshared HMAC Key as shown below. We do this <br /><blockquote class="uncited"><div>&quot;because a server would immediately drop any packet lacking the authentication code computed from the preshared OpenVPN HMAC Key.<br />Furthermore, only clients with the preshared OpenVPN HMAC Key would be able to exchange certificates.<br />Therefore, any attempts at buffer overflow through malicious packet injection or MitM using fake certificates would be defeated as the attacker would be unable to compute a valid authentication code without the OpenVPN HMAC Key.&quot; from Jodoin &quot;SOHO Remote Access VPN. Easy as Pie, Raspberry Pi ...&quot;</div></blockquote><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>openvpn --genkey --secret /etc/openvpn/easy-rsa/keys/ta.key<br /></code></dd></dl></li><li><span style="font-weight: bold">Copy files and make a few system changes:</span><br />Once that is all complete, ssh into the client from the Pi and securely transfer the files required by the client:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>scp /etc/openvpn/easy-rsa/keys/client1.key user@123.456.789.101:/home/user/<br />scp /etc/openvpn/easy-rsa/keys/client1.crt user@123.456.789.101:/home/user/<br />scp /etc/openvpn/easy-rsa/keys/ca.crt user@123.456.789.101:/home/user/<br />scp /etc/openvpn/easy-rsa/keys/ta.key user@123.456.789.101:/home/user/<br /></code></dd></dl><br />Now copy the text from <a href="https://github.com/rmurray2/RPI-TLS-VPN/blob/master/server.conf" class="postlink">here</a> and save it as /etc/openvpn/server.conf on the Pi server. Remember to look at the file and change values where appropriate before moving on. Specifically, make sure you enter the Pi's LAN address in the correct spot (see comments) and make sure the dh key size is correct. <br />Now go <a href="https://github.com/rmurray2/RPI-TLS-VPN/blob/master/client.conf" class="postlink">here</a> and copy/past the text into a file called <span style="font-style: italic">client.conf</span> on the client. Remember again to go through this file and make the appropriate changes (see comments). Make sure to copy/paste the entire contents of /etc/openvpn/easy-rsa/keys/ta.key from the server into the &lt;tls-auth&gt; ... &lt;/tls-auth&gt; block.<br />Now, back on the server:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>nano /etc/sysctl.conf<br /></code></dd></dl><br />find and uncomment this line:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>#net.ipv4.ip_forward=1<br /></code></dd></dl><br />then,<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>sysctl -p<br /></code></dd></dl><br />Now, reboot the Pi.<br />Then enter:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>iptables -A INPUT -i tun+ -j ACCEPT<br />iptables -A OUTPUT -o tun+ -j ACCEPT<br />iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE<br />iptables -I FORWARD -i tun0 -o eth0 -s 10.8.0.0/24 -d 192.168.0.0/24 -m conntrack --ctstate NEW -j ACCEPT<br />iptables -A INPUT -i eth0 -m state --state NEW -p udp --dport 1194 -j ACCEPT<br />iptables -A FORWARD -i tun+ -j ACCEPT<br />iptables -A FORWARD -i tun+ -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT<br />iptables -A FORWARD -i eth0 -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT<br />service openvpn restart<br /></code></dd></dl><br />If the Pi is connected wirelessly, the interface is probably wlan0, not eth0, so change that if necessary in the above commands. Note that these commands will have to be entered each time the Pi reboots. The commands above assume the Pi is connected through an ethernet cable. If you get an error like this:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>&quot;iptables v1.4.14: can't initialize iptables table `nat': Table does not exist (do you need to insmod?) Perhaps iptables or your kernel needs to be upgraded.&quot;:<br /></code></dd></dl><br />then see the section below on how to fix it (I had to do this). <br />Make sure that port forwarding is set up on your router - port 1194 UPD should be forwarded to the Pi's LAN address. </li><li><span style="font-weight: bold">Connect client and verify that traffic is being routed through VPN:</span><br />Then go to your client machine and connect:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>sudo openvpn /home/user/client.conf<br /></code></dd></dl><br />If it was successful, you should see a message saying<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>Initialization Sequence Completed<br /></code></dd></dl><br />On your client make sure your web traffic is being routed through the VPN by doing<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>traceroute www.google.com<br /></code></dd></dl><br />The first step should be <br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>1&nbsp; 10.8.0.1 (10.8.0.1)<br /></code></dd></dl><br />Using this setup, I verified with Wireshark that all web traffic was being routed through the VPN server (except DNS).</li><li><span style="font-weight: bold">That's it! With this basic set up you can do your own customization/security hardening</span></li></ol><span style="font-weight: bold"> If you see that iptables error:</span><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>sudo apt-get install rpi-update<br />sudo SKIP_BACKUP=1 rpi-update<br /></code></dd></dl><br />fixed the problem for me.</div>
+
+			
+				<div class="notice">Last edited by <a href="./memberlist.php?mode=viewprofile&amp;u=114502&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">rmurr</a> on Tue Jul 15, 2014 4:14 am, edited 10 times in total.
+					
+				</div>
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577109">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 11</dd><dd><strong>Joined:</strong> Sat Jul 12, 2014 10:33 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p577125" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=79165&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">chris48083</a></strong> &raquo; Sun Jul 13, 2014 3:34 am </div>
+
+			
+
+			<div class="content">Hey rmurr -- <br /><br />When I do './clean-all' I get - <br /><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>Please source the vars script first (i.e. &quot;source ./vars&quot;)<br />Make sure you have edited it to reflect your configuration</code></dd></dl><br /><br />Thoughts? I did the '. ./vars' first? I also tried 'source ./vars/' to no avail...<br /><br />-CW</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577125">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 38</dd><dd><strong>Joined:</strong> Thu Aug 08, 2013 1:56 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p577126" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=114502&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">rmurr</a></strong> &raquo; Sun Jul 13, 2014 3:36 am </div>
+
+			
+
+			<div class="content">Did you do <br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>&nbsp;<br />sudo -s<br /></code></dd></dl><br /><br />first?</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577126">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 11</dd><dd><strong>Joined:</strong> Sat Jul 12, 2014 10:33 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p577128" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=79165&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">chris48083</a></strong> &raquo; Sun Jul 13, 2014 3:40 am </div>
+
+			
+
+			<div class="content">Ah ha - right. That whole bit....<br /><br />Sorry for the silly 'I already answered your question' question..</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577128">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 38</dd><dd><strong>Joined:</strong> Thu Aug 08, 2013 1:56 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p577137" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=9343&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">gkreidl</a></strong> &raquo; Sun Jul 13, 2014 4:34 am </div>
+
+			
+
+			<div class="content">The Heartbleed bug has been fixed in Raspbian. You should fix that in your tutorial (and simplify it).</div>
+
+			<div id="sig577137" class="signature">Minimal Kiosk Browser<br />Slim, fast webkit browser with support for audio+video+playlists+youtube+pdf+download<br />Optional fullscreen kiosk mode and command interface for embedded applications<br />Includes omxplayerGUI, an X front end for omxplayer</div>
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577137">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1764</dd><dd><strong>Joined:</strong> Thu Jan 26, 2012 1:07 pm</dd><dd><strong>Location:</strong> Germany</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p577140" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=17042&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">rpdom</a></strong> &raquo; Sun Jul 13, 2014 4:56 am </div>
+
+			
+
+			<div class="content"><blockquote><div><cite>gkreidl wrote:</cite>The Heartbleed bug has been fixed in Raspbian. You should fix that in your tutorial (and simplify it).</div></blockquote><br /><br />Yes, there is no need to use packages from jessie.<br /><br />The &quot;e&quot; version currently in Wheezy has had the patches applied to fix the bug. Just look for the &quot;+deb7uXX&quot; (where XX is 10 or later) on the end of the package version.<br /><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>pi@raspberrypi:~$ apt-cache policy openssl | grep Installed<br />&nbsp; Installed: 1.0.1e-2+rvt+deb7u10<br /></code></dd></dl></div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577140">
+			<dt>
+				<a href="./memberlist.php?mode=viewprofile&amp;u=17042&amp;sid=7b64319efa81ad265c6d00e01c0d7d58"><img src="./download/file.php?avatar=17042_1413577077.jpg" width="90" height="90" alt="User avatar" /></a><br />
+				
+			</dt>
+		<dd><strong>Posts:</strong> 4453</dd><dd><strong>Joined:</strong> Sun May 06, 2012 5:17 am</dd><dd><strong>Location:</strong> Essex, UK</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p577141" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=114502&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">rmurr</a></strong> &raquo; Sun Jul 13, 2014 5:06 am </div>
+
+			
+
+			<div class="content">Thanks - fixed.</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577141">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 11</dd><dd><strong>Joined:</strong> Sat Jul 12, 2014 10:33 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p577168" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=17042&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">rpdom</a></strong> &raquo; Sun Jul 13, 2014 7:06 am </div>
+
+			
+
+			<div class="content"><blockquote><div><cite>anuragenc wrote:</cite>[link redacted] check out this link.hope its usefull!!!</div></blockquote><br /><br />Please stop spamming this link around the forums. It has nothing to do with the subject of this post.</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile577168">
+			<dt>
+				<a href="./memberlist.php?mode=viewprofile&amp;u=17042&amp;sid=7b64319efa81ad265c6d00e01c0d7d58"><img src="./download/file.php?avatar=17042_1413577077.jpg" width="90" height="90" alt="User avatar" /></a><br />
+				
+			</dt>
+		<dd><strong>Posts:</strong> 4453</dd><dd><strong>Joined:</strong> Sun May 06, 2012 5:17 am</dd><dd><strong>Location:</strong> Essex, UK</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p583780" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=115569&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">RiverRat</a></strong> &raquo; Wed Jul 23, 2014 5:01 am </div>
+
+			
+
+			<div class="content">Thanks, rmurr, for putting this together. <br /><br />I'm working my way through things and I think I'm done with the server side of things, but when I use the CanYouSeeMe.org open port check tool, I get a closed port. I think that the server needs to be running and actively accepting connections on that port for it to give me an &quot;open&quot; result, so I want to make sure I have things set up correctly. The main place I can see a potential for a mistake is when editing server.conf, I plug my public IP in in place of -PI-LAN-IP, correct? Not the local LAN IP. That should give me something like:<br /><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>push &quot;route xxx.xxx.xxx.xxx 255.255.255.0&quot; <br /></code></dd></dl><br /><br />Unless that leading hyphen needs to be there...<br /><br />I've rebooted and done the iptables, but still no luck.<br /><br />If working, port forwarding should get me from point A to point B. I have a feeling that my ISP is playing shenanigans with blocking ports, but I'm not sure.</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile583780">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1</dd><dd><strong>Joined:</strong> Wed Jul 23, 2014 4:45 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p586130" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=114502&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">rmurr</a></strong> &raquo; Sat Jul 26, 2014 3:10 pm </div>
+
+			
+
+			<div class="content">Riverrat,<br /><br />The line in server.conf should look like this:<br /><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>&nbsp;push &quot;route 192.168.1.8 255.255.255.0&quot; </code></dd></dl><br /><br />in this case, 192.168.1.8 would be the PI VPN server's LAN address.<br /><br />Also, I tested my port 1194 on that tool while the server was running and I got a port closed due to time out message as well. This might be due to the server dropping any packet not containing the authentication code derived from the HMAC key.</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile586130">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 11</dd><dd><strong>Joined:</strong> Sat Jul 12, 2014 10:33 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p594530" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=117038&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">jjbrock7</a></strong> &raquo; Fri Aug 08, 2014 4:19 am </div>
+
+			
+
+			<div class="content">For some reason I do not have permission to do anything the /etc folder.. therefore cannot put the .opvn file opr any easy-rsa stuff either.. please help, thanks</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile594530">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 2</dd><dd><strong>Joined:</strong> Fri Aug 08, 2014 4:16 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p594644" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=9343&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">gkreidl</a></strong> &raquo; Fri Aug 08, 2014 10:08 am </div>
+
+			
+
+			<div class="content"><blockquote><div><cite>jjbrock7 wrote:</cite>For some reason I do not have permission to do anything the /etc folder.. therefore cannot put the .opvn file opr any easy-rsa stuff either.. please help, thanks</div></blockquote><br />did you use sudo?</div>
+
+			<div id="sig594644" class="signature">Minimal Kiosk Browser<br />Slim, fast webkit browser with support for audio+video+playlists+youtube+pdf+download<br />Optional fullscreen kiosk mode and command interface for embedded applications<br />Includes omxplayerGUI, an X front end for omxplayer</div>
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile594644">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1764</dd><dd><strong>Joined:</strong> Thu Jan 26, 2012 1:07 pm</dd><dd><strong>Location:</strong> Germany</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p594699" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=117038&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">jjbrock7</a></strong> &raquo; Fri Aug 08, 2014 11:20 am </div>
+
+			
+
+			<div class="content">did you use sudo?[/quote]<br /><br /><br />Yes I used sudo</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile594699">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 2</dd><dd><strong>Joined:</strong> Fri Aug 08, 2014 4:16 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p595638" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=117244&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">joeyboon</a></strong> &raquo; Sun Aug 10, 2014 2:03 pm </div>
+
+			
+
+			<div class="content">I think I have the same problem. <br /><br />Iv'e been trying to do this: <a href="http://readwrite.com/2014/04/10/raspberry-pi-vpn-tutorial-server-secure-web-browsing" class="postlink">http://readwrite.com/2014/04/10/raspberry-pi-vpn-tutorial-server-secure-web-browsing</a> VPN tutorial for my Raspberry Pi. I've only gotten as far as the install command (all preceding steps where successful). After installation with the command <dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>sudo apt-get install openvp</code></dd></dl> (which seems to be working fine)it asks me if i want to give up some space on the SD-card for OpenVPN (of course). Also works fine, but then everything goes horribly wrong <img src="./images/smilies/icon_razz.gif" alt=":P" title="Razz" /><br /><br />The next step is copying a default config file to the correct folder with the command <dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>cp –r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa</code></dd></dl><br /><br />But it returns an error cp: target/etc/openvpn/easy-rsa' is not a directory`. On closer inspection with Fugu the designated folder&quot;/etc/openvpn/easy-rsa&quot; indeed is not there. In fact the openvpn folder is empty except for one file called &quot;update-resolve-conf&quot;. I'm fairly new to linux in general and don't know what to do. Hope you guys can help me out.<br /><br />If you need any further info to be of assistance just ask! Thanks in advance!</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile595638">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1</dd><dd><strong>Joined:</strong> Sun Aug 10, 2014 1:58 pm</dd><dd><strong>Location:</strong> Zwolle</dd>
+			<dd>
+				<ul class="profile-icons">
+					<li class="email-icon"><a href="http://www.joeyboon.nl" title="WWW: http://www.joeyboon.nl" class="btn btn-mini"><i class="icon icon-globe"></i></a></li>
+				</ul>
+			</dd>
+		
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p626509" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=122962&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">mikecay</a></strong> &raquo; Tue Oct 14, 2014 4:50 pm </div>
+
+			
+
+			<div class="content">Hi,<br />I thought this was going to be the missing link to my problems but that does not seem to be the case.  I also followed many of the links you quote at the top of your post but in all cases I am able to connect to my VPN server but I am not able to access any of my internal servers, which are on the same subnet as my VPN server.  When I saw the routing table entries you had, which others do not have, I thought that was it, but I still cannot access any of my internal machines.  I am trying to access my internal network via my cell phone that is running FEAT VPN (<!-- m --><a class="postlink" href="http://www.featvpn.com">http://www.featvpn.com</a><!-- m -->).  I have to run FEAT VPN on my cell because I am running an older version of Andoid and the OpenVPN client is not compatible with it.  Does anyone know if in fact the above configuration works with a cell over 3G?  Give that I can access my VPN server and validate it in the logs, I figure this must be a routing problem but I cannot figure it out for the life of me.<br /><br />Thank you,<br /><br />Mike</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile626509">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1</dd><dd><strong>Joined:</strong> Tue Oct 14, 2014 4:38 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p631562" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=43641&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">AndrewJB</a></strong> &raquo; Sun Oct 26, 2014 12:21 am </div>
+
+			
+
+			<div class="content">Going to be following this guide in next few days, I tried to follow the readwrite one but it didn't seem to work.</div>
+
+			<div id="sig631562" class="signature"><span style="color: #00BF00">Acer Aspire 5336 - Ubuntu 14.10 </span><br /><span style="color: #FF0000">Rasperry Pi -Raspbian Wheezy</span><br /><span style="color: #0000BF">HTC One M8 - Android 4.4.4</span><br /><span style="color: #FF4000">Acer C710 Chromebook - ChromeOS BETA</span><br /><span style="color: #0080FF">LG Chromebase - ChromeOS BETA</span></div>
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile631562">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 6</dd><dd><strong>Joined:</strong> Mon Nov 26, 2012 7:47 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p631766" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=40690&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">john564</a></strong> &raquo; Sun Oct 26, 2014 3:06 pm </div>
+
+			
+
+			<div class="content">What version of openvpn are you using<br /><br />Check with<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>sudo openvpn --version</code></dd></dl><br /><br /> I understand we should be using 2.3.4</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile631766">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 64</dd><dd><strong>Joined:</strong> Tue Oct 30, 2012 7:05 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p631878" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=123981&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">Rubicobra</a></strong> &raquo; Sun Oct 26, 2014 8:22 pm </div>
+
+			
+
+			<div class="content">I had Openvpn up and running for months, however it stopped working recently.  I checked and I'm using version 2.2.1  How would I go about updating to the latest version?<br /><br />Thanks</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile631878">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1</dd><dd><strong>Joined:</strong> Sun Oct 26, 2014 8:20 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p643037" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=121968&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">asher95</a></strong> &raquo; Wed Nov 19, 2014 11:43 pm </div>
+
+			
+
+			<div class="content">when i do this step:<br />cp –r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa<br />it wont copy anything over as it cant find the directory, also when i do these steps it says permission denied<br />./clean-all<br />./build-ca<br /><br />p.s. i manually created this file path using filezilla and copied everything over but no luck.</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile643037">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 5</dd><dd><strong>Joined:</strong> Thu Oct 02, 2014 6:58 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p646415" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=126661&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">pitosporum</a></strong> &raquo; Thu Nov 27, 2014 12:09 am </div>
+
+			
+
+			<div class="content">Wear all day with this tutorial, I find very interesting .<br />What I have almost finished but I've stuck and can not find the solution to this.<br />Running from the client:<br /><br />root@VirtualBoxdebian:/home/jmperez# sudo openvpn client.conf<br />Wed Nov 26 18:17:26 2014 OpenVPN 2.2.1 i486-linux-gnu [SSL] [LZO2] [EPOLL] [PKCS11] [eurephia] [MH] [PF_INET6] [IPv6 payload 20110424-2 (2.2RC2)] built on Jun 19 2013<br />Wed Nov 26 18:17:26 2014 NOTE: OpenVPN 2.1 requires '--script-security 2' or higher to call user-defined scripts or executables<br />Enter Private Key Password:<br />Wed Nov 26 18:17:43 2014 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this<br />Wed Nov 26 18:17:43 2014 WARNING: file '/home/jmperez/client1.key' is group or others accessible<br />Wed Nov 26 18:17:43 2014 Control Channel Authentication: tls-auth using INLINE static key file<br />Wed Nov 26 18:17:43 2014 LZO compression initialized<br />Wed Nov 26 18:17:44 2014 RESOLVE: Cannot resolve host address: &lt;192.168.1.42&gt;: [HOST_NOT_FOUND] The specified host is unknown.<br />Wed Nov 26 18:17:44 2014 RESOLVE: Cannot resolve host address: &lt;192.168.1.42&gt;: [HOST_NOT_FOUND] The specified host is unknown.<br />Wed Nov 26 18:17:49 2014 RESOLVE: Cannot resolve host address: &lt;192.168.1.42&gt;: [HOST_NOT_FOUND] The specified host is unknown.<br />Wed Nov 26 18:17:54 2014 RESOLVE: Cannot resolve host address: &lt;192.168.1.42&gt;: [HOST_NOT_FOUND] The specified host is unknown.<br /><br />The ping command from client to the direction of raspberry ( 192.168.1.42 ) responds perfectly .<br />I need help!!</div>
+
+			
+				<div class="notice">Last edited by <a href="./memberlist.php?mode=viewprofile&amp;u=126661&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">pitosporum</a> on Thu Dec 11, 2014 12:58 am, edited 1 time in total.
+					
+				</div>
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile646415">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1</dd><dd><strong>Joined:</strong> Wed Nov 26, 2014 5:23 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p652641" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=127778&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">joakimb</a></strong> &raquo; Wed Dec 10, 2014 1:14 pm </div>
+
+			
+
+			<div class="content">Hi. I have followed the tutorial, had a failed connecting and after that remade the entire tutorial. I still get the same error. when trying to connect to the vpn I get this log on the client:<br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>2014-12-10 13:39:41 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this<br />2014-12-10 13:39:41 Control Channel Authentication: tls-auth using INLINE static key file<br />2014-12-10 13:39:41 UDPv4 link local: &#91;undef&#93;<br />2014-12-10 13:39:41 UDPv4 link remote: &#91;AF_INET&#93;&lt;my raspi IP&gt;<br />2014-12-10 13:39:41 TLS Error: cannot locate HMAC in incoming packet from &#91;AF_INET&#93;&lt;my raspi IP&gt;<br />2014-12-10 13:39:43 TLS Error: cannot locate HMAC in incoming packet from &#91;AF_INET&#93;&lt;my raspi IP&gt;<br />2014-12-10 13:39:47 TLS Error: cannot locate HMAC in incoming packet from &#91;AF_INET&#93;&lt;my raspi IP&gt;<br />2014-12-10 13:39:55 TLS Error: cannot locate HMAC in incoming packet from &#91;AF_INET&#93;&lt;my raspi IP&gt;<br />2014-12-10 13:40:11 TLS Error: cannot locate HMAC in incoming packet from &#91;AF_INET&#93;&lt;my raspi IP&gt;<br />2014-12-10 13:40:41 TLS Error: TLS key negotiation failed to occur within 60 seconds (check your network connectivity)<br />2014-12-10 13:40:41 TLS Error: TLS handshake failed<br /></code></dd></dl><br /><br />And this log on the server:<br /><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>Wed Dec 10 13:38:27 2014 OpenVPN 2.2.1 arm-linux-gnueabihf &#91;SSL&#93; &#91;LZO2&#93; &#91;EPOLL&#93; &#91;PKCS11&#93; &#91;eurephia&#93; &#91;MH&#93; &#91;PF_INET6&#93; &#91;IPv6 payload 20110424-2 (2.2RC2)&#93; built on Dec&nbsp; 1 2014<br />Wed Dec 10 13:38:27 2014 NOTE: OpenVPN 2.1 requires '--script-security 2' or higher to call user-defined scripts or executables<br />Wed Dec 10 13:38:27 2014 TUN/TAP device tun0 opened<br />Wed Dec 10 13:38:27 2014 do_ifconfig, tt-&gt;ipv6=0, tt-&gt;did_ifconfig_ipv6_setup=0<br />Wed Dec 10 13:38:27 2014 /sbin/ifconfig tun0 10.8.0.1 pointopoint 10.8.0.2 mtu 1500<br />Wed Dec 10 13:38:27 2014 GID set to nogroup<br />Wed Dec 10 13:38:27 2014 UID set to nobody<br />Wed Dec 10 13:38:27 2014 UDPv4 link local (bound): &#91;undef&#93;<br />Wed Dec 10 13:38:27 2014 UDPv4 link remote: &#91;undef&#93;<br />Wed Dec 10 13:38:27 2014 Initialization Sequence Completed<br />Wed Dec 10 13:39:41 2014 130.235.136.24:62045 Re-using SSL/TLS context<br />Wed Dec 10 13:39:41 2014 130.235.136.24:62045 LZO compression initialized<br />Wed Dec 10 13:39:41 2014 130.235.136.24:62045 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:39:43 2014 130.235.136.24:62045 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:39:47 2014 130.235.136.24:62045 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:39:55 2014 130.235.136.24:62045 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:40:11 2014 130.235.136.24:62045 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:40:41 2014 130.235.136.24:54681 Re-using SSL/TLS context<br />Wed Dec 10 13:40:41 2014 130.235.136.24:54681 LZO compression initialized<br />Wed Dec 10 13:40:41 2014 130.235.136.24:54681 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:40:41 2014 130.235.136.24:62045 TLS Error: TLS key negotiation failed to occur within 60 seconds (check your network connectivity)<br />Wed Dec 10 13:40:41 2014 130.235.136.24:62045 TLS Error: TLS handshake failed<br />Wed Dec 10 13:40:43 2014 130.235.136.24:54681 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:40:47 2014 130.235.136.24:54681 TLS Error: reading acknowledgement record from packet<br />Wed Dec 10 13:40:55 2014 read UDPv4 &#91;ECONNREFUSED&#93;: Connection refused (code=111)<br />Wed Dec 10 13:41:11 2014 read UDPv4 &#91;ECONNREFUSED&#93;: Connection refused (code=111)<br />Wed Dec 10 13:41:41 2014 130.235.136.24:54681 TLS Error: TLS key negotiation failed to occur within 60 seconds (check your network connectivity)<br />Wed Dec 10 13:41:41 2014 130.235.136.24:54681 TLS Error: TLS handshake failed<br /><br /></code></dd></dl><br /><br />Can someone tell me what I am doing wrong?</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile652641">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 2</dd><dd><strong>Joined:</strong> Wed Dec 10, 2014 12:43 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p654182" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=123498&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">stetim94</a></strong> &raquo; Sat Dec 13, 2014 4:44 pm </div>
+
+			
+
+			<div class="content">@joakimb which version of openvpn are you using? <br /><br /><dl class="codebox"><dt>Code: <a href="#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>openvpn --version</code></dd></dl><br /><br />i am having the exact same problem, maybe we can figure it out together? <br /><br />this error you have:<br />2014-12-10 13:39:41 TLS Error: cannot locate HMAC in incoming packet from [AF_INET]&lt;my raspi IP&gt;<br /><br />i have there the IP adress of my router (<!-- m --><a class="postlink" href="http://www.whatismyip.com">http://www.whatismyip.com</a><!-- m -->) instead of &lt;my raspi IP&gt; because i had the impression that the 4th line of client.conf should have your routers public ip adress not your pi's. <br /><br />Where is the openvpn.conf (the file with the error messages) on the raspberry pi? i can't find it</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile654182">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 4</dd><dd><strong>Joined:</strong> Tue Oct 21, 2014 7:23 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p656946" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=128530&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">coder36</a></strong> &raquo; Fri Dec 19, 2014 1:17 pm </div>
+
+			
+
+			<div class="content">I've created a scripted install of an OpenVPN server.  For added security,  I've enabled 2 factor authentication using google authenticator:   <br /><br /><a href="http://coder36.blogspot.co.uk/2014/12/raspberry-pi-vpn-with-google.html" class="postlink">http://coder36.blogspot.co.uk/2014/12/raspberry-pi-vpn-with-google.html</a><br /><br />The scripted install uses ansible (which is big in the devops world) to automate the install and configuration.  If you look through the  corresponding github project <a href="https://github.com/coder36/raspi-ansible" class="postlink">https://github.com/coder36/raspi-ansible</a>, you can see the openvpn config files.  There is also a working set of x509 certificates and private keys which you can use as a reference.</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile656946">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1</dd><dd><strong>Joined:</strong> Fri Dec 19, 2014 12:48 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p657105" class="post row-fluid odd">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=127952&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">PeterBij</a></strong> &raquo; Fri Dec 19, 2014 7:52 pm </div>
+
+			
+
+			<div class="content">Maybe off-topic, but I have a question:<br />after installation and working device, how will the raspbery + VPN server react after an unexpected power-down situation?<br /><br />does the Rasp auto-reboot and startup the VPN server automatically?<br />Or if not, what should I do to make that happen.<br />Is very useful of course when your on holidays, and you have had a general power failure in the neighbourhood.</div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile657105">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 1</dd><dd><strong>Joined:</strong> Fri Dec 12, 2014 11:36 am</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div id="p657402" class="post row-fluid even">
+	
+		<div class="postbody span9">
+			
+
+			<div class="author">by <strong><a href="./memberlist.php?mode=viewprofile&amp;u=127778&amp;sid=7b64319efa81ad265c6d00e01c0d7d58">joakimb</a></strong> &raquo; Sat Dec 20, 2014 3:08 pm </div>
+
+			
+
+			<div class="content">@stetim94<br /><br />the logs are at /var/log/openvpn.log. I managed to solve the problem this way: <!-- m --><a class="postlink" href="http://superuser.com/questions/850865/tls-auth-problems-with-openvpn-on-debian">http://superuser.com/questions/850865/t ... -on-debian</a><!-- m --></div>
+
+			
+
+		</div>
+
+		
+		<dl class="postprofile span3" id="profile657402">
+			<dt>
+				
+			</dt>
+		<dd><strong>Posts:</strong> 2</dd><dd><strong>Joined:</strong> Wed Dec 10, 2014 12:43 pm</dd>
+
+		</dl>
+	
+
+	
+	</div>
+
+
+	<div class="span4 text-right">
+		<form class="form-search" method="get" id="forum-search" action="./search.php?sid=7b64319efa81ad265c6d00e01c0d7d58">
+		<fieldset>
+			<input class="search-query" type="text" name="keywords" id="search_keywords" size="20" value="Search This Topic" onclick="if (this.value == 'Search This Topic') this.value = '';" onblur="if (this.value == '') this.value = 'Search This Topic';" />
+			<button class="btn" type="submit" value="Search" ><i class="icon icon-search"></i></button>
+			<input type="hidden" name="t" value="81657" />
+<input type="hidden" name="sf" value="msgonly" />
+<input type="hidden" name="sid" value="7b64319efa81ad265c6d00e01c0d7d58" />
+
+		</fieldset>
+		</form>
+
+	</div>	
+	
+	</div>
+	</div>
+
+	<hr class="crease">
+	<div class="container">
+
+<div class="row-fluid">
+	<div class="topic-actions span8">
+	
+		<a href="./posting.php?mode=reply&amp;f=36&amp;t=81657&amp;sid=7b64319efa81ad265c6d00e01c0d7d58" class="btn btn-info" title="Post a reply">Post a reply</a> 
+	&nbsp;</div>
+	
+	
+	<div class="paging span4 text-right">
+		33 posts
+		 &nbsp; <a href="#" onclick="jumpto(); return false;" title="Click to jump to page…">Page <strong>1</strong> of <strong>2</strong></a> &nbsp; <span><strong>1</strong><span class="page-sep">, </span><a href="./viewtopic.php?f=36&amp;t=81657&amp;sid=7b64319efa81ad265c6d00e01c0d7d58&amp;start=25">2</a></span>
+	</div>
+	
+	
+</div>
+<br>
+
+
+<div class="row-fluid">
+	<div class="span4">
+		
+		<a href="./viewforum.php?f=36&amp;sid=7b64319efa81ad265c6d00e01c0d7d58" class="btn left" accesskey="r">Return to Networking and servers</a>
+		
+	</div>
+	<div class="span2">
+		&nbsp;
+	</div>
+	<div class="span6 text-right">
+		
+		<form method="post" id="jumpbox" action="./viewforum.php?sid=7b64319efa81ad265c6d00e01c0d7d58" onsubmit="if(this.f.value == -1){return false;}" class="form-inline">
+
+		
+		<fieldset class="jumpbox">
+		
+		
+			<label for="f" accesskey="j">Jump to: 
+			<select name="f" id="f" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
+			
+			
+				<option value="-1">Select a forum</option>
+			<option value="-1">------------------</option>
+				<option value="19">Community</option>
+			
+				<option value="63">&nbsp; &nbsp;General discussion</option>
+			
+				<option value="90">&nbsp; &nbsp;Other languages</option>
+			
+				<option value="75">&nbsp; &nbsp;&nbsp; &nbsp;Deutsch</option>
+			
+				<option value="76">&nbsp; &nbsp;&nbsp; &nbsp;Español</option>
+			
+				<option value="65">&nbsp; &nbsp;&nbsp; &nbsp;Français</option>
+			
+				<option value="79">&nbsp; &nbsp;&nbsp; &nbsp;Italiano</option>
+			
+				<option value="88">&nbsp; &nbsp;&nbsp; &nbsp;Nederlands</option>
+			
+				<option value="82">&nbsp; &nbsp;&nbsp; &nbsp;日本語</option>
+			
+				<option value="74">&nbsp; &nbsp;&nbsp; &nbsp;Português</option>
+			
+				<option value="84">&nbsp; &nbsp;&nbsp; &nbsp;Русский</option>
+			
+				<option value="89">&nbsp; &nbsp;&nbsp; &nbsp;Türkçe</option>
+			
+				<option value="57">&nbsp; &nbsp;User groups and events</option>
+			
+				<option value="83">&nbsp; &nbsp;The Pi Store</option>
+			
+				<option value="12">Using the Raspberry Pi</option>
+			
+				<option value="91">&nbsp; &nbsp;Beginners</option>
+			
+				<option value="28">&nbsp; &nbsp;Troubleshooting</option>
+			
+				<option value="29">&nbsp; &nbsp;Advanced users</option>
+			
+				<option value="102">&nbsp; &nbsp;Accessibility</option>
+			
+				<option value="17">Education</option>
+			
+				<option value="47">&nbsp; &nbsp;The Staffroom</option>
+			
+				<option value="49">&nbsp; &nbsp;Teaching and learning resources</option>
+			
+				<option value="48">&nbsp; &nbsp;Using Raspberry Pi in the classroom</option>
+			
+				<option value="99">&nbsp; &nbsp;Picademy</option>
+			
+				<option value="94">&nbsp; &nbsp;Mathematica</option>
+			
+				<option value="14">Programming</option>
+			
+				<option value="72">&nbsp; &nbsp;Bare metal</option>
+			
+				<option value="33">&nbsp; &nbsp;C/C++</option>
+			
+				<option value="67">&nbsp; &nbsp;Graphics programming</option>
+			
+				<option value="68">&nbsp; &nbsp;&nbsp; &nbsp;OpenGLES</option>
+			
+				<option value="69">&nbsp; &nbsp;&nbsp; &nbsp;OpenVG</option>
+			
+				<option value="70">&nbsp; &nbsp;&nbsp; &nbsp;OpenMAX</option>
+			
+				<option value="81">&nbsp; &nbsp;Java</option>
+			
+				<option value="32">&nbsp; &nbsp;Python</option>
+			
+				<option value="77">&nbsp; &nbsp;Scratch</option>
+			
+				<option value="95">&nbsp; &nbsp;Wolfram Language</option>
+			
+				<option value="34">&nbsp; &nbsp;Other languages</option>
+			
+				<option value="31">&nbsp; &nbsp;General programming discussion</option>
+			
+				<option value="15">Projects</option>
+			
+				<option value="37">&nbsp; &nbsp;Automation, sensing and robotics</option>
+			
+				<option value="40">&nbsp; &nbsp;Cases</option>
+			
+				<option value="78">&nbsp; &nbsp;Gaming</option>
+			
+				<option value="38">&nbsp; &nbsp;Graphics, sound and multimedia</option>
+			
+				<option value="39">&nbsp; &nbsp;Magazines and books</option>
+			
+				<option value="35">&nbsp; &nbsp;Media centres</option>
+			
+				<option value="36" selected="selected">&nbsp; &nbsp;Networking and servers</option>
+			
+				<option value="41">&nbsp; &nbsp;Other projects</option>
+			
+				<option value="16">Hardware and peripherals</option>
+			
+				<option value="43">&nbsp; &nbsp;Camera board</option>
+			
+				<option value="98">&nbsp; &nbsp;Compute Module</option>
+			
+				<option value="45">&nbsp; &nbsp;Add-ons</option>
+			
+				<option value="100">&nbsp; &nbsp;B+ addons</option>
+			
+				<option value="44">&nbsp; &nbsp;Interfacing (DSI, CSI, I2C, etc.)</option>
+			
+				<option value="42">&nbsp; &nbsp;Gertboard classic</option>
+			
+				<option value="96">&nbsp; &nbsp;GertDuino</option>
+			
+				<option value="46">&nbsp; &nbsp;Recommended peripherals</option>
+			
+				<option value="18">Operating system distributions</option>
+			
+				<option value="66">&nbsp; &nbsp;Raspbian</option>
+			
+				<option value="53">&nbsp; &nbsp;Arch</option>
+			
+				<option value="51">&nbsp; &nbsp;Pidora</option>
+			
+				<option value="55">&nbsp; &nbsp;RISCOS</option>
+			
+				<option value="56">&nbsp; &nbsp;Other</option>
+			
+				<option value="73">&nbsp; &nbsp;&nbsp; &nbsp;Android</option>
+			
+				<option value="50">&nbsp; &nbsp;&nbsp; &nbsp;Debian</option>
+			
+				<option value="85">&nbsp; &nbsp;&nbsp; &nbsp;FreeBSD</option>
+			
+				<option value="54">&nbsp; &nbsp;&nbsp; &nbsp;Gentoo</option>
+			
+				<option value="71">&nbsp; &nbsp;&nbsp; &nbsp;Linux Kernel</option>
+			
+				<option value="86">&nbsp; &nbsp;&nbsp; &nbsp;NetBSD</option>
+			
+				<option value="87">&nbsp; &nbsp;&nbsp; &nbsp;openSUSE</option>
+			
+				<option value="80">&nbsp; &nbsp;&nbsp; &nbsp;Plan 9</option>
+			
+				<option value="52">&nbsp; &nbsp;&nbsp; &nbsp;Puppy</option>
+			
+				<option value="20">Ye Olde Pi Shoppe</option>
+			
+				<option value="93">&nbsp; &nbsp;For sale</option>
+			
+				<option value="61">&nbsp; &nbsp;Wanted</option>
+			
+				<option value="21">Off topic</option>
+			
+				<option value="62">&nbsp; &nbsp;Off topic discussion</option>
+			
+			
+			</select>
+			<input type="submit" value="Go" class="btn" />
+			</label>
+		</fieldset>
+		
+		</form>
+		
+	</div>
+</div>
+
+</div>
+<hr class="crease">
+<div class="container">
+
+<div class="row-fluid">
+	<div class="span8">
+		
+		<h5>Who is online</h5>
+		Users browsing this forum: No registered users and 20 guests
+		
+	</div>
+	<div class="span4">
+	&nbsp;
+	</div>
+</div>
+
+</div><!-- #main -->
+
+<footer id="colophon" role="contentinfo" class="wave">
+		<div class="container"><div class="row">
+			<aside class="footer1 span4">
+				<ul class="unstyled">
+					<li><a href="./index.php?sid=7b64319efa81ad265c6d00e01c0d7d58" accesskey="h"><i class="icon icon-home"></i> Board index</a></li>
+					
+					
+					
+					<li><a href="./memberlist.php?mode=leaders&amp;sid=7b64319efa81ad265c6d00e01c0d7d58"><i class="icon icon-eye-open"></i> The team</a></li><li><a href="./ucp.php?mode=delete_cookies&amp;sid=7b64319efa81ad265c6d00e01c0d7d58"><i class="icon icon-trash"></i> Delete all board cookies</a></li>
+					
+					<li><i class="icon icon-time"></i> All times are UTC </li>
+				</ul>
+			</aside>
+				
+			<aside class="footer2 span4">
+				
+			</aside>
+				
+			<aside class="footer3 span4">
+				
+			</aside>
+	
+		</div></div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+
+<script type="text/javascript" src="./styles/raspite/theme/js/jquery.js"></script>
+<script type="text/javascript" src="./styles/raspite/theme/js/jquery.timeago.js"></script>
+<script type="text/javascript" src="./styles/raspite/template/forum_fn.js"></script>
+<script type="text/javascript" src="./styles/raspite/theme/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+
+	jQuery("time.entry-date").timeago();
+	jQuery("time.date").timeago();
+  
+	jQuery('iframe').each( function() {
+		var url = jQuery(this).attr("src")
+		jQuery(this).attr("src",url+"&wmode=transparent")
+	});
+
+});
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46270871-1', 'raspberrypi.org');
+  ga('send', 'pageview');
+
+</script>
+	
+</body>
+</html>

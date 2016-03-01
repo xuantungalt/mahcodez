@@ -1,0 +1,68 @@
+# crm configure show
+node rp-blcr-21 \
+        attributes standby="off"
+node rp-blcr-22 \
+        attributes standby="off"
+primitive DRBD_SQL ocf:linbit:drbd \
+        params drbd_resource="msql" \
+        op monitor interval="29s" role="Master" \
+        op monitor interval="31s" role="Slave" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive DRBD_SVN ocf:linbit:drbd \
+        params drbd_resource="svn" \
+        op monitor interval="29s" role="Master" \
+        op monitor interval="31s" role="Slave" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive DRBD_WWW ocf:linbit:drbd \
+        params drbd_resource="www" \
+        op monitor interval="29s" role="Master" \
+        op monitor interval="31s" role="Slave" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive FS_SQL ocf:heartbeat:Filesystem \
+        params device="/dev/drbd2" directory="/opt/mysql" fstype="ext3" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive FS_SVN ocf:heartbeat:Filesystem \
+        params device="/dev/drbd0" directory="/opt/svn" fstype="ext3" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive FS_WWW ocf:heartbeat:Filesystem \
+        params device="/dev/drbd1" directory="/opt/www" fstype="ext3" \
+        op start interval="0" timeout="300s" \
+        op stop interval="0" timeout="120s"
+primitive MySQLD ocf:heartbeat:mysql \
+        params config="/etc/my.cnf" \
+        op monitor interval="60s" timeout="30s" \
+        op start interval="0" timeout="120s" \
+        op stop interval="0" timeout="120s" \
+        meta target-role="Started"
+primitive ONERING-ADDR ocf:heartbeat:IPaddr2 \
+        params ip="10.1.1.20" cidr_netmask="32" nic="eth0" \
+        op monitor interval="10s" \
+        meta is-managed="true"
+group INB4 FS_SQL FS_WWW FS_SVN ONERING-ADDR \
+        meta target-role="Started"
+ms SM_SQL DRBD_SQL \
+        meta master-max="1" master-node-max="1" clone-max="2" clone-node-max="1" notify="true" target-role="Master"
+ms SM_SVN DRBD_SVN \
+        meta master-max="1" master-node-max="1" clone-max="2" clone-node-max="1" notify="true" target-role="Master"
+ms SM_WWW DRBD_WWW \
+        meta master-max="1" master-node-max="1" clone-max="2" clone-node-max="1" notify="true"
+colocation SQLD_INB4_COLO inf: MySQLD INB4
+colocation SQL_DRBD_COLO inf: INB4 SM_SQL:Master
+colocation SVN_DRBD_COLO inf: INB4 SM_SVN:Master
+colocation WWW_DRBD_COLO inf: INB4 SM_WWW:Master
+order MFS_AFTER_DRBD inf: SM_SQL:promote INB4:start
+order SFS_AFTER_DRBD inf: SM_SVN:promote INB4:start
+order SQLD_AFTER_INB4 inf: INB4 MySQLD
+order WFS_AFTER_DRBD inf: SM_WWW:promote INB4:start
+property $id="cib-bootstrap-options" \
+        dc-version="1.1.7-ee0730e13d124c3d58f00016c3376a1de5323cff" \
+        cluster-infrastructure="openais" \
+        expected-quorum-votes="2" \
+        stonith-enabled="false" \
+        no-quorum-policy="ignore" \
+        last-lrm-refresh="1443597128"

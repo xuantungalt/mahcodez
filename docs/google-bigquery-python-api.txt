@@ -1,0 +1,31 @@
+# API Guide
+https://cloud.google.com/bigquery/client-libraries
+
+# Neccessary Packages
+sudo apt-get install python-dev
+sudo apt-get install libpng-dev
+sudo apt-get install libfreetype6-dev
+http://pypi.python.org/pypi/setuptools
+https://cloud.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python
+https://cloud.google.com/bigquery/client-libraries
+http://code.google.com/p/google-bigquery-tools/downloads/
+sudo python setup.py install --install-scripts=/opt/softwares/google-bq
+
+# Documents
+https://cloud.google.com/bigquery/what-is-bigquery
+https://cloud.google.com/appengine/docs
+https://cloud.google.com/bigquery/bigquery-api-quickstart#createproject
+https://cloud.google.com/bigquery/preparing-data-for-bigquery
+# Station code for vn
+ftp://ftp.ncdc.noaa.gov/pub/data/noaa/isd-history.txt
+
+# graph
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy
+
+
+import:
+from webui (copy from other dataset/table)
+from bq tools / api using json/csv format
+from api
+export:
+

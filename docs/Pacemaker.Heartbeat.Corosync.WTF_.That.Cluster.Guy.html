@@ -1,0 +1,354 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Pacemaker, Heartbeat, Corosync, WTF? &#8211; That Cluster Guy</title>
+<meta name="description" content="One question I still get a lot is what all these projects are/do and how they
+all relate.
+
+">
+<meta name="keywords" content="">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Pacemaker, Heartbeat, Corosync, WTF?">
+<meta name="twitter:description" content="One question I still get a lot is what all these projects are/do and how they
+all relate.
+
+">
+<meta name="twitter:site" content="@beekhof">
+<meta name="twitter:creator" content="@beekhof">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://blog.clusterlabs.org/images/blue-yellow-banner-thin.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pacemaker, Heartbeat, Corosync, WTF?">
+<meta property="og:description" content="One question I still get a lot is what all these projects are/do and how they
+all relate.
+
+">
+<meta property="og:url" content="http://blog.clusterlabs.org/blog/2010/pacemaker-heartbeat-corosync-wtf">
+<meta property="og:site_name" content="That Cluster Guy">
+
+
+
+
+
+<link rel="canonical" href="http://blog.clusterlabs.org/blog/2010/pacemaker-heartbeat-corosync-wtf">
+<link href="http://blog.clusterlabs.org/feed.xml" type="application/atom+xml" rel="alternate" title="That Cluster Guy Feed">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://blog.clusterlabs.org/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://blog.clusterlabs.org/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://blog.clusterlabs.org/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://blog.clusterlabs.org/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://blog.clusterlabs.org/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://blog.clusterlabs.org/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://blog.clusterlabs.org/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://blog.clusterlabs.org/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://blog.clusterlabs.org/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://blog.clusterlabs.org/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://blog.clusterlabs.org">That Cluster Guy</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+					    
+					        
+					    
+					    <li><a href="http://blog.clusterlabs.org/feed.xml" >RSS</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://blog.clusterlabs.org/posts/" >Archives</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://blog.clusterlabs.org/about/" >About</a></li>
+					  
+					    
+					        
+					        
+					    <li><a href="http://clusterlabs.org/doc" target="_blank">Pacemaker Documentation</a></li>
+					  
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+  <div class="image-wrap">
+  <img src=
+    
+      "http://blog.clusterlabs.org/images/blue-yellow-banner-thin.jpg"
+    
+  alt="Pacemaker, Heartbeat, Corosync, WTF? feature image">
+  
+    <span class="image-credit">Photo Credit: <a href="http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/">WeGraphics</a></span>
+  
+  </div><!-- /.image-wrap -->
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+
+	<img src="http://blog.clusterlabs.org/images/andrew-bio.png" class="bio-photo" alt="Andrew Beekhof bio photo">
+
+<h3>Andrew Beekhof</h3>
+<p>Cluster guy to the rich and famous</p>
+<a href="mailto:andrew@beekhof.net" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+<a href="http://twitter.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+
+
+<a href="http://linkedin.com/in/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i> LinkedIn</a>
+
+
+<a href="http://github.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+
+<div id="tag-cloud">
+  <h4>Tag Cloud</h4>
+
+  <a href="/tag/general.html" style="font-size: 56%"> general</a>
+
+  <a href="/tag/tips.html" style="font-size: 123%"> tips</a>
+
+  <a href="/tag/humor.html" style="font-size: 56%"> humor</a>
+
+  <a href="/tag/announce.html" style="font-size: 210%"> announce</a>
+
+  <a href="/tag/internals.html" style="font-size: 63%"> internals</a>
+
+  <a href="/tag/documentation.html" style="font-size: 96%"> documentation</a>
+
+  <a href="/tag/site-news.html" style="font-size: 83%"> Site News</a>
+
+  <a href="/tag/performance.html" style="font-size: 63%"> performance</a>
+
+  <a href="/tag/feature-spotlight.html" style="font-size: 63%"> Feature Spotlight</a>
+
+  <a href="/tag/openstack.html" style="font-size: 76%"> openstack</a>
+
+  <a href="/tag/compute-node.html" style="font-size: 56%"> compute node</a>
+
+  <a href="/tag/pacemaker-remote.html" style="font-size: 56%"> pacemaker remote</a>
+
+  <a href="/tag/cluster.html" style="font-size: 76%"> cluster</a>
+
+  <a href="/tag/concepts.html" style="font-size: 76%"> concepts</a>
+
+  <a href="/tag/fencing.html" style="font-size: 56%"> fencing</a>
+
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="http://blog.clusterlabs.org/blog/2010/pacemaker-heartbeat-corosync-wtf" rel="bookmark" title="Pacemaker, Heartbeat, Corosync, WTF?">Pacemaker, Heartbeat, Corosync, WTF?</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>One question I still get a lot is what all these projects are/do and how they
+all relate.</p>
+
+<p>Here is the list of the possible components that might make up a
+<a href="http://www.clusterlabs.org">Pacemaker</a> install is:</p>
+
+<ul>
+  <li>Pacemaker - Resource manager</li>
+  <li>Corosync - Messaging layer</li>
+  <li>Heartbeat - Also a messaging layer</li>
+  <li>Resource Agents - Scripts that know how to control various services</li>
+</ul>
+
+<p><em>Pacemaker</em> is the thing that starts and stops services (like your database or
+mail server) and contains logic for ensuring both that they’re running, and
+that they’re <strong>only</strong> running in one location (to avoid data corruption).</p>
+
+<p>But it can’t do that without the ability to talk to instances of itself on the
+other node(s), which is where <a href="http://linux-ha.org">Heartbeat</a> and/or
+<a href="http://corosync.org">Corosync</a> come in.</p>
+
+<p>Think of <em>Heartbeat</em> and <em>Corosync</em> as
+<a href="http://www.freedesktop.org/wiki/Software/dbus">dbus</a> but between nodes.
+Somewhere that any node can throw messages on and know that they’ll be
+received by all its peers. This bus also ensures that everyone agrees who is
+(and is not) connected to the bus and tells Pacemaker when that list changes.</p>
+
+<p>For two nodes Pacemaker could just as easily use sockets, but beyond that the
+complexity grows quite rapidly and is very hard to get right - so it really
+makes sense to use existing components that have proven to be reliable.</p>
+
+<p>You only need one of them though :-)</p>
+
+<p>Finally, in order to avoid teaching Pacemaker about every possible service
+that people might want to make highly available, we make use of the
+<a href="http://opencf.org/home.html">OCF</a> standard to hide the details in scripts -
+which we call <em>Resource Agents</em>. Any series of command-line actions can be
+easily turned into a resource agent by adding them to an existing <a href="h
+ttp://hg.clusterlabs.org/pacemaker/1.1/file/tip/extra/resources/Dummy">template</a>.</p>
+
+<p>However a collection of the most commonly useful ones are made available as
+part of the <a href="http://www.linux-ha.org/wiki/Resource_Agents">Resource Agents</a>
+project.</p>
+
+<p>And of course pre-built packages for all these come with most of the popular
+Linux distributions, including Fedora, openSUSE, SLES &gt;= 10, RHEL &gt;= 6,
+Debian, and Ubuntu.</p>
+
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+
+
+
+	<img src="http://blog.clusterlabs.org/images/andrew-bio.png" class="bio-photo" alt="Andrew Beekhof bio photo">
+
+<h3>Andrew Beekhof</h3>
+<p>Cluster guy to the rich and famous</p>
+<a href="mailto:andrew@beekhof.net" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+<a href="http://twitter.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+
+
+<a href="http://linkedin.com/in/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i> LinkedIn</a>
+
+
+<a href="http://github.com/beekhof" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+
+<div id="tag-cloud">
+  <h4>Tag Cloud</h4>
+
+  <a href="/tag/general.html" style="font-size: 56%"> general</a>
+
+  <a href="/tag/tips.html" style="font-size: 123%"> tips</a>
+
+  <a href="/tag/humor.html" style="font-size: 56%"> humor</a>
+
+  <a href="/tag/announce.html" style="font-size: 210%"> announce</a>
+
+  <a href="/tag/internals.html" style="font-size: 63%"> internals</a>
+
+  <a href="/tag/documentation.html" style="font-size: 96%"> documentation</a>
+
+  <a href="/tag/site-news.html" style="font-size: 83%"> Site News</a>
+
+  <a href="/tag/performance.html" style="font-size: 63%"> performance</a>
+
+  <a href="/tag/feature-spotlight.html" style="font-size: 63%"> Feature Spotlight</a>
+
+  <a href="/tag/openstack.html" style="font-size: 76%"> openstack</a>
+
+  <a href="/tag/compute-node.html" style="font-size: 56%"> compute node</a>
+
+  <a href="/tag/pacemaker-remote.html" style="font-size: 56%"> pacemaker remote</a>
+
+  <a href="/tag/cluster.html" style="font-size: 76%"> cluster</a>
+
+  <a href="/tag/concepts.html" style="font-size: 76%"> concepts</a>
+
+  <a href="/tag/fencing.html" style="font-size: 56%"> fencing</a>
+
+</div>
+
+        </div>
+        <p class="byline"><strong><a href="http://blog.clusterlabs.org/blog/2010/pacemaker-heartbeat-corosync-wtf" rel="bookmark" title="Pacemaker, Heartbeat, Corosync, WTF?">Pacemaker, Heartbeat, Corosync, WTF?</a></strong> was first published at <a href="http://blog.clusterlabs.org" rel="bookmark" title="That Cluster Guy">That Cluster Guy</a> on <time datetime="2010-10-07T00:00:00+00:00">October 07, 2010</time></p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://blog.clusterlabs.org/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://blog.clusterlabs.org/blog/2015/minimum-viable-cluster" title="Minimum Viable Cluster">Minimum Viable Cluster</a></li>
+    
+      <li><a href="http://blog.clusterlabs.org/blog/2015/reliable-notifications" title="Receiving Reliable Notification of Cluster Events">Receiving Reliable Notification of Cluster Events</a></li>
+    
+      <li><a href="http://blog.clusterlabs.org/blog/2015/sbd-fun-and-profit" title="Fencing for Fun and Profit with SBD">Fencing for Fun and Profit with SBD</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    
+
+<span>&copy; 2015 Andrew Beekhof. Powered by <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/minimal-mistakes/">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://blog.clusterlabs.org/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://blog.clusterlabs.org/assets/js/scripts.min.js"></script>
+
+	        
+
+</body>
+</html>

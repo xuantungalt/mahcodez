@@ -1,0 +1,433 @@
+
+	<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A site dedicated to programming, computer hardware, technology and more! Written by an industry professional who's always trying to learn something new.">
+    <meta name="keywords" content="technology,programming,python">
+    <meta name="author" content="Blake VandeMerwe <blakev@null.net>">
+
+    <!-- meta links -->
+    <link rel="icon" type="image/ico" href="/favicon.ico">
+    <link rel="feed" type="application/atom+xml" href="/feed.atom" title="All Articles">
+
+    <!-- google meta -->
+    <link rel="author" href="https://plus.google.com/+BlakeVandeMerwe">
+
+    <!-- facebook meta -->
+    <meta property="og:title" content="Building Python 2.7.10 on Raspberry Pi 2">
+    <meta property="og:type" content="article">
+
+    <!-- twitter meta -->
+    <meta name=”twitter:card” content=”summary”>
+    <meta name=”twitter:url” content=”http://sowingseasons.com/blog/software/2016/02/building-python-2-7-10-on-raspberry-pi-2/10635877”>
+    <meta name=”twitter:description” content=”Install the latest version of Python 2.7 on your Raspberry Pi 2 in around ~20 minutes!”>
+
+    <!-- small icons -->
+    <meta name="twitter:image" content="/static/img/profile.jpg">
+    <meta property="og:image" content="/static/img/profile.jpg">
+
+    <title>
+	Building Python 2.7.10 on Raspberry Pi 2 - software : SowingSeasons
+</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/vendor/bootstrap.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/railscasts.min.css">
+<link rel="stylesheet" href="/static/css/main.min.css">
+</head>
+<body>
+    <div class="core-background">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/" class="custom-navbar-brand">
+                        <img src="/static/img/logo.png" alt="SowingSeasons.com">
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/">Blog</a></li>
+                        <li><a href="/search">Search</a></li>
+                    </ul>
+
+                    <form class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <a href="/"><img src="/static/img/logo.png" alt="SowingSeasons"></a>
+    </div>
+
+    <div class="container-fluid main-area">
+        
+	
+		<img id="banner-area" src="/media/10635877/upload_84786739.jpg" alt="">
+	
+
+
+        <div class="row">
+            <div class="col-sm-3 col-sm-push-8 col-xs-12 navigation-pane">
+                
+                
+            </div>
+            <div class="col-sm-7 col-sm-pull-3 col-sm-offset-1 col-xs-12 main-content">
+                
+	
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li><a href="/search/topic/software">software</a></li>
+		<li>Blog Post</li>
+	</ol>
+	
+
+	<div class="row">
+		<div class="col-xs-1">
+			
+
+			<h2><i class="fa fa-file-text-o icon-left"></i></h2>
+		</div>
+		<div class="col-xs-10">
+			<h2>
+				Building Python 2.7.10 on Raspberry Pi 2
+			</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-8">
+			<ul class="list-unstyled">
+				<li>
+					<i class="fa fa-code icon-column"></i>
+					<a class="btn btn-xs btn-link value-column" href="/search/topic/software">software</a>
+					<i class="fa fa-hashtag icon-column"></i>
+    <a class="btn btn-xs btn-link" href="/search/keywords/python2"> python2</a>
+    <a class="btn btn-xs btn-link" href="/search/keywords/rpi"> rpi</a>
+    <a class="btn btn-xs btn-link" href="/search/keywords/python">python</a>
+				</li>
+				<li>
+					<i class="fa fa-calendar-check-o icon-column"></i>
+					<div class="value-column">created, 01-13-2016</div>
+					<i class="fa fa-calendar-plus-o icon-column"></i>
+					<div class="value-column">updated, 02-01-2016</div>
+				</li>
+				<li>
+					<i class="fa fa-at icon-column"></i>
+					<a class="value-column" href="mailto: blakev@null.net">Blake VandeMerwe</a>
+				</li>
+				<li>
+					<br>
+					<i class="fa fa-commenting icon-column"></i>
+					<a class="value-column" href="http://sowingseasons.com/blog/software/2016/02/building-python-2-7-10-on-raspberry-pi-2/10635877#disqus_thread">Comments</a>
+				</li>
+			
+			</ul>
+		</div>
+	</div>
+
+	
+	<div class="text-right">
+		<small>
+			<a href="?printable">Print</a> <i class="fa fa-print icon-right"></i>
+		</small>
+	</div>
+	
+
+	<div class="row">
+		<div class="col-xs-12 post-content">
+			<p class="page-post-summary">
+				Install the latest version of Python 2.7 on your Raspberry Pi 2 in around ~20 minutes!
+			</p>
+
+			
+
+			<p>Depending on your Raspberry Pi operating system distribution you may not have access to the newest Python 2.7 release. Following this guide will help you get updated in no time. Feel free to leave a comment if you have any questions!</p>
+<h3>Let's Go</h3>
+<p>Make sure everything is up to date on your <a href="http://amzn.to/1BE6G7G">Raspberry Pi 2</a>. <code>libssl-dev</code> is required before building Python for all the HTTPS/SSL related functionality to work correctly. <code>tk-dev</code> is required for Tk GUI development, and <code>libsqlite3-dev</code> will add Sqlite3, embedded SQL database, support.</p>
+<h3>Grab Pre-requisites</h3>
+<pre><code class="bash">sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install build-essential libncursesw5-dev libgdbm-dev libc6-dev 
+sudo apt-get install zlib1g-dev libsqlite3-dev tk-dev
+sudo apt-get install libssl-dev openssl
+</code></pre>
+
+<h3>Download and Make</h3>
+<pre><code class="bash">$ cd ~
+$ wget https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tgz
+$ tar -zxvf Python-2.7.10.tgz
+$ cd Python-2.7.10
+$ ./configure
+$ make -j 4
+$ sudo make install
+</code></pre>
+
+<ul>
+<li><strong>wget</strong> took 6s on 30Mbps internet.</li>
+<li><strong>tar</strong> took 25s.</li>
+<li><strong>configure</strong> took 3m35s</li>
+<li><strong>make</strong> took 9m10s (with 4 concurrent jobs, ala <code>make -j 4</code>)</li>
+<li><strong>make install</strong> took 4m5s</li>
+</ul>
+<p>The whole process took roughly <strong>18 minutes to download, compile, and install Python 2.7.10</strong> on a Raspberry Pi 2.</p>
+<h3>Test the Installation</h3>
+<pre><code class="bash">$ python2
+
+Python 2.7.10 (default, Jun  1 2015, 21:23:00)
+[GCC 4.6.3] on linux2
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt;
+</code></pre>
+
+<h3>Get Pip</h3>
+<pre><code class="bash">$ cd ~
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ sudo python2 get-pip.py
+</code></pre>
+
+<h3>Test the Installation</h3>
+<pre><code class="bash">$ pip --version
+pip 7.0.1 from /usr/local/lib/python3.4/site-packages (python 3.4)
+$ sudo pip install requests
+$ python2
+&gt;&gt;&gt; import requests
+&gt;&gt;&gt;
+</code></pre>
+
+<p>Optionally, you can overwrite the included Python 3 version (3.2.3 on my distribution) by updating the symlink.</p>
+<pre><code class="bash"> sudo ln -sf /usr/local/bin/python2.7 /usr/bin/python
+</code></pre>
+
+<p>Congratulations! :)</p>
+<pre><code class="python">&gt;&gt;&gt; print 'Hello, World!'
+</code></pre>
+
+<p>Don't have a Raspberry Pi 2 yet? Pick yours up <a href="http://amzn.to/1BE6G7G">on Amazon</a>!</p>
+		</div>
+	</div>
+
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<h3><i class="fa fa-asterisk icon-left"></i>Related</h3>
+		</div>
+	</div>
+
+	<div class="row">
+		
+			<div class="col-xs-4">
+				<div class="well">
+					<h4>
+						<a href="/blog/software/2016/01/building-python-3-4-on-raspberry-pi-2/19864079">Building Python 3.4 on ...</a>
+					</h4>
+					<a class="btn btn-sm btn-default" href="/search/topic/software">SOFTWARE</a>
+					<br>
+					<br>
+					<small>
+						<p>Install the latest version of Python 3 on your Raspberry Pi 2 in around ~30 minutes!</p>
+					</small>
+				</div>
+			</div>
+		
+			<div class="col-xs-4">
+				<div class="well">
+					<h4>
+						<a href="/blog/software/2016/02/installing-pillow-3-1-on-ubuntu-15-10-x64/47582134">Installing Pillow 3.1 on ...</a>
+					</h4>
+					<a class="btn btn-sm btn-default" href="/search/topic/software">SOFTWARE</a>
+					<br>
+					<br>
+					<small>
+						<p>In order to install Pillow, the defacto imaging library in Python, with all its features in a virtual environment  ...</p>
+					</small>
+				</div>
+			</div>
+		
+			<div class="col-xs-4">
+				<div class="well">
+					<h4>
+						<a href="/blog/report/2016/01/whoosh-python-vs-pypy-at-indexing/12690657">Whoosh: Python vs. PyPy at ...</a>
+					</h4>
+					<a class="btn btn-sm btn-default" href="/search/topic/report">REPORT</a>
+					<br>
+					<br>
+					<small>
+						<p>Whoosh is written in python. PyPy was designed to speed up python programs. Batch indexing with Whoosh could be a ...</p>
+					</small>
+				</div>
+			</div>
+		
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<h3><i class="fa fa-comments-o icon-left"></i>Comments</h3>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="disqus_thread"></div>
+			<script>
+				var disqus_config = function () {
+					this.page.url = 'http://sowingseasons.com/blog/software/2016/02/building-python-2-7-10-on-raspberry-pi-2/10635877';
+					this.page.identifier = '10635877';
+				};
+				(function() {
+				var d = document, s = d.createElement('script');
+				s.src = '//sowingseasons.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);})();
+			</script>
+			<noscript>
+				Please enable JavaScript to view the
+				<a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+			</noscript>
+		</div>
+	</div>
+
+	<script id="dsq-count-scr" src="//sowingseasons.disqus.com/count.js" async></script>
+	
+
+            </div>
+        </div>
+    </div>
+
+    <div class="page-spacer"></div>
+
+    <div class="footer">
+        <div class="container">
+            <p>
+                <div class="row">
+	<div class="col-md-4 col-xs-12">
+		<img src="/static/img/logo.png" alt="SowingSeasons Logo" class="footer-logo">
+		<a href="/">SowingSeasons.com</a>, 2015-2016
+		<br><br>
+		<adress>
+			<strong>Blake VandeMerwe</strong>
+			<br>
+			<i class="fa fa-bug icon-left"></i>
+            <a href="https://github.com/blakev/sowing-seasons/issues">Report</a> a bug.
+            <i class="fa fa-sign-in icon-left icon-right"></i>
+            <a href="/login">Login</a>.
+			<br>
+			<i class="fa fa-envelope-o icon-left"></i>
+			<a href="http://eepurl.com/bL4H9D">Sign-up</a> for the mailing list.
+			<br>
+			<br>
+			<span class="text-muted">social</span>
+			<br>
+			<i class="fa fa-envelope icon-left"></i>
+			<a href="mailto: blakev@null.net">blakev@null.net</a>
+			<br>
+			<i class="fa fa-github icon-left"></i>
+			<a href="https://github.com/blakev">GitHub</a> (<a href="https://github.com/blakev/sowing-seasons">this project</a>)
+			<br>
+			<i class="fa fa-twitter icon-left"></i>
+			<a href="https://twitter.com/bvandemerwe">Twitter</a>
+			<br>
+			<i class="fa fa-youtube icon-left"></i>
+			<a href="https://www.youtube.com/user/LightShadow756/featured">Youtube</a>
+            <br>
+            <i class="fa fa-linkedin icon-left"></i>
+            <a href="https://www.linkedin.com/in/blakevandemerwe">LinkedIn</a>
+		</adress>
+	</div>
+	<div class="col-md-4 col-xs-12">
+		<strong>Attribution</strong>
+
+		<div class="row">
+			<div class="col-xs-6">
+				<span class="text-muted">secured & powered by</span>
+				<br><br>
+				<a href="https://www.digitalocean.com/?refcode=70ebeb6d7781"><img class="logo-badge" src="/static/img/do_logo.png" alt="DigitalOcean"></a>
+				<a href="https://letsencrypt.org/"><img src="/static/img/le_logo.png" alt="Let's Encrypt" class="logo-badge"></a>
+				<a href="https://lastpass.com/f?14776262"><img src="/static/img/lp_logo.png" alt="LastPass" class="logo-badge-width"></a>
+				<a href="https://www.cloudflare.com/"><img src="/static/img/cf_logo.png" alt="CloudFlare" class="logo-badge-width"></a>
+				<br><br>
+				<ul class="list-unstyled">
+					<li><a href="https://python.org">Python</a></li>
+					<li><a href="https://bitbucket.org/mchaput/whoosh/wiki/Home">Whoosh</a></li>
+					<li><a href="http://www.tornadoweb.org/en/stable/">Tornado</a></li>
+					<li><a href="http://nginx.org/en/">nginx</a></li>
+				</ul>
+			</div>
+			<div class="col-xs-6">
+				<span class="text-muted">styled by</span>
+				<ul class="list-unstyled">
+					<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+					<li><a href="https://bootswatch.com">Bootswatch</a>
+					(<a href="https://bootswatch.com/flatly/">theme</a>)</li>
+					<li><a href="http://subtlepatterns.com/">Subtle Patterns</a><br></li>
+					<li> - <a href="http://subtlepatterns.com/black-felt/"><em>Black Felt</em></a></li>
+					<li> - <a href="http://subtlepatterns.com/white-paperboard/"><em>White Paperboard</em></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 col-xs-12">
+		<strong>Meta</strong>
+
+		<br>
+		<span class="text-muted">page data</span>
+		
+		<ul class="list-unstyled meta-list">
+		
+			<li>irrelevant for current page</li>
+		
+		</ul>
+
+		
+
+		<span class="text-muted">server data</span>
+		<ul class="list-unstyled meta-list">
+			<li>Compress response? <em><strong>True</strong></em></li>
+			<li>Debug mode? <em><strong class="text-danger">True</strong></em></li>
+			<li>Static Hashing? <em><strong>False</strong></em></li>
+			<li>XSRF cookies? <em><strong>True</strong></em></li>
+		</ul>
+
+		<span class="text-muted">vm data</span>
+		<ul class="list-unstyled meta-list">
+			<li>System, <em><strong>python 3.5.0+ linux</strong></em></li>
+			<li>CPU load, <em><strong>4.8%</strong></em></li>
+			<li>
+				Memory used, <em><strong>47.8%</strong></em>
+				total, <em><strong>512.7 MB</strong></em>
+			</li>
+		</ul>
+	</div>
+</div>
+            </p>
+        </div>
+    </div>
+
+    <script src="/static/js/vendor/jquery-2.1.4.min.js"></script>
+<script src="/static/js/vendor/bootstrap.min.js"></script>
+<script src="/static/js/vendor/highlight-9.0.0.min.js"></script>
+<script type="text/javascript">
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+
+</body>
+</html>

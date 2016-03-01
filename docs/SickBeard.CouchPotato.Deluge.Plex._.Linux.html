@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>SickBeard + CouchPotato + Deluge + Plex | Linux+</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://linuxpluse.wordpress.com/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="https://s0.wp.com/wp-content/themes/pub/balloons/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="Linux+ &raquo; Feed" href="https://linuxpluse.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Linux+ &raquo; Comments Feed" href="https://linuxpluse.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Linux+ &raquo; SickBeard + CouchPotato + Deluge +&nbsp;Plex Comments Feed" href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='https://s0.wp.com/_static/??-eJx9kVtqAzEMRTdU10yaFvIRuhY/VMcTeSQsGZPd19NSSjJhfoyvOIfrh+1sAi0Ki9rSDGNLeRErJSPcuNIMQe/TaxB5sc81zFcQO4OyC1fzkza4R0r/AqUEkZqaL0KkbnuOCbYdd1KnGl0Um5C8w73zVECnEA2T6EPa0wJVGPPCTleiQMwOEMrA9rTCH3/Wur2MN9it6Txo4z1XEDFjLbkVo5dRtPV+x5abt+PSSLT+kt4QVvKznKfj8e1wmE7T+/wN04qwRw==' type='text/css' media='all' />
+<link rel='stylesheet' id='googlefonts-css'  href='https://fonts.googleapis.com/css?family=Sue+Ellen+Francisco%7CRosario%3A400%2C400italic&#038;ver=4.4-alpha-34640' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2' href='https://s2.wp.com/_static/??-eJx9j9EKwyAMRX9oLisIXR/GvsVKphY1YlL2+7M4xsZKX5J7yT0hgWdRlrJgFkirKnF1ITNgoiX0erbMJwiQSUJL8kf0wT7vkFQkayRQ/jHqEU2oR2jFOZJr0kFLfdkjqBBLXw3sTd3gdz++MmPtT+3KP1Y8JmTwGlyk2cQtcE+3QetpvIzDdVpetjx9hA==' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var isadminbar = {"showing":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyFkN0OwiAMhV9IRjbnhRfGZ2Fbh51AkR+nPr2dURPnoglJOeU7Jy1y9AJda3IHUQ58ThnC9VmKIa7kL0BY1EElKCy6F9ySS+DSxFpq0IDIEYLS3OOgnhY4TzFZiJGhhdfPkdCdEca/2ADJq/YoAkS8faU2hrTwJmt0UfJdQ0c5iZ6MoVGO2GlIc4/Nb0cAw0t3Ypp7puaudADeTPrcyEZxOrnHL3oVWKkL43u7K+t6XVXlttwMd7qqlgc='></script>
+<link rel='stylesheet' id='all-css-0' href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://linuxpluse.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Custom Section Icons for Plex Media&nbsp;Client' href='https://linuxpluse.wordpress.com/2013/08/27/custom-icon-for-plex-media-server/' />
+<link rel='next' title='SSL Certificate for Sickbeard, Couchpotato and deluge in&nbsp;OMV' href='https://linuxpluse.wordpress.com/2014/04/24/ssl-certificate-for-sickbeard-couchpotato-and-deluge-in-omv/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/" />
+<link rel='shortlink' href='http://wp.me/p33efq-bo' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Flinuxpluse.wordpress.com%2F2013%2F12%2F21%2Fsickbeard-couchpotato-deluge-plex%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Flinuxpluse.wordpress.com%2F2013%2F12%2F21%2Fsickbeard-couchpotato-deluge-plex%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="SickBeard + CouchPotato + Deluge + Plex" />
+<meta property="og:url" content="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/" />
+<meta property="og:description" content="Installation -   SickBeard  +CouchPotato  + Deluge I am using Openmediavault as my base OS. Its a Debian derivatives OS so all debian apps and command work in it. As for couchpotato and sickbeard (..." />
+<meta property="article:published_time" content="2013-12-21T15:22:34+00:00" />
+<meta property="article:modified_time" content="2014-05-25T16:35:59+00:00" />
+<meta property="og:site_name" content="Linux+" />
+<meta property="og:image" content="https://linuxpluse.files.wordpress.com/2013/12/1387660360_8.png" />
+<meta property="og:image:width" content="256" />
+<meta property="og:image:height" content="256" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:image" content="https://linuxpluse.files.wordpress.com/2013/12/1387660360_8.png?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://linuxpluse.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://linuxpluse.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://linuxpluse.wordpress.com/osd.xml" title="Linux+" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://wordpress.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#f9f9f9" />
+<meta name="application-name" content="Linux+" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="loading..." /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://linuxpluse.wordpress.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="SickBeard + CouchPotato + Deluge +&nbsp;Plex | Linux+ on WordPress.com" />
+<meta name="description" content="Installation -   SickBeard  +CouchPotato  + Deluge I am using Openmediavault as my base OS. Its a Debian derivatives OS so all debian apps and command work in it. As for couchpotato and sickbeard (tpb version), these two are the best rss reader out there for automatic download and process the tv shows and movies.&hellip;" />
+	<style type="text/css">
+			.site-title a,
+		.site-description {
+			color: #4fd9dd !important;
+		}
+		</style>
+	<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #f9f9f9; }
+</style>
+		<script type="text/javascript" src="//c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		var a9_p = amznads.getKeys(),
+		_ipw_custom = {
+			wordAds: '0',
+			adSafe: '0',
+			domain: 'linuxpluse.wordpress.com',
+			pageURL: 'https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/'
+		};
+		if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		</script>		<!-- IPONWEB header script -->
+		<script type="text/javascript">
+			window.__ATA = {
+				scriptSrc: '//s.pubmine.com/showad.js',
+				slotPrefix: 'automattic-id-',
+				initAd: function(o) {
+					var o = o || {},
+						g = window,
+						d = g.document,
+						wr = d.write,
+						id = g.__ATA.id();
+					wr.call(d, '<div id="' + id + '" data-section="' + (o.sectionId || 0) + '"' + (o.type ? ('data-type="' + o.type + '"') : '') + ' ' + (o.forcedUrl ? ('data-forcedurl="' + o.forcedUrl + '"') : '') + ' style="width:' + (o.width || 0) + 'px; height:' + (o.height || 0) + 'px;">');
+					g.__ATA.displayAd(id);
+					wr.call(d, '</div>');
+				},
+				displayAd: function(id) {
+					window.__ATA.ids = window.__ATA.ids || {};
+					window.__ATA.ids[id] = 1;
+				},
+				customParams: _ipw_custom,
+				id: function() {
+					return window.__ATA.slotPrefix + (parseInt(Math.random() * 10000, 10) + 1 + (new Date()).getMilliseconds());
+				}
+			};
+			(function(d, ata) {
+				var pr = "https:" === d.location.protocol ? "https:" : "http:",
+					src = pr + ata.scriptSrc,
+					st = "text/javascript";
+				d.write('<scr' + 'ipt type="' + st + '" src="' + src + '"><\/scr' + 'ipt>');
+			})(window.document, window.__ATA);
+		</script>
+		<script type="text/javascript">
+		jQuery(window).ready(function () {
+			jQuery("a.wpa-about").text("About these ads");
+		});
+		</script><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-706 single-format-standard custom-background mp6 customizer-styles-applied highlander-enabled highlander-light">
+<div id="page" class="hfeed site">
+
+	<div id="wrapper">
+
+				<header id="masthead" class="site-header" role="banner">
+			<hgroup>
+				<nav role="navigation" class="site-navigation main-navigation">
+					<h1 class="assistive-text">Menu</h1>
+					<div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+
+					<div class="menu-menu-container"><ul id="menu-menu" class="menu"><li id="menu-item-327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-327"><a href="https://linuxpluse.wordpress.com/">Home</a></li><li id="menu-item-328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-328"><a href="https://linuxpluse.wordpress.com/about/">About Me</a></li><li id="menu-item-404" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-404"><a href="https://linuxpluse.wordpress.com/random-stuffs/">Random Stuffs</a></li></ul></div>				</nav>
+								<h1 class="site-title"><a href="https://linuxpluse.wordpress.com/" title="Linux+" rel="home">Linux+</a></h1>
+				<h2 class="site-description">loading&#8230;</h2>
+			</hgroup>
+
+		</header><!-- #masthead .site-header -->
+
+		<div id="main">
+		<div id="primary" class="site-content">
+			<div id="content" role="main">
+
+			
+					<nav role="navigation" id="nav-above" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="https://linuxpluse.wordpress.com/2013/08/27/custom-icon-for-plex-media-server/" rel="prev"><span class="meta-nav">&larr;</span> Custom Section Icons for Plex Media&nbsp;Client</a></div>		<div class="nav-next"><a href="https://linuxpluse.wordpress.com/2014/04/24/ssl-certificate-for-sickbeard-couchpotato-and-deluge-in-omv/" rel="next">SSL Certificate for Sickbeard, Couchpotato and deluge in&nbsp;OMV <span class="meta-nav">&rarr;</span></a></div>
+	
+	</nav><!-- #nav-above -->
+	
+				
+<article id="post-706" class="post-706 post type-post status-publish format-standard has-post-thumbnail hentry category-debian-2 category-openmediavault category-plex-media-server-2 category-server tag-couchpotato tag-couchpotato-installation tag-debian tag-deluge tag-plex tag-plex-media-server tag-sickbeard tag-sickbeard-installation">
+	<header class="entry-header">
+		<h1 class="entry-title">SickBeard + CouchPotato + Deluge +&nbsp;Plex</h1>
+
+		<div class="entry-meta">
+			<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/" title="3:22 pm" rel="bookmark"><time class="entry-date" datetime="2013-12-21T15:22:34+00:00" pubdate>December 21, 2013</time></a><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://linuxpluse.wordpress.com/author/ffactro43/" title="View all posts by goWpress" rel="author">goWpress</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<div style="padding:1px;margin:1px;text-align:center;color:#ffffff;font:bold 9px text-transform:;border-bottom-style:solid;opacity:1;border:1px none #d4d4d4;position:relative;float:none;text-decoration:none;background-color:#4f5969;"><b>Installation &#8211;   SickBeard  +<b>CouchPotato  </b>+ Deluge</b></div>
+<div style="padding:10px;background-color:#ffffff;font-size:13px;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;">
+<p style="font-size:13px;">I am using Openmediavault as my base OS. Its a Debian derivatives OS so all debian apps and command work in it. As for <a title="Couchpotato" href="https://couchpota.to/" target="_blank">couchpotato</a> and <a title="SickBeard" href="https://github.com/mr-orange/Sick-Beard" target="_blank">sickbeard (tpb version)</a>, these two are the best rss reader out there for automatic download and process the tv shows and movies.</p>
+<table style="font-size:13px;">
+<tbody>
+<tr>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/sickbeard.png" target="_blank"><img class="alignnone size-medium wp-image-711" src="https://linuxpluse.files.wordpress.com/2013/12/sickbeard.png?w=300&#038;h=206" alt="Sickbeard" width="300" height="206" /></a><br />
+Image 1.1 &#8211; SickBeard</div>
+</td>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/couchpotato.png" target="_blank"><img class="alignnone size-medium wp-image-720" src="https://linuxpluse.files.wordpress.com/2013/12/couchpotato.png?w=300&#038;h=206" alt="CouchPotato" width="300" height="206" /></a><br />
+Image 1.2 &#8211; CouchPotato</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div style="background-color:#667286;margin:10px;border-style:solid;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#667286;padding:2px;">&#8211; [ Start PreparatioN ] &#8211;</div>
+<p style="font-size:13px;">Before going any further, I would suggest you guys to install <a title="Openmediavault + Deluge 1.3.6" href="https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/" target="_blank">deluge</a> or your preferred torrent client first and then you can go ahead and install these application.</p>
+<p style="font-size:13px;">Both of these application are dependent to python so check if you have python installed or not</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">python -V</div>
+<p style="font-size:13px;">If its not, install python</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install python python-twisted python-twisted-web python-openssl python-simplejson python-setuptools intltool python-xdg python-chardet geoip-database python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako</div>
+<p style="font-size:13px;">First, we need to install git as both of these application are hosted there.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install git-core</div>
+<p style="font-size:13px;">Next, install Cheetah, Sickbeard utilise it (optional but recommanded).</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get install python-cheetah</div>
+<div style="background-color:#0093ad;border-style:none;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#0093ad;padding:2px;margin-bottom:10px;border-top-left-radius:4px;border-top-right-radius:4px;border-bottom:5px solid #65bdd6;">&#8211; [ Start SickBeard ] &#8211;</div>
+<p style="font-size:13px;">To install Sickbeard</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">git clone git://github.com/echel0n/SickRage.git my-sickbeard-install</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd my-sickbeard-install</div>
+<p style="font-size:13px;">Start SickBeard</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">python SickBeard.py</div>
+<p style="font-size:13px;">Now go to clients browser and put your server ip and port number</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">ServerIP:8081</div>
+<p style="font-size:13px;">Goto setting &gt;&gt; help &amp; info, keep note of SB Config Files</p>
+<div style="padding:5px;background:#f1f4fb;border:1px solid #C9C9C9;overflow:auto;font-size:12px;line-height:140%;margin:13px;border-radius:5px;"><img class="alignleft" src="https://linuxpluse.files.wordpress.com/2013/05/1368906058_info_blue.png?w=31&#038;h=31" alt="Notice" width="31" height="31" />Note: I am using root to install sickbeard but you can use any other user with administrative right.</div>
+<p style="font-size:13px;">To make SickBeard start at boot, go back to [user]/my-sickbeard-install, in my case</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd /root/my-sickbeard-install</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">mv init.ubuntu /etc/init.d/sickbeard</div>
+<p style="font-size:13px;">Now we need to create sickbeard file in /etc/default</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano /etc/default/sickbeard</div>
+<p><span style="font-size:small;">Mine looks like this, change yours accordingly, both path and user (</span><span style="color:#ff0000;font-size:small;">red color: its double dash &#8211; &#8211; without space</span><span style="font-size:small;">)</span></p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">SB_USER=root<br />
+SB_HOME=/root/my-sickbeard-install/<br />
+SB_DATA=/root/my-sickbeard-install/<br />
+SB_OPTS=<span style="color:#ff0000;">&#8212;</span>config=/root/my-sickbeard-install/config.ini</div>
+<p style="font-size:13px;">Now add sickbeard to start up</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">update-rc.d sickbeard defaults</div>
+<p style="font-size:13px;">Start the sickbeard</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">/etc/init.d/sickbeard start</div>
+<div style="padding:5px;border-radius:5px;background:#ac0558;border:1px solid #C9C9C9;overflow:auto;font-size:12px;line-height:140%;margin:13px;height:35px;color:#ffffff;"><img class="size-full wp-image-873 alignleft" src="https://linuxpluse.files.wordpress.com/2013/08/1389906078_agt_update_critical.png?w=640" alt="update"   />[UPDATE:] Sickbeard tpb version is no longer supported by developer so I have updated with new sickbead fork. This should work but has some bugs <span class='wp-smiley wp-emoji wp-emoji-sad' title=':('>:(</span></div>
+<div style="background-color:#667286;border-style:solid;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#666a86;padding:2px;margin-bottom:10px;">&#8211; [ Configure SickBeard ] &#8211;</div>
+<div style="background-color:#1d666a;color:#ffffff;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;text-transform:uppercase;width:150px;padding:4px;border-bottom-right-radius:5px;border-top-right-radius:5px;border-color:#e2dfec;text-align:center;border-left:5px solid #e8e5e5;margin-top:10px;margin-right:10px;margin-bottom:10px;">&#8211; [ Web Interface ] &#8211;</div>
+<p style="font-size:13px;">Lock Web Interface and change port number if you are planning to port forward it</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">Setting &gt;&gt; General &gt;&gt; Web Interface</div>
+<p style="font-size:13px;">Encrypt Passwords</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">Setting &gt;&gt; General &gt;&gt; Advanced Setting &gt;&gt; Encrypt Passwords</div>
+<p style="font-size:13px;">Now goto Search Option and enter torrent clients detail</p>
+<div style="padding:5px;background:#f1f4fb;border:1px solid #C9C9C9;overflow:auto;font-size:12px;line-height:140%;margin:13px;border-radius:5px;"><img class="alignleft" src="https://linuxpluse.files.wordpress.com/2013/05/1368906058_info_blue.png?w=31&#038;h=31" alt="Notice" width="31" height="31" />Note: if you have followed my deluge tutorial and have label plugin, you can assign that in here. Sickbeard can apply label to download torrent and deluge can deal with label settings. First setup deluge label with all settings then just provide label name in sickbeard. Don&#8217;t need to put deluge directory or torrent ratio as you can put that in deluge label.</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">Setting &gt;&gt; Search Options &gt;&gt; Torrent Search</div>
+<div style="background-color:#1d666a;color:#ffffff;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;text-transform:uppercase;width:150px;padding:4px;border-bottom-right-radius:5px;border-top-right-radius:5px;border-color:#e2dfec;text-align:center;border-left:5px solid #e8e5e5;margin-top:10px;margin-right:10px;margin-bottom:10px;">&#8211; [ Search Provider ] &#8211;</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">Setting &gt;&gt; Search Provider</div>
+<p style="font-size:13px;">You can select as many provider as you like and also drag and drop to priorities the provider in order.</p>
+<div style="background-color:#1d666a;color:#ffffff;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;text-transform:uppercase;width:150px;padding:4px;border-bottom-right-radius:5px;border-top-right-radius:5px;border-color:#e2dfec;text-align:center;border-left:5px solid #e8e5e5;margin-top:10px;margin-right:10px;margin-bottom:10px;">&#8211; [ Post Processing ] &#8211;</div>
+<p style="font-size:13px;">With post processing, sickbeard can do lot of things like move downloaded files to approperied TV Series folders, rename it, Unpack RAR archive, as well as download metadata [Fanart, Season Thumbnail etc]</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">Settings &gt;&gt; Post Processing</div>
+<div style="background-color:#1d666a;color:#ffffff;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;text-transform:uppercase;width:150px;padding:4px;border-bottom-right-radius:5px;border-top-right-radius:5px;border-color:#e2dfec;text-align:center;border-left:5px solid #e8e5e5;margin-top:10px;margin-right:10px;margin-bottom:10px;">&#8211; [ My Sickbeard Setup ] &#8211;</div>
+<p style="font-size:13px;">There are few things I have done in Sickbeard and might come handy to you guys too..</p>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">1. Sickbeard Snatch torrent files {Image 1.4} and sends to deluge and apply label &#8220;tvshow.en&#8221; {image 1.3}</div>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">2. After deluge complete download, it moves that to completed folder and keeps seeding {image 1.4}</div>
+<table style="font-size:13px;">
+<tbody>
+<tr>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting.png" target="_blank"><img class="alignnone size-medium wp-image-763" src="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting.png?w=300&#038;h=188" alt="SickBeard_Setting" width="300" height="188" /></a><br />
+Image 1.3 &#8211; Deluge Settings</div>
+</td>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/deluge_setting2.png" target="_blank"><img class="alignnone size-medium wp-image-773" src="https://linuxpluse.files.wordpress.com/2013/12/deluge_setting2.png?w=300&#038;h=190" alt="deluge_setting2" width="300" height="190" /></a><br />
+Image 1.4 &#8211; Label Setting</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">3. Sickbeard scans the completed folder of deluge {image 1.5} and hard links files {if you move, deluge will stop seeding : not recommended!! <span class='wp-smiley wp-emoji wp-emoji-wink' title=';)'>;)</span> } to their folders {Eg. /TVShows/Spicy City/}</div>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">4. Process filename  {image 1.6; Eg. /TVShows/Spicy City/Spicy City.S01E01 &#8211; Love is a Download; plex can easily  recognised this filename}</div>
+<table style="font-size:13px;">
+<tbody>
+<tr>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting3.png" target="_blank"><img class="alignnone size-medium wp-image-767" src="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting3.png?w=300&#038;h=198" alt="SickBeard_Setting3" width="300" height="198" /></a><br />
+Image 1.5 &#8211; Post-Processing</div>
+</td>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting4.png" target="_blank"><img class="alignnone size-medium wp-image-768" src="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting4.png?w=300&#038;h=198" alt="SickBeard_Setting4" width="300" height="198" /></a><br />
+Image 1.6 &#8211; Custom FileName (Fix for plex)</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">5. Downloads metadata {image 1.7; plex will use the downloaded image, but this one is optional as plex can download it automatic }</div>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">6. Send notification to plex to scan library, and plex client {image 1.8}</div>
+<table style="font-size:13px;">
+<tbody>
+<tr>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting6.png" target="_blank"><img class="alignnone size-medium wp-image-772" src="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting6.png?w=300&#038;h=144" alt="SickBeard_Setting6" width="300" height="144" /></a><br />
+Image 1.7 &#8211; Download ArtWork</div>
+</td>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting5.png" target="_blank"><img class="alignnone size-medium wp-image-771" src="https://linuxpluse.files.wordpress.com/2013/12/sickbeard_setting5.png?w=300&#038;h=144" alt="SickBeard_Setting5" width="300" height="144" /></a><br />
+Image 1.8 &#8211; Send Library Scan Command</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div style="padding:5px;border-radius:5px;background-color:#ececec;border:1px solid #C9C9C9;overflow:auto;font-size:12px;line-height:140%;margin:13px;color:#9f3c5e;">
+<p><img class="size-full wp-image-893 alignleft" src="https://linuxpluse.files.wordpress.com/2013/05/1390270177_info.png?w=640" alt="info"   />Update: To enable Unpack (see image 1.5), you should install unrar first.</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">echo &#8220;deb <a href="http://ftp.uk.debian.org/debian/" rel="nofollow">http://ftp.uk.debian.org/debian/</a> squeeze-updates main non-free&#8221; &gt;&gt; /etc/apt/sources.list</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">echo &#8220;deb-src <a href="http://ftp.uk.debian.org/debian/" rel="nofollow">http://ftp.uk.debian.org/debian/</a> squeeze-updates main non-free&#8221;&gt;&gt; /etc/apt/sources.list</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">apt-get update &amp; apt-get install unrar</div>
+</div>
+<div style="background-color:#667286;border-style:solid;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#666a86;padding:2px;">&#8211; [ END Configure SickBeard ] &#8211;</div>
+<div style="background-color:#0093ad;border-style:none;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#0093ad;padding:2px;margin-bottom:10px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">&#8211; [ End SickBeard ] &#8211;</div>
+<div style="background-color:#4f5969;border-style:none;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#0093ad;padding:2px;margin-bottom:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom:5px solid #a9a9a9;">&#8211; [ Start Couchpotato ] &#8211;</div>
+<p style="font-size:13px;">Installation of CouchPotato is similar to Sickbeard.</p>
+<p style="font-size:13px;">Download CouchPotato from git</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;"> git clone git://github.com/RuudBurger/CouchPotatoServer.git couchpotato</div>
+<p style="font-size:13px;">Goto couchpotato folder</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd couchpotato</div>
+<p style="font-size:13px;">Start couchpotato</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">python CouchPotato.py</div>
+<p style="font-size:13px;">Now goto your browser and enter</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">your server id:5050</div>
+<p style="font-size:13px;">Finish the set wizard, just setup the login deal for now and scroll at the bottom and finish.</p>
+<p style="font-size:13px;">To start CouchPotato at boot; go to couchpotato folder</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">cd /root/couchpotato</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">mv /init/ubuntu /etc/init.d/couchpotato</div>
+<p style="font-size:13px;">Now create couchpotato default file</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">nano /etc/default/couchpotato</div>
+<p style="font-size:13px;">Mine looks like this</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">CP_HOME=/root/couchpotato<br />
+CP_DATA=/root/couchpotato<br />
+CP_USER=root</div>
+<p style="font-size:13px;">Add it to startup</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">update-rc.d couchpotato defaults</div>
+<p style="font-size:13px;">Start couchpotato</p>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">/etc/init.d/couchpotato start</div>
+<div style="padding:5px;background:#F8F8F8;border:1px solid #C9C9C9;overflow:auto;font:12px/140% Lucida Grande, Lucida, Verdana, sans-serif;color:#23764e;margin:13px;">/etc/init.d/sickbeard start</div>
+<div style="background-color:#667286;border-style:solid;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#666a86;padding:2px;margin-bottom:10px;">&#8211; [ Configure Couchpotato ] &#8211;</div>
+<div style="background-color:#1d666a;color:#ffffff;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;text-transform:uppercase;width:150px;padding:4px;border-bottom-right-radius:5px;border-top-right-radius:5px;border-color:#e2dfec;text-align:center;border-left:5px solid #e8e5e5;margin-top:10px;margin-right:10px;margin-bottom:10px;">&#8211; [My Configuration] &#8211;</div>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">1. Select the desire Torrent Providers {see image 2.1}</div>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">2. Deluge option in CouchPotato didn&#8217;t work for me as it tries to run deluge demons but there is already one running so I am using black hole {drops snatch torrent in here, deluge with autoadd plugins will add / apply different attributes}</div>
+<table style="font-size:13px;">
+<tbody>
+<tr>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config1.png" target="_blank"><img class="alignnone size-medium wp-image-814" src="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config1.png?w=300&#038;h=200" alt="CouchPotato_Config1" width="300" height="200" /></a><br />
+Image 2.1 &#8211; Searcher</div>
+</td>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config2.png" target="_blank"><img class="alignnone size-medium wp-image-813" src="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config2.png?w=300&#038;h=200" alt="CouchPotato_Config2" width="300" height="200" /></a><br />
+Image 2.2 &#8211; Downloader</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">3. CouchPotato can automatic download any movies that in queue in various website {image 2.3}</div>
+<div style="font:13px 'Lucida Grande', Lucida, Verdana, sans-serif;background-color:#f1f1f1;border-style:solid;border-color:#f2f2f2;color:#1b666a;text-align:left;margin:10px;padding:10px;line-height:20px;">4. Sends notifications to plex server and clients</div>
+<table style="font-size:13px;">
+<tbody>
+<tr>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config3.png" target="_blank"><img class="alignnone size-medium wp-image-812" src="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config3.png?w=300&#038;h=200" alt="CouchPotato_Config3" width="300" height="200" /></a><br />
+Image 2.3 &#8211; Automation</div>
+</td>
+<td>
+<div style="background-color:#f8f8f8;border:1px none #c9c9c9;overflow:auto;font-style:normal;font-variant:normal;font-weight:normal;font-size:12px;line-height:140%;font-family:'Lucida Grande', Lucida, Verdana, sans-serif;color:#656666;-webkit-box-shadow:#838383 0 0 1px;box-shadow:#838383 0 0 1px;width:300px;text-align:center;background-position:initial initial;background-repeat:initial initial;position:relative;margin-bottom:10px;"><a href="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config4.png" target="_blank"><img class="alignnone size-medium wp-image-811" src="https://linuxpluse.files.wordpress.com/2013/12/couchpotato_config4.png?w=300&#038;h=200" alt="CouchPotato_Config4" width="300" height="200" /></a><br />
+Image 2.4 &#8211; Notification</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div style="background-color:#667286;border-style:solid;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#666a86;padding:2px;">&#8211; [ END Configure CouchPotato ] &#8211;</div>
+</div>
+<div style="background-color:#0093ad;border-style:none;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;color:#ffffff;font-weight:bold;text-transform:uppercase;text-align:center;border-color:#0093ad;padding:2px;margin-bottom:10px;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">&#8211; [ End CouchPotato ] &#8211;</div>
+<div style="padding:5px;background:#ffffff;border:1px solid #C9C9C9;overflow:auto;color:#762373;margin:13px;font:9px/140% Lucida Grande, Lucida, Verdana, sans-serif;"><span style="line-height:140%;">Reference:</span><br />
+<span style="line-height:140%;">1. <a href="http://sickbeard.com/install.html" rel="nofollow">http://sickbeard.com/install.html</a></span><br />
+<span style="line-height:140%;">2. <a href="https://couchpota.to/#linux" rel="nofollow">https://couchpota.to/#linux</a></span></div>
+<div style="background-color:#9f3c5e;padding:4px;color:#f8f8f8;font-weight:bold;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;width:80px;text-align:center;border:2px solid #d7d7d7;border-radius:5px;text-transform:uppercase;position:relative;left:42%;">Buy Me Beer<br />
+<img src="https://linuxpluse.files.wordpress.com/2014/01/1390589374_donate.png?w=640" alt="" /></div>
+<div style="opacity:0;height:10px;"></div>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow"></a>
+				<div class="u">
+					<script type='text/javascript'>
+					(function(g){g.__ATA.initAd({sectionId:26942, width:300, height:250});})(window);
+					</script>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-706" class="share-twitter sd-button share-icon" href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-706" class="share-facebook sd-button share-icon" href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?share=facebook" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-45098764-706-567a7f6e41d9a' data-src='//widgets.wp.com/likes/#blog_id=45098764&amp;post_id=706&amp;origin=linuxpluse.wordpress.com&amp;obj_id=45098764-706-567a7f6e41d9a' data-name='like-post-frame-45098764-706-567a7f6e41d9a'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		This entry was posted in <a href="https://linuxpluse.wordpress.com/category/debian-2/" rel="category tag">Debian</a>, <a href="https://linuxpluse.wordpress.com/category/openmediavault/" rel="category tag">Openmediavault</a>, <a href="https://linuxpluse.wordpress.com/category/plex-media-server-2/" rel="category tag">Plex Media Server</a>, <a href="https://linuxpluse.wordpress.com/category/server/" rel="category tag">Server</a> and tagged <a href="https://linuxpluse.wordpress.com/tag/couchpotato/" rel="tag">couchpotato</a>, <a href="https://linuxpluse.wordpress.com/tag/couchpotato-installation/" rel="tag">couchpotato installation</a>, <a href="https://linuxpluse.wordpress.com/tag/debian/" rel="tag">debian</a>, <a href="https://linuxpluse.wordpress.com/tag/deluge/" rel="tag">deluge</a>, <a href="https://linuxpluse.wordpress.com/tag/plex/" rel="tag">plex</a>, <a href="https://linuxpluse.wordpress.com/tag/plex-media-server/" rel="tag">plex media server</a>, <a href="https://linuxpluse.wordpress.com/tag/sickbeard/" rel="tag">sickbeard</a>, <a href="https://linuxpluse.wordpress.com/tag/sickbeard-installation/" rel="tag">sickbeard installation</a>. Bookmark the <a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/" title="Permalink to SickBeard + CouchPotato + Deluge +&nbsp;Plex" rel="bookmark">permalink</a>.
+			</footer><!-- .entry-meta -->
+</article><!-- #post-## -->
+
+					<nav role="navigation" id="nav-below" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="https://linuxpluse.wordpress.com/2013/08/27/custom-icon-for-plex-media-server/" rel="prev"><span class="meta-nav">&larr;</span> Custom Section Icons for Plex Media&nbsp;Client</a></div>		<div class="nav-next"><a href="https://linuxpluse.wordpress.com/2014/04/24/ssl-certificate-for-sickbeard-couchpotato-and-deluge-in-omv/" rel="next">SSL Certificate for Sickbeard, Couchpotato and deluge in&nbsp;OMV <span class="meta-nav">&rarr;</span></a></div>
+	
+	</nav><!-- #nav-below -->
+	
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			26 thoughts on &ldquo;<span>SickBeard + CouchPotato + Deluge +&nbsp;Plex</span>&rdquo;		</h2>
+
+		
+		<ol class="commentlist">
+				<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-395">
+		<article id="comment-395" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/7e638cb914607caf44fd274cd013bb1b?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ilan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-395"><time pubdate datetime="2013-12-24T08:59:08+00:00">
+					December 24, 2013 at 8:59 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Can you show how to run a script using execute plugin in deluge?<br />
+I was not able to do this.</p>
+<p>Also I know that sickbeard can handle rar files, opening them automatically. but I was not able to get it working with OMV, can you help here too? Show how to do this?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=395#respond' onclick='return addComment.moveForm( "comment-395", "395", "respond", "706" )' aria-label='Reply to Ilan'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-401">
+		<article id="comment-401" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-401"><time pubdate datetime="2013-12-25T12:20:48+00:00">
+					December 25, 2013 at 12:20 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>what does your script do? can you send me <a href="http://pastebin.com/" rel="nofollow">http://pastebin.com/</a> link, and I will see what I can do for you..<br />
+And for Sickbeard rar option to work, you need to install unrar.. </p>
+<p>nano /etc/apt/sources.list<br />
+-=-= [add ] =-=-<br />
+deb <a href="http://ftp.uk.debian.org/debian/" rel="nofollow">http://ftp.uk.debian.org/debian/</a> squeeze-updates main non-free<br />
+deb-src <a href="http://ftp.uk.debian.org/debian/" rel="nofollow">http://ftp.uk.debian.org/debian/</a> squeeze-updates main non-free<br />
+-=-=- [run] =-=-<br />
+apt-get update<br />
+apt-get install unrar<br />
+-=-=-<br />
+and go to sickbeard and enable the rar option.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=401#respond' onclick='return addComment.moveForm( "comment-401", "401", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-478">
+		<article id="comment-478" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://i1.wp.com/lh6.googleusercontent.com/-kdPaRq9cwMQ/AAAAAAAAAAI/AAAAAAAAKPQ/qbo3ijF8DfI/photo.jpg?resize=40%2C40' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='https://plus.google.com/101589332579124793529' rel='external nofollow' class='url'>Alan Thompson</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-478"><time pubdate datetime="2014-01-10T19:55:24+00:00">
+					January 10, 2014 at 7:55 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>For sickbeard, the SB_OPTS needs to be &#8211;config, not -config</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=478#respond' onclick='return addComment.moveForm( "comment-478", "478", "respond", "706" )' aria-label='Reply to Alan Thompson'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-482">
+		<article id="comment-482" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-482"><time pubdate datetime="2014-01-11T14:02:23+00:00">
+					January 11, 2014 at 2:02 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>thanks.. <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=482#respond' onclick='return addComment.moveForm( "comment-482", "482", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-614">
+		<article id="comment-614" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/f8eb311262ca17346a017942af02085e?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Joao Sousa</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-614"><time pubdate datetime="2014-03-11T18:01:33+00:00">
+					March 11, 2014 at 6:01 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>hi firstly thanks for the post i am very new to open media vault. I installed sickbeard via plug ins in the web gui, i have a problem on CouchPotato.<br />
+I was able to install it and configure it but every time I try &#8220;To start CouchPotato at boot;&#8221;  &#8212; input cd /root/couchpotato &#8212; command i get this error  &#8212; mv: cannot stat `/init/ubuntu&#8217;: No such file or directory &#8212; </p>
+<p>cheers</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=614#respond' onclick='return addComment.moveForm( "comment-614", "614", "respond", "706" )' aria-label='Reply to Joao Sousa'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-615">
+		<article id="comment-615" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-615"><time pubdate datetime="2014-03-11T18:30:19+00:00">
+					March 11, 2014 at 6:30 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>did you follow my way (clone CouchPotato from git? ) anyway I think your missing files. </p>
+<p>go to<br />
+nano /etc/default/couchpotato</p>
+<p>and make sure its look like this</p>
+<p>CP_HOME=/root/couchpotato<br />
+CP_DATA=/root/couchpotato<br />
+CP_USER=root<br />
+CP_OPTS=&#8211;config=/root/couchpotato/settings.conf</p>
+<p>then<br />
+download this </p>
+<p><a href="https://www.dropbox.com/s/3isj3bcn2plgtll/couchpotato" rel="nofollow">https://www.dropbox.com/s/3isj3bcn2plgtll/couchpotato</a><br />
+and remove txt extension and mv it &gt;&gt;<br />
+/etc/init.d/ </p>
+<p>and do this to start couchpotato at boot<br />
+update-rc.d couchpotato defaults</p>
+<p>now start couchpotato<br />
+/etc/init.d/couchpotato start</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=615#respond' onclick='return addComment.moveForm( "comment-615", "615", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-616">
+		<article id="comment-616" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/f8eb311262ca17346a017942af02085e?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Joao Sousa</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-616"><time pubdate datetime="2014-03-11T18:54:13+00:00">
+					March 11, 2014 at 6:54 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>hum i guess I have a problem, my nano /etc/default/couchpotato looks like this<br />
+CP_HOME=/root/CouchPotatoServer<br />
+CP_DATA=/root/CouchPotatoServer<br />
+CP_USER=root<br />
+update-rc.d couchpotato defaults<br />
+/etc/init.d/couchpotato start<br />
+exit</p>
+<p>i didn&#8217;t understand this<br />
+and remove txt extension and mv it &gt;&gt;<br />
+/etc/init.d/ </p>
+<p>best regards</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=616#respond' onclick='return addComment.moveForm( "comment-616", "616", "respond", "706" )' aria-label='Reply to Joao Sousa'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-617">
+		<article id="comment-617" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-617"><time pubdate datetime="2014-03-11T19:15:25+00:00">
+					March 11, 2014 at 7:15 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>when you download that file from dropbox,  dropbox usually add txt extension to the file..so either you remove extension and transfer it or you can just open that file with text editor, copy it and do</p>
+<p>nano /etc/init.d/couchpotato<br />
+paste it and save it</p>
+<p>then do<br />
+/etc/init.d/couchpotato start</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=617#respond' onclick='return addComment.moveForm( "comment-617", "617", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment even depth-3 highlander-comment" id="li-comment-618">
+		<article id="comment-618" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/f8eb311262ca17346a017942af02085e?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Joao Sousa</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-618"><time pubdate datetime="2014-03-11T20:18:37+00:00">
+					March 11, 2014 at 8:18 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>well thanks for your quick reply now i get </p>
+<p>-bash: /etc/init.d/couchpotato: Permission denied</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt thread-even depth-1 highlander-comment" id="li-comment-619">
+		<article id="comment-619" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-619"><time pubdate datetime="2014-03-11T20:33:00+00:00">
+					March 11, 2014 at 8:33 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>do<br />
+chmod 775 /etc/init.d/couchpotato </p>
+<p>and try again<br />
+ /etc/init.d/couchpotato start</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=619#respond' onclick='return addComment.moveForm( "comment-619", "619", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-upthisriver even depth-2 highlander-comment" id="li-comment-620">
+		<article id="comment-620" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/f8eb311262ca17346a017942af02085e?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://upthisriver.wordpress.com' rel='external nofollow' class='url'>upthisriver</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-620"><time pubdate datetime="2014-03-11T21:22:16+00:00">
+					March 11, 2014 at 9:22 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Well my problem is the following </p>
+<p>I follow your tutorial and </p>
+<p> git clone git://github.com/RuudBurger/CouchPotatoServer.git couchpotato (ok downloads) cd couchpotato (folder ok) ython CouchPotato.py (app starts) your server id:5050 (acess web gui ok) </p>
+<p>The problem is from now on it does�t allow me to input any other command </p>
+<p>cd /root/couchpotato (ok) mv /init/ubuntu /etc/init.d/couchpotato (mv: cannot stat `/init/ubuntu&#8217;: No such file or directory) </p>
+<p>couchpotato default file </p>
+<p>CP_HOME=/root/couchpotato CP_DATA=/root/couchpotato CP_USER=root CP_OPTS=-config=/root/couchpotato/settings.conf </p>
+<p>update-rc.d couchpotato defaults (error) </p>
+<p>*Use &#8220;fg&#8221; to return to nano.[1]+  Stopped                 nano /etc/default/couchpotatoroot@kipoo:~/couchpotato# nano /etc/default/couchpotatoroot@kipoo:~/couchpotato# update-rc.d couchpotato defaultsupdate-rc.d: using dependency based boot sequencinginsserv: warning: script &#8216;couchpotato&#8217; missing LSB tags and overridesinsserv: There is a loop between service openmediavault-beep and couchpotato if stoppedinsserv:  loop involving service couchpotato at depth 2insserv: loop involving service openmediavault-beep at depth 1insserv: Stopping couchpotato depends on openmediavault-beep and therefore on system facility `$all&#8217; which can not be true!insserv: exiting now without changing boot order!update-rc.d: error: insserv rejected the script headerroot@kipoo:~/couchpotato# update-rc.d couchpotato defaultsupdate-rc.d: using dependency based boot sequencinginsserv: warning: script &#8216;couchpotato&#8217; missing LSB tags and overridesinsserv: There is a loop between service openmediavault-beep and couchpotato if stoppedinsserv:  loop involving service couchpotato at depth 2insserv: loop involving service openmediavault-beep at depth 1insserv: Stopping couchpotato depends on openmediavault-beep and therefore on sy stem facility `$all&#8217; which can not be true!insserv: exiting now without changing boot order!update-rc.d: error: insserv rejected the script header* </p>
+<p>/etc/init.d/couchpotato start &#8211; nothing happens no web gui </p>
+<p>Drop Box command </p>
+<p>I past it and putty shuts down </p>
+<p>I used it in -nano /etc/default/couchpotato </p>
+<p> /etc/init.d/couchpotato: 13: Syntax error: word unexpected </p>
+<p>Any ideas? </p>
+<p>Best regards </p>
+<p>Cumprimentos </p>
+<p>Jo�o Carlos Sousa </p>
+<p>2014-03-11 20:33 GMT+00:00 Linux+ : </p>
+<p>&gt;    goWpress commented: &#8220;do chmod 775 /etc/init.d/couchpotato and try &gt; again /etc/init.d/couchpotato start&#8221; &gt;</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=620#respond' onclick='return addComment.moveForm( "comment-620", "620", "respond", "706" )' aria-label='Reply to upthisriver'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-3 highlander-comment" id="li-comment-621">
+		<article id="comment-621" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-621"><time pubdate datetime="2014-03-11T21:45:14+00:00">
+					March 11, 2014 at 9:45 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>can you paste all of this properly (with proper space and enter) in pastebin.com and post link here cause I can&#8217;t make head or tail of it.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-adrianmatteo even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-667">
+		<article id="comment-667" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b85b19d6899f05158594b99abd54fe10?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">adrianmatteo</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-667"><time pubdate datetime="2014-04-21T10:19:18+00:00">
+					April 21, 2014 at 10:19 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi! I installed this setup without problem, but now it seams like the sickbeard&#8217;s github repository is gone. Sickbeard started running slow and having trouble adding new shows and now there is no repository. Was this the original repository for sickbeard or a fork of someone else. If so, can I do the same thing with the original repo?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=667#respond' onclick='return addComment.moveForm( "comment-667", "667", "respond", "706" )' aria-label='Reply to adrianmatteo'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-668">
+		<article id="comment-668" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-668"><time pubdate datetime="2014-04-21T10:24:57+00:00">
+					April 21, 2014 at 10:24 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>This is not original sickbeard repo as original sickbeard does not support torrent sites. This is a fork version of original but original for torrent version. That is why its called sickbeard alpha tpb version. </p>
+<p>PS. my sickbeard is working just fine so I suggest you try again?</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=668#respond' onclick='return addComment.moveForm( "comment-668", "668", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-adrianmatteo even depth-3 highlander-comment" id="li-comment-669">
+		<article id="comment-669" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b85b19d6899f05158594b99abd54fe10?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">adrianmatteo</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-669"><time pubdate datetime="2014-04-21T10:38:15+00:00">
+					April 21, 2014 at 10:38 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Mine is &#8220;working&#8221;but the repo has been deleted. That means no more updates.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-3 highlander-comment" id="li-comment-670">
+		<article id="comment-670" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-670"><time pubdate datetime="2014-04-21T11:19:30+00:00">
+					April 21, 2014 at 11:19 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>shit man.. why the fk they deleted the repo?</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor even thread-even depth-1 highlander-comment" id="li-comment-671">
+		<article id="comment-671" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-671"><time pubdate datetime="2014-04-21T12:05:35+00:00">
+					April 21, 2014 at 12:05 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I found this., <a href="https://github.com/sarakha63/Sick-Beard" rel="nofollow">https://github.com/sarakha63/Sick-Beard</a> its based on orginal and tpb version. I have not tested it yet but will do it soon.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=671#respond' onclick='return addComment.moveForm( "comment-671", "671", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-adrianmatteo odd alt depth-2 highlander-comment" id="li-comment-672">
+		<article id="comment-672" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b85b19d6899f05158594b99abd54fe10?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">adrianmatteo</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-672"><time pubdate datetime="2014-04-21T15:12:48+00:00">
+					April 21, 2014 at 3:12 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>This looks good. I&#8217;ll check it out. It&#8217;s a shame that the other repo is down, it worked great.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=672#respond' onclick='return addComment.moveForm( "comment-672", "672", "respond", "706" )' aria-label='Reply to adrianmatteo'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor even depth-3 highlander-comment" id="li-comment-673">
+		<article id="comment-673" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-673"><time pubdate datetime="2014-04-22T08:40:20+00:00">
+					April 22, 2014 at 8:40 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>I know it work just fine but I don&#8217;t understand why repo was deleted. Its an free &amp; open source software I don&#8217;t know if Mr_orange got any pressure from these fking coorporates mann.. I try to contact Mr_orange in git but there is no msging system? or I don&#8217;t about it.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-677">
+		<article id="comment-677" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-677"><time pubdate datetime="2014-04-26T10:52:01+00:00">
+					April 26, 2014 at 10:52 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>MR_Orange has stop supporting the sickbeard. Mr_Orange suggest to use <a href="https://github.com/echel0n/SickBeard-TVRage/" rel="nofollow">https://github.com/echel0n/SickBeard-TVRage/</a></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=677#respond' onclick='return addComment.moveForm( "comment-677", "677", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-adrianmatteo even depth-2 highlander-comment" id="li-comment-683">
+		<article id="comment-683" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b85b19d6899f05158594b99abd54fe10?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">adrianmatteo</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-683"><time pubdate datetime="2014-05-05T11:02:15+00:00">
+					May 5, 2014 at 11:02 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>This seems to work better than the one you posted before. The another one kept getting invalid torrent files.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=683#respond' onclick='return addComment.moveForm( "comment-683", "683", "respond", "706" )' aria-label='Reply to adrianmatteo'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-adrianmatteo odd alt thread-even depth-1 highlander-comment" id="li-comment-706">
+		<article id="comment-706" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b85b19d6899f05158594b99abd54fe10?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">adrianmatteo</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-706"><time pubdate datetime="2014-05-24T14:31:56+00:00">
+					May 24, 2014 at 2:31 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>The repo has changed to this: <a href="https://github.com/echel0n/SickRage.git" rel="nofollow">https://github.com/echel0n/SickRage.git</a></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=706#respond' onclick='return addComment.moveForm( "comment-706", "706", "respond", "706" )' aria-label='Reply to adrianmatteo'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-717">
+		<article id="comment-717" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/aada754c841a43db33b820e9cc4807fb?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ian B</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-717"><time pubdate datetime="2014-05-31T19:54:41+00:00">
+					May 31, 2014 at 7:54 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Thanks for the great tutorial &#8212; worked a treat!</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=717#respond' onclick='return addComment.moveForm( "comment-717", "717", "respond", "706" )' aria-label='Reply to Ian B'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-718">
+		<article id="comment-718" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-718"><time pubdate datetime="2014-05-31T20:23:59+00:00">
+					May 31, 2014 at 8:23 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>glad to hear that.. <span class='wp-smiley wp-emoji wp-emoji-bigsmile' title=':D'>:D</span> </p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=718#respond' onclick='return addComment.moveForm( "comment-718", "718", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-762">
+		<article id="comment-762" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/9e698e74ddfb84a424aefccd4313fdba?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Fred</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-762"><time pubdate datetime="2014-07-06T14:35:03+00:00">
+					July 6, 2014 at 2:35 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Thanks for the Tutorial , but I cannot find de installation fo DeLuge</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=762#respond' onclick='return addComment.moveForm( "comment-762", "762", "respond", "706" )' aria-label='Reply to Fred'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-ffactro43 comment-author-is-site-member bypostauthor odd alt depth-2 highlander-comment" id="li-comment-768">
+		<article id="comment-768" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/b6bab23a112ba76026eb4c6b229eb020?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://ffactro43.wordpress.com' rel='external nofollow' class='url'>goWpress</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/#comment-768"><time pubdate datetime="2014-07-10T08:50:41+00:00">
+					July 10, 2014 at 8:50 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>for deluge &gt;&gt; [https://linuxpluse.wordpress.com/2013/04/12/openmediavault-deluge-1-3-6/]<br />
+ <span class='wp-smiley wp-emoji wp-emoji-smile' title=':)'>:)</span></p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/?replytocom=768#respond' onclick='return addComment.moveForm( "comment-768", "768", "respond", "706" )' aria-label='Reply to goWpress'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		</ol>
+
+		
+	
+	
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2013/12/21/sickbeard-couchpotato-deluge-plex/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://linuxpluse.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="1035b8c02e" /><input type="hidden" name="_wp_http_referer" value="/2013/12/21/sickbeard-couchpotato-deluge-plex/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=https%3A%2F%2Flinuxpluse.wordpress.com" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='706' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b49028f484" /></p>
+<input type="hidden" name="genseq" value="1450868590" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="42"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments .comments-area -->
+
+			
+			</div><!-- #content -->
+		</div><!-- #primary .site-content -->
+
+		<div id="secondary-1" class="col1 widget-area" role="complementary">
+								<aside id="recent-posts-2" class="widget widget_recent_entries"><div class="content"><div class="inner-content">		<h2 class="widget-title">Recent Posts</h2>		<ul>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2014/11/05/colour-plate-for-android/">Colour Plate for&nbsp;Android</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2014/04/24/ssl-certificate-for-sickbeard-couchpotato-and-deluge-in-omv/">SSL Certificate for Sickbeard, Couchpotato and deluge in&nbsp;OMV</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/">SickBeard + CouchPotato + Deluge +&nbsp;Plex</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2013/08/27/custom-icon-for-plex-media-server/">Custom Section Icons for Plex Media&nbsp;Client</a>
+						</li>
+					<li>
+				<a href="https://linuxpluse.wordpress.com/2013/06/26/tightvnc-server-jdownloader-in-openmediavault/">Tightvnc Server + jDownloader in&nbsp;Openmediavault</a>
+						</li>
+				</ul>
+		</div></div></aside>		<aside id="rss_links-4" class="widget widget_rss_links"><div class="content"><div class="inner-content"><ul><li><a href="https://linuxpluse.wordpress.com/feed/" title="Subscribe to Posts">RSS - Posts</a></li><li><a href="https://linuxpluse.wordpress.com/comments/feed/" title="Subscribe to Comments">RSS - Comments</a></li></ul>
+</div></div></aside>		</div><!-- #secondary-1 .widget-area -->
+		<div id="secondary-2" class="col1 widget-area" role="complementary">
+						<aside id="archives-2" class="widget widget_archive"><div class="content"><div class="inner-content"><h2 class="widget-title">Archives</h2>		<ul>
+			<li><a href='https://linuxpluse.wordpress.com/2014/11/'>November 2014</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2014/04/'>April 2014</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/12/'>December 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/08/'>August 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/06/'>June 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/05/'>May 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/04/'>April 2013</a></li>
+	<li><a href='https://linuxpluse.wordpress.com/2013/01/'>January 2013</a></li>
+		</ul>
+		</div></div></aside><aside id="text-2" class="widget widget_text"><div class="content"><div class="inner-content">			<div class="textwidget"><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=QPNEXM3C8PJUA&amp;lc=GB&amp;item_name=LinuxPluse&amp;currency_code=USD&amp;bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted" target="_blank" rel="nofollow">
+<div style="background-color:#9f3c5e;padding:4px;color:#f8f8f8;font-weight:bold;font:10px 'Lucida Grande', Lucida, Verdana, sans-serif;width:80px;text-align:center;border:2px solid #d7d7d7;border-radius:5px;text-transform:uppercase;position:relative;left:24%;">Buy Me Beer
+<img src="https://linuxpluse.files.wordpress.com/2014/01/1390589374_donate.png" />
+</div>
+</a></div>
+		</div></div></aside>		</div><!-- #secondary-2 .widget-area -->
+		<div id="secondary-3" class="col1 widget-area" role="complementary">
+						<aside id="linkcat-136607940" class="widget widget_links"><div class="content"><div class="inner-content"><h2 class="widget-title">Linux</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.cyberciti.biz/faq/" target="_blank">Cyberciti</a></li>
+<li><a href="http://www.server-world.info/en/note?os=Debian_6.0&#038;p=download" target="_blank">Debian (How To)</a></li>
+<li><a href="http://elementaryos.org/" title="Ubuntu Based OS – Elementary OS" target="_blank">Elementary OS</a></li>
+<li><a href="http://forums.openmediavault.org/viewtopic.php?f=12&#038;t=1289" title="HowTo&#8217;s / Tutorials" target="_blank">Openmediavault (OMV) &#8211; HowTo&#039;s</a></li>
+<li><a href="http://forums.plexapp.com/" target="_blank">Plex Media Server (forum)</a></li>
+
+	</ul>
+</div></div></aside>
+<aside id="linkcat-167895167" class="widget widget_links"><div class="content"><div class="inner-content"><h2 class="widget-title">Interesting Website</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.5by.com/" title="Good interface and very intuitive design. " target="_blank">5by &#8211; Your Video Concierge</a></li>
+<li><a href="http://www.change.org/en-GB/petitions/renew-tron-uprising?recruiter=96041785&#038;utm_campaign=signature_receipt&#038;utm_medium=email&#038;utm_source=share_petition">Bring Tron:Uprising Back!</a></li>
+<li><a href="http://cogx.org/index.php" title="I this is the by far best music player I have used in MAC. It sounds so good.. " target="_blank">COG &#8211; Music Player (MAC)</a></li>
+<li><a href="https://www.focusatwill.com/music/#player" title="Easiest way to focus in your work! It&#8217;s quiet good  :) " target="_blank">Focus@Will</a></li>
+<li><a href="https://www.stereodose.com/" title="House Music" target="_blank">Stereodose</a></li>
+
+	</ul>
+</div></div></aside>
+		</div><!-- #secondary-3 .widget-area -->
+
+		</div><!-- #main -->
+	</div><!-- #wrapper -->
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+						<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			<span class="sep"> | </span>
+			<a href="https://wordpress.com/themes/balloons/" title="Learn more about this theme">The Balloons Theme</a>.		</div><!-- .site-info -->
+	</footer><!-- .site-footer .site-footer -->
+
+	<div id="parallax-01">
+		<img id="balloons-01" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-01.png" width="135" height="848" alt="" />
+	</div>
+
+	<div id="parallax-02">
+		<img id="balloons-02" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-02.png" width="136" height="848" alt="" />
+	</div>
+
+	<div id="parallax-03">
+		<img id="balloons-03" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-03.png" width="63" height="922" alt="" />
+	</div>
+
+	<div id="parallax-04">
+		<img id="balloons-04" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-04.png" width="73" height="828" alt="" />
+	</div>
+
+	<div id="parallax-05">
+		<img id="balloons-05" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-05.png" width="171" height="899" alt="" />
+	</div>
+
+	<div id="parallax-06">
+		<img id="balloons-06" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-06.png" width="216" height="928" alt="" />
+	</div>
+
+	<div id="parallax-07">
+		<img id="balloons-07" src="https://s0.wp.com/wp-content/themes/pub/balloons/img/balloons-07.png" width="65" height="735" alt="" />
+	</div>
+
+</div><!-- #page .hfeed .site -->
+
+<!-- wpcom_wp_footer -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201552y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781g'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-7e638cb914607caf44fd274cd013bb1b">
+	</div>
+	<div class="grofile-hash-map-b6bab23a112ba76026eb4c6b229eb020">
+	</div>
+	<div class="grofile-hash-map-ae44bc72c0e4aea5ebdd123d47884a5b">
+	</div>
+	<div class="grofile-hash-map-f8eb311262ca17346a017942af02085e">
+	</div>
+	<div class="grofile-hash-map-f8eb311262ca17346a017942af02085e">
+	</div>
+	<div class="grofile-hash-map-b85b19d6899f05158594b99abd54fe10">
+	</div>
+	<div class="grofile-hash-map-aada754c841a43db33b820e9cc4807fb">
+	</div>
+	<div class="grofile-hash-map-9e698e74ddfb84a424aefccd4313fdba">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/linuxpluse.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/linuxpluse.wordpress.com\/wp-login.php?action=logout&_wpnonce=6909ab2757","homeURL":"https:\/\/linuxpluse.wordpress.com\/","postID":"706","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1424115551j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;Linux+&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+			
+			<p><input type="email" name="email" placeholder="Enter your email address" id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="45098764"/>
+			<input type="hidden" name="source" value="https://linuxpluse.wordpress.com/2013/12/21/sickbeard-couchpotato-deluge-plex/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="e1300e94b3" /><input type="hidden" name="_wp_http_referer" value="/2013/12/21/sickbeard-couchpotato-deluge-plex/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="https://wordpress.com/?ref=lof">Build a website with WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/linuxpluse.wordpress.com\/2013\/12\/21\/sickbeard-couchpotato-deluge-plex\/":706};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='https://widgets.wp.com/likes/master.html?ver=20151208#ver=20151208&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesWidgetBatch = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesBatchHandler() {
+				var requests = [];
+				jQuery( 'div.jetpack-likes-widget-unloaded' ).each( function( i ) {
+					if ( jetpackLikesWidgetBatch.indexOf( this.id ) > -1 )
+						return;
+					jetpackLikesWidgetBatch.push( this.id );
+					var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+					var match = regex.exec( this.id );
+					if ( ! match || match.length != 5 )
+						return;
+
+					var info = {
+						blog_id: match[2],
+						width:   this.width
+					};
+
+					if ( 'post' == match[1] ) {
+						info.post_id = match[3];
+					} else if ( 'comment' == match[1] ) {
+						info.comment_id = match[3];
+					}
+
+					info.obj_id = match[4];
+
+					requests.push( info );
+				});
+
+				if ( requests.length > 0 ) {
+					JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+				}
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' ),
+								isRtl: ( 'rtl' == jQuery( '#wpadminbar' ).css( 'direction' ) )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						JetpackLikesBatchHandler();
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'clickReblogFlair' == event.event ) {
+					wpcom_reblog.toggle_reblog_box_flair( event.obj_id );
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Grab any unloaded widgets for a batch request
+					JetpackLikesBatchHandler();
+
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				if ( 'undefined' === typeof wrapperID ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431g'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var JetpackEmojiSettings = {"base_url":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/emoji\/twemoji\/"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyNjMEKwjAQRH/IdFFK6UX8ljSu7cZssjQbq39vFArqpZ6G4b0ZWMS4FBWjgs9wxhs5lHvj8w4+kE7ImEHKAIMNIaWYX3rmWgxjLOuAogvljG/qElekZkYJj4Yp/r5yMRLKSPUMOXkCXb5y0/eoYt3V/GdvWZKymkuwNEOe7ExxXLOOTnzct23fdl3fH/wTLeVzYA=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "linuxpluse.wordpress.com";
+	</script>
+	<script type="text/javascript" src="https://s.skimresources.com/js/725X1342.skimlinks.js"></script><script src="//stats.wp.com/w.js?48" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'45098764','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'45098764','v':'wpcom','tz':'0','user_id':'0','post':'706','subd':'linuxpluse'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdTdvUG14Q2VDQTR4LlUsLi82dU1mai9BMnR4fix0bVlkVk1DRSx0ZHdqVTJXeUwuZGRvZTdSeix3SFBOU0JWK3pxSStNNGVlLnR8JUlGUHJrTjdjW3NRR3c5NkcxWjNIVVdmMkpQQ3F+STI0SHlsQTJwMTV4OUNZTE0xZVhVV0RtPVQlTUx6a1o1T3pPMz16QjJKRkxLJk1YUVE5TXIvMVprWUFOZ0ktbm9keVtqdz9XZEhzZyYvPyZSaVcsWWo2RkdxNkxPVjZNXzk1dlpVV2RNY1swaUNHY0UlQ2tCXzg0NUllNy42ZmM2LWxEMUwsdzR2RXRDK0syRH4uRGxFbmczbn5RenYyOWZIZGVoPVg0Tk8='}]);
+_stq.push([ 'clickTrackerInit', '45098764', '706' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated 9 seconds ago
+	generated in 0.332 seconds
+	served from batcache in 0.002 seconds
+	expires in 291 seconds
+-->

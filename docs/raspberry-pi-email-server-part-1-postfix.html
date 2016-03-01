@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7"  lang="en" dir="ltr"><![endif]-->
+<!--[if lte IE 6]><html class="lt-ie9 lt-ie8 lt-ie7"  lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8"  lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9"  lang="en" dir="ltr"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html  lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/ dc: http://purl.org/dc/terms/ foaf: http://xmlns.com/foaf/0.1/ og: http://ogp.me/ns# rdfs: http://www.w3.org/2000/01/rdf-schema# sioc: http://rdfs.org/sioc/ns# sioct: http://rdfs.org/sioc/types# skos: http://www.w3.org/2004/02/skos/core# xsd: http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta charset="utf-8" />
+<link rel="shortcut icon" href="https://samhobbs.co.uk/sites/all/themes/neptunesam/favicon.ico" type="image/vnd.microsoft.icon" />
+<meta name="description" content="How to set up Postfix on a Raspberry Pi as part of an email server." />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://samhobbs.co.uk/2013/12/raspberry-pi-email-server-part-1-postfix" />
+<link rel="shortlink" href="https://samhobbs.co.uk/node/3" />
+  <title>Raspberry Pi Email Server Part 1: Postfix | samhobbs.co.uk</title>
+
+  <script type="text/javascript">
+  WebFontConfig = { google: { families: [ 'Montserrat', 'Istok Web' ] } };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+  </script>
+
+      <meta name="MobileOptimized" content="width">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="cleartype" content="on">
+
+  <link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_kShW4RPmRstZ3SpIC-ZvVGNFVAi0WEMuCnI0ZkYIaFw.css" />
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_BLgRnCu8Q5_ImBBuARywH9vbfX2keESRDUv0UrNczmY.css" />
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_LIE9eSEFaSYt-z9r5-SniRbXLMlMcg2Mc9NbfHusQQU.css" />
+<link rel="stylesheet" href="https://samhobbs.co.uk/sites/default/files/css/css_hDCkdrnoNzDqOljvZ2AWBj2c2oCm6XIqawRd3mR39ZM.css" />
+  <script src="https://samhobbs.co.uk/sites/default/files/js/js_xAPl0qIk9eowy_iS9tNkCWXLUVoat94SQT48UBCFkyQ.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_I23gxiikXxx_6GGz6rJ54UoPf8kO1zLBQwc8jUznXYM.js"></script>
+<script>document.createElement( "picture" );</script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_UaaCpmMK5b7E0DSR5c7R4JgHzhn7JYgmbQw03T3YUsM.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_KcclTP96CIQcY2LJI-3Ia2PF3-04Q18gfgtfKaK-S2E.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_F9HQMS6iCL_5tm4TDl_PbWOrcvLJXLDDeBafo8_SM7U.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"neptunesam","theme_token":"9Ek8b2PNgogO2KZIp_Igqx8sj1h3WQn6QHvuHqrBecQ","js":{"sites\/all\/modules\/picture\/picturefill2\/picturefill.min.js":1,"sites\/all\/modules\/picture\/picture.min.js":1,"sites\/all\/modules\/syntaxhighlighter\/syntaxhighlighter.min.js":1,"modules\/statistics\/statistics.js":1,"misc\/jquery.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"misc\/jquery.cookie.js":1,"misc\/form.js":1,"0":1,"sites\/all\/modules\/comment_notify\/comment_notify.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shCore.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushBash.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushPhp.js":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/scripts\/shBrushXml.js":1,"misc\/textarea.js":1,"modules\/filter\/filter.js":1,"sites\/all\/modules\/mollom\/mollom.js":1,"sites\/all\/themes\/neptune\/js\/script.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"sites\/all\/modules\/comment_notify\/comment_notify.css":1,"modules\/comment\/comment.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/mollom\/mollom.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/picture\/picture_wysiwyg.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/views\/css\/views.css":1,"sites\/all\/modules\/ctools\/css\/ctools.css":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/styles\/shCore.css":1,"sites\/all\/libraries\/syntaxhighlighter_3.0.83\/styles\/shThemeDefault.css":1,"modules\/filter\/filter.css":1,"public:\/\/LD50\/feed_me.css":1,"sites\/all\/themes\/neptune\/system.menus.css":1,"sites\/all\/themes\/neptune\/css\/normalize.css":1,"sites\/all\/themes\/neptune\/css\/wireframes.css":1,"sites\/all\/themes\/neptune\/css\/layouts\/responsive-sidebars.css":1,"sites\/all\/themes\/neptune\/css\/page-backgrounds.css":1,"sites\/all\/themes\/neptune\/css\/tabs.css":1,"sites\/all\/themes\/neptune\/css\/pages.css":1,"sites\/all\/themes\/neptune\/css\/blocks.css":1,"sites\/all\/themes\/neptune\/css\/navigation.css":1,"sites\/all\/themes\/neptune\/css\/views-styles.css":1,"sites\/all\/themes\/neptune\/css\/nodes.css":1,"sites\/all\/themes\/neptune\/css\/comments.css":1,"sites\/all\/themes\/neptune\/css\/forms.css":1,"sites\/all\/themes\/neptune\/css\/fields.css":1,"sites\/all\/themes\/neptune\/css\/print.css":1,"sites\/all\/themes\/neptunesam\/css\/neptunesam.css":1}},"statistics":{"data":{"nid":"3"},"url":"\/modules\/statistics\/statistics.php"}});</script>
+
+      <!--[if lt IE 9]>
+    <script src="/sites/all/themes/zen/js/html5-respond.js"></script>
+    <![endif]-->
+  </head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-3 node-type-page section-2013 sidebar-right multi-column" >
+<!--<canvas id="tri-canvas" height="80"></canvas>-->
+      <p id="skip-link">
+      <a href="#main-menu" class="element-invisible element-focusable">Jump to navigation</a>
+    </p>
+      <div id="page" style="max-width:1024px">
+
+  
+  <header id="header" role="banner">
+
+          <a href="/" title="Home" rel="home" id="logo"><img src="https://samhobbs.co.uk/sites/all/themes/neptunesam/logo.png" alt="Home" /></a>
+    
+          <hgroup id="name-and-slogan">
+                  <h1 id="site-name">
+            <a href="/" title="Home" rel="home"><span>samhobbs.co.uk</span></a>
+          </h1>
+        
+                  <h2 id="site-slogan">Sam Hobbs | Free Software Tutorials</h2>
+              </hgroup><!-- /#name-and-slogan -->
+    
+    
+  </header>
+
+  <div id="navigation">
+
+          <nav id="main-menu" role="navigation">
+        <h2 class="element-invisible">Main menu</h2><ul class="links clearfix"><li class="menu-218 first"><a href="/">Home</a></li>
+<li class="menu-317"><a href="/raspberry-pi-email-server">Raspberry Pi Email Server</a></li>
+<li class="menu-406"><a href="/tutorials">Tutorials</a></li>
+<li class="menu-316"><a href="/about-me">About Me</a></li>
+<li class="menu-343"><a href="/get-in-touch">Get In Touch</a></li>
+<li class="menu-689 last"><a href="/archive" title="Historic content, sorted by month of publication">Archives</a></li>
+</ul>      </nav>
+    
+    
+  </div><!-- /#navigation -->
+
+  <div id="main">
+
+    <div id="content" class="column" role="main">
+            <a id="main-content"></a>
+                    <h1 class="title" id="page-title">Raspberry Pi Email Server Part 1: Postfix</h1>
+                                          
+
+
+<article class="node-3 node node-page view-mode-full clearfix" about="/2013/12/raspberry-pi-email-server-part-1-postfix" typeof="foaf:Document">
+
+      <header>
+                  <span property="dc:title" content="Raspberry Pi Email Server Part 1: Postfix" class="rdf-meta element-hidden"></span><span property="sioc:num_replies" content="115" datatype="xsd:integer" class="rdf-meta element-hidden"></span>
+      
+          </header>
+  
+  <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p><img src="/sites/default/files/Postfix_logo-300x159.png" width="300" height="159" alt="Postfix Logo" /></p>
+<p>This is the <strong>first part</strong> of a five part tutorial that will show you how to install a full featured email server on your Raspberry Pi. This tutorial covers Postfix, the Mail Transfer Agent.</p>
+<p>The parts are:<br /><a href="/raspberry-pi-email-server">The Introduction &amp; Contents Page (read first)</a><br /><a href="/2013/12/raspberry-pi-email-server-part-1-postfix">Raspberry Pi Email Server Part 1: Postfix</a><br /><a href="/2013/12/raspberry-pi-email-server-part-2-dovecot">Raspberry Pi Email Server Part 2: Dovecot</a><br /><a href="/2013/12/raspberry-pi-email-server-part-3-squirrelmail">Raspberry Pi Email Server Part 3: Squirrelmail</a><br /><a href="/2014/03/raspberry-pi-email-server-part-4-spam-detection-with-spamassassin">Raspberry Pi Email Server Part 4: Spam Detection with Spamassassin</a><br /><a href="/2014/03/raspberry-pi-email-server-part-5-spam-sorting-with-lmtp-sieve">Raspberry Pi Email Server Part 5: Spam Sorting with LMTP &amp; Sieve</a></p>
+<!--break--><h1>Installing Postfix</h1>
+<p>Note: While you are setting up the mail server on the Pi, it’s a good idea to turn off port forwarding rules for email to the Pi in your router’s firewall. If you don’t have any port forwarding rules now, that’s great, don’t worry – I’ll prompt you to set them up later.</p>
+<p>First, log into your Pi with a SSH session and install postfix:</p>
+<pre>sudo apt-get update
+sudo apt-get install postfix</pre><p>
+You will see a menu with some choices. Select <strong>“Internet Site”</strong> and then set the mail name to your domain name, not including www. (e.g. samhobbs.co.uk).</p>
+<p>The setup script will then do some automatic configuration for you. The output will look something like this:</p>
+<pre>Selecting previously unselected package postfix.                                              
+(Reading database ... 67653 files and directories currently installed.)                       
+Unpacking postfix (from .../postfix_2.9.6-2_armhf.deb) ...                                    
+Processing triggers for man-db ...
+Setting up postfix (2.9.6-2) ...
+Adding group `postfix' (GID XXX) ...
+Done.
+Adding system user `postfix' (UID XXX) ...
+Adding new user `postfix' (UID XXX) with group `postfix' ...
+Not creating home directory `/var/spool/postfix'.
+Creating /etc/postfix/dynamicmaps.cf
+Adding tcp map entry to /etc/postfix/dynamicmaps.cf
+Adding sqlite map entry to /etc/postfix/dynamicmaps.cf
+Adding group `postdrop' (GID XXX) ...
+Done.
+setting myhostname: samhobbs
+setting alias maps
+setting alias database
+changing /etc/mailname to samhobbs.co.uk
+setting myorigin
+setting destinations: samhobbs.co.uk, samhobbs, localhost.localdomain, localhost
+setting relayhost: 
+setting mynetworks: 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+setting mailbox_size_limit: 0
+setting recipient_delimiter: +
+setting inet_interfaces: all
+/etc/aliases does not exist, creating it.
+WARNING: /etc/aliases exists, but does not have a root alias.</pre><p>
+You can edit all of this later.</p>
+<p>You may also get some warnings like this:</p>
+<pre>postmulti: warning: inet_protocols: disabling IPv6 name/address support: Address family not supported by protocol</pre><p>
+IPv6 is a new type of IP address that was introduced because we’re running out of the “old” IPv4 addresses. Not many ISPs support IPv6 yet, so you probably don’t need it. Unless you fix the warning, you’ll see it every time.</p>
+<p>Change directory into the postfix configuration folder:</p>
+<pre>cd /etc/postfix/</pre><p>
+Edit <code>/etc/postfix/main.cf</code> with your favourite command line text editor (e.g. <code>sudo nano main.cf</code>) and add <code>inet_protocols = ipv4</code> to the end of the file.</p>
+<p>Now is also a good time to check that your hostname is specified properly in <code>/etc/postfix/main.cf</code>. The setup script takes the hostname of the server and uses that, but it may not be in the right format, i.e. “samhobbs” instead of “samhobbs.co.uk”. Find the line that begins <code>myhostname =</code> and make sure it is your fully qualified domain name. This is important because your server will use this to talk to other mail servers, and some will reject your emails if you don’t use a fully qualified domain name to say hi! This is covered in more detail in the helo access restrictions later.</p>
+<p>Restart postfix and you shouldn’t see the warnings any more:</p>
+<pre>sudo service postfix restart</pre><h1>Testing and Configuration</h1>
+<p>Before you start, it’s probably worth backing up the configuration files in their current state. This way, you’ll have something to compare to if you’re ever trying to work out which bits were defaults and which bits you changed yourself:</p>
+<pre>cd /etc/postfix
+sudo cp main.cf main.cf.BAK
+sudo cp master.cf master.cf.BAK</pre><h1>Mailbox Setup</h1>
+<p>There are a couple of different types of mailbox you can use, I’ve chosen to use a “Maildir” rather than “mbox” configuration. For users with “real” UNIX accounts on the system (like the one you’re using to log in), Maildir creates a folder in the user’s home directory and places emails inside it, one file for each email.</p>
+<p>I prefer this to the alternatives, because it’s easier to see and understand: you can rummage around in your home folder and see all your emails as individual files.</p>
+<p>To tell Postfix to use the Maildir format, add the following lines to <code>/etc/postfix/main.cf</code>:</p>
+<pre>home_mailbox = Maildir/
+mailbox_command =</pre><p>
+We also need to create the mail directory and its subfolders for existing users, and add some things to <code>/etc/skel</code> (the template for new users) so that if you create a new account this will be done automatically.</p>
+<p>These commands are part of Dovecot, so first we need to install it:</p>
+<pre>sudo apt-get update
+sudo apt-get install dovecot-common dovecot-imapd</pre><p>
+You will get a lot of output: some other dovecot packages will automatically be installed and the config files will be created. You will also see some errors – don’t worry about those for now, I’ll explain how to deal with them in part 2, later.</p>
+<p>Now we can create those mail folders. Run the following commands to create the template files:</p>
+<pre>sudo maildirmake.dovecot /etc/skel/Maildir
+sudo maildirmake.dovecot /etc/skel/Maildir/.Drafts
+sudo maildirmake.dovecot /etc/skel/Maildir/.Sent
+sudo maildirmake.dovecot /etc/skel/Maildir/.Spam
+sudo maildirmake.dovecot /etc/skel/Maildir/.Trash
+sudo maildirmake.dovecot /etc/skel/Maildir/.Templates</pre><p>
+Next, copy the files over to existing users’ home directories, and change the ownership and permissions for privacy (replace USER with the username you are doing this for, and repeat for all existing usernames):</p>
+<pre>sudo cp -r /etc/skel/Maildir /home/USER/
+sudo chown -R USER:USER /home/USER/Maildir
+sudo chmod -R 700 /home/USER/Maildir</pre><h1>Initial Testing</h1>
+<p>Now, the best way to test Postfix during configuration is to use Telnet, because it is such a simple way of communicating between programs and there’s less to go wrong and get confused about.</p>
+<p>First, install telnet:</p>
+<pre>sudo apt-get install telnet</pre><p>
+Now, still inside the SSH session to your pi, type this command. It will connect you to port 25 on the Pi:</p>
+<pre>telnet localhost 25</pre><p>
+You can now test sending an email using SMTP. Here are the steps:</p>
+<ol><li>send an <code>ehlo</code> command to tell the server who you are, and it will tell you its capabilities
+</li><li>use the <code>mail from</code> command to say who the email is from. If you are sending it from an address that exists on the server, you needn’t include the domain name (i.e. user instead of user@yourdomain.com)
+</li><li>use the <code>rcpt to</code> command to tell the server where to send the email
+</li><li>Use the <code>data</code> command to tell the server that you’re about to start giving it the message you want to send
+</li><li>Type <code>Subject: YOUR SUBJECT</code> then enter to set a subject
+</li><li>Type the body of your email. Once you’re done, press <code>ENTER</code>, then <code>.</code>, then <code>ENTER</code> again.
+</li><li>Type <code>quit</code> to exit
+</li></ol><p>Here’s an example:</p>
+<pre>telnet localhost 25
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+220 samhobbs.co.uk ESMTP Postfix (Debian/GNU)
+ehlo foobar
+250-samhobbs.co.uk
+250-PIPELINING
+250-SIZE 10240000
+250-VRFY
+250-ETRN
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+mail from: me        
+250 2.1.0 Ok
+rcpt to: me@outsideemail.com
+250 2.1.5 Ok
+data
+354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+Subject: test
+This is a test email
+.
+250 2.0.0 Ok: queued as A639C3EE6D
+quit 
+221 2.0.0 Bye</pre><h1>Some Access Restrictions</h1>
+<p>Add the following to <code>/etc/postfix/main.cf</code> to restrict who can send emails to external mail servers:</p>
+<pre>smtpd_recipient_restrictions =
+        permit_sasl_authenticated,
+        permit_mynetworks,
+        reject_unauth_destination</pre><p>
+Reload postfix:</p>
+<pre>sudo service postfix reload</pre><ul><li><strong>Line 1</strong> begins the list of restrictions.
+</li><li><strong>Line 2</strong> permits users who have authenticated with Simple Authentication and Security Layer (SASL) to send email to any destination (this is part of the Dovecot config in Part 2, later).
+</li><li><strong>Line 3</strong> will let users send emails to any destination if they have connected from an IP address defined in mynetworks.
+</li><li><strong>Line 4</strong> will reject the email if none of the above conditions have been met unless the “rcpt to” address is one of the addresses that your server is accepting email to (as defined in <code>main.cf</code> with the <code>mydestination</code> parameter).
+</li></ul><p>In its present state, the email server will allow you to send external emails because the connection is originating from the Pi itself (you are logged in via SSH) and not an unknown computer. Addresses of “trusted” computers are listed under the mynetworks setting in <code>main.cf</code>, e.g.</p>
+<pre>mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128</pre><p>
+Try sending an external email again, using telnet as before. You should be able to do so without any issues.</p>
+<p>Now we want to see what kind of response someone would get if they were connecting from outside of the IP range defined in <code>mynetworks</code>, to make sure Pi won’t allow everyone to send outgoing emails from your server. To simulate this we can comment out <code>permit_mynetworks</code> under <code>smtpd_recipient_restrictions</code>:</p>
+<pre>smtpd_recipient_restrictions =
+        permit_sasl_authenticated,
+#       permit_mynetworks,
+        reject_unauth_destination</pre><p>
+Now reload the postfix configuration:</p>
+<pre>sudo service postfix reload</pre><p>
+This will let you see what kind of response you would get if you weren’t sending the email from mynetworks. Try sending again, and you should receive an error “554: Relay access denied“:</p>
+<pre>admin@samhobbs /etc/postfix $ telnet localhost 25
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+220 samhobbs.co.uk ESMTP Postfix (Debian/GNU)
+ehlo samhobbs.co.uk
+250-samhobbs
+250-PIPELINING
+250-SIZE 10240000
+250-VRFY
+250-ETRN
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250 DSN
+mail from: USER
+250 2.1.0 Ok
+rcpt to: me@externalemail.com
+554 5.7.1 &lt;me@externalemail.com&gt;: Relay access denied
+quit
+221 2.0.0 Bye
+Connection closed by foreign host.</pre><p>
+Perfect. Leave <code>permit_mynetworks</code> commented out in your <code>smtpd_recipient_restrictions</code> (you'll see why in part 2).</p>
+<h1>Helo access restrictions</h1>
+<p>Helo access restrictions can be a very useful way of blocking spam.</p>
+<p>Note that we’re not talking about unauthorised people being able to send email outside your network any more (that’s taken care of with the <code>smtpd_recipient_restrictions</code>); we’re now talking about stopping spammers from sending <em>incoming</em> mail to your email address.</p>
+<p>Spammers try to conceal their identity so that they don’t end up on block lists, so they rarely use helo hostnames that could identify them – these hostnames are written to the mail log files. As a result, they often make up a random string or use an IP address instead of a domain name.</p>
+<p>Luckily, these are easily taken care of.</p>
+<p>Add the following to <code>/etc/postfix/main.cf</code>:</p>
+<pre>smtpd_helo_required = yes
+smtpd_helo_restrictions =
+        permit_mynetworks,
+        permit_sasl_authenticated,
+        reject_invalid_helo_hostname,
+        reject_non_fqdn_helo_hostname,
+        reject_unknown_helo_hostname</pre><ul><li><strong>Line 1</strong> requires people and programs to identify themselves when they send email, using the <code>helo</code> or <code>ehlo</code> commands I mentioned earlier.
+</li><li><strong>Line 2</strong> starts the list of restrictions.
+</li><li><strong>Line 3</strong> accepts any old rubbish in the <code>ehlo</code> if it comes from an IP address defined in mynetworks. If the connection isn’t connecting from an IP address in mynetworks, then the helo hostname is checked against the rest of the list.
+</li><li><strong>Line 4</strong> accepts any <code>helo</code> hostname if the client is authenticated with SASL <em>(I added this to the tutorial recently after troubleshooting problems some people had in the comments – it allows you to connect from any network and still send messages through your Pi. Mobiles will usually work without this because most providers pass mail through their own proxies, so your Pi receives a connection from the proxy – which has a valid hostname – and not from the mobile, which may be called something like “android-b627cfe2efea7e67″)</em>.
+</li><li><strong>Line 5</strong> rejects connection attempts when the HELO hostname syntax is invalid.
+</li><li><strong>Line 6</strong> rejects non-fully qualified domain names (for example, foobar instead of foobar.com). This will also block those random strings, e.g. “kjhrsbvks”.
+</li><li><strong>Line 7</strong> rejects the helo hostname if it that domain doesn’t have a valid <a href="/2015/02/dns-basics-websites-and-email-servers#A">DNS A</a> or <a href="/2015/02/dns-basics-websites-and-email-servers#MX">MX record</a>. For example, someone spamming you could make up a domain like theflyingspaghettimonster.com. If that domain doesn’t actually exist and have the right records, then your server won’t accept it as a hostname, and the email will be rejected.
+</li></ul><p>If the helo hostname gets past line 7 and hasn’t been denied, it is accepted. You’d be surprised how much spam these helo access restrictions will block on their own (looking through my log files, I can see numerous spam scripts that have attempted to ehlo with my IP address), but there’s an extra step we can add in here to help:</p>
+<h1>Blocking people claiming to be your domain name</h1>
+<p>Many spammers try to send email to you after <code>helo</code>’ing with your own domain name. Since postfix doesn’t check whether or not they’re lying about their helo hostname, this will usually work.</p>
+<p>But, since we’ve put <code>permit_mynetworks</code> at the top of the list, anyone <strong>actually</strong> sending an email from your domain will be accepted already. Anyone using your hostname who isn’t in mynetworks is an imposter.</p>
+<p>So, add one more line to the end of the restrictions list:</p>
+<pre>smtpd_helo_restrictions =
+        permit_mynetworks,
+        permit_sasl_authenticated,
+        reject_invalid_helo_hostname,
+        reject_non_fqdn_helo_hostname,
+        reject_unknown_helo_hostname,
+        check_helo_access hash:/etc/postfix/helo_access</pre><p>
+That last line checks a file for custom rules you’ve built in. Create the file:</p>
+<pre>sudo nano /etc/postfix/helo_access</pre><p>
+Add the following lines, edited for your domain:</p>
+<pre>samhobbs.co.uk          REJECT          Get lost - you're lying about who you are
+mail.samhobbs.co.uk      REJECT          Get lost - you're lying about who you are</pre><p>
+Now tell postfix to map the file, and restart postfix:</p>
+<pre>sudo postmap /etc/postfix/helo_access
+sudo service postfix restart</pre><p>
+Now anyone who tries to <code>ehlo</code> with one of the hostnames you defined in that file gets rejected, and sees the “get lost” message. Your legitimate servers won’t have that problem, because they will already have been accepted higher up the list.</p>
+<p>Neat, right? I found that little nugget of wisdom <a href="http://unixwiz.net/techtips/postfix-HELO.html">at unixwiz.net</a>.</p>
+<h1>Moving on…</h1>
+<p>We’re almost done with Postfix now, athough there are a few bits of configuration that we’ll want to do once we’ve set up SASL with Dovecot, which I’ve chosen to lump in with the Dovecot tutorial.</p>
+<p>In <a href="/2013/12/raspberry-pi-email-server-part-2-dovecot">Raspberry Pi Email Server Part 2: Dovecot</a>, we’ll set up Dovecot to provide SASL authentication and IMAP capability.</p>
+<p>Please leave a comment if you’re having trouble with anything in this tutorial, and I’ll try and help you out!</p>
+</div></div></div><div class="field field-name-field-category field-type-taxonomy-term-reference field-label-above"><div class="field-label">Category:&nbsp;</div><div class="field-items"><div class="field-item even"><a href="/taxonomy/term/3" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Email Server</a></div><div class="field-item odd"><a href="/taxonomy/term/1" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Raspberry Pi</a></div></div></div><div class="field field-name-field-type field-type-taxonomy-term-reference field-label-above"><div class="field-label">Type:&nbsp;</div><div class="field-items"><div class="field-item even"><a href="/taxonomy/term/9" typeof="skos:Concept" property="rdfs:label skos:prefLabel" datatype="">Tutorial</a></div></div></div>
+  <ul class="links inline"><li class="comment-add first last active"><a href="/2013/12/raspberry-pi-email-server-part-1-postfix#comment-form" title="Share your thoughts and opinions related to this posting." class="active">Add new comment</a></li>
+</ul>
+  <section id="comments" class="comments comment-wrapper">
+        <h2 class="title">Comments</h2>
+    
+  <a id="comment-1598"></a>
+<article class="comment comment-by-anonymous first odd clearfix" about="/comment/1598#comment-1598" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-04-12T08:52:33+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Greg</span> &middot; <time pubdate datetime="2014-04-12T08:52:33+01:00">12th April, 2014 &middot; 8:52am</time></span>      <a href="/comment/1598#comment-1598" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/1598#comment-1598" class="permalink" rel="bookmark">Telnet email</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Thanks for this tutorial. I am busy working through it and having a problem at the telnet stage. When I send an email, should I receive the test email at the rcpt to: address?<br />
+I am not receiving anything so not sure if my set up so far is working or not. Here is a screen dump that I get.</p>
+<blockquote><p>
+<a href="mailto:pi@raspberrypi">pi@raspberrypi</a> ~ $ telnet localhost 25<br />
+Trying 127.0.0.1...<br />
+Connected to localhost.<br />
+Escape character is '^]'.<br />
+220 labvolution.com ESMTP Postfix (Debian/GNU)<br />
+ehlo labvolution.com<br />
+250-labvolution.com<br />
+250-PIPELINING<br />
+250-SIZE 10240000<br />
+250-VRFY<br />
+250-ETRN<br />
+250-STARTTLS<br />
+250-ENHANCEDSTATUSCODES<br />
+250-8BITMIME<br />
+250 DSN<br />
+mail from: <a href="mailto:greg.payne@labvolution.com">greg.payne@labvolution.com</a><br />
+250 2.1.0 Ok<br />
+rcpt to: <a href="mailto:gp.greg@gmail.com">gp.greg@gmail.com</a><br />
+250 2.1.5 Ok<br />
+data<br />
+354 End data with .<br />
+Subject: test email<br />
+this is a test email<br />
+.<br />
+250 2.0.0 Ok: queued as 6DA88109B<br />
+quit<br />
+221 2.0.0 Bye<br />
+Connection closed by foreign host.
+</p></blockquote>
+<p>Thanks again,<br />
+Greg</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/1598">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-1639"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/1639#comment-1639" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-04-13T19:50:27+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-04-13T19:50:27+01:00">13th April, 2014 &middot; 7:50pm</time></span>      <a href="/comment/1639#comment-1639" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/1639#comment-1639" class="permalink" rel="bookmark">Check your logs</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/1598#comment-1598" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Greg,</p>
+<p>Thanks for commenting. Have you checked your logs? Try this:</p>
+<pre>cat /var/log/mail.log | less</pre><p>
+...and use b and space (back a page and forward a page) to look through pages of the log files. To go to the last (most recent) page you can press shift and G. If you want the view to auto update you can use this command:</p>
+<pre>less +f /var/log/mail.log</pre><p>
+which may be useful to try while you send an email from a different SSH session so you can watch things happen in real time.</p>
+<p>You may also want to look at <code>/var/log/mail.err</code> for errors.</p>
+<p>If you don't find anything, it might be that your Pi is set up properly but your ISP is blocking outgoing email on port 25 to stop spam. Most ISPs provide a SMTP relay for their customers, it may be that you just need to tell Postfix to relay all outgoing email through it. If you can tell me your ISP I can help you with this.</p>
+<p>Hope that helps!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/1639">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2627"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2627#comment-2627" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-08-19T00:28:50+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.TheGilmanExperiment.net" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Keith Gilman</a> &middot; <time pubdate datetime="2014-08-19T00:28:50+01:00">19th August, 2014 &middot; 12:28am</time></span>      <a href="/comment/2627#comment-2627" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2627#comment-2627" class="permalink" rel="bookmark">SMTP Relay</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/1639#comment-1639" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Sam,</p>
+<p>First I want to say thank you very much for the tutorials on setting up a mail server!</p>
+<p>So I think I'm having the issue with my ISP blocking port 25. The log shows the attempt but times out:</p>
+<p>Aug 18 18:14:26 maggie dovecot: master: Dovecot v2.1.7 starting up (core dumps disabled)<br />
+Aug 18 18:14:33 maggie postfix/master[2826]: daemon started -- version 2.9.6, configuration /etc/postfix<br />
+Aug 18 18:23:08 maggie dovecot: imap-login: Login: user=, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=2877, secured, session=<br />
+Aug 18 18:23:08 maggie dovecot: imap(pi): Disconnected: Logged out in=44 out=721<br />
+Aug 18 18:23:09 maggie dovecot: imap-login: Login: user=, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=2880, secured, session=<br />
+Aug 18 18:23:09 maggie dovecot: imap(pi): Disconnected: Logged out in=261 out=1766<br />
+Aug 18 18:23:10 maggie dovecot: imap-login: Login: user=, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=2884, secured, session=<br />
+Aug 18 18:23:10 maggie dovecot: imap(pi): Disconnected: Logged out in=292 out=1926<br />
+Aug 18 18:23:52 maggie postfix/smtpd[2887]: connect from localhost[127.0.0.1]<br />
+Aug 18 18:23:52 maggie postfix/smtpd[2887]: 3FD5140AB4: client=localhost[127.0.0.1]<br />
+Aug 18 18:23:52 maggie postfix/cleanup[2891]: 3FD5140AB4: message-id=<br />
+Aug 18 18:23:52 maggie postfix/qmgr[2838]: 3FD5140AB4: from=, size=787, nrcpt=1 (queue active)<br />
+Aug 18 18:23:52 maggie postfix/smtpd[2887]: disconnect from localhost[127.0.0.1]<br />
+Aug 18 18:23:52 maggie dovecot: imap-login: Login: user=, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=2894, secured, session=<br />
+Aug 18 18:23:52 maggie dovecot: imap(pi): Disconnected: Logged out in=650 out=471<br />
+Aug 18 18:23:53 maggie dovecot: imap-login: Login: user=, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=2896, secured, session=<br />
+Aug 18 18:23:53 maggie dovecot: imap(pi): Disconnected: Logged out in=292 out=1926<br />
+Aug 18 18:24:22 maggie postfix/smtp[2892]: connect to mta6.am0.yahoodns.net[98.138.112.33]:25: Connection timed out<br />
+Aug 18 18:24:52 maggie postfix/smtp[2892]: connect to mta7.am0.yahoodns.net[98.138.112.34]:25: Connection timed out</p>
+<p>I've enabled TLS on port 465 as you showed in the tutorial but I'm stuck at this point. My ISP does have an SMTP relay (gmail) and I've tried that with the same result. Any help would be much appreciated!</p>
+<p>Thanks,<br />
+-Keith</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2627">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2628"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2628#comment-2628" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-08-19T06:33:35+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-08-19T06:33:35+01:00">19th August, 2014 &middot; 6:33am</time></span>      <a href="/comment/2628#comment-2628" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2628#comment-2628" class="permalink" rel="bookmark">Yeah, looks like port 25 is blocked</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2627#comment-2627" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>You'll need to set up that SMTP relay.</p>
+<p>Are you saying your ISP is Google??</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2628">reply</a></li>
+</ul></article>
+</div></div></div><a id="comment-2105"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2105#comment-2105" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-04-25T01:29:06+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">ed</span> &middot; <time pubdate datetime="2014-04-25T01:29:06+01:00">25th April, 2014 &middot; 1:29am</time></span>      <a href="/comment/2105#comment-2105" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2105#comment-2105" class="permalink" rel="bookmark">Thank you very much for this</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Thank you very much for this tutorial it works great! I installed on a Debian 7 x86 system rather then raspberry pi and it all works smoothly. However if you could make a tutorial to setup virtual users (so that you don't need to create system user accounts for each mail addresses), that would be great!</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2105">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2106"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2106#comment-2106" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-04-25T07:56:01+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-04-25T07:56:01+01:00">25th April, 2014 &middot; 7:56am</time></span>      <a href="/comment/2106#comment-2106" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2106#comment-2106" class="permalink" rel="bookmark">Welcome!</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2105#comment-2105" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>You're welcome! FYI it works on Ubuntu too, the only difference is you need to comment out the <code>smtp_relay_restrictions</code> parameter, which is in newer versions of Postfix. Alternatively you could of course use the relay restrictions, but that would make all the testing stages different.</p>
+<p>I decided not to go for virtualisation this time because I'm the only person using my server and the tutorial was written for a raspberry pi, which is quite a low powered piece of hardware so I didn't imagine people would be configuring it for use by more than about ten users.</p>
+<p>I do agree that it would be interesting to learn though, it's definitely something I will come back to in the future. Apparently <strong>iRedMail</strong> is an easy automated way to set these things up, but admittedly that takes the fun out of it!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2106">reply</a></li>
+</ul></article>
+</div><a id="comment-2127"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2127#comment-2127" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-01T22:38:19+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Ian</span> &middot; <time pubdate datetime="2014-05-01T22:38:19+01:00">1st May, 2014 &middot; 10:38pm</time></span>      <a href="/comment/2127#comment-2127" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2127#comment-2127" class="permalink" rel="bookmark">SMTP Relay</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam,</p>
+<p>Really enjoyed the tutorial, many thanks for the work and effort you have put into this.</p>
+<p>I would like to follow you up on your offer of getting an SMTP relay set up. My ISP is Tiscali/TalkTalk and even though they don't appear to block port 25, the 79.69.0.0/16 range of (presumably) dynamic IP's are blacklisted by Spamhaus ZEN, which means talking to many mail servers is troublesome.</p>
+<p>Any assistance you could offer would be greatly appreciated :-)</p>
+<p>Thanks</p>
+<p>Ian</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2127">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2129"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2129#comment-2129" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-02T07:57:52+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-02T07:57:52+01:00">2nd May, 2014 &middot; 7:57am</time></span>      <a href="/comment/2129#comment-2129" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2129#comment-2129" class="permalink" rel="bookmark">Hi Ian,</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2127#comment-2127" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Ian,</p>
+<p>It's actually quite a simple change. All you should need to do is edit <code>/etc/postfix/main.conf</code> and include your ISP's SMTP server as a relayhost. You can find the SMTP server name by ISP <a href="http://www.uksecurewebhosting.co.uk/smtp-email-details.php">in this list</a>. Generally, you add it like this:</p>
+<pre>relayhost = smtp.yourisp.com</pre><p>
+or if your ISP requires you to use a specific port, use:</p>
+<pre>relayhost = [smtp.yourisp.com]:PORT</pre><p>
+That list seems to suggest that you should use <code>relayhost = smtp.TalkTalk.net</code> or <code>relayhost = smtp.tiscali.co.uk</code>, so try adding one of those, then do:</p>
+<pre>sudo service postfix reload</pre><p>
+...and then try sending email out. You shouldn't need to authenticate to send email because you are "in your ISP's LAN". That's probably not the right terminology but hopefully you know what I mean.</p>
+<p>BTW, if you check an email's headers you can see where it has been - each Mail Transfer Agent (MTA) adds a line like <code>Received: from foo.com by intermediate.com for you@yourdomain.com</code>.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2129">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3025"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/3025#comment-3025" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-17T04:18:52+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">David Lawson</span> &middot; <time pubdate datetime="2014-11-17T04:18:52+00:00">17th November, 2014 &middot; 4:18am</time></span>      <a href="/comment/3025#comment-3025" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/3025#comment-3025" class="permalink" rel="bookmark">Authenticated Relay</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2129#comment-2129" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam,</p>
+<p>Thank you very much indeed for this resource.  Really a great benefit to all who read.<br />
+I am trying to set up an internal mail relay for some devices I have (scanners, UPSes, etc that can't authenticate), I have tried a few times, reading this and other web resources.  I just can't quite get it going.  Ultimately it appears all port 25 is blocked outbound.<br />
+I can forward to gmail but it need to be authenticated.  Since I do not require mail hosting - do I need to install dovecot? can I do authenticated relay on a non-25 port with postfix only?  </p>
+<p>Cheers,<br />
+--d</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/3025">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3026"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/3026#comment-3026" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-17T06:42:15+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-11-17T06:42:15+00:00">17th November, 2014 &middot; 6:42am</time></span>      <a href="/comment/3026#comment-3026" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/3026#comment-3026" class="permalink" rel="bookmark">Your use case only requires postfix</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3025#comment-3025" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>If all you want to do is send outgoing email to gmail, than you just need postfix.</p>
+<p>I think it's possible to do authenticated relay on a non-25 port with Postfix only, but I'm not certain because I haven't tried it myself.</p>
+<p>If you own the WAN-side server then the ultimate fallback is to just specify a different port (for the receiving server) that isn't blocked and configure the LAN server to send using that too, but I'm not sure about gmail. Hopefully that isn't necessary, I'll have to have a read and get back to you.</p>
+<p>Do you own a different server outside your LAN, or do you use freemail like gmail for your personal email?</p>
+<p>Thanks for the interesting question!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/3026">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3032"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/3032#comment-3032" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-22T17:56:44+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">David Lawson</span> &middot; <time pubdate datetime="2014-11-22T17:56:44+00:00">22nd November, 2014 &middot; 5:56pm</time></span>      <a href="/comment/3032#comment-3032" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/3032#comment-3032" class="permalink" rel="bookmark">Thanks Sam,  I have been</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3026#comment-3026" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Thanks Sam,  I have been looking for the reply but didn't see the email... many apologies.<br />
+Really I can do all the above - I do own an outside server at a service provider, could do to install a postfix relay there on a different port and do two hop relay.  This was all working fine, until my ISP blocked port 25 - so I'd need postfix to listen on a second port now.<br />
+I have both personal and non-personal Google accounts (app/email) I can use. It just seemed easier to get to a public relay sooner.</p>
+<p>I got the postfix on PI to send to Gmail, but it complains of needing a TLSstart command. I also believe dovcot does not support SSL/TLS/Auth as a client. (postfix -A) so it looks like I might have to go down the Cyrus route.</p>
+<p>I'll let you know what I come up with and if you can think of any ideas, please let me know.<br />
+Cheers,<br />
+--david</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/3032">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-3035"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/3035#comment-3035" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-11-23T10:15:47+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-11-23T10:15:47+00:00">23rd November, 2014 &middot; 10:15am</time></span>      <a href="/comment/3035#comment-3035" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/3035#comment-3035" class="permalink" rel="bookmark">How many emails were you sending?</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3032#comment-3032" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>I find it curious that your ISP suddenly blocked port 25, how many emails were you sending?</p>
+<p>Basically I think you will need modify the configuration for your outside mail server by adding another line to <code>/etc/postfix/master.cf</code> like this:</p>
+<pre>12345 inet n - n - - smtpd2</pre><p>
+Where 12345 is whichever port you want to use and smtpd2 is your name for the service (will be used in logs etc.). You'll then have to test port 12345 to make sure it isn't relaying unauthenticated mail etc.</p>
+<p>Then modify your LAN postfix instance and change your smtpd to 12345 in master.cf (this will be used for outgoing email) and then add an smtpd2 line like above but with port 25 so that you can still receive email from the scanners on your LAN (changing the port for smtpd to 12345 would affect where postfix listens for incoming connections as well as the port it uses for outgoing email).</p>
+<p>Hope that makes some sense!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/3035">reply</a></li>
+</ul></article>
+</div><a id="comment-3352"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/3352#comment-3352" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2015-02-12T04:45:49+00:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Renato Datoc</span> &middot; <time pubdate datetime="2015-02-12T04:45:49+00:00">12th February, 2015 &middot; 4:45am</time></span>      <a href="/comment/3352#comment-3352" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/3352#comment-3352" class="permalink" rel="bookmark">How to send mail through an authenticated SSL relay </a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/3026#comment-3026" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Very late to the discussion but I just stumbled onto your site, Sam (thanks for all the tutorials).  I worked though the process after determining that my ISP (Verizon FIOS) blocks port 25 and only allows SMTPS on port 465.  It requires installing stunnel4, setting it up, and then configuring postfix to relay through a stunnel'ed connection.  I pulled bits and pieces from various tutorials and, after much gnashing and hair-pulling :-), got it to work. If you're interested (maybe as an addendum to your excellent mail server tutorials), I can provide you with the steps required (email me).  Thanks again.</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/3352">reply</a></li>
+</ul></article>
+</div></div></div></div><a id="comment-2131"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2131#comment-2131" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-02T10:29:06+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.jonschofield.com" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Jonathan Schofield</a> &middot; <time pubdate datetime="2014-05-02T10:29:06+01:00">2nd May, 2014 &middot; 10:29am</time></span>      <a href="/comment/2131#comment-2131" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2131#comment-2131" class="permalink" rel="bookmark">It almost works...</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Sam</p>
+<p>What a great tutorial, one of the few of any subject that I have managed to follow.  I am a Linux noob (I hate that word!) and struggle to fully understand it as I am a simple soul.  However I have almost got my Pi working as a mail server thanks to your tuition; I can send emails from my windows laptop with Thunderbird, but I have not been successful at receiving them as yet.  I think I've fallen down at the <em>sudo maildirmake.dovecot /etc/skel/Maildir...</em> part.  The main directory is there but I cannot 'see' inside it as only root has permission.  Consequently the copy command to my home directory /home/jonty/ doesn't work and there are no Sent, Drafts etc directories there either.  Can I just create the directories directly in my home/jonty/Maildir/ folder?  If so should it be as user jonty or user Pi?</p>
+<p>One more question:  Could this be used as a 'catch all' mail server i.e. '<a href="mailto:xxxx@MyDomain.com">xxxx@MyDomain.com</a>' where xxxx can be any name?  If so, is it very complicated?</p>
+<p>Very best regards</p>
+<p>Jonathan</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2131">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2133"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2133#comment-2133" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-02T14:12:48+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-02T14:12:48+01:00">2nd May, 2014 &middot; 2:12pm</time></span>      <a href="/comment/2133#comment-2133" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2133#comment-2133" class="permalink" rel="bookmark">sudo &amp; ls options</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2131#comment-2131" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>To see inside a folder with only root permissions, use sudo, for example:</p>
+<pre>sudo ls - al /etc/skel/Maildir</pre><p>
+The <code>-l</code> option shows the long version with ownership info, file names etc. and the <code>-a</code> option also shows hidden files and folders (ones starting with a period, e.g. <code>.cur</code>). Basically all of your mail folders in ~/Maildir are hidden.</p>
+<p>If you are still having problems you can create those directories without sudo (see below), but the skeleton files are important so that if you create a new user their home folder will automatically contain a maildir.</p>
+<pre>maildirmake.dovecot ~/Maildir
+maildirmake.dovecot ~/Maildir/.Drafts
+maildirmake.dovecot ~/Maildir/.Sent
+maildirmake.dovecot ~/Maildir/.Spam
+maildirmake.dovecot ~/Maildir/.Trash
+maildirmake.dovecot ~/Maildir/.Templates</pre><p>
+As for the catch-all, I'll have to look into it and get back to you, I imagine you can do it with aliases.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2133">reply</a></li>
+</ul></article>
+</div><a id="comment-2134"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2134#comment-2134" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-02T16:35:37+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.jonschofield.com" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Jonathan Schofield</a> &middot; <time pubdate datetime="2014-05-02T16:35:37+01:00">2nd May, 2014 &middot; 4:35pm</time></span>      <a href="/comment/2134#comment-2134" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2134#comment-2134" class="permalink" rel="bookmark">Still almost there..</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Sam</p>
+<p>Many thanks for your reply, and I found out about hidden folders and files and they are there, but any messages that I have sent have been delayed.</p>
+<blockquote><p>This is an automatically generated Delivery Status Notification</p>
+<p>THIS IS A WARNING MESSAGE ONLY.</p>
+<p>YOU DO NOT NEED TO RESEND YOUR MESSAGE.</p>
+<p>Delivery to the following recipient has been delayed:</p>
+<p>     <a href="mailto:jonty@xxxxxx.com">jonty@xxxxxx.com</a></p>
+<p>Message will be retried for 2 more day(s)</p>
+<p>Technical details of temporary failure:<br />
+The recipient server did not accept our requests to connect. Learn more at <a href="http://support.google.com/mail/bin/answer.py?answer=7720">http://support.google.com/mail/bin/answer.py?answer=7720</a><br />
+[(1) xxxx.no-ip.biz. [87.xxx.xxx.47]:25: Connection timed out]</p></blockquote>
+<p>Now Google's help is:<br />
+The other domain doesn't have up-to-date MX records or is otherwise misconfigured.<br />
+The other domain is blacklisting or graylisting messages from Gmail.<br />
+The other domain is experiencing temporary networking problems.</p>
+<p>Now I am fairly sure that I have put the MX records in correctly, and I have opened the ports on my router to point to the static IP of the Pi.  I can ping the no-ip address...</p>
+<p>I don't want to take up too much of your time, but any suggestions?</p>
+<p>Jonathan</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2134">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2135"></a>
+<article class="comment comment-by-node-author odd clearfix" about="/comment/2135#comment-2135" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-02T18:15:20+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-02T18:15:20+01:00">2nd May, 2014 &middot; 6:15pm</time></span>      <a href="/comment/2135#comment-2135" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2135#comment-2135" class="permalink" rel="bookmark">Jonathan,</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2134#comment-2134" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Jonathan,</p>
+<p>I notice you have redacted your domain name. If you don't want to publish it in a comment, would you mind emailing me it so I can try a few things? Also include <a href="https://duckduckgo.com/?q=what+is+my+IP&amp;t=canonical">your WAN IP address</a> please, I'd like to see what happens if I look up the MX record (to check that the IP addresses match) and try to connect to your IP address directly to send you an email.</p>
+<p>If I can connect to your server directly, then your problem must be with the MX record...and if I can't connect, then your ISP must be blocking port 25 or some other funny business.</p>
+<p>You can also try this:</p>
+<p>http://canyouseeme.org/</p>
+<p>to see if your ISP is blocking port 25.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2135">reply</a></li>
+</ul></article>
+</div><a id="comment-2136"></a>
+<article class="comment comment-by-anonymous even clearfix" about="/comment/2136#comment-2136" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-03T17:30:51+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.jonschofield.com" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Jonathan Schofield</a> &middot; <time pubdate datetime="2014-05-03T17:30:51+01:00">3rd May, 2014 &middot; 5:30pm</time></span>      <a href="/comment/2136#comment-2136" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2136#comment-2136" class="permalink" rel="bookmark">Ah ha.  Now it works</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Sam</p>
+<p>Thanks for your help, I now have it working.  My main error was not with my Draytek router and my thinking that port redirection is the same as open ports.  Opening 25, 465 &amp; 993 solved it.  The website <a href="http://canyouseeme.org/">http://canyouseeme.org/</a> was very useful here.  I also needed to add a relayhost entry in main.cf</p>
+<p>Best regards</p>
+<p>Jonathan</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2136">reply</a></li>
+</ul></article>
+<a id="comment-2165"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2165#comment-2165" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-10T17:45:52+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.ferrarispares.co.uk" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Eddie Walsh</a> &middot; <time pubdate datetime="2014-05-10T17:45:52+01:00">10th May, 2014 &middot; 5:45pm</time></span>      <a href="/comment/2165#comment-2165" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2165#comment-2165" class="permalink" rel="bookmark">Help ???</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam, and many Thanks for your great Tutorials, reading all the comments on here they all sound very high tech, and I am afraid I am very low tech but trying to learn, so my first newb question is where is my "Postfix" program/Folder as I want to have another go at getting it setup as previously I only got as far as changing my url which went fine but it was the instructions after that that I just could not see how to complete ?? if I remember correctly I needed another program to make the changes like a text editor and I could not see how to access one of these, so if you understand what I am asking then any help much appreciated, Regards Eddie</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2165">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2167"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2167#comment-2167" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-10T19:09:32+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-10T19:09:32+01:00">10th May, 2014 &middot; 7:09pm</time></span>      <a href="/comment/2167#comment-2167" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2167#comment-2167" class="permalink" rel="bookmark">/etc/postfix</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2165#comment-2165" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Eddie,</p>
+<p>The config files are all in <code>/etc/postfix</code>.</p>
+<p>You might want to start with:</p>
+<pre>sudo dpkg-reconfigure postfix</pre><p>
+...which will bring up that initial configuration wizard for Postfix.</p>
+<p>In my opinion the easiest text editor to use is <code>nano</code>. Install it like this:</p>
+<pre>sudo apt-get install nano</pre><p>
+and you can edit files by typing: <code>nano /path/to/filename</code>. If the file is owned by root then you will need superuser / root privileges to edit them, so use <code>sudo nano /path/to/filename</code>.</p>
+<p>When you're inside nano you can move around with the arrow keys on your keyboard, type your changes and then press CTRL X to exit, you'll be asked if you want to save changes (Y or N) so type Y and press enter.</p>
+<p>Hope that helps!</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2167">reply</a></li>
+</ul></article>
+</div><a id="comment-2168"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2168#comment-2168" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-10T22:49:08+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.ferrarispares.co.uk" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Eddie Walsh</a> &middot; <time pubdate datetime="2014-05-10T22:49:08+01:00">10th May, 2014 &middot; 10:49pm</time></span>      <a href="/comment/2168#comment-2168" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2168#comment-2168" class="permalink" rel="bookmark">More Help ??</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam thanks again, I got my Postfix back and carried on, but did not look the same as my first attempt, so I got to the end and closed it down, it did not at any time ask for "Text Editor" ??? so now  I still can not relocate it as I assumed there would be a Desktop Icon to click on a bit like Thunderbird, so again any help much appreciated, or should I just uninstall and start all over again, again Thanks, Regards Eddie</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2168">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2169"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2169#comment-2169" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-10T23:33:32+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-10T23:33:32+01:00">10th May, 2014 &middot; 11:33pm</time></span>      <a href="/comment/2169#comment-2169" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2169#comment-2169" class="permalink" rel="bookmark">No worries.</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2168#comment-2168" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>No worries.</p>
+<p>I think there's a little misunderstanding here: postfix isn't an email client like Thunderbird, it's a Mail Transfer Agent, the program that your raspberry pi email server will use to talk to other email servers. You don't interact directly with Postfix, you use a program like Thunderbird to talk to it.</p>
+<p>Postfix has no graphical user interface (GUI), it's a process that operates behind the scenes.</p>
+<p>That configuration wizard changes a few things, but apart from that it basically just creates a bunch of default configuration files... we are using a text editor to make additional changes to those configuration files (which are text files) in /etc/postfix to set up Postfix the way we want it.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2169">reply</a></li>
+</ul></article>
+</div><a id="comment-2170"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2170#comment-2170" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-11T11:09:42+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.ferrarispares.co.uk" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Eddie Walsh</a> &middot; <time pubdate datetime="2014-05-11T11:09:42+01:00">11th May, 2014 &middot; 11:09am</time></span>      <a href="/comment/2170#comment-2170" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2170#comment-2170" class="permalink" rel="bookmark">Help &amp; Thanks</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam, just goes to show you how much I know ??, so what you are saying Postfix is like my current ISP  ?? is that correct , so I with my Pi I will be cutting out the middle man so to speak, and talking about that could I actually Host my own Web Sites if I wanted to, but for now lets not try running before we can walk.<br />
+So back to my next step which is "Dovecot" and lets see how we get on with this one, and again Thanks for all your help, Regards Eddie</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2170">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2171"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2171#comment-2171" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-11T11:43:27+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-11T11:43:27+01:00">11th May, 2014 &middot; 11:43am</time></span>      <a href="/comment/2171#comment-2171" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2171#comment-2171" class="permalink" rel="bookmark">Depends ;)</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2170#comment-2170" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Kind of, yes. Your current ISP maintains an email server with a Mail Transfer Agent that you can connect to to send emails (they may even be using Postfix!) so your Pi will be doing the same thing.</p>
+<p>However, some (not all) ISPs block port 25 because spammers often infect computers with malware without the owners knowing and use them to spam people. So, the ISP will only allow you to send outgoing email <em>through their own server</em> so that they can keep an eye on everything and spot suspicious activity.</p>
+<p>When this happens you have to set up Postfix to send emails to your ISP's email server, which will send them on to their destination, instead of having your Pi connect directly to the destination email server.</p>
+<p>Basically, you may or may not be able to cut out the middle man, it depends! :)</p>
+<p>As for hosting your own website, check out <a href="http://www.samhobbs.co.uk/2014/02/how-to-install-wordpress-on-a-raspberry-pi">this tutorial for installing WordPress on a raspberry Pi</a>. I think that is actually easier than setting up an email server.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2171">reply</a></li>
+</ul></article>
+</div><a id="comment-2172"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2172#comment-2172" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-11T15:01:52+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.ferrarispares.co.uk" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Eddie Walsh</a> &middot; <time pubdate datetime="2014-05-11T15:01:52+01:00">11th May, 2014 &middot; 3:01pm</time></span>      <a href="/comment/2172#comment-2172" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2172#comment-2172" class="permalink" rel="bookmark">Hi Sam, latest problem,</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam, latest problem,<br />
+ sudo cp -r /etc/skel/Maildir /home/USER/<br />
+sudo chown -R USER:USER /home/USER/Maildir<br />
+sudo chmod -R 700 /home/USER/Maildir</p>
+<p>I entered here instead of "User" my ferrarispares.co.uk and I get "invalid user" ??? so again any help much appreciated, Regards Eddie</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2172">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2173"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2173#comment-2173" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-11T16:45:52+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-11T16:45:52+01:00">11th May, 2014 &middot; 4:45pm</time></span>      <a href="/comment/2173#comment-2173" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2173#comment-2173" class="permalink" rel="bookmark">Use your system user</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2172#comment-2172" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Use the account you log in with (e.g. pi) or another system username.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2173">reply</a></li>
+</ul></article>
+</div><a id="comment-2174"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2174#comment-2174" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-11T22:20:50+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.ferrarispares.co.uk" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Eddie Walsh</a> &middot; <time pubdate datetime="2014-05-11T22:20:50+01:00">11th May, 2014 &middot; 10:20pm</time></span>      <a href="/comment/2174#comment-2174" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2174#comment-2174" class="permalink" rel="bookmark">Help &amp; Thanks</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Hi Sam, Thanks again, my latest problem when typing in "permit_mynetworks," I typed in a 1 (one) instead of a lower case l (L) so how do I edit this with out redoing the lot, again your help much appreciated, Regards Eddie</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2174">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2175"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2175#comment-2175" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-11T22:43:45+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-11T22:43:45+01:00">11th May, 2014 &middot; 10:43pm</time></span>      <a href="/comment/2175#comment-2175" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2175#comment-2175" class="permalink" rel="bookmark">Use your arrow keys to move</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2174#comment-2174" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Use your arrow keys to move around the file in nano, and press backspace to delete the text you don't want and type your new text instead.</p>
+<p>There's no lower case L in that <code>permit_mynetworks</code> statement though, so I'm not quite sure what you mean!</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2175">reply</a></li>
+</ul></article>
+</div><a id="comment-2176"></a>
+<article class="comment comment-by-anonymous odd clearfix" about="/comment/2176#comment-2176" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-11T23:04:17+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><a href="http://www.ferrarispares.co.uk" rel="nofollow foaf:page" class="username" xml:lang="" typeof="sioc:UserAccount" property="foaf:name" datatype="">Eddie Walsh</a> &middot; <time pubdate datetime="2014-05-11T23:04:17+01:00">11th May, 2014 &middot; 11:04pm</time></span>      <a href="/comment/2176#comment-2176" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2176#comment-2176" class="permalink" rel="bookmark">HI Sam, this was the line </a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>HI Sam, this was the line "permit_sasl_authenticated," and  how do I get it into "nano /path/to/filename" what is the file name, I tried telnet but did not load, so again Thanks, Regards Eddie</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2176">reply</a></li>
+</ul></article>
+
+<div class="indented"><a id="comment-2177"></a>
+<article class="comment comment-by-node-author even clearfix" about="/comment/2177#comment-2177" typeof="sioc:Post sioct:Comment">
+
+  <header>
+    <p class="submitted">
+            <span property="dc:date dc:created" content="2014-05-12T00:06:49+01:00" datatype="xsd:dateTime" rel="sioc:has_creator"><span class="username" xml:lang="" about="/users/sam-hobbs" typeof="sioc:UserAccount" property="foaf:name" datatype="">Sam Hobbs</span> &middot; <time pubdate datetime="2014-05-12T00:06:49+01:00">12th May, 2014 &middot; 12:06am</time></span>      <a href="/comment/2177#comment-2177" class="permalink" rel="bookmark">Permalink</a>    </p>
+
+              <h3 property="dc:title" datatype="" class="comment__title comment-title">
+        <a href="/comment/2177#comment-2177" class="permalink" rel="bookmark">The tutorial gives you the</a>              </h3>
+        
+      </header>
+
+  <span rel="sioc:reply_of" resource="/2013/12/raspberry-pi-email-server-part-1-postfix" class="rdf-meta element-hidden"></span><span rel="sioc:reply_of" resource="/comment/2176#comment-2176" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>The tutorial gives you the filename in the sentence just above that step, it's <code>/etc/postfix/main.cf</code>.</p>
+<p>So to open the file with nano, the text editor, you would do <code>sudo nano /etc/postfix/main.cf</code>.</p>
+<p>To be honest I think you might struggle with setting up an email server just yet, it's not easy!</p>
+<p>My advice would be to browse through <a href="http://www.raspberrypi.org/forums/viewforum.php?f=91">the RasPi forums</a> and find some beginner projects to start with, save this for when you're a little more comfortable with the command line and manually configuring packages.</p>
+<p>Sam</p>
+</div></div></div>
+  
+  <ul class="links inline"><li class="comment-reply first last"><a href="/comment/reply/3/2177">reply</a></li>
+</ul></article>
+</div><h2 class="element-invisible">Pages</h2><div class="item-list"><ul class="pager"><li class="pager-current first">1</li>
+<li class="pager-item"><a title="Go to page 2" href="/2013/12/raspberry-pi-email-server-part-1-postfix?page=1">2</a></li>
+<li class="pager-item"><a title="Go to page 3" href="/2013/12/raspberry-pi-email-server-part-1-postfix?page=2">3</a></li>
+<li class="pager-item"><a title="Go to page 4" href="/2013/12/raspberry-pi-email-server-part-1-postfix?page=3">4</a></li>
+<li class="pager-next"><a title="Go to next page" href="/2013/12/raspberry-pi-email-server-part-1-postfix?page=1">next ›</a></li>
+<li class="pager-last last"><a title="Go to last page" href="/2013/12/raspberry-pi-email-server-part-1-postfix?page=3">last »</a></li>
+</ul></div>
+      <h2 class="title comment-form">Add new comment</h2>
+    <form class="comment-form user-info-from-cookie" action="/comment/reply/3" method="post" id="comment-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-name">
+  <label for="edit-name">Your name </label>
+ <input type="text" id="edit-name" name="name" value="" size="30" maxlength="60" class="form-text" />
+</div>
+<div class="form-item form-type-textfield form-item-mail">
+  <label for="edit-mail">E-mail </label>
+ <input type="text" id="edit-mail" name="mail" value="" size="30" maxlength="64" class="form-text" />
+<div class="description">The content of this field is kept private and will not be shown publicly.</div>
+</div>
+<div class="form-item form-type-textfield form-item-homepage">
+  <label for="edit-homepage">Homepage </label>
+ <input type="text" id="edit-homepage" name="homepage" value="" size="30" maxlength="255" class="form-text" />
+</div>
+<div class="form-item form-type-textfield form-item-subject">
+  <label for="edit-subject">Subject </label>
+ <input type="text" id="edit-subject" name="subject" value="" size="60" maxlength="64" class="form-text" />
+</div>
+<div class="field-type-text-long field-name-comment-body field-widget-text-textarea form-wrapper" id="edit-comment-body"><div id="comment-body-add-more-wrapper"><div class="text-format-wrapper"><div class="form-item form-type-textarea form-item-comment-body-und-0-value">
+  <label for="edit-comment-body-und-0-value">Comment <span class="form-required" title="This field is required.">*</span></label>
+ <div class="form-textarea-wrapper resizable"><textarea class="text-full form-textarea required" id="edit-comment-body-und-0-value" name="comment_body[und][0][value]" cols="60" rows="5"></textarea></div>
+</div>
+<fieldset class="filter-wrapper form-wrapper" id="edit-comment-body-und-0-format"><div class="fieldset-wrapper"><div class="filter-help form-wrapper" id="edit-comment-body-und-0-format-help"><p><a href="/filter/tips" target="_blank">More information about text formats</a></p></div><div class="form-item form-type-select form-item-comment-body-und-0-format">
+  <label for="edit-comment-body-und-0-format--2">Text format </label>
+ <select class="filter-list form-select" id="edit-comment-body-und-0-format--2" name="comment_body[und][0][format]"><option value="filtered_html" selected="selected">Filtered HTML</option><option value="plain_text">Plain text</option></select>
+</div>
+<div class="filter-guidelines form-wrapper" id="edit-comment-body-und-0-format-guidelines"><div class="filter-guidelines-item filter-guidelines-filtered_html"><h3>Filtered HTML</h3><ul class="tips"><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;</li><li>Lines and paragraphs break automatically.</li></ul></div><div class="filter-guidelines-item filter-guidelines-plain_text"><h3>Plain text</h3><ul class="tips"><li>No HTML tags allowed.</li><li>Web page addresses and e-mail addresses turn into links automatically.</li><li>Lines and paragraphs break automatically.</li></ul></div></div></div></fieldset>
+</div>
+</div></div><input type="hidden" name="form_build_id" value="form-2_YTFCHrXrWs1T8E7GfdoZDn4JPdJVU3lCw6aMUeoow" />
+<input type="hidden" name="form_id" value="comment_node_page_form" />
+<div class="form-item form-type-checkbox form-item-notify">
+ <input type="checkbox" id="edit-notify" name="notify" value="1" checked="checked" class="form-checkbox" />  <label class="option" for="edit-notify">Notify me when new comments are posted </label>
+
+</div>
+<div id="edit-notify-type" class="form-radios"><div class="form-item form-type-radio form-item-notify-type">
+ <input type="radio" id="edit-notify-type-1" name="notify_type" value="1" class="form-radio" />  <label class="option" for="edit-notify-type-1">All comments </label>
+
+</div>
+<div class="form-item form-type-radio form-item-notify-type">
+ <input type="radio" id="edit-notify-type-2" name="notify_type" value="2" checked="checked" class="form-radio" />  <label class="option" for="edit-notify-type-2">Replies to my comment </label>
+
+</div>
+</div><div class="edit-feed-me-wrapper"><div class="form-item form-type-textfield form-item-feed-me">
+  <label for="edit-feed-me">feed me </label>
+ <input type="text" id="edit-feed-me" name="feed_me" value="" size="20" maxlength="128" class="form-text" />
+<div class="description">What&#039;s your favourite topic?</div>
+</div>
+</div><input class="mollom-content-id" type="hidden" name="mollom[contentId]" value="" />
+<input class="mollom-captcha-id" type="hidden" name="mollom[captchaId]" value="" />
+<div style="display: none;"><div class="form-item form-type-textfield form-item-mollom-homepage">
+ <input autocomplete="off" type="text" id="edit-mollom-homepage" name="mollom[homepage]" value="" size="60" maxlength="128" class="form-text" />
+</div>
+</div><div class="description mollom-privacy">By submitting this form, you accept the <a href="https://mollom.com/web-service-privacy-policy" class="mollom-target" rel="nofollow">Mollom privacy policy</a>.</div><div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Save" class="form-submit" /><input type="submit" id="edit-preview" name="op" value="Preview" class="form-submit" /></div></div></form>  </section>
+
+</article>
+          </div><!-- /#content -->
+
+    
+    
+    
+    <nav class="breadcrumb" role="navigation"><h2 class="element-invisible">You are here</h2><ol><li><a href="/">Home</a> › </li><li>Raspberry Pi Email Server Part 1: Postfix</li></ol></nav>
+  </div><!-- /#main -->
+
+    <footer id="footer" class="region region-footer">
+    <div id="block-system-powered-by" class="block block-system first last odd" role="complementary">
+
+      
+  <span>Powered by <a href="https://www.drupal.org">Drupal</a></span>
+</div>
+  </footer>
+
+  
+</div><!-- /#page -->
+  <script src="https://samhobbs.co.uk/sites/default/files/js/js_SPb-2zHnEZ2uMzSnALv_OrI0EHyRY9yc6hC49NxOk6U.js"></script>
+<script src="https://samhobbs.co.uk/sites/default/files/js/js_VU7P4CTgUZdF2SyFko5LLAg9ZK0OSVjXVaAFnTLgVt0.js"></script>
+</body>
+</html>

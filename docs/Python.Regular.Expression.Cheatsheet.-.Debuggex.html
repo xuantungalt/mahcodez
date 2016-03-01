@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="RegexApp">
+<head>
+				<link type="text/css" href="/static/css/main.css" rel="stylesheet"/>
+ 
+				<script type="text/javascript" src="/static/js/main.js"></script>
+  
+  
+    <meta charset="utf-8">
+    <title>
+  Python Regular Expression Cheatsheet - Debuggex
+</title>
+
+    
+    <meta name="keywords" content="javascript,regex,regular expression,visual,nfa,dfa,state,debugger,helper,tester,match,random match">
+    <meta name="author" content="Sergiu Toarca">
+
+    <link href="/static/img/favicon.ico" rel="shortcut icon"/>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-38496676-1']);
+      _gaq.push(['_trackPageview']);
+
+      var _track = function(action) {
+        _gaq.push(['_trackEvent', 'Engagement', action]);
+      };
+
+      (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+
+        ga.src = ('https:' == document.location.protocol ?
+            'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  
+
+
+  <script type="text/javascript" src="https://login.persona.org/include.js"></script>
+  <script type="text/javascript">$(function() {
+    $('#signin').click(function() { navigator.id.request({}); return false;});
+
+    $('#signout').click(function() { navigator.id.logout(); return false;});
+
+    var currentUser = null;
+
+    navigator.id.watch({
+        loggedInUser: currentUser,
+        onlogin: function(assertion) {
+	    $.ajax({
+		type: 'POST',
+		url: '/login',
+		data: {
+		    assertion: assertion,
+		    came_from: 'https://www.debuggex.com/cheatsheet/regex/python',
+		    csrf_token: '47ed53cf9f53c68d03adc88551ce90e20dbfe54b'
+		},
+		dataType: 'json',
+		success: function(res, status, xhr) {
+		    if(!res['success'])
+			navigator.id.logout();
+		    window.location = res['redirect'];
+		},
+		error: function(xhr, status, err) {
+		    navigator.id.logout();
+		    alert("Login failure: " + err);
+		}
+            });
+	},
+	onlogout: function() {
+	    $.ajax({
+		type: 'POST',
+		url: '/logout',
+		data:{
+		    came_from: 'https://www.debuggex.com/cheatsheet/regex/python',
+		    csrf_token: '47ed53cf9f53c68d03adc88551ce90e20dbfe54b'
+		},
+		dataType: 'json',
+		success: function(res, status, xhr) { window.location = res['redirect']; },
+		error: function(xhr, status, err) { alert("Logout failure: " + err); }
+	    });
+        }
+    });
+});
+</script>
+
+
+
+  <script type="text/javascript">pyramid_globals = {"tier": "", "flavor": "python", "external": "Python", "email": ""};</script>
+
+
+</head>
+<body>
+  <div id="page">
+    <div id="content">
+      <div class="navbar navbar-static-top navbar-default dbx-navbar" role="navigation">
+        <div class="width-restricted">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/"><img src="/static/img/logo.png" alt="Debuggex Beta"/></a>
+          </div>
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-right">
+              
+  <li><a onClick="_track('Pricing');" href="/pricing">Pricing</a></li>
+  <li><a onClick="_track('Blog');" href="/blog/">Blog</a></li>
+  <li><a target="_blank" onClick="_track('Tutorial');" href="http://www.youtube.com/watch?v=xyp7ASl5ss4">Tutorial</a></li>
+    <li><a id="signin" onClick="_track('Top nav login');" href="/login">Login/Signup</a></li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div ng-controller="GlobalsCtrl">
+        
+          
+            <div class="navbar navbar-static-top navbar-default dbx-subnavbar" role="navigation">
+              <div class="width-restricted">
+                <div class="sidepadded">
+                  <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          <div class="width-restricted">
+            <div class="sidepadded">
+              
+
+
+
+
+
+
+
+
+
+
+
+<div ng-controller="CheatsheetCtrl">
+  <div class="subnavbar-container">
+    <div class="subnavbar clearfix">
+      <span class="subnav rfloat" ng-controller="RegexFlavorCtrl">
+        <ul class="menu clearfix">
+          <li ng-repeat="(key, value) in flavors" class="flavor">
+            <a href="" ng-click="flavorModel.val = key"
+                ng-class="{selected: key == flavorModel.val}">
+              {{value.external}}
+            </a>
+          </li>
+        </ul>
+      </span>
+    </div>
+  </div>
+  <h2 class="cs-title">{{flavors[flavorModel.val].external}} Regex Cheatsheet</h2>
+  <input type='text'
+      class="search"
+      ng-model='filterModel.val'
+      placeholder="Quick Filter"/>
+
+  <div class="cs_container_container">
+  <table class="cs_container"><tr>
+    <td ng-repeat="col in cheatsheets" class="bigrow">
+      <table class="mini-cheatsheet" ng-repeat="cs in col"
+          ng-show="filtList = (cs.list | filter:{2:flavorModel.val} | filter:filterModel.val);filtList.length">
+        <tr><th colspan="2">{{cs.title}}</th></tr>
+        <tr ng-repeat="v in filtList">
+          <td style="white-space:nowrap">{{v[0]}}</td><td>{{v[1]}}</td></tr>
+        </tr>
+        <tr ng-show="cs.extra"><td colspan="2" class="alert">{{cs.extra}}</td></tr>
+      </table>
+    </td>
+  </tr></table>
+  </div>
+
+  <span class="tester-link">
+    New to Debuggex? Check out the <a href="/?flavor={{flavorModel.val}}">regex tester</a>!
+  </span>
+</div>
+
+
+
+
+
+            </div>
+          </div>
+        
+      </div>
+    </div>
+    <div class="footer-container">
+      <div class="footer">
+        <div class="sidepadded">
+          <div class="copyright lfloat">
+            Copyright © 2013 www.debuggex.com
+          </div>
+          <div class="links rfloat">
+            <a href="/blog/">Blog</a>
+            |
+            <a href="/libraries">Libraries</a>
+            |
+            <a href="mailto:serge@debuggex.com">Contact</a>
+            |
+            <a href="/privacy">Privacy</a>
+            |
+            <a href="/terms">Terms</a>
+            |
+            <a href="http://www.twitter.com/debuggex">Twitter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

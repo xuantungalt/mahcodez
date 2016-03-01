@@ -1,0 +1,787 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en">
+
+  <head>
+    <meta http-equiv="Content-Type"
+          content="text/html;charset=utf-8" />
+
+    <title>
+
+        
+            SSH Access with LDAP
+            &mdash;
+        
+        School of Engineering Computing Support
+    </title>
+
+    
+      
+        <base href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service/ldap-ssh-access" />
+      
+    
+
+    <meta name="generator" content="Plone - http://plone.org" />
+
+    <meta content="This document details the steps to configuring an Ubuntu Gutsy server to allow people with UC Merced network accounts access via SSH."
+          name="description" />
+
+    <!-- Plone ECMAScripts -->
+    
+      
+        
+            
+                <script type="text/javascript"
+                        src="https://eng.ucmerced.edu/soe/computing/portal_javascripts/UCMSkin_SOE07/ploneScripts8348.js">
+                </script>
+                
+            
+            
+                <script type="text/javascript"
+                        src="https://eng.ucmerced.edu/soe/computing/portal_javascripts/UCMSkin_SOE07/ploneScripts2438.js">
+                </script>
+                
+            
+        
+    
+    
+
+    
+	
+          
+        
+            
+                
+                    
+                    
+                        <style type="text/css"><!-- @import url(https://eng.ucmerced.edu/soe/computing/portal_css/UCMSkin_SOE07/ploneStyles9685.css); --></style>
+                    
+                    
+                
+            
+            
+                
+                    <link rel="alternate stylesheet"
+                          type="text/css" media="screen"
+                          href="https://eng.ucmerced.edu/soe/computing/portal_css/UCMSkin_SOE07/ploneStyles9328.css"
+                          title="Small Text" />
+                    
+                    
+                
+            
+            
+                
+                    <link rel="alternate stylesheet"
+                          type="text/css" media="screen"
+                          href="https://eng.ucmerced.edu/soe/computing/portal_css/UCMSkin_SOE07/ploneStyles6412.css"
+                          title="Large Text" />
+                    
+                    
+                
+            
+            
+                
+                    
+                    
+                        <style type="text/css"><!-- @import url(https://eng.ucmerced.edu/soe/computing/portal_css/UCMSkin_SOE07/ploneStyles9352.css); --></style>
+                    
+                    
+                
+            
+            
+                
+                    
+                    
+                        <style type="text/css" media="all"><!-- @import url(https://eng.ucmerced.edu/soe/computing/portal_css/UCMSkin_SOE07/ploneStyles1760.css); --></style>
+                    
+                    
+                
+            
+        
+    
+        
+        
+    
+
+    <!-- Internet Explorer CSS Fixes -->
+    <!--[if IE]>
+        <style type="text/css" media="all">@import url(https://eng.ucmerced.edu/soe/computing/IEFixes.css);</style>
+    <![endif]-->
+
+    <link rel="shortcut icon" type="image/x-icon"
+          href="https://eng.ucmerced.edu/soe/computing/favicon.ico" />
+
+    <link rel="home"
+          href="https://eng.ucmerced.edu/soe/computing"
+          title="Front page" />
+    <link rel="search"
+          href="https://eng.ucmerced.edu/soe/computing/search_form"
+          title="Search this site" />
+    <link rel="author"
+          href="https://eng.ucmerced.edu/soe/computing/author/jswink"
+          title="Author information" />
+    <link rel="contents"
+          href="https://eng.ucmerced.edu/soe/computing/sitemap"
+          title="Site Map" />
+
+    
+
+    
+
+    <link rel="up"
+          href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service"
+          title="Up one level" />
+
+    
+
+    <!-- Disable IE6 image toolbar -->
+    <meta http-equiv="imagetoolbar" content="no" />
+    
+    
+
+    
+      
+      
+    
+
+    
+
+      
+    
+    
+    
+    
+
+
+      
+      
+    
+
+    
+      
+      
+    
+
+  </head>
+
+  <body class="section-services" dir="ltr">
+    <div id="visual-portal-wrapper">
+
+      <div id="portal-top">
+
+        <div id="portal-header">
+          <div id="portal-personaltools-wrapper">
+
+<h5 class="hiddenStructure">Personal tools</h5>
+
+<ul id="portal-personaltools">
+   
+
+
+</ul>
+</div>
+          <a class="hiddenStructure" accesskey="2"
+             href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service/ldap-ssh-access#documentContent">Skip to content.</a>
+
+          <a class="hiddenStructure" accesskey="6"
+             href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service/ldap-ssh-access#portlet-navigation-tree">Skip to navigation</a>
+
+             <div id="logo-bar">
+               <h1 id="portal-logo">
+    <a href="http://www.ucmerced.edu" accesskey="1">School of Engineering Computing Support</a>
+</h1>
+               <div id="banner">
+<!-- ImageReady Slices (applyvisitinfo.png) -->
+<img src="applyvisitinfo.png" id="applyvisitinfo" width="74" height="65" border="0" alt="" usemap="#applyvisitinfo_Map">
+<map name="applyvisitinfo_Map">
+<area shape="rect" alt="Contact Information" coords="0,47,73,64" href="http://www.ucmerced.edu/info" target="_top">
+<area shape="rect" alt="Schedule a Tour of UC Merced" coords="0,23,74,41" href="http://admissions.ucmerced.edu/2.asp?uc=1&amp;lvl2=21&amp;lvl3=21&amp;lvl4=79&amp;contentid=76" target="_top">
+<area shape="rect" alt="How to Apply to UC Merced" coords="0,0,74,18" href="http://admissions.ucmerced.edu/2.asp?uc=1&amp;lvl2=121&amp;lvl3=121&amp;lvl4=133&amp;contentid=26" target="_top">
+</map>
+<!-- End ImageReady Slices -->
+                 <div id="curvedrule">
+
+                 </div>
+               </div>
+             </div>
+
+             <!-- Moved to portlets 
+             <div metal:use-macro="here/global_searchbox/macros/quick_search">
+               The quicksearch box, normally placed at the top right
+             </div>
+             -->
+             <div id="portal-skinswitcher">
+  
+</div>
+
+          </div>
+      </div>
+
+      <div class="visualClear"><!-- --></div>
+
+      
+
+      <table id="portal-columns">
+        <tbody>
+          <tr>
+            
+            <td id="portal-column-one">
+              <div class="visualPadding">
+                
+                  
+
+    
+        
+
+        
+            
+
+<dl class="portlet" id="portlet-navigation-tree">
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <a href="https://eng.ucmerced.edu/soe/computing/sitemap"
+           class="tile">Navigation</a>
+       
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem lastItem">
+        <ul class="portletNavigationTree navTreeLevel0">
+
+            <li class="navTreeItem">
+                
+                   <div class="visualIcon contenttype-plone-site">
+                       <a class=" visualIconPadding"
+                          href="https://eng.ucmerced.edu/soe/computing"
+                          title="The mission of the School of Engineering is to provide an exceptional technical and professional education that instills in our students advanced skills, effective leadership qualities and the ability to recognize and build on individual strengths throughout oneâ€™s career.">
+                       Home
+                       
+                       </a>
+                   </div>
+                
+            </li>
+            
+
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services"
+           class="state-visible visualIconPadding" title="">Services</a>
+        
+    </div>
+
+    <ul class="navTree navTreeLevel2">
+        
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/fileserver"
+           class="state-visible visualIconPadding" title="">File Server</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/appserver"
+           class="state-visible visualIconPadding" title="">Application Server</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/rs"
+           class="state-visible visualIconPadding" title="">Research Servers</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service"
+           class="state-published visualIconPadding"
+           title="ssh is an ubiquitous encrypting protocol with a variety of uses.  The School of Engineering relies on ssh for many functions.">ssh-based service</a>
+        
+    </div>
+
+    <ul class="navTree navTreeLevel3">
+        
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-document">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service/ldap-ssh-access"
+           class="state-visible visualIconPadding navTreeCurrentItem"
+           title="This document details the steps to configuring an Ubuntu Gutsy server to allow people with UC Merced network accounts access via SSH.">SSH Access with LDAP</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-document">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service/how-do-i-log-in"
+           class="state-visible visualIconPadding"
+           title="&quot;Command-line&quot; access and several related services rely on ssh.  This page explains how to use ssh to log in.">How do I log in?</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-document">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service/install-an-ssh-key"
+           class="state-visible visualIconPadding"
+           title="We configure most services other than Web applications to require key-based ssh connections.  How can you install your own key(s)?">Install an ssh key </a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+    </ul>
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/services/s-e-building-public-printer-configuration"
+           class="state-visible visualIconPadding"
+           title="Configuring your workstation to print to the public printers on the 2nd and 3rd floor of S&amp;E">S&amp;E Building Public Printer Configuration</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+    </ul>
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/Software"
+           class="state-visible visualIconPadding" title="">Software available for Research/Instructional Use</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-document">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/contact-us"
+           class="state-visible visualIconPadding" title="">Contact Us</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-link">
+        
+        <a href="http://www.ucmerced.edu/"
+           class="state-visible visualIconPadding" title="">UC Merced Home</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="https://eng.ucmerced.edu/soe/computing/Policies"
+           class="state-published visualIconPadding"
+           title="">Internal School of Engineering Computing Support Policies </a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+
+
+        </ul>
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+</dl>
+
+
+        
+
+        
+
+        
+    
+
+                
+                <div id="portal-searchbox">
+    <form name="searchform"
+          action="https://eng.ucmerced.edu/soe/computing/search"
+          style="white-space:nowrap" method="post"
+          onsubmit="">
+<!-- Cameron likes to use a "method = 'get'" while debugging. -->
+
+        <label for="searchGadget" class="hiddenStructure">Search Site</label>
+
+        <div class="LSBox">
+        <input id="searchGadget" name="SearchableText"
+               type="text" size="15" title="Search Site"
+               accesskey="4" class="visibility:visible" />
+<!-- Cameron adds this next on 15 August 2010.  There might come a day when we also
+     toss in, for example,
+
+          ... input type = 'hidden' name = 'portal_type:list' value = 'Favorite' / ...
+          ... input type = 'hidden' name = 'portal_type:list' value = 'Event' / ...
+
+
+     within the same form, in addition to 'Document'.  -->
+
+        <input type="hidden" name="portal_type:list" value="Document" />
+        <input class="searchButton" type="submit"
+               value="Search" />
+
+        <div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div>
+        </div>
+    </form>
+
+    <div id="portal-advanced-search" class="hiddenStructure">
+        <a href="https://eng.ucmerced.edu/soe/computing/search_form"
+           accesskey="5">
+            Advanced Search&hellip;
+        </a>
+    </div>
+
+</div>
+                &nbsp;
+              </div>
+            </td>
+            
+
+            
+            <td id="portal-column-content">
+
+              
+                <div id="content" class="">
+
+                  
+
+                  <div class="documentContent" id="region-content">
+
+                    <a name="documentContent"></a>
+
+                    
+
+    
+
+
+
+                    
+
+                    
+    
+
+        <div class="documentActions">
+    
+
+    <h5 class="hiddenStructure">Document Actions</h5>
+
+    <ul>
+    
+        <li>
+            <a href="https://eng.ucmerced.edu/soe/computing/services/ssh-based-service/ldap-ssh-access/sendto_form">
+
+                <img src="https://eng.ucmerced.edu/soe/computing/mail_icon.gif"
+                     alt="Send this page to somebody"
+                     title="Send this page to somebody"
+                     id="icon-sendto" />
+            </a>
+        </li>
+    
+    
+        <li>
+            <a href="javascript:this.print();">
+
+                <img src="https://eng.ucmerced.edu/soe/computing/print_icon.gif"
+                     alt="Print this page"
+                     title="Print this page" id="icon-print" />
+            </a>
+        </li>
+    
+
+    </ul>
+    
+
+    
+      
+
+    
+
+    
+
+</div>
+
+        <h1 class="documentFirstHeading">School of Engineering Computing Support - SSH Access with LDAP</h1>
+    
+        <!-- <div metal:use-macro="here/document_byline/macros/byline">
+          Get the byline - contains details about author and modification date.
+        </div>  -->
+
+        <p class="documentDescription">This document details the steps to configuring an Ubuntu Gutsy server to allow people with UC Merced network accounts access via SSH.</p>
+    
+        
+    
+        <div class="plain">
+            
+<h2>Overview<br /></h2>
+<p>&nbsp;</p>
+<p>UC Merced network accounts give access to a wide variety of systems using a single id/password combination. This document describes the steps needed to configure an Ubuntu Gutsy (version 7.10) server to give access to UC Merced network account holders via SSH.</p>
+<p>In addition to having the standard account, persons who will access Linux or Unix servers must have a POSIXAccount object in their LDAP records. UC Merced's IT department controls the assignment of POSIXAccount objects. Their current policy is to automatically add them to incoming personnel who are in the School of Engineering. This includes students, staff, and faculty.</p>
+<h2>Summary</h2>
+<p>The following packages will be installed:</p>
+<pre>openssh-server
+libpam-ldap
+nscd</pre>
+<p>The following files will be modified:</p>
+<pre>/etc/nsswitch.conf
+/etc/ldap.conf
+/etc/pam.d/ssh
+/etc/pam.d/common-session
+/etc/pam.d/common-password
+/etc/ssh/sshd_config
+</pre>
+<h2>Setup</h2>
+<p>nsswitch.conf should be modified before installing nscd. If nscd has already been installed, it must be restarted after nsswitch.conf has been modified.</p>
+<ul><li> In /etc/nsswitch.conf, add "ldap" to the passwd: and group: lines:
+</li></ul>
+<pre>passwd:         files ldap
+group:          files ldap
+</pre>
+<ul><li> If nscd is already installed, restart it.
+</li></ul>
+<pre># /etc/init.d/nscd restart
+</pre>
+<ul><li> Install the packages.</li><li>Note: You will be asked about LDAP configuration. The answers you give do not matter, because we are going to overwrite the LDAP configuration file.<br /></li></ul>
+<pre>apt-get install openssh-server libpam-ldap nscd
+</pre>
+<ul><li>Put the following text as the entire content of /etc/ldap.conf. Note that a password is required, which is not provided in this document. You must put the password in /etc/ldap.conf as well. This password was initially provided by IT.<br />
+</li></ul>
+<pre># This is the ldap.conf file to allow an Ubuntu system to use UC Merced's
+# LDAP server to authenticate users.
+
+uri ldap://ldap.ucmerced.edu/
+base dc=ucmerced,dc=edu
+ldap_version 3
+
+# The server will cooperate without TLS, but that means you'd be sending the bindpw
+# in the clear. It is preferable to encrypt, so:
+ssl start_tls
+
+# This setting is currently required. TODO: install some certs so that we can
+# verify that the server is who we expect it to be.
+tls_checkpeer no
+
+# The server will not cooperate unless we authenticate as follows:
+binddn uid=engadmin,ou=Special Users,dc=ucmerced,dc=edu
+bindpw SECRETPASSWORD
+</pre>
+<p>Make sure it cannot be viewed:</p>
+<pre>chmod 600 /etc/ldap.conf
+</pre>
+<ul><li> Insert the following into /etc/pam.d/sshd:
+</li></ul>
+<pre># PAM configuration for the Secure Shell service
+
+auth    sufficient      pam_ldap.so
+account sufficient      pam_permit.so
+</pre>
+<ul><li>Insert the following into /etc/pam.d/common-session: cause home directories to be created when someone first logs in.
+</li></ul>
+<pre>session     required      pam_mkhomedir.so skel=/etc/skel umask=0022
+</pre>
+<ul><li> Change the entries in /etc/pam.d/common-password as follows. These should be the only uncommented lines in that file:
+</li></ul>
+<pre>password optional pam_echo.so Please visit https://idm.ucmerced.edu/ to change your password.
+password required pam_deny.so
+</pre>
+<ul><li> In /etc/ssh/sshd_config, ensure that password authentication
+is ok. Comment out "PasswordAuthentication no" (or set it to "yes").
+</li></ul>
+<pre>#PasswordAuthentication no
+</pre>
+<ul><li> Restart sshd.
+</li></ul>
+<pre># /etc/init.d/ssh restart
+</pre>
+<a name="Troubleshooting"></a>
+<h2><span class="editsection"></span><span class="mw-headline"> Troubleshooting </span></h2>
+<p>If you cannot log in, and in the server's <tt>/var/log/auth.log</tt> you see:</p>
+<pre>Feb 12 21:25:22 localhost sshd[32179]: Invalid user <em>username</em> from <em>ip-address</em>
+Feb 12 21:25:22 localhost sshd[32179]: Failed none for invalid user <em>username</em> from <em>ip-address</em> port 48383 ssh2
+</pre>
+<p>The key element of the above log entries is "<strong>invalid user</strong>". This means that the name service could not identify the user. (As a result, <tt>sshd</tt> will refuse to provide the actual password to the LDAP PAM module. But even if it did, you still wouldn't be able to log in.)</p>
+<p>The solution is as follows:</p>
+<ol><li> Set up <tt>/etc/nsswitch.conf</tt> as described above.
+</li><li> If you are using nscd, restart it:
+</li></ol>
+<pre>/etc/init.d/nscd restart
+</pre>
+<a name="Further_reading"></a>
+<h2><span class="editsection"><a title="Edit section: Further reading" href="http://frogstar.ath.cx/index.php?title=LDAP&amp;action=edit&amp;section=4"></a></span><span class="mw-headline">Further reading </span></h2>
+<ul><li> <a title="http://enterprise.linux.com/enterprise/05/09/15/1930256.shtml" class="external text" href="http://enterprise.linux.com/enterprise/05/09/15/1930256.shtml" rel="nofollow">Linux LDAP authentication</a>
+</li><li> <a title="http://www.openldap.org/doc/admin23/schema.html" class="external text" href="http://www.openldap.org/doc/admin23/schema.html" rel="nofollow">OpenLDAP Schema Specification</a>
+</li></ul>
+
+        </div>
+
+        <div id="relatedItems">
+    
+        
+            
+        
+    
+</div>
+    
+    
+
+
+                    
+                      
+                 
+    
+        
+    
+
+                    
+
+                  </div>
+
+                </div>
+
+              
+            </td>
+            
+
+            
+            
+            
+          </tr>
+        </tbody>
+      </table>
+      
+
+      <div class="visualClear"><!-- --></div>
+
+
+      <hr class="netscape4" />
+
+      
+
+        <div id="portal-footer">
+
+<p>
+    
+      University of California, Merced | PO Box 2039, Merced, CA 95344 | (209) 228-4400 | © 2007 UC Regents&nbsp;&nbsp;&nbsp;
+      <a href="mailto:cwuebker@ucmerced.edu" id="site-contact">Site Contact</a>&nbsp;&nbsp;&nbsp;
+      <a href="http://www.ucmerced.edu/privacylegal.asp" id="prileg-notice">Privacy/Legal Notice</a>     
+</p>
+</div>
+      
+
+    </div>
+<!--
+    <span tal:content="structure request"></span>
+    <span tal:content="python:here.portal_url()"></span>
+-->
+</body>
+</html>
+

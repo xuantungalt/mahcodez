@@ -1,0 +1,723 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html
+xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head
+profile="http://gmpg.org/xfn/11"><meta
+http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Linux incrond inotify: Monitor Directories For Changes And Take Action</title><link
+rel="stylesheet" href="http://s0.cyberciti.org/assets/faq/mini_layout_v13.css" type="text/css" media="screen, projection" /> <!--[if lte IE 8]><link
+rel="stylesheet" href="http://s0.cyberciti.org/assets/faq/mini_ie_v03.css" type="text/css" media="screen, projection" /><![endif]--><link
+rel="canonical" href="http://www.cyberciti.biz/faq/linux-inotify-examples-to-replicate-directories/" /><link
+rel="alternate" type="application/rss+xml" title="Linux / Unix Tutorial for Beginners and Advanced Users - nixCraft RSS Feed" href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" /><link
+rel="pingback" href="http://www.cyberciti.biz/faq/xmlrpc.php" /><link
+rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.cyberciti.biz/faq/xmlrpc.php?rsd" /><link
+rel="alternate" type="application/rss+xml" title="Linux / Unix Tutorial for Beginners and Advanced Users - nixCraft &raquo; Linux incrond inotify: Monitor Directories For Changes And Take Action Comments Feed" href="http://www.cyberciti.biz/faq/linux-inotify-examples-to-replicate-directories/feed/" /><meta
+name="description" content="Explains how to use inotify and incrontab to replicate files between two servers on demand under Linux operating systems - includes inotify file replication examples. " /><link
+href="https://plus.google.com/+nixCraftadmin/" rel="author"/><link
+href="https://plus.google.com/+CybercitiBiz/" rel="publisher"/><link
+rel="shortcut icon" href="http://s0.cyberciti.org/static/legacy/i/favicon.ico"><meta
+name="robots" content="noarchive" /><link
+rel="dns-prefetch" href="//pagead2.googlesyndication.com"><!--
+	generated in 0.563 seconds
+	67796 bytes batcached for 300 seconds
+-->
+</head><body
+class="custom"><div
+id="container"><div
+id="page"><div
+class="menu-faq-2-container"><ul
+id="menu-faq-2" class="menu"><li
+id="menu-item-12752" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-12752"><a
+title="See all tutorials " href="http://www.cyberciti.biz/faq/">Tutorials</a><ul
+class="sub-menu"><li
+id="menu-item-12766" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12766"><a
+href="http://www.cyberciti.biz/faq/category/bash-shell/">BASH Shell</a></li><li
+id="menu-item-12767" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12767"><a
+href="http://www.cyberciti.biz/faq/category/troubleshooting/">Troubleshooting</a></li><li
+id="menu-item-12773" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12773"><a
+href="http://www.cyberciti.biz/faq/category/nginx/">Nginx</a></li><li
+id="menu-item-12772" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12772"><a
+href="http://www.cyberciti.biz/faq/category/networking/">Networking</a></li><li
+id="menu-item-12771" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12771"><a
+href="http://www.cyberciti.biz/faq/category/mysql/">MySQL</a></li><li
+id="menu-item-13283" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-13283"><a
+href="http://www.cyberciti.biz/faq/category/google-cloud-platform/">Google Cloud Platform</a></li><li
+id="menu-item-13284" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-13284"><a
+href="http://www.cyberciti.biz/faq/category/aws-ec2-ebs-cloudfront/">Amazon Cloud Computing</a></li><li
+id="menu-item-13285" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-13285"><a
+href="http://www.cyberciti.biz/faq/category/rackspace-cloud-storage-server-cdnfiles/">Rackspace Cloud Computing</a></li><li
+id="menu-item-12758" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-12758"><a
+href="http://www.cyberciti.biz/faq/category/linux/">Linux</a><ul
+class="sub-menu"><li
+id="menu-item-12761" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12761"><a
+href="http://www.cyberciti.biz/faq/category/centos/">CentOS</a></li><li
+id="menu-item-12759" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12759"><a
+href="http://www.cyberciti.biz/faq/category/debian-ubuntu/">Debian / Ubuntu</a></li><li
+id="menu-item-12763" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12763"><a
+href="http://www.cyberciti.biz/faq/category/ubuntu-linux/">Ubuntu Linux</a></li><li
+id="menu-item-12765" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12765"><a
+href="http://www.cyberciti.biz/faq/category/suse/">Suse</a></li><li
+id="menu-item-12762" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12762"><a
+href="http://www.cyberciti.biz/faq/category/redhat-and-friends/">RedHat and Friends</a></li><li
+id="menu-item-12775" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12775"><a
+href="http://www.cyberciti.biz/faq/category/slackware-linux/">Slackware Linux</a></li></ul></li><li
+id="menu-item-12760" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-12760"><a
+href="http://www.cyberciti.biz/faq/category/unix/">UNIX</a><ul
+class="sub-menu"><li
+id="menu-item-12768" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12768"><a
+href="http://www.cyberciti.biz/faq/category/aix/">AIX</a></li><li
+id="menu-item-12770" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12770"><a
+href="http://www.cyberciti.biz/faq/category/mac-os-x/">Mac OS X</a></li><li
+id="menu-item-12764" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12764"><a
+href="http://www.cyberciti.biz/faq/category/freebsd/">FreeBSD</a></li><li
+id="menu-item-12769" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12769"><a
+href="http://www.cyberciti.biz/faq/category/freebsd-jails-vps/">FreeBSD Jails (VPS)</a></li><li
+id="menu-item-12774" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12774"><a
+href="http://www.cyberciti.biz/faq/category/openbsd/">Openbsd</a></li><li
+id="menu-item-12776" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12776"><a
+href="http://www.cyberciti.biz/faq/category/solaris/">Solaris</a></li></ul></li><li
+id="menu-item-12777" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12777"><a
+href="http://www.cyberciti.biz/faq/category-archives/">See all tutorial topics</a></li></ul></li><li
+id="menu-item-12757" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12757"><a
+title="Read out blog" href="http://www.cyberciti.biz/">Blog</a></li><li
+id="menu-item-12755" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12755"><a
+title="About this site" href="http://www.cyberciti.biz/tips/about-us">About</a></li><li
+id="menu-item-12756" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12756"><a
+title="Contact us via email " href="http://www.cyberciti.biz/tips/contact-us">Contact us</a></li><li
+id="menu-item-12754" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12754"><a
+title="Linux / Unix and Shell Scripting Forum" href="http://nixcraft.com/forum.php">Forum</a></li><li
+id="menu-item-13504" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-13504"><a
+title="Linux Shell Scripting Tutorial" href="http://bash.cyberciti.biz/guide/Main_Page">Linux Scripting Guide</a></li><li
+id="menu-item-12753" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12753"><a
+title="Get updated via RSS feed." href="http://www.cyberciti.biz/nixcraft-rss-feed-syndication/">RSS/FEED</a></li></ul></div><div
+id="header"><div
+id="leaderboard"><div
+id="lbtop"><script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> <ins
+class="adsbygoogle"
+style="display:inline-block;width:728px;height:90px"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="3400670370"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div></div><div
+id="crumbslogo"><a
+href="/faq/">Linux FAQ / Howtos</a></div></div><div
+id="content_box"><div
+id="content" class="hfeed"><div
+class="post-8437 post type-post status-publish format-standard hentry category-file-system tag-etcincron-allow tag-etcincron-conf tag-etcincron-d tag-etcincron-deny tag-varspoolincron tag-backup-purpose tag-chkconfig-command tag-chkconfig-incrond-on tag-command-execution tag-directory-tree tag-fedora tag-filesystem tag-incrontab-command tag-iscsi-storage tag-load-balancing tag-nfs tag-remote-server tag-service-command tag-service-incrond-start tag-shell-scripts tag-ubuntu-linux post_box top" id="post-8437"><div
+class="headline_area"><h1 class="entry-title">Linux incrond inotify: Monitor Directories For Changes And Take Action</h1><p
+class="headline_meta">by <span
+class="author vcard"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="author" class="url fn">Nix Craft</a></span> on <abbr
+class="published" title="2010-07-18">July 18, 2010</abbr> &middot; <span><a
+href="http://www.cyberciti.biz/faq/linux-inotify-examples-to-replicate-directories/#comments" rel="nofollow">25 comments</a></span>&middot; <span>LAST UPDATED <abbr
+class="updated" title="2010-07-18">July 18, 2010</abbr><span><p
+class='headline_meta'> in <span><a
+rel='tag' href='http://www.cyberciti.biz/faq/category/file-system/'>File system</a></span></p></div><div
+class="format_text entry-content"><div
+style='float:right;margin-top:0px;margin-left:5px;'><a
+href='http://www.cyberciti.biz/faq/category/file-system/' title='See all File system related FAQ'><img
+src='http://c.cyberciti.biz/cbzcache/3rdparty/file-manager.png' border='0' /></a></div><p><span
+class="drop_cap">I</span> want to copy (rsync to remote server) a directory tree whenever file uploaded or deleted in /var/www/html/upload/ directory under Linux operating systems for backup purpose and/or load balancing purpose without getting into complex file sharing setup such as <a
+href="http://www.cyberciti.biz/faq/centos-fedora-rhel-nfs-v4-configuration/">NFS</a> or GFS iscsi storage. How do I monitor /var/www/html/upload/ and its subdirectory for new files and executes rsync command to make copy back to www2.example.com:/var/www/html/upload/?<br
+/> <span
+id="more-8437"></span><br
+/> inotify is an inode-based filesystem notification technology. It provides possibility to simply monitor various events on files in filesystems. It is a very much powerful replacement of (obsolete) dnotify. inotify  brings a comfortable way how to manage files used in your applications.</p><p>The incrond (inotify cron daemon) is a daemon which monitors filesystem events (such as add a new file, delete a file and so on) and executes commands or shell scripts. It’s use is generally similar to <a
+href="http://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/">cron</a>.</p><h2>Install incron</h2><p>Type the following command under RHEL / Fedora / CentOS Linux:<br
+/> <code>$ sudo yum install incron</code><br
+/> Type the following command under Debian / Ubuntu Linux:<br
+/> <code>$ sudo apt-get install incron</code></p><h3>Configuration Files</h3><ul><li>/etc/incron.conf - Main incron configuration file</li><li>/etc/incron.d/ - This directory is examined by incrond for system table files. You should put all your config file here as per directory or domain names.</li><li>/etc/incron.allow - This file contains users allowed to use incron.</li><li>/etc/incron.deny - This file contains users denied to use incron.</li><li>/var/spool/incron - This directory is examined by incrond for user table files which is set by users running the incrontab command.</li></ul><h2>incron Syntax</h2><p>The syntax is as follows:</p><pre>
+<span style='color: rgb(0, 153, 0);'>&lt;directory&gt;</span> <span style='color: rgb(255, 153, 0);'>&lt;file change mask&gt;</span> <span style='color: rgb(153, 102, 51);'>&lt;command or action&gt; </span> options
+/var/www/html IN_CREATE /root/scripts/backup.sh
+/sales IN_DELETE /root/scripts/sync.sh
+/var/named/chroot/var/master IN_CREATE,IN_ATTRIB,IN_MODIFY /sbin/rndc reload
+</pre><p>Where,</p><ul><li><span
+style='color: rgb(0, 153, 0);'>&lt;directory&gt;</span> - It is nothing but path which is an absolute filesystem path such as /home/data. Any changes made to this path will result into command or action.</li><li><span
+style='color: rgb(255, 153, 0);'>&lt;file change mask&gt; </span>- Mask is is nothing but various file system events such as deleting a file. Each event can result into command execution. Use the following masks:</li><ul><li><strong>IN_ACCESS </strong> - File was accessed (read)</li><li><strong>IN_ATTRIB </strong> - Metadata changed (permissions, timestamps, extended attributes, etc.)</li><li><strong>IN_CLOSE_WRITE </strong> - File opened for writing was closed</li><li><strong>IN_CLOSE_NOWRITE </strong> - File not opened for writing was closed</li><li><strong>IN_CREATE </strong> - File/directory created in watched directory</li><li><strong>IN_DELETE </strong> - File/directory deleted from watched directory</li><li><strong>IN_DELETE_SELF </strong> - Watched file/directory was itself deleted</li><li><strong>IN_MODIFY </strong> - File was modified</li><li><strong>IN_MOVE_SELF </strong> - Watched file/directory was itself moved</li><li><strong>IN_MOVED_FROM </strong> - File moved out of watched directory</li><li><strong>IN_MOVED_TO </strong> - File moved into watched directory</li><li><strong>IN_OPEN </strong> - File was opened</li><li>The <strong>IN_ALL_EVENTS </strong>symbol is defined as a bit mask of all of the above events.</li></ul><li><span
+style='color: rgb(153, 102, 51);'>&lt;command or action&gt; </span>- Run command or scripts when mask matched on given directory.</li><li>options - It can be any one of the following with command (i.e. you can pass it as arg to your command):</li><ol><li><strong>$$</strong> - dollar sign</li><li><strong>$@</strong> - watched filesystem path (see above)</li><li><strong>$#</strong> - event-related file name</li><li><strong>$%</strong> - event flags (textually)</li><li><strong>$&</strong> - event flags (numerically)</li></ol></ul><h2>Turn Service On</h2><p>Type the following command:<br
+/> <code># service incrond start<br
+/> # chkconfig incrond on</code></p><h2>Examples:</h2><p>Type the following command to edit your incrontab<br
+/> <code>incrontab -e</code><br
+/> Run logger command when file created or deleted from /tmp directory:<br
+/> <code>/tmp IN_ALL_EVENTS logger "/tmp action for $# file"</code><br
+/> Save and close the file. Now cd to /tmp and create a file:<br
+/> <code>$ cd /tmp<br
+/> $ >foo<br
+/> $ rm foo</code><br
+/> To see message, enter:<br
+/> <code>$ sudo tail -f /var/log/messages </code><br
+/> Sample outputs:<br
+/> <code>Jul 17 18:39:25 vivek-desktop logger: "/tmp action for foo file"</code></p><h2>How Do I Run Rsync Command To Replicate Files For /var/www/html/upload Directory?</h2><p>Type the following command:<br
+/> <code># incrontab -e</code><br
+/> Append the following command:<br
+/> <code>/var/www/html/upload/ IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/</code><br
+/> Now, wherever files are uploaded in  /var/www/html/upload/ directory, rsync will be executed to sync files to www2.example.com server. Make sure <a
+href="http://www.cyberciti.biz/faq/ssh-password-less-login-with-dsa-publickey-authentication/">ssh keys are set for password</a> less login.</p><h3>How Do I Monitor /var/www/html/upload/ and Its Subdirectories Recursively?</h3><p>You cannot monitor  /var/www/html/upload/ directory recursively. However, you can use the find command to add all sub-directories as follows:<br
+/> <code>find /var/www/html/upload -type d -print0 | xargs -0 -I{} echo "{} IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/" > /etc/incron.d/webroot.conf</code><br
+/> This will create /etc/incron.d/webroot.conf config as follows:</p><pre>/var/www/html/upload IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/css IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/1 IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/js IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/3 IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/2010 IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/2010/11 IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/2010/12 IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/2 IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/files IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+/var/www/html/upload/images IN_CLOSE_WRITE,IN_CREATE,IN_DELETE /usr/bin/rsync --exclude '*.tmp' -a /var/www/html/upload/ user@www2.example.com:/var/www/html/upload/
+</pre><h2>How Do I Troubleshoot Problems?</h2><p>You need to see /var/log/cron log file:<br
+/> <code># tail -f  /var/log/cron<br
+/> # grep something /var/log/cron </code></p><h4>Further readings:</h4><ul><li><a
+href="http://inotify.aiken.cz/?section=common&page=home&lang=en" target="_blank">inotify home page</a></li><li>man pages - incrontab(5), incrond, and incron.conf</li></ul> <a
+class="btn btn-tweet" href="https://twitter.com/intent/tweet?text=Linux+incrond+inotify%3A+Monitor+Directories+For+Changes+And+Take+Action&url=http://www.cyberciti.biz/faq/linux-inotify-examples-to-replicate-directories/&via=nixcraft" title="Tweet this tutorial/page">Twitter</a><a
+class="btn btn-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://www.cyberciti.biz/faq/linux-inotify-examples-to-replicate-directories/" title="Share this page/tutorial on Facebook">Facebook</a><a
+class="btn btn-google" href="https://plus.google.com/share?url=http://www.cyberciti.biz/faq/linux-inotify-examples-to-replicate-directories/" title="Share this page/tutorial on Google+">Google+</a><a
+class="btn btn-pdf" href="http://www.cyberciti.biz/view/pdf/faq/8437.php" title="Download this tutorial/faq as a free pdf">PDF version</a><a
+class="btn btn-typoerr" href="https://nixcraft.wufoo.com/forms/give-us-feedback-for-nixcraft/def/Field209=http://www.cyberciti.biz/faq/linux-inotify-examples-to-replicate-directories/&Field211=Linux incrond inotify: Monitor Directories For Changes And Take Action" target="_blank" title="Click here to report Typo/Grammer and other Incorrect information">Found an error/typo on this page? Help us!</a><br/><div
+class='my_featured_articles_9'> Featured Articles:<ul><li><a
+href="http://www.cyberciti.biz/open-source/30-cool-best-open-source-softwares-of-2013/">30 Cool Open Source Software I Discovered in 2013</a> <img
+style="verticalp-align: text-top; padding-left: 1px;" src="http://s0.cyberciti.org/static/legacy/i/new_post.png" alt="" border="0"></li><li><a
+href="http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html">30 Handy Bash Shell Aliases For Linux / Unix / Mac OS X</a></li><li><a
+href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/">Top 30 Nmap Command Examples For Sys/Network Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/php-security-best-practices-tutorial.html">25 PHP Security Best Practices For Sys Admins</a></li><li><a
+href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">20 Linux System Monitoring Tools Every SysAdmin Should Know</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-security.html">20 Linux Server Hardening Security Tips</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-iptables-examples.html">Linux: 20 Iptables Examples For New SysAdmins</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Top 20 OpenSSH Server Best Security Practices </a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">Top 20 Nginx WebServer Best Security Practices</a><li><A
+href="http://www.cyberciti.biz/tips/check-unix-linux-configuration-file-for-syntax-errors.html">20 Examples: Make Sure Unix / Linux Configuration Files Are Free From Syntax Errors</a><li><a
+href="http://www.cyberciti.biz/open-source/best-terminal-applications-for-linux-unix-macosx/">15 Greatest Open Source Terminal Applications Of 2012</a></li><li><a
+href="http://www.cyberciti.biz/tips/my-10-unix-command-line-mistakes.html">My 10 UNIX Command Line Mistakes</a></li><li><a
+href="http://www.cyberciti.biz/tips/open-source-project-management-software.html">Top 10 Open Source Web-Based Project Management Software</a></li><li><a
+href="http://www.cyberciti.biz/tips/download-email-client-for-linux-mac-osx-windows.html">Top 5 Email Client For Linux, Mac OS X, and Windows Users</a></li><li><a
+href="http://www.cyberciti.biz/tips/linux-laptop.html">The Novice Guide To Buying A Linux Laptop</a></li></ul></div> <br/> <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>  <ins
+class="adsbygoogle"
+style="display:inline-block;width:580px;height:120px;"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="2489908663"
+data-override-format= "true"
+data-ad-region ="cbzssmjk"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> </div></div><div
+id="comments"><div
+id="comments_intro" class="comments_intro"><p><span
+class="bracket">{</span> <span>25</span> comments&#8230; read them below or <a
+href="#respond" rel="nofollow">add one</a> <span
+class="bracket">}</span></p></div><dl
+id="comment_list"><dt
+class="comment even thread-even depth-1 parent" id="comment-48393"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48393" title="Permalink to this comment" rel="nofollow">1</a></span> <span
+class="comment_author">Nilesh</span> <span
+class="comment_time">July 18, 2010 at 4:48 am</span></dt><dd
+class="comment even thread-even depth-1 parent"><div
+class="format_text" id="comment-body-48393"><p>Awesome man! I liked the most about rndc reload. Now no need to keep running rndc reload every hour or so.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48393#respond' onclick='return addComment.moveForm("comment-body-48393", "48393", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-2 parent" id="comment-48396"> <span
+class="avatar"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="nofollow"></a></span> <span
+class="comment_num"><a
+href="#comment-48396" title="Permalink to this comment" rel="nofollow">2</a></span> <span
+class="comment_author"><a
+href='http://www.cyberciti.biz/tips/about-us' rel='external nofollow' class='url'>nixCraft</a></span> <span
+class="comment_time">July 18, 2010 at 10:01 am</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-2 parent"><div
+class="format_text" id="comment-body-48396"><p>Why reload named every hour? Do you make any automated changes to zone file?</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48396#respond' onclick='return addComment.moveForm("comment-body-48396", "48396", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment even depth-3" id="comment-48399"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48399" title="Permalink to this comment" rel="nofollow">3</a></span> <span
+class="comment_author">Nilesh</span> <span
+class="comment_time">July 18, 2010 at 2:56 pm</span></dt><dd
+class="comment even depth-3"><div
+class="format_text" id="comment-body-48399"><p>No I don&#8217;t. Just gave a thought. I know XName.org reloads it every hour. I don&#8217;t have too many zones.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48399#respond' onclick='return addComment.moveForm("comment-body-48399", "48399", "respond", "8437")'>Reply</a></p></div></dd></dl></dd></dl></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1" id="comment-48422"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48422" title="Permalink to this comment" rel="nofollow">4</a></span> <span
+class="comment_author">Evaggelos Balaskas</span> <span
+class="comment_time">July 20, 2010 at 8:27 am</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-48422"><p>Hi, to resolve one of my biggest problem, i wrote a python program with inotify:<br
+/> <a
+href="http://ebalaskas.gr./blog/?page=PIrsyncD" rel="nofollow">http://ebalaskas.gr./blog/?page=PIrsyncD</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48422#respond' onclick='return addComment.moveForm("comment-body-48422", "48422", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment even thread-even depth-1" id="comment-48423"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48423" title="Permalink to this comment" rel="nofollow">5</a></span> <span
+class="comment_author">Evaggelos Balaskas</span> <span
+class="comment_time">July 20, 2010 at 8:29 am</span></dt><dd
+class="comment even thread-even depth-1"><div
+class="format_text" id="comment-body-48423"><p>Hi, nice article.</p><p>I&#8217;ve written a program based on inotify:</p><p><a
+href="http://ebalaskas.gr./blog/?page=PIrsyncD" rel="nofollow">http://ebalaskas.gr./blog/?page=PIrsyncD</a></p><p>to resolve one of my biggest problems</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48423#respond' onclick='return addComment.moveForm("comment-body-48423", "48423", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-48438"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48438" title="Permalink to this comment" rel="nofollow">6</a></span> <span
+class="comment_author">Miraenda</span> <span
+class="comment_time">July 20, 2010 at 7:52 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1 parent"><div
+class="format_text" id="comment-body-48438"><p>None of my machines using the default CentOS repos seem to have incron available to install. Which repos are you using? My machines are Centos 5.5 ones (one 32-bit, one 64-bit).</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48438#respond' onclick='return addComment.moveForm("comment-body-48438", "48438", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment byuser comment-author-administrator bypostauthor even depth-2 parent" id="comment-48439"> <span
+class="avatar"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="nofollow"></a></span> <span
+class="comment_num"><a
+href="#comment-48439" title="Permalink to this comment" rel="nofollow">7</a></span> <span
+class="comment_author"><a
+href='http://www.cyberciti.biz/tips/about-us' rel='external nofollow' class='url'>nixCraft</a></span> <span
+class="comment_time">July 20, 2010 at 8:03 pm</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor even depth-2 parent"><div
+class="format_text" id="comment-body-48439"><p>It is from Fedora Project &#8211; <a
+href="http://www.cyberciti.biz/faq/rhel-fedora-centos-linux-enable-epel-repo/" rel="nofollow">EPEL repo</a>. Install epel repo and you will get access to tons of binary packages.</p><pre>
+rpm -qi incron | grep -i vendor
+Version     : 0.5.5                             Vendor: Fedora Project
+</pre><p>HTH</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48439#respond' onclick='return addComment.moveForm("comment-body-48439", "48439", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment odd alt depth-3" id="comment-48440"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48440" title="Permalink to this comment" rel="nofollow">8</a></span> <span
+class="comment_author">Miraenda</span> <span
+class="comment_time">July 20, 2010 at 8:06 pm</span></dt><dd
+class="comment odd alt depth-3"><div
+class="format_text" id="comment-body-48440"><p>After adding EPEL per the tutorial you linked, I was able to add incron onto my machine. Thanks for the quick response and very useful information you&#8217;ve provided.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48440#respond' onclick='return addComment.moveForm("comment-body-48440", "48440", "respond", "8437")'>Reply</a></p></div></dd></dl></dd></dl></dd><dt
+class="comment even thread-even depth-1 parent" id="comment-48444"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48444" title="Permalink to this comment" rel="nofollow">9</a></span> <span
+class="comment_author">jjanks</span> <span
+class="comment_time">July 21, 2010 at 1:18 am</span></dt><dd
+class="comment even thread-even depth-1 parent"><div
+class="format_text" id="comment-body-48444"><p>Silly, this can be done with a simple 4 or 5 line script in python.</p><p>hints<br
+/> os.path.exists<br
+/> os.unlink<br
+/> popen</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48444#respond' onclick='return addComment.moveForm("comment-body-48444", "48444", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment odd alt depth-2 parent" id="comment-48446"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48446" title="Permalink to this comment" rel="nofollow">10</a></span> <span
+class="comment_author">Nilesh</span> <span
+class="comment_time">July 21, 2010 at 5:43 am</span></dt><dd
+class="comment odd alt depth-2 parent"><div
+class="format_text" id="comment-body-48446"><p>Ya sure, but you need to run it as a daemon, it would be slow/cpuhog. incron is in C, so works much faster. There may be some python-inotify library which can be used instead of the above suggestion.<br
+/> Also, using this method, you could write a bash daemon! (I have one on my local system to check that if pidgin runs, ensure skype runs, if pidgin doesn&#8217;t kill skype).</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48446#respond' onclick='return addComment.moveForm("comment-body-48446", "48446", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment even depth-3" id="comment-48447"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48447" title="Permalink to this comment" rel="nofollow">11</a></span> <span
+class="comment_author">Nilesh</span> <span
+class="comment_time">July 21, 2010 at 6:28 am</span></dt><dd
+class="comment even depth-3"><div
+class="format_text" id="comment-body-48447"><p>And wohoo, here&#8217;s the python-inotify library- <a
+href="http://trac.dbzteam.org/pyinotify" rel="nofollow">http://trac.dbzteam.org/pyinotify</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48447#respond' onclick='return addComment.moveForm("comment-body-48447", "48447", "respond", "8437")'>Reply</a></p></div></dd></dl></dd><dt
+class="comment odd alt depth-2 parent" id="comment-48451"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48451" title="Permalink to this comment" rel="nofollow">12</a></span> <span
+class="comment_author">Solaris</span> <span
+class="comment_time">July 21, 2010 at 9:29 am</span></dt><dd
+class="comment odd alt depth-2 parent"><div
+class="format_text" id="comment-body-48451"><p>Try that on tons of thousandths of files and you will see that your Python will perform in tens of seconds rather than milliseconds. You will say that there is no big difference but this will translate in disk reads a the physical level rather than operating system level triggers.</p><p>I speak from experience. I am not using incrond but something similar in production and it performs way faster that the similar Python code.</p><p>Use the right tool for the job.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48451#respond' onclick='return addComment.moveForm("comment-body-48451", "48451", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment even depth-3" id="comment-48456"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48456" title="Permalink to this comment" rel="nofollow">13</a></span> <span
+class="comment_author">Nilesh</span> <span
+class="comment_time">July 21, 2010 at 1:27 pm</span></dt><dd
+class="comment even depth-3"><div
+class="format_text" id="comment-body-48456"><p>That&#8217;s one of the libraries, there&#8217;s a C extension also available which directly handles with the kernel, i.e. responds to kernel events. Just google it out.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48456#respond' onclick='return addComment.moveForm("comment-body-48456", "48456", "respond", "8437")'>Reply</a></p></div></dd></dl></dd></dl></dd><dt
+class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-48472"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48472" title="Permalink to this comment" rel="nofollow">14</a></span> <span
+class="comment_author">Tony</span> <span
+class="comment_time">July 22, 2010 at 5:06 pm</span></dt><dd
+class="comment odd alt thread-odd thread-alt depth-1 parent"><div
+class="format_text" id="comment-body-48472"><p>I don&#8217;t suppose we have similar version of this for Mac OS X ? Can&#8217;t seem to find one.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48472#respond' onclick='return addComment.moveForm("comment-body-48472", "48472", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment byuser comment-author-administrator bypostauthor even depth-2" id="comment-48479"> <span
+class="avatar"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="nofollow"></a></span> <span
+class="comment_num"><a
+href="#comment-48479" title="Permalink to this comment" rel="nofollow">15</a></span> <span
+class="comment_author"><a
+href='http://www.cyberciti.biz/tips/about-us' rel='external nofollow' class='url'>nixCraft</a></span> <span
+class="comment_time">July 23, 2010 at 1:01 pm</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor even depth-2"><div
+class="format_text" id="comment-body-48479"><p>May be this will <a
+href=http://socghop.appspot.com/gsoc/student_project/show/google/gsoc2010/freebsd/t127230758798 rel="nofollow">help</a>. Edit: It appers that it <a
+href="http://www.freebsd.org/news/status/report-2010-04-2010-06.html#File-System-Changes-Notification" rel="nofollow">is a work in progress software</a>. If you know coding than you can always use knotify API.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48479#respond' onclick='return addComment.moveForm("comment-body-48479", "48479", "respond", "8437")'>Reply</a></p></div></dd></dl></dd><dt
+class="comment odd alt thread-even depth-1 parent" id="comment-48478"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48478" title="Permalink to this comment" rel="nofollow">16</a></span> <span
+class="comment_author">Miraenda</span> <span
+class="comment_time">July 23, 2010 at 12:53 pm</span></dt><dd
+class="comment odd alt thread-even depth-1 parent"><div
+class="format_text" id="comment-body-48478"><p>From what I&#8217;m seeing online, the FreeBSD and Mac OS X implementation is called kqueue rather than inotify.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48478#respond' onclick='return addComment.moveForm("comment-body-48478", "48478", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment even depth-2 parent" id="comment-48481"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48481" title="Permalink to this comment" rel="nofollow">17</a></span> <span
+class="comment_author">Miraenda</span> <span
+class="comment_time">July 23, 2010 at 1:19 pm</span></dt><dd
+class="comment even depth-2 parent"><div
+class="format_text" id="comment-body-48481"><p>Something else I wanted to bring up about using inotify after having looked more into it. There&#8217;s a handy option lsyncd that will work better than incrond for rsyncing directories. The project&#8217;s home page is at <a
+href="http://code.google.com/p/lsyncd/" rel="nofollow">http://code.google.com/p/lsyncd/</a></p><p>Is there a consideration of bring up lsync for either this tutorial or another one? It appears to possibly work better due to handling recursion in a directory for rsyncing using inotify based on what I&#8217;m seeing.</p><p>(If this ends up double posting, apologies, but it didn&#8217;t appear to post or even be in moderation after I initially submitted it so re-adding it.)</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48481#respond' onclick='return addComment.moveForm("comment-body-48481", "48481", "respond", "8437")'>Reply</a></p></div><dl
+class="children"><dt
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-3" id="comment-48482"> <span
+class="avatar"><a
+href="http://www.cyberciti.biz/tips/about-us" rel="nofollow"></a></span> <span
+class="comment_num"><a
+href="#comment-48482" title="Permalink to this comment" rel="nofollow">18</a></span> <span
+class="comment_author"><a
+href='http://www.cyberciti.biz/tips/about-us' rel='external nofollow' class='url'>nixCraft</a></span> <span
+class="comment_time">July 23, 2010 at 1:53 pm</span></dt><dd
+class="comment byuser comment-author-administrator bypostauthor odd alt depth-3"><div
+class="format_text" id="comment-body-48482"><p>DRBD is much better solution if you need to mirror entire partition in real time. It is like network based RAID-1.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48482#respond' onclick='return addComment.moveForm("comment-body-48482", "48482", "respond", "8437")'>Reply</a></p></div></dd></dl></dd></dl></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-48480"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-48480" title="Permalink to this comment" rel="nofollow">19</a></span> <span
+class="comment_author">Miraenda</span> <span
+class="comment_time">July 23, 2010 at 1:16 pm</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-48480"><p>Something else I wanted to bring up about using inotify after having looked more into it. There&#8217;s a handy option lsyncd that will work better than incrond for rsyncing directories. The project&#8217;s home page is at <a
+href="http://code.google.com/p/lsyncd/" rel="nofollow">http://code.google.com/p/lsyncd/</a></p><p>There&#8217;s a how-to on using it at <a
+href="http://www.linux-magazine.com/Online/Blogs/Productivity-Sauce-Dmitri-s-open-source-blend-of-productive-computing/Live-Sync-with-lsyncd" rel="nofollow">Link</a></p><p>Is there a consideration of bring up lsync for either this tutorial or another one? It appears to possibly work better due to handling recursion in a directory for rsyncing using inotify based on what I&#8217;m seeing.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=48480#respond' onclick='return addComment.moveForm("comment-body-48480", "48480", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-56166"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-56166" title="Permalink to this comment" rel="nofollow">20</a></span> <span
+class="comment_author">Malik</span> <span
+class="comment_time">March 7, 2011 at 10:05 am</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-56166"><p>Hi all,</p><p>Is it possible to set incrontab in bash script? I tried to set normal crontab and it works without any problem but not &#8220;incrontab&#8221; :(</p><p>Any idea?</p><p>R</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=56166#respond' onclick='return addComment.moveForm("comment-body-56166", "56166", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-67953"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-67953" title="Permalink to this comment" rel="nofollow">21</a></span> <span
+class="comment_author">Rosco</span> <span
+class="comment_time">February 13, 2012 at 2:02 pm</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-67953"><p>This is easily the best website to check for new ideas. I was struggling with inotify for this kind of job and I wouldn&#8217;t have find this incron tool by myself.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=67953#respond' onclick='return addComment.moveForm("comment-body-67953", "67953", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-70155"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-70155" title="Permalink to this comment" rel="nofollow">22</a></span> <span
+class="comment_author">Wojtek</span> <span
+class="comment_time">June 28, 2012 at 2:17 pm</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-70155"><p>Thanks for the tutorial. I was exactly looking for a tool like this one &#8211; thanks to this blog it even comes with a complete tutorial! :)</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=70155#respond' onclick='return addComment.moveForm("comment-body-70155", "70155", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-92295"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-92295" title="Permalink to this comment" rel="nofollow">23</a></span> <span
+class="comment_author">Reynold PJ</span> <span
+class="comment_time">May 11, 2013 at 5:52 am</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-92295"><p>Check out the script mentioned in the url pasted below. It uses inotifywait to recursively monitor and record file creation events.</p><p><a
+href="http://jackal777.wordpress.com/2013/05/11/script-to-monitor-file-creation-under-all-cpanel-users-documentroot/" rel="nofollow">http://jackal777.wordpress.com/2013/05/11/script-to-monitor-file-creation-under-all-cpanel-users-documentroot/</a></p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=92295#respond' onclick='return addComment.moveForm("comment-body-92295", "92295", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment odd alt thread-even depth-1" id="comment-154910"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-154910" title="Permalink to this comment" rel="nofollow">24</a></span> <span
+class="comment_author">lemon</span> <span
+class="comment_time">May 4, 2014 at 6:31 pm</span></dt><dd
+class="comment odd alt thread-even depth-1"><div
+class="format_text" id="comment-body-154910"><p>HI Nix craft,</p><p>when i use incrontab out of the box, i mean no changes,</p><p>i have no result, as if the cmd was not executed.</p><p>my incron line is :</p><pre>/crrae IN_CREATE,IN_CLOSE_WRITE,IN_MOVED_TO /usr/bin/unix2dos $#</pre><p>the log give information as if everything was ok but no actually</p><p>when i change my incron to :</p><pre>/crrae IN_CREATE,IN_CLOSE_WRITE,IN_MOVED_TO /usr/bin/unix2dos /crrae/$#</pre><p>the log give me this:</p><pre>May  4 18:15:10 srvovs incrond[20859]: (root) CMD (/usr/bin/unix2dos /crrae/u2dtmpPbqoFd)
+May  4 18:15:10 srvovs incrond[20859]: (root) CMD (/usr/bin/unix2dos /crrae/u2dtmpN2Odxf)
+May  4 18:15:10 srvovs incrond[20859]: (root) CMD (/usr/bin/unix2dos /crrae/u2dtmpN2Odxf)
+</pre><p>multiple times</p><p>here is the incron.conf:</p><pre>[root@srvovs ~]# cat /etc/incron.conf
+#
+# *** incron example configuration file ***
+#
+# (c) Lukas Jelinek, 2007, 2008
+#
+# Parameter:   system_table_dir
+# Meaning:     system table directory
+# Description: This directory is examined by incrond for system table files.
+# Default:     /etc/incron.d
+#
+# Example:
+# system_table_dir = /var/spool/incron.systables
+# Parameter:   user_table_dir
+# Meaning:     user table directory
+# Description: This directory is examined by incrond for user table files.
+# Default:     /var/spool/incron
+#
+# Example:
+# user_table_dir = /var/spool/incron.usertables
+# Parameter:   allowed_users
+# Meaning:     allowed users list file
+# Description: This file contains users allowed to use incron.
+# Default:     /etc/incron.allow
+#
+# Example:
+# allowed_users = /etc/incron/allow
+# Parameter:   denied_users
+# Meaning:     denied users list file
+# Description: This file contains users denied to use incron.
+# Default:     /etc/incron.deny
+#
+# Example:
+# denied_users = /etc/incron/deny
+# Parameter:   lockfile_dir
+# Meaning:     application lock file directory
+# Description: This directory is used for creating a lock avoiding to run
+#              multiple instances of incrond.
+# Default:     /var/run
+#
+# Example:
+# lockfile_dir = /tmp
+# Parameter:   lockfile_name
+# Meaning:     application lock file name base
+# Description: This name (appended by '.pid') is used for creating a lock
+#              avoiding to run multiple instances of incrond.
+# Default:     incrond
+#
+# Example:
+# lockfile_name = incron.lock
+# Parameter:   editor
+# Meaning:     editor executable
+# Description: This name or path is used to run as an editor for editting
+#              user tables.
+# Default:     vim
+#
+# Example:
+# editor = nano
+</pre><p>any idea ?</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=154910#respond' onclick='return addComment.moveForm("comment-body-154910", "154910", "respond", "8437")'>Reply</a></p></div></dd><dt
+class="comment even thread-odd thread-alt depth-1" id="comment-209754"> <span
+class="avatar"></span> <span
+class="comment_num"><a
+href="#comment-209754" title="Permalink to this comment" rel="nofollow">25</a></span> <span
+class="comment_author">menensky</span> <span
+class="comment_time">June 13, 2014 at 11:51 pm</span></dt><dd
+class="comment even thread-odd thread-alt depth-1"><div
+class="format_text" id="comment-body-209754"><p>Hi Nix craft,<br
+/> This is helpful I appended an email notification whenever a file is being copied but when there&#8217;s a lot of file  being transferred its spamming my email because it is monitoring every event.. Any suggestion to send email per batch not per files.</p><p
+class="reply"><a
+class='comment-reply-link' href='/faq/linux-inotify-examples-to-replicate-directories/?replytocom=209754#respond' onclick='return addComment.moveForm("comment-body-209754", "209754", "respond", "8437")'>Reply</a></p></div></dd></dl><div
+id="respond"><div
+id="respond_intro"> <a
+rel="nofollow" id="cancel-comment-reply-link" href="/faq/linux-inotify-examples-to-replicate-directories/#respond" style="display:none;">Cancel reply</a><p>Leave a Comment</p></div><form
+action="http://www.cyberciti.biz/faq/wp-comments-post.php" method="post" id="commentform"><p><input
+class="text_input" type="text" name="author" id="author" value="" tabindex="1" aria-required="true" /><label
+for="author">Name <span
+class="required" title="Required">*</span></label></p><p><input
+class="text_input" type="text" name="email" id="email" value="" tabindex="2" aria-required="true" /><label
+for="email">E-mail <span
+class="required" title="Required">*</span></label></p><p
+class="comment_box"><textarea name="comment" id="comment" tabindex="4" cols="40" rows="8"></textarea></p><p
+style="clear: both;" class="subscribe-to-comments"> <input
+type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" /> <label
+for="subscribe">Notify me of followup comments via e-mail</label></p><p
+class="remove_bottom_margin"> <input
+name="submit" class="form_submit" type="submit" id="submit" tabindex="5" value="Submit" /> <input
+type='hidden' name='comment_post_ID' value='8437' id='comment_post_ID' /> <input
+type='hidden' name='comment_parent' id='comment_parent' value='0' /></p><p
+style="display: none;"><input
+type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="2a17bdfe76" /></p><script type='text/javascript' src='http://www.cyberciti.biz/faq/wp-includes/js/jquery/jquery.js?ver=1.11.0'></script> <script type='text/javascript' src='http://www.cyberciti.biz/faq/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script> <script type='text/javascript' src='http://www.cyberciti.biz/faq/wp-content/plugins/akismet/_inc/form.js?ver=3.0.0'></script> <p
+style="display: none;"><input
+type="hidden" id="ak_js" name="ak_js" value="96"/></p></form></div></div><p
+class="my_tagged_as">Tagged as: <a
+href="http://www.cyberciti.biz/faq/tag/etcincron-allow/" rel="tag">/etc/incron.allow</a>, <a
+href="http://www.cyberciti.biz/faq/tag/etcincron-conf/" rel="tag">/etc/incron.conf</a>, <a
+href="http://www.cyberciti.biz/faq/tag/etcincron-d/" rel="tag">/etc/incron.d/</a>, <a
+href="http://www.cyberciti.biz/faq/tag/etcincron-deny/" rel="tag">/etc/incron.deny</a>, <a
+href="http://www.cyberciti.biz/faq/tag/varspoolincron/" rel="tag">/var/spool/incron</a>, <a
+href="http://www.cyberciti.biz/faq/tag/backup-purpose/" rel="tag">backup purpose</a>, <a
+href="http://www.cyberciti.biz/faq/tag/chkconfig-command/" rel="tag">chkconfig command</a>, <a
+href="http://www.cyberciti.biz/faq/tag/chkconfig-incrond-on/" rel="tag">chkconfig incrond on</a>, <a
+href="http://www.cyberciti.biz/faq/tag/command-execution/" rel="tag">command execution</a>, <a
+href="http://www.cyberciti.biz/faq/tag/directory-tree/" rel="tag">directory tree</a>, <a
+href="http://www.cyberciti.biz/faq/tag/fedora/" rel="tag">fedora</a>, <a
+href="http://www.cyberciti.biz/faq/tag/filesystem/" rel="tag">filesystem</a>, <a
+href="http://www.cyberciti.biz/faq/tag/incrontab-command/" rel="tag">incrontab command</a>, <a
+href="http://www.cyberciti.biz/faq/tag/iscsi-storage/" rel="tag">iscsi storage</a>, <a
+href="http://www.cyberciti.biz/faq/tag/load-balancing/" rel="tag">load balancing</a>, <a
+href="http://www.cyberciti.biz/faq/tag/nfs/" rel="tag">nfs</a>, <a
+href="http://www.cyberciti.biz/faq/tag/remote-server/" rel="tag">remote server</a>, <a
+href="http://www.cyberciti.biz/faq/tag/service-command/" rel="tag">service command</a>, <a
+href="http://www.cyberciti.biz/faq/tag/service-incrond-start/" rel="tag">service incrond start</a>, <a
+href="http://www.cyberciti.biz/faq/tag/shell-scripts/" rel="tag">shell scripts</a>, <a
+href="http://www.cyberciti.biz/faq/tag/ubuntu-linux/" rel="tag">Ubuntu Linux</a></p><div
+class="prev_next post_nav"><p
+class="previous">Previous Faq: <a
+href="http://www.cyberciti.biz/faq/linux-unix-osx-bsd-find-command-exclude-directories/" rel="prev">Find Command Exclude Directories From Search Pattern</a></p><p>Next Faq: <a
+href="http://www.cyberciti.biz/faq/unix-linux-bsd-osx-change-rsync-port-number/" rel="next">Rsync Change SSH Port Number While Making Backups</a></p></div></div><div
+id="sidebars"><div
+id="multimedia_box" class="custom_box"><div
+id="custom_box"><table
+class="cnss-social-icon" style="width:300px;" border="0" cellspacing="0" cellpadding="0"><tr><td
+style="width:36px"><a
+target="_blank" title="Follow us at Twitter" href="https://twitter.com/nixcraft"><img
+src="http://s0.cyberciti.org/images/social/twitter.png" border="0" width="32" height="32" alt="twitter" /></a></td><td
+style="width:36px"><a
+target="_blank" title="Join us at Youtube for Video Tutorials" href="https://youtube.com/user/nixcraftcom"><img
+src="http://s0.cyberciti.org/images/social/youtube.png" border="0" width="32" height="32" alt="youtube" /></a></td><td
+style="width:36px"><a
+target="_blank" title="Follow us on Google Plus" href="https://plus.google.com/+CybercitiBiz?prsrc=5"><img
+src="http://s0.cyberciti.org/images/social/googleplus.png" border="0" width="32" height="32" alt="googleplus" /></a></td><td
+style="width:36px"><a
+target="_blank" title="Facebook fan page" href="https://facebook.com/nixcraft"><img
+src="http://s0.cyberciti.org/images/social/facebook.png" border="0" width="32" height="32" alt="facebook" /></a></td><td
+style="width:36px"><a
+target="_blank" title="Stay updated with our Rss/Feed" href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks"><img
+src="http://s0.cyberciti.org/images/social/rss.png" border="0" width="32" height="32" alt="rss" /></a></td><td
+style="width:36px"><a
+target="_blank" title="Sign up for our newsletter" href="http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks"><img
+src="http://s0.cyberciti.org/images/social/email.png" border="0" width="32" height="32" alt="email" /></a></td></tr></table></div></div><div
+id="sidebar_1" class="sidebar"><ul
+class="sidebar_list"><li
+class="widget widget_text" id="text-384338361"><div
+class="textwidget"><ins
+class="adsbygoogle"
+style="display:inline-block;width:300px;height:250px"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="7895531150"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></li><li
+class="widget thesis_widget_search" id="thesis-search-widget-5"><form
+method="get" class="search_form" action="http://www.cyberciti.biz/faq/"><p> <input
+class="text_input" type="text" value="To search, type and hit enter" name="s" id="s" onfocus="if (this.value == 'To search, type and hit enter') {this.value = '';}" onblur="if (this.value == '') {this.value = 'To search, type and hit enter';}" /> <input
+type="hidden" id="searchsubmit" value="Search" /></p></form></li><li
+class="widget widget_text" id="text-384338357"><div
+class="textwidget"><div
+class="g-page" data-href="//plus.google.com/104257421720370350735" data-layout="landscape" data-rel="publisher"></div>  <script type="text/javascript">(function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();</script></div></li><li
+class="widget widget_text" id="text-384338362"><div
+class="textwidget"><ins
+class="adsbygoogle"
+style="display:inline-block;width:300px;height:600px"
+data-ad-client="ca-pub-7825705102693166"
+data-ad-slot="3521177162"></ins> <script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></li><li
+class="widget widget_wp_related_posts" id="wp_related_posts_widget"><div
+class="wp_rp_wrap  wp_rp_modern" id="wp_rp_first"><div
+class="wp_rp_content"><h3>Related Faqs</h3><ul
+class="related_post wp_rp" style="visibility: visible"><li ><a
+href="http://www.cyberciti.biz/faq/howto-check-cronjob-is-running-not/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/9.jpg" alt="Linux Verify crond Daemon And Cronjobs Are Running " /></a><a
+href="http://www.cyberciti.biz/faq/howto-check-cronjob-is-running-not/" class="wp_rp_title">Linux Verify crond Daemon And Cronjobs Are Running </a></li><li ><a
+href="http://www.cyberciti.biz/faq/linux-determine-which-services-are-enabled-at-boot/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/6.jpg" alt="Linux Determine which Services are Enabled at Boot" /></a><a
+href="http://www.cyberciti.biz/faq/linux-determine-which-services-are-enabled-at-boot/" class="wp_rp_title">Linux Determine which Services are Enabled at Boot</a></li><li ><a
+href="http://www.cyberciti.biz/faq/check-running-services-in-rhel-redhat-fedora-centoslinux/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/26.jpg" alt="Red Hat / CentOS: Check / List Running Services" /></a><a
+href="http://www.cyberciti.biz/faq/check-running-services-in-rhel-redhat-fedora-centoslinux/" class="wp_rp_title">Red Hat / CentOS: Check / List Running Services</a></li><li ><a
+href="http://www.cyberciti.biz/faq/restart-apache-via-ssh/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/30.jpg" alt="Start / Stop / Restart Apache Web Server Via SSH" /></a><a
+href="http://www.cyberciti.biz/faq/restart-apache-via-ssh/" class="wp_rp_title">Start / Stop / Restart Apache Web Server Via SSH</a></li><li ><a
+href="http://www.cyberciti.biz/faq/rhel-centos-linux-install-ftp-server/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/0.jpg" alt="CentOS / Red Hat Linux Install VSFTPD FTP Server" /></a><a
+href="http://www.cyberciti.biz/faq/rhel-centos-linux-install-ftp-server/" class="wp_rp_title">CentOS / Red Hat Linux Install VSFTPD FTP Server</a></li><li ><a
+href="http://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/uploads/faq/2012/11/Tree-Display-Structure-Directory-Hierarchy-150x150.png" alt="Linux: HowTo See Directory Tree Structure" /></a><a
+href="http://www.cyberciti.biz/faq/linux-show-directory-structure-command-line/" class="wp_rp_title">Linux: HowTo See Directory Tree Structure</a></li><li ><a
+href="http://www.cyberciti.biz/faq/howto-unix-linux-remove-delete-opensshd-server/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/0.jpg" alt="HowTo: Unix / Linux Remove (Delete) OpenSSH Server " /></a><a
+href="http://www.cyberciti.biz/faq/howto-unix-linux-remove-delete-opensshd-server/" class="wp_rp_title">HowTo: Unix / Linux Remove (Delete) OpenSSH Server </a></li><li ><a
+href="http://www.cyberciti.biz/faq/linux-disable-bluetooth-host-controller-interface-daemon/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/24.jpg" alt="Linux Disable Bluetooth [ Bluetooth Input Devices (hidd) ]" /></a><a
+href="http://www.cyberciti.biz/faq/linux-disable-bluetooth-host-controller-interface-daemon/" class="wp_rp_title">Linux Disable Bluetooth [ Bluetooth Input Devices (hidd) ]</a></li><li ><a
+href="http://www.cyberciti.biz/faq/rhel-fedora-linux-install-memcached-caching-system-rpm/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/25.jpg" alt="Redhat / CentOS Install Memcached Caching System" /></a><a
+href="http://www.cyberciti.biz/faq/rhel-fedora-linux-install-memcached-caching-system-rpm/" class="wp_rp_title">Redhat / CentOS Install Memcached Caching System</a></li><li ><a
+href="http://www.cyberciti.biz/faq/linux-unix-sysvinit-services-restart-vs-reload-vs-condrestart/" class="wp_rp_thumbnail"><img
+src="http://s0.cyberciti.org/images/rp/2/18.jpg" alt="Linux / Unix: SysVinit Services Restart vs Reload vs Condrestart " /></a><a
+href="http://www.cyberciti.biz/faq/linux-unix-sysvinit-services-restart-vs-reload-vs-condrestart/" class="wp_rp_title">Linux / Unix: SysVinit Services Restart vs Reload vs Condrestart </a></li></ul></div></div></li><li
+class="widget widget_text" id="text-384338363"><div
+class="textwidget"><iframe
+src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fnixcraft&amp;width=300&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:258px;" allowTransparency="true"></iframe></div></li><li
+class="widget widget_rss" id="rss-2"><h3><a
+class='rsswidget' href='http://www.cyberciti.biz/feed/' title='Syndicate this content'><img
+style='border:0' width='14' height='14' src='http://www.cyberciti.biz/faq/wp-includes/images/rss.png' alt='RSS' /></a> <a
+class='rsswidget' href='http://www.cyberciti.biz/' title='Showcasing sysadmin work.'>Latest posts from our blog</a></h3><ul><li><a
+class='rsswidget' href='http://www.cyberciti.biz/linux-news/download-ubuntu-14-4-cd-dvd-iso-images/' title='Ubuntu Linux version 14.04 LTS (code named &quot;Trusty Tahr&quot;) has been released and available for download. Ubuntu Linux is a community-based Linux distribution. The latest release of Ubuntu brings the best open source technologies together on one platform, with the benefit of free updates for 5 years. This latest release of Ubuntu Server is heavily fo'>Download of the day: Ubuntu Linux 14.04 LTS CD / DVD ISO</a></li><li><a
+class='rsswidget' href='http://www.cyberciti.biz/networking/nload-linux-command-to-monitor-network-traffic-bandwidth-usage/' title='If you want to monitor network throughput on the command line interface, use nload application. It is a console application which monitors network traffic and bandwidth usage in real time. It visualizes the in and outgoing traffic using two graphs and provides additional info like total amount of transferred data and min/max network usage.Read post: &quot;Li'>Linux and Unix  nload App: Monitor Network Traffic and Bandwidth Usage In Real Time</a></li><li><a
+class='rsswidget' href='http://www.cyberciti.biz/howto/unix-linux-job-control-command-examples-for-bash-ksh-shell/' title='Linux and Unix are multitasking operating systems i.e. a system that can run multiple tasks (process) during the same period of time. In this new blog series, I am going to list the Linux and Unix job control commands that you can use for multitasking with the Bash or Korn or POSIX shell.Read post: &quot;10 Linux/Unix Bash and KSH Shell Job Control Examples'>10 Linux/Unix Bash and KSH Shell Job Control Examples</a></li><li><a
+class='rsswidget' href='http://www.cyberciti.biz/open-source/download-freebsd-10-0-iso-dvd-cd/' title='FreeBSD 10.0 has been released and available for download. This is a major update that adds support for the Raspberry Pi, Clang, Amazon AWS EC2 cloud compatibility, and a framework called netmap for fast and safe access to network devices for fast packet I/O.Read post: &quot;Download of The Day: FreeBSD 10 ISO DVD / CD Images&quot;    '>Download of The Day: FreeBSD 10 ISO DVD / CD Images</a></li><li><a
+class='rsswidget' href='http://www.cyberciti.biz/open-source/30-cool-best-open-source-softwares-of-2013/' title='These are full-featured open source software products, free as in beer and speech that I started to use recently. Vivek Gite picks his best open source software of 2013.Read post: &quot;30 Cool Open Source Software I Discovered in 2013&quot;    '>30 Cool Open Source Software I Discovered in 2013</a></li></ul></li><li
+class="widget widget_text" id="text-384338364"><div
+class="textwidget"><a
+class="twitter-timeline" width="300" height="600" href="https://twitter.com/nixcraft"  data-widget-id="433095977885384704">Tweets by @nixcraft</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div></li><li
+class="widget widget_text" id="text-384338365"><h3>Subscribe to nixCraft</h3><div
+class="textwidget"><form
+style="border:1px solid #ccc;padding:3px;text-align:center;" action="http://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"><p>Learn something new about Linux/Unix by email</p><p>Enter your email address:</p><p><input
+type="text" style="width:140px" name="email"/></p><input
+type="hidden" value="Nixcraft-LinuxFreebsdSolarisTipsTricks" name="uri"/><input
+type="hidden" name="loc" value="en_US"/><input
+type="submit" value="Subscribe" /></form></div></li></ul></div></div></div><div
+id="footer"> &copy;2000-2014 nixCraft. All rights reserved. <a
+href="/tips/privacy">Privacy Policy</a> - <a
+href="/tips/disclaimer">Terms of Service</a> - <a
+href="/tips/contact-us">Questions or Comments</a> -
+We are proudly powered by Linux + Nginx + WordPress.</br> The content is <a
+href="/tips/copyright">copyrighted to nixCraft</a> and may not be reproduced on other websites. <script type='text/javascript' src='http://www.cyberciti.biz/faq/wp-includes/js/comment-reply.min.js?ver=3.9.1'></script>	</div>
+</div>
+</div>
+<!--[if lte IE 8]>
+<div id="ie_clear"></div>
+<![endif]-->
+<script src="http://www.cyberciti.biz/mint/?js" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-108650-1']);
+  _gaq.push(['_setDomainName', 'www.cyberciti.biz']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

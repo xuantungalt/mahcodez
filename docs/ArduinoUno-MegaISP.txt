@@ -1,0 +1,62 @@
+Re-install the Arduino Pro Mini Bootloader using my Arduino Uno as an ISP Programmer!
+
+To resolve the errors I burned the bootloader to the Arduino Pro Minis using my functioning Arduino Uno as an ISP. For the most part I followed the instructions here: http://www.sparkfun.com/tutorials/247 adhering to Option 1 but using the Arduino IDE to burn the bootloader. Here is what I did step by step:
+1. Connect the Arduino Uno via USB to the PC
+2. Open the Arduino IDE
+3. Select the correct COM port and board (Arduino Uno)
+4. Open the ArduinoISP sketch (File>Examples>ArduinoISP)
+5. Upload the sketch. once complete your Arduino Uno is now programmed to be an ISP programmer. This is great because I really didn't want to buy a separate programmer.
+6. Power the Uno off and wire the Uno to the Arduino Pro Mini in the following fashion:
+
+                 Uno=Pro Mini           or             Mega=Pro Mini
+                  5v=VCC                                 5v=vcc
+                 GND=GND                                Gnd=GND
+Digital Pin 11(MOSI)=Pin 11 (MOSI)                   pin 51=pin 11
+Digital Pin 12(MISO)=Pin 12 (MISO)                   pin 50=pin 12
+ Digital Pin 13(SCK)=Pin 13 (SCK)                    pin 52=pin 13
+      Digital Pin 10=RST                             pin 53=reset
+
+7. Power on the Uno
+8. Select the correct COM port
+9. IMPORTANT: Select board Arduino Pro Mini 5v w/ATmega328 as the board we are uploading to
+10.from the Tools menu, select Burn Bootloader > w/Aduino as ISP
+
+
+after you have bootloader installed, to then upload sketches onto the  pro mini clone you need to rewire the connections as follows
+
+Quote
+
+
+Step 1.
+Connect jumpers as follows
+Arduino UNO/mega -- pro mini
+         RESET   --   GND Connect reset to ground on the Uno or Mega 
+         RX      --   RXD
+         TX      --   TXD
+         5 V     --   VCC
+         GND     --   GND
+
+
+and yes RX goes to RX and TX to TX for sure 
+
+Step 2.
+Plug the arduino into the USB lead as normal
+
+Step 3.
+Arduino IDE > Tools > Board > Arduino Pro or Pro Mini (5V, 16MHz) w/ ATmega328
+
+Step 4.
+Load/Type your sketch into the IDE
+
+Step 5.
+Click the Upload Icon or Arduino IDE > File > Upload
+
+Step 6.
+When the sketch size show in the debug panel (The bottom of the IDE)
+Tap the reset button on the Pro Mini - This starts the bootloader.
+if you get error "avrdude: stk500_getsync(): not in sync: resp=0x00"
+practice your timing with clicking reset button after seeing "Binary sketch size: 3.772 bytes (of a 30.720 byte maximum)"
+
+
+If there are any error messages - Double check the wiring, The most common cause of error is 
+connecting the Rx and Tx lines back to front.

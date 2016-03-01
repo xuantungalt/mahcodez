@@ -1,0 +1,277 @@
+Usage Author Gravatar Image TONY DICOLA
+Dependencies
+Before installing the character LCD library you'll need to make sure a few dependencies are installed by following the steps below. Make sure your development board has access to the internet so the software can be downloaded.
+
+Raspberry Pi
+On the Raspberry Pi execute the following commands in a terminal/SSH session on the Pi:
+Copy Code
+
+sudo apt-get update
+sudo apt-get install build-essential python-dev python-smbus python-pip git
+sudo pip install RPi.GPIO
+You can ignore any warnings about dependencies already being installed.
+BeagleBone Black
+On the BeagleBone Black execute the following commands in a terminal/SSH session on the device:
+Copy Code
+
+sudo apt-get update
+sudo apt-get install build-essential python-dev python-smbus python-pip git
+sudo pip install Adafruit_BBIO
+You can ignore any warnings about dependencies already being installed.
+Installation
+Once the dependencies above have been installed you can install the character LCD module by executing the following commands on the device:
+Copy Code
+
+cd ~
+git clone https://github.com/adafruit/Adafruit_Python_CharLCD.git
+cd Adafruit_Python_CharLCD
+sudo python setup.py install
+These commands will clone the GitHub repository with the library source and then execute the setup.py script to install the library.
+
+Usage
+Once the library is installed you can find a few examples of its usage in the examples subdirectory. If you're using a monochrome backlight LCD (i.e. single color, like a white on blue LCD) the char_lcd.py script will demonstrate the basic usage. 
+
+If you're using a Raspberry Pi and have wired it according to this guide, you can immediately run the example. However if you're using a BeagleBone Black or changed the wiring, first open char_lcd.py in a text editor (like nano) and uncomment/comment the lines towards the top that set the LCD pins.
+
+Note: If you're using a BeagleBone Black wired for hardware PWM of the backlight, skip down the page to the section on using hardware PWM.
+
+To run the example execute:
+Copy Code
+
+cd examples
+python char_lcd.py
+You should see the LCD backlight turn on and messages printed to the display. For example below is what you will see with a 20x4 blue backlight LCD:
+ raspberry_pi_DSC00506_copy.jpg
+To demonstrate the usage of the library I'll walk through the source code of the char_lcd.py example below.
+Copy Code
+
+import math
+import time
+ 
+import Adafruit_CharLCD as LCD
+The first part of the script are commands to import modules that will be used. In particular the Adafruit_CharLCD module is imported under the name LCD. Later in the script you can see how classes from the char LCD module are used to interact with the LCD.
+Copy Code
+
+# Raspberry Pi pin configuration:
+lcd_rs        = 27  # Note this might need to be changed to 21 for older revision Pi's.
+lcd_en        = 22
+lcd_d4        = 25
+lcd_d5        = 24
+lcd_d6        = 23
+lcd_d7        = 18
+lcd_backlight = 4
+ 
+# BeagleBone Black configuration:
+# lcd_rs        = 'P8_8'
+# lcd_en        = 'P8_10'
+# lcd_d4        = 'P8_18'
+# lcd_d5        = 'P8_16'
+# lcd_d6        = 'P8_14'
+# lcd_d7        = 'P8_12'
+# lcd_backlight = 'P8_7'
+The next part of the script configures which pins are connected to the LCD. You can see the Raspberry Pi configuration is uncommented by default, and below it the BeagleBone Black configuration is commented. You can use any digital GPIO pins in the configuration.
+Copy Code
+
+# Define LCD column and row size for 16x2 LCD.
+lcd_columns = 16
+lcd_rows    = 2
+ 
+# Alternatively specify a 20x4 LCD.
+# lcd_columns = 20
+# lcd_rows    = 4
+This section of the script configures the size of the LCD. By default the code assumes a 16 column, 2 row LCD however you can adjust the configuration to a 20x4 or other size display supported by the HD44780.
+Copy Code
+
+# Initialize the LCD using the pins above.
+lcd = LCD.Adafruit_CharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, 
+                           lcd_columns, lcd_rows, lcd_backlight)
+Next an instance of the Adafruit_CharLCD class is created based on the configuration specified earlier in the script.
+Copy Code
+
+# Print a two line message
+lcd.message('Hello\nworld!')
+ 
+# Wait 5 seconds
+time.sleep(5.0)
+ 
+# Demo showing the cursor.
+lcd.clear()
+lcd.show_cursor(True)
+lcd.message('Show cursor')
+ 
+time.sleep(5.0)
+ 
+# Demo showing the blinking cursor.
+lcd.clear()
+lcd.blink(True)
+lcd.message('Blink cursor')
+ 
+time.sleep(5.0)
+ 
+# Stop blinking and showing cursor.
+lcd.show_cursor(False)
+lcd.blink(False)
+The next lines demonstrate basic usage of the LCD display class. The message function can be used to write a string of text to the display (including support for line breaks). The clear function clears the display, and the show_cursor and blink functions specify if the cursor is shown and should blink.
+
+Although not shown above, there are other functions you might find useful on the LCD class. To see details on all functions you can have Python print help text for the class by executing (ignore the >>> prompt, it's only shown for reference as the Python interpreter):
+Copy Code
+
+python
+>>> import Adafruit_CharLCD as LCD
+>>> help(LCD.Adafruit_CharLCD)
+You should see a description of each function on the LCD class, including some functions not shown in the example:
+autoscroll(autoscroll)
+Autoscroll will 'right justify' text from the cursor if set True, otherwise it will 'left justify' the text.
+enable_display(enable)
+Enable or disable the display. Set enable to True to enable.
+home()
+Move the cursor back to its home (first line and first column).
+set_backlight(backlight)
+Enable or disable the backlight. If PWM is not enabled (default), a non-zero backlight value will turn on the backlight and a zero value will turn it off. If PWM is enabled, backlight can be any value from 0.0 to 1.0, with 1.0 being full intensity backlight.
+set_cursor(col, row)
+Move the cursor to an explicit column and row position.
+Finally, the last portion of the char_lcd.py script:
+Copy Code
+
+# Demo scrolling message right/left.
+lcd.clear()
+message = 'Scroll'
+lcd.message(message)
+for i in range(lcd_columns-len(message)):
+	time.sleep(0.5)
+	lcd.move_right()
+for i in range(lcd_columns-len(message)):
+	time.sleep(0.5)
+	lcd.move_left()
+ 
+# Demo turning backlight off and on.
+lcd.clear()
+lcd.message('Flash backlight\nin 5 seconds...')
+time.sleep(5.0)
+# Turn backlight off.
+lcd.set_backlight(0)
+time.sleep(2.0)
+# Change message.
+lcd.clear()
+lcd.message('Goodbye!')
+# Turn backlight on.
+lcd.set_backlight(1)
+You can see how the move_right and move_left functions are used to scroll the display, and further down how the set_backlight function turns off and on the backlight.
+
+That's all there is to using the Adafruit_CharLCD class!
+RGB Character LCD
+If you're using an RGB backlight LCD the char_lcd_rgb.py script will demonstrate the usage.
+
+If you're using a Raspberry Pi and have wired it according to this guide, you can immediately run the script. However if you're using a BeagleBone Black or have changed the wiring, edit the script with a text editor and uncomment/change the lines at the top that define the LCD pins.
+
+To execute the RGB backlight example run this command from inside the examples directory:
+Copy Code
+
+sudo python char_lcd_rgb.py
+You should see the LCD turn on and display different backlight colors. For example:
+ raspberry_pi_DSC00507_copy.jpg
+If you open the file char_lcd_rgb.py in a text editor (such as nano) I'll describe the important differences between it and the previous char_lcd.py example below.
+Copy Code
+
+# Example Raspberry Pi configuration:
+lcd_rs = 27  # Change this to pin 21 on older revision Raspberry Pi's
+lcd_en = 22
+lcd_d4 = 25
+lcd_d5 = 24
+lcd_d6 = 23
+lcd_d7 = 18
+lcd_red   = 4
+lcd_green = 17
+lcd_blue  = 7  # Pin 7 is CE1
+ 
+# Example BeagleBone Black configuration:
+# lcd_rs = 'P8_8'
+# lcd_en = 'P8_10'
+# lcd_d4 = 'P8_18'
+# lcd_d5 = 'P8_16'
+# lcd_d6 = 'P8_14'
+# lcd_d7 = 'P8_12'
+# lcd_red   = 'P8_7'
+# lcd_green = 'P8_9'
+# lcd_blue  = 'P8_11'
+The first important difference is the configuration of LCD pins. Notice there are now explicit pins defined for the red, green, and blue backlight LEDs.
+Copy Code
+
+# Initialize the LCD using the pins 
+lcd = LCD.Adafruit_RGBCharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7,
+                              lcd_columns, lcd_rows, lcd_red, lcd_green, lcd_blue)
+The next line creates an instance of the Adafruit_RGBCharLCD class using the pin configuration defined earlier. 
+
+The Adafruit_RGBCharLCD class inherits from the Adafruit_CharLCD class so it has all the same functionality as demonstrated in the char_lcd.py example. In addition to the basic character LCD functionality the RGB character LCD class adds some functions to set the RGB color of the backlight.
+Copy Code
+
+# Show some basic colors.
+lcd.set_color(1.0, 0.0, 0.0)
+lcd.clear()
+lcd.message('RED')
+time.sleep(3.0)
+ 
+lcd.set_color(0.0, 1.0, 0.0)
+lcd.clear()
+lcd.message('GREEN')
+time.sleep(3.0)
+ 
+lcd.set_color(0.0, 0.0, 1.0)
+lcd.clear()
+lcd.message('BLUE')
+time.sleep(3.0)
+ 
+lcd.set_color(1.0, 1.0, 0.0)
+lcd.clear()
+lcd.message('YELLOW')
+time.sleep(3.0)
+ 
+lcd.set_color(0.0, 1.0, 1.0)
+lcd.clear()
+lcd.message('CYAN')
+time.sleep(3.0)
+ 
+lcd.set_color(1.0, 0.0, 1.0)
+lcd.clear()
+lcd.message('MAGENTA')
+time.sleep(3.0)
+ 
+lcd.set_color(1.0, 1.0, 1.0)
+lcd.clear()
+lcd.message('WHITE')
+time.sleep(3.0)
+The code above demonstrates each basic color by calling the set_color function and passing in which red, green, and blue LEDs to enable. For example the first call to set_color(1.0, 0.0, 0.0) will turn on the red LED and turn off the green and blue LED so the backlight will have a red color. 
+
+Notice how later lines combine multiple LEDs to get different colors, like calling set_color(1.0, 0.0, 1.0) to combine red and blue LEDs for a magenta/violet color.
+RGB Character LCD with PWM
+If you're using a RGB character LCD you can use PWM (pulse-width modulation) for fine control of the backlight color. By turning the different backlight red, green, and blue LEDs on and off very quickly with PWM, it's possible to precisely control the color of the backlight.
+
+Note that PWM control works best when there's hardware support for PWM on your development board. The BeagleBone Black has support for up to 8 hardware controlled PWM pins and works great with the RGB character LCDs. However, the Raspberry Pi only has one hardware PWM pin and can be a little more troublesome to use PWM. 
+
+The RPi.GPIO library which is used by the character LCD library supports a software implementation of PWM on the Raspberry Pi. This lets you PWM control the RGB backlight even though the Pi doesn't have 3 hardware PWM pins. In my testing software PWM worked reasonably well with the RGB character LCD backlight. You might notice slightly incorrect colors, but otherwise software PWM is worth a shot to finely adjust the backlight color on the Raspberry Pi.
+
+The char_lcd_rgb_pwm.py file demonstrates usage of PWM backlight control. If you're using a Raspberry Pi and have it wired to the LCD as described in this guide, you can immediately run the script. However if you have a BeagleBone Black or have changed the wiring, edit the file char_lcd_rgb_pwm.py in a text editor and comment/uncomment the lines at the top which define the LCD pins.
+
+If you're using the BeagleBone Black make sure you've followed the wiring for hardware PWM. Specifically, the red, green, and blue backlight pins need to be connected to the P9_16, P9_14, and P8_13 pins respectively.
+
+To run the example, make sure you're in the examples folder and run:
+
+Copy Code
+
+sudo python char_lcd_rgb_pwm.py
+You should see the backlight turned on to different colors for a short period of time, and then a continuous gradient of colors displayed with a message showing the red, green, and blue color displayed on the LCD. For example:
+ raspberry_pi_DSC00503_copy.jpg
+You can press Ctrl-C to top the script.
+
+The code for PWM control is very similar to non-PWM control from char_lcd_rgb.py, however there are a few important differences. The first difference is how the Adafruit_RGBCharLCD class is intialized. Notice the enable_pwm=True flag is passed to the constructor/init function:
+Copy Code
+
+# Initialize the LCD using the pins 
+lcd = LCD.Adafruit_RGBCharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7,
+                              lcd_columns, lcd_rows, lcd_red, lcd_green, lcd_blue, 
+                              enable_pwm=True)
+When PWM is enabled, the set_color function can be passed any value from 0.0 to 1.0 for each color component. By finely adjusting each component you can get precise control over the backlight color. 
+
+For example a reddish-blue color might have full red intensity and half blue intensity by calling set_color(1.0, 0.0, 0.5). Or a gray/dim white color might have all color components at one quarter intensity by calling set_color(0.25, 0.25, 0.25). Experiment with different component values to see what interesting colors you can find.
+
+In the example code you can see how the HSV (hue, saturation, value) color space is used to show the full spectrum of colors. Feel free to use the HSV color function in the example in your own scripts.

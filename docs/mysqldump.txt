@@ -1,0 +1,40 @@
+mysqldump \
+--no-create-db \
+--no-create-info \
+--extended-insert \
+--complete-insert \
+--lock-all-tables \
+--routines
+--triggers
+--dump-date yyy
+
+mysqldump --databases --routines --no-create-info --extended-insert --complete-insert nfxamsbo > nfxamsbo_$DATE.sql
+
+ONLY the stored procedures and triggers
+mysqldump --routines --no-create-info --no-data --no-create-db --skip-opt
+
+#SINGLE INSERTS
+#Be aware that multiple inserts will be slower than one big insert.
+mysqldump --extended-insert=FALSE 
+--skip-extended-insert
+
+mysql -uroot -p123456 nfxamsbo_mig < nfxamsbo_20150307_nocreatedb.sql &
+mysql -uroot -p123456 nfx_com_mig < nfx_com_nocreatedb.sql &
+mysql -uroot -p123456 nfxbo_mig < nfxbo_nocreatedb.sql &
+mysql -uroot -p123456 nfxreport_mig < nfxreport_nocreatedb.sql &
+
+mysqldump (--extended-insert)
+http://serverfault.com/questions/146525/how-can-i-speed-up-a-mysql-restore-from-a-dump-file
+
+This link shows what one can do to speed up restoring process.
+http://dev.mysql.com/doc/refman/5.5/en/optimizing-innodb-bulk-data-loading.html
+
+One can put put the commands at the top of the dump file
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, AUTOCOMMIT = 0;
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
+
+And put these statements at the end of the dump file
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+SET AUTOCOMMIT = @OLD_AUTOCOMMIT;

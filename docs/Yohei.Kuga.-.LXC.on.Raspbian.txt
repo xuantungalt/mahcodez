@@ -1,0 +1,159 @@
+ 
+LXC on raspberry pi (Raspbian)
+
+Packages
+# apt-get update 
+# apt-get dist-upgrade
+
+Firmware
+# cd /opt
+# git clone git://github.com/raspberrypi/firmware.git
+# cd firmware/boot
+# cp * /boot
+# cd ../modules
+# cp -r * /lib/modules
+# reboot
+
+kernel
+# cd /opt
+# mkdir raspberrypi
+# cd raspberrypi
+# git clone git://github.com/raspberrypi/linux.git
+# cd linux
+# zcat /proc/config.gz > .config
+
+以下のkernel optionsを有効にする
+- CONFIG_NAMESPACES
+- CONFIG_CGROUPS
+- CONFIG_DEVPTS_MULTIPLE_INSTANCES
+- CONFIG_VETH
+- CONFIG_CPUSETS
+
+# make 
+# make modules_install
+
+kernel image
+# cd /opt/raspberrypi
+# git clone git://github.com/raspberrypi/tools.git
+# cd /opt/raspberrypi/tools/mkimage
+# python ./imagetool-uncompressed.py /opt/raspberrypi/linux/arch/arm/boot/Image
+# mv /boot/kernel.img /boot/kernel-old.img
+# mv kernel.img /boot/
+
+macでもcross compileできるらしいので，次に試す
+
+参考URL
+http://elinux.org/RPi_Kernel_Compilation#Kernel_compilation
+http://pastebin.com/Pj9KPQJp
+http://wiki.gentoo.org/wiki/LXC
+http://www.rpiforum.net/forum/tutorials/article/16-a-raspberry-pi-emulated-environment-on-osx-lion/
+http://mitchtech.net/raspberry-pi-kernel-compile/
+http://wiki.gentoo.org/wiki/Raspberry_Pi﻿
+
+[Bash] LXC Kernel Configuration - Pastebin.com
+http://pastebin.com/Pj9KPQJp
+
+#
+#
+# Review of LXC Kernel configuration option requirements. JL 24/AUG/2012.
+#
+#
+# Config options obtained via menuconfig example at http://lxc.sourceforge.net/man/lxc.htm
+#
+CONFIG_CGROUPS=y
+CONFIG_CGROUP_FREEZER=y
+CONFIG_CPUSETS=y
+CONFIG_CGROUP_CPUACCT=y
+CONFIG_RESOURCE_COUNTERS=y
+CONFIG_CGROUP_MEM_RES_CTLR=y
+CONFIG_CGROUP_SCHED=y
+CONFIG_FAIR_GROUP_SCHED=y
+CONFIG_NAMESPACES=y
+CONFIG_UTS_NS=y
+CONFIG_IPC_NS=y
+CONFIG_USER_NS=y
+CONFIG_PID_NS=y
+CONFIG_NET_NS=y
+CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
+CONFIG_MACVLAN=y
+CONFIG_VETH=y
+CONFIG_BRIDGE=y
+ 
+#
+# Config options not in above list but mentioned at http://lxc.teegra.net/#_configuration_options
+#
+ 
+CONFIG_RT_GROUP_SCHED=y
+CONFIG_CGROUP_DEVICE=y
+CONFIG_PROC_PID_CPUSET=y
+CONFIG_CGROUP_MEM_RES_CTLR_SWAP=y
+CONFIG_MM_OWNER=y
+CONFIG_NET_CLS_CGROUP=y
+ 
+####Deprecated ?
+#### (these are not mentioned in /proc/config.gz)
+ 
+#CONFIG_CGROUP_NS=y                     (removed: http://www.spinics.net/lists/mm-commits/msg80389.html)
+#CONFIG_GROUP_SCHED=y
+#CONFIG_SECURITY_FILE_CAPABILITIES=y    (removed: http://lwn.net/Articles/363565/)
+ 
+# menuconfig options
+#     (source: http://lxc.sourceforge.net/man/lxc.html)
+#
+#   * General setup
+#      * Control Group support....................................CONFIG_CGROUPS
+#        -> Namespace cgroup subsystem                            (not listed in menuconfig)
+#        -> Freezer cgroup subsystem..............................CONFIG_CGROUP_FREEZER
+#        -> Cpuset support                                        CONFIG_CPUSETS
+#        -> Simple CPU accounting cgroup subsystem................CONFIG_CGROUP_CPUACCT
+#        -> Resource counters                                     CONFIG_RESOURCE_COUNTERS
+#          -> Memory resource controllers for Control Groups......CONFIG_CGROUP_MEM_RES_CTLR
+#        -> Group CPU scheduler                                   CONFIG_CGROUP_SCHED
+#          -> Group scheduling for SCHED_OTHER....................CONFIG_FAIR_GROUP_SCHED
+#          -> Basis for grouping tasks (Control Groups)           (not listed in menuconfig)
+#      * Namespaces support                                       CONFIG_NAMESPACES
+#        -> UTS namespace.........................................CONFIG_UTS_NS
+#        -> IPC namespace                                         CONFIG_IPC_NS
+#        -> User namespace........................................CONFIG_USER_NS
+#        -> Pid namespace                                         CONFIG_PID_NS
+#        -> Network namespace.....................................CONFIG_NET_NS
+#    * Device Drivers
+#      * Character devices
+#        -> Support multiple instances of devpts..................CONFIG_DEVPTS_MULTIPLE_INSTANCES
+#      * Network device support
+#        -> MAC-VLAN support......................................CONFIG_MACVLAN
+#        -> Virtual ethernet pair device                          CONFIG_VETH
+#    * Networking
+#      * Networking options
+#        -> 802.1d Ethernet Bridging..............................CONFIG_BRIDGE
+#    * Security options
+#      -> File POSIX Capabilities.................................(not listed in menu)
+ 
+ 
+ 
+# config options (source: http://lxc.teegra.net/#_configuration_options)
+#
+#CONFIG_GROUP_SCHED=y                deprecated ?
+#CONFIG_FAIR_GROUP_SCHED=y                      
+#CONFIG_RT_GROUP_SCHED=y             not listed at http://lxc.sourceforge.net/man/lxc.html
+#CONFIG_CGROUP_SCHED=y                                                                    
+#CONFIG_CGROUPS=y                                                                        
+#CONFIG_CGROUP_NS=y  
+#CONFIG_CGROUP_FREEZER=y
+#CONFIG_CGROUP_DEVICE=y              not listed at http://lxc.sourceforge.net/man/lxc.html
+#CONFIG_CPUSETS=y                                                                        
+#CONFIG_PROC_PID_CPUSET=y            not listed at http://lxc.sourceforge.net/man/lxc.html
+#CONFIG_CGROUP_CPUACCT=y                                                                  
+#CONFIG_RESOURCE_COUNTERS=y                                                              
+#CONFIG_CGROUP_MEM_RES_CTLR=y
+#CONFIG_CGROUP_MEM_RES_CTLR_SWAP=y   not listed at http://lxc.sourceforge.net/man/lxc.html
+#CONFIG_MM_OWNER=y                   not listed at http://lxc.sourceforge.net/man/lxc.html
+#CONFIG_NAMESPACES=y                                                                      
+#CONFIG_UTS_NS=y                                                                          
+#CONFIG_IPC_NS=y    
+#CONFIG_USER_NS=y
+#CONFIG_PID_NS=y
+#CONFIG_NET_NS=y
+#CONFIG_NET_CLS_CGROUP=y             not listed at http://lxc.sourceforge.net/man/lxc.html
+#CONFIG_SECURITY_FILE_CAPABILITIES=y deprecated ?                                        
+#CONFIG_DEVPTS_MULTIPLE_INSTANCES=y

@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="keywords" content="CentOS,Ubuntu,Fedora,Debian,Linux,KVM,Virtualization" />
+<meta name="description" content="The site for people who want to establish the Network Server with CentOS, Ubuntu, Fedora, Debian" />
+<title>Debian 7.0 Wheezy - Configure LDAP Client : Server World</title>
+<link href="./css/base.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="./css/navi.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="./css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="./css/position.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./command/popup.js"></script>
+<script type="text/javascript">
+hs.graphicsDir = './command/graphics/';
+hs.outlineType = 'rounded-white';
+hs.wrapperClassName = 'draggable-header';
+</script>
+</head>
+<body>
+<div id="top-menu">
+<table id="menu-table" summary="menu">
+<tr>
+<td class="menu" style="width: 13%;"><a href="./">Server World</a></td>
+<td class="menu">
+<div class="top_navi">
+<ul>
+<li><a href="./note?p=oslist">Other OS Configs</a>
+<ul>
+<li><a href="./note?os=CentOS_7&amp;p=download">CentOS 7</a></li>
+<li><a href="./note?os=CentOS_6&amp;p=download">CentOS 6</a></li>
+<li><a href="./note?os=CentOS_5&amp;p=make_media">CentOS 5</a></li>
+<li><a href="./note?os=Fedora_23&amp;p=download">Fedora 23</a></li>
+<li><a href="./note?os=Fedora_22&amp;p=download">Fedora 22</a></li>
+<li><a href="./note?os=Fedora_21&amp;p=download">Fedora 21</a></li>
+<li><a href="./note?os=Debian_8&amp;p=download">Debian 8</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=download">Debian 7</a></li>
+<li><a href="./note?os=Debian_6.0&amp;p=download">Debian 6</a></li>
+<li><a href="./note?os=Ubuntu_15.04&amp;p=download">Ubuntu 15.04</a></li>
+<li><a href="./note?os=Ubuntu_14.04&amp;p=download">Ubuntu 14.04</a></li>
+<li><a href="./note?os=Ubuntu_12.04&amp;p=download">Ubuntu 12.04</a></li>
+<li><a href="./note?os=SUSE_Linux_Enterprise_12&amp;p=download">SUSE Linux Enterprise 12</a></li>
+<li><a href="./note?os=SUSE_Linux_Enterprise_Server_11&amp;p=make_media">SUSE Linux Enterprise 11</a></li>
+<li><a href="./note?os=Other">Other Tips</a></li>
+</ul>
+<ul style="position: absolute; margin-left: 18em; z-index: 90;">
+<li><a href="./note?os=Fedora_20&amp;p=download">Fedora 20</a></li>
+<li><a href="./note?os=Fedora_19&amp;p=download">Fedora 19</a></li>
+<li><a href="./note?os=Fedora_18&amp;p=download">Fedora 18</a></li>
+<li><a href="./note?os=Fedora_17&amp;p=download">Fedora 17</a></li>
+<li><a href="./note?os=Fedora_16&amp;p=download">Fedora 16</a></li>
+<li><a href="./note?os=Fedora_15&amp;p=download">Fedora 15</a></li>
+<li><a href="./note?os=Fedora_14&amp;p=download">Fedora 14</a></li>
+<li><a href="./note?os=Fedora_13&amp;p=make_media">Fedora 13</a></li>
+<li><a href="./note?os=Fedora_12&amp;p=make_media">Fedora 12</a></li>
+<li><a href="./note?os=Fedora_11&amp;p=make_media">Fedora 11</a></li>
+<li><a href="./note?os=Fedora_10&amp;p=make_media">Fedora 10</a></li>
+<li><a href="./note?os=Ubuntu_13.04&amp;p=download">Ubuntu 13.04</a></li>
+<li><a href="./note?os=Ubuntu_11.04&amp;p=download">Ubuntu 11.04</a></li>
+<li><a href="./note?os=Ubuntu_10.04&amp;p=make_media">Ubuntu 10.04</a></li>
+<li><a href="./note?os=Scientific_Linux_6&amp;p=download" style="border-bottom: #aaaaaa 0px solid;">Scientific Linux 6</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</td>
+<td class="menu"><a href="./note?p=policy">Introductions</a></td>
+<td class="menu"><a href="./note?p=new">Histories</a></td>
+<td class="menu"><a href="./note?p=command">Commands Help</a></td>
+<td class="menu"><a href="./note?p=send">Links/Contact</a></td>
+<td class="menu" style="width: 13%;">
+<div class="count">1468 / 38919627</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="left">
+<div class="os">Debian 7.0</div>
+<div class="navi">
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=download">Get Debian 7.0</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=install">Install Debian</a></li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=initial_conf">Initial Settings</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=initial_conf&amp;f=1">(1) Set Admin User</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=initial_conf&amp;f=2">(2) Set Command Alias</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=initial_conf&amp;f=3">(3) Networking</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=initial_conf&amp;f=4">(4) Services</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=initial_conf&amp;f=5">(5) Update System</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=initial_conf&amp;f=6">(6) Configure vim</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=initial_conf&amp;f=7">(7) Configure sudo</a></li>
+</ul>
+</li>
+<li><a href="./note?os=Debian_7.0&amp;p=ntp">NTP Server</a></li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=ssh">SSH Server</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=ssh&amp;f=1">(1) Password Authentication</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ssh&amp;f=2">(2) Keys Authentication</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=ssh&amp;f=3">(3) SFTP</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=dns">DNS Server</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=dns&amp;f=1">(1) Install BIND</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=dns&amp;f=2">(2) Set Zones</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=dns&amp;f=3">(3) Check working</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=dns&amp;f=4">(4) Set CNAME</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=dns&amp;f=5">(5) Config as a Slave Server</a></li>
+</ul>
+</li>
+<li><a href="./note?os=Debian_7.0&amp;p=dhcp">DHCP Server</a></li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=kvm">Virtualization</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=kvm&amp;f=1">(1) Install KVM</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=kvm&amp;f=2">(2) Create Virtual Macine #1</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=kvm&amp;f=3">(3) Create Virtual Macine #2</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=kvm&amp;f=4">(4) Operation</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=kvm&amp;f=5">(5) SPICE Server</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=kvm&amp;f=6">(6) SPICE Client</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=iscsi">Storage Server</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=iscsi&amp;f=1">(1) Configure iSCSI Target</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=iscsi&amp;f=2">(2) Configure iSCSI Initiator</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=nfs">NFS Server</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=nfs&amp;f=1">(1) Configure NFS Server</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=nfs&amp;f=2">(2) Configure NFS Client</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=nis">NIS Server</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=nis&amp;f=1">(1) Configure NIS Server</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=nis&amp;f=2">(2) Configure NIS Client</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=ldap">LDAP Server</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=ldap&amp;f=1">(1) Configure LDAP Server</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=ldap&amp;f=2">(2) Configure LDAP Client</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=httpd">WEB Server</a>
+<ul style="position: absolute; margin-top: -9.2em;">
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=1">( 1 ) Install Apache2</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=2">( 2 ) Use Perl Script</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=3">( 3 ) Use PHP Script</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=4">( 4 ) Use Ruby Script</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=5">( 5 ) Enable Userdir</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=6">( 6 ) Virtual Hostings</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=7">( 7 ) Configure SSL</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=8">( 8 ) Configure WebDAV</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=9">( 9 ) Enable suEXEC</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=10">(10) Basic Auth + PAM</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=11">(11) Basic Auth + LDAP</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=12">(12) Log Analyzer - Visitors</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=13">(13) Log Analyzer - AWstats</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=14">(14) WebMail - SquirrelMail</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=httpd&amp;f=15">(15) WebMail - RoundCube</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=mysql">Database</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=mysql&amp;f=1">(1) Install MySQL</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=mysql&amp;f=2">(2) Operate from Web Browser</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=ftp">FTP Server</a>
+<ul style="position: absolute; margin-top: -1.9em;">
+<li><a href="./note?os=Debian_7.0&amp;p=ftp&amp;f=1">(1) Install Vsftpd</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ftp&amp;f=2">(2) Install ProFTPD</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ftp&amp;f=3">(3) Install Pure-FTPd</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ftp&amp;f=4">(4) FTP Client - WinSCP</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ftp&amp;f=5">(5) Vsftpd over TLS/SSL</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ftp&amp;f=6">(6) ProFTPD over TLS/SSL</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=ftp&amp;f=7">(7) Pure-FTPd over TLS/SSL</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=mail">MAIL Server</a>
+<ul style="position: absolute; margin-top: -7.4em;">
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=1">(1) Install/Configure Postfix</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=2">(2) Install/Configure Dovecot</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=3">(3) Configure Client</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=4">(4) Configure SSL</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=5">(5) Virtual Domains</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=6">(6) Run with Clamav - ClamSMTP</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=7">(7) Log Analyzer - pflogsumm</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=8">(8) Log Analyzer - MailGraph</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=mail&amp;f=9">(9) Log Analyzer - AWstats</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=samba">Samba Server</a>
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=samba&amp;f=1">(1) Create Fully Accessed Directory</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=samba&amp;f=2">(2) Create Limited Directory</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=samba&amp;f=3">(3) Install SWAT</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=squid">Proxy Server</a>
+<ul style="position: absolute; margin-top: -1.9em;">
+<li><a href="./note?os=Debian_7.0&amp;p=squid&amp;f=1">(1) Install Squid</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=squid&amp;f=2">(2) Run with Clamav - SquidClamav</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=squid&amp;f=3">(3) Run with SquidGuard</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=squid&amp;f=4">(4) Configure as a Reverse Proxy</a></li>
+</ul>
+</li>
+<li class="tree"><a href="./note?os=Debian_7.0&amp;p=x">Desktop Env</a>
+<ul style="position: absolute; margin-top: -1.9em;">
+<li><a href="./note?os=Debian_7.0&amp;p=x&amp;f=1">(1) GNOME Desktop Environment</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=x&amp;f=3">(2) KDE Desktop Environment</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=x&amp;f=4">(3) Cinnamon Desktop Environment</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=x&amp;f=5">(4) MATE Desktop Environment</a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=x&amp;f=2">(5) Install VNC Server</a></li>
+</ul>
+</li>
+<li id="other"><a href="./note?os=Debian_7.0&amp;p=clamav">Others</a>
+<ul style="position: absolute; margin-top: -20.1em;">
+<li><a href="./note?os=Debian_7.0&amp;p=quota">Set Disk Quota</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=add_hd">Add Hard Drive</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=password">Set Password Rules</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=timezone">Set System Timezone</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=keymap">Set KeyboardMap</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=hostname">Set Hostname</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ssl">Create SSL Certificates</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=acl">ACL <span style="display:inline;position:absolute;left:110px;">- &nbsp; Access Controls</span></a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=tcp_wrapper">TCP Wrapper <span style="display:inline;position:absolute;left:110px;">- &nbsp; Access Controls</span></a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=lsync">Lsync <span style="display:inline;position:absolute;left:110px;">- &nbsp; Sync Files</span></a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=rsync">Rsync <span style="display:inline;position:absolute;left:110px;">- &nbsp; Sync Files</span></a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=chkrootkit">ChkrootKit <span style="display:inline;position:absolute;left:110px;">- &nbsp; Detect RootKit</span></a></li>
+<li style="border-bottom: 0px"><a href="./note?os=Debian_7.0&amp;p=clamav">Clamav <span style="display:inline;position:absolute;left:110px;">- Anti-Virus</span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div style="display: inline-block; width: 100%; font-size: 12px; text-align: center; background-color: #dcdcdc; border-bottom: 1px solid #696969; border-top: 2px solid #dcdcdc;">Ads</div>
+<div id="bann">
+<script type="text/javascript">
+google_ad_client = "ca-pub-6423793798099903";
+google_ad_slot = "6315121180";
+google_ad_width = 160;
+google_ad_height = 600;
+</script>
+<script type="text/javascript"
+ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</div>
+<div id="contents">
+<br />
+<table style="width: 96%; line-height: 1.5; margin-top: 5px; margin-bottom: 10px; margin-left: auto; margin-right: auto;" summary="subject">
+<tr>
+<td style="width: 100%; height: 28px; color: #ff3399; padding-left: 50px; background: url(./img/icon.gif) #ffffff no-repeat 0 0;">
+<div class="subject">Configure LDAP Client<div class="date">2013/05/10</div></div>
+</td>
+</tr>
+</table>
+<table class="base" summary="1">
+<tr>
+<td class="num">[1]</td>
+<td>Configure LDAP Client
+</td>
+</tr>
+</table>
+<table class="term" summary="1-1">
+<tr>
+<td>
+<div class="block">
+root@www:~# <div class="color1"><a href="./command/html/aptitude.html" onclick="return hs.htmlExpand(this, { objectType: 'iframe' } )" onkeypress="" style="color: #ffff00">aptitude</a> -y install libnss-ldap libpam-ldap ldap-utils </div></div>
+<div class="color2">(1) specify LDAP server's URI</div><br />
+<img src="./Debian_7.0/ldap/img/2.jpg" width="600" height="231" alt="" /><br />
+<div class="color2">(2) specify suffix</div><br />
+<img src="./Debian_7.0/ldap/img/3.jpg" width="600" height="202" alt="" /><br />
+<div class="color2">(3) specify LDAP version</div><br />
+<img src="./Debian_7.0/ldap/img/4.jpg" width="600" height="206" alt="" /><br />
+<div class="color2">(4) specify suffix for LDAP account for root</div><br />
+<img src="./Debian_7.0/ldap/img/5.jpg" width="600" height="234" alt="" /><br />
+<div class="color2">(5) set password for LDAP account for root</div><br />
+<img src="./Debian_7.0/ldap/img/6.jpg" width="600" height="244" alt="" /><br />
+<div class="color2">(6) click OK</div><br />
+<img src="./Debian_7.0/ldap/img/7.jpg" width="600" height="246" alt="" /><br />
+<div class="color2">(7) select the one you like. ( this example selects 'Yes' )</div><br />
+<img src="./Debian_7.0/ldap/img/8.jpg" width="600" height="229" alt="" /><br />
+<div class="color2">(8) select the one you like. ( this example selects 'No' )</div><br />
+<img src="./Debian_7.0/ldap/img/9.jpg" width="600" height="185" alt="" /><br />
+<div class="color2">(9) specify LDAP admin account's suffix</div><br />
+<img src="./Debian_7.0/ldap/img/10.jpg" width="600" height="203" alt="" /><br />
+<div class="color2">(10) specify password for LDAP admin account</div><br />
+<img src="./Debian_7.0/ldap/img/11.jpg" width="600" height="257" alt="" /><br />
+<div class="block">
+root@www:~# <div class="color1"><a href="./command/html/vi.html" onclick="return hs.htmlExpand(this, { objectType: 'iframe' } )" onkeypress="" style="color: #ffff00">vi</a> /etc/nsswitch.conf </div></div>
+<div class="block">
+<div class="color2"># line 7: add</div><br />
+passwd:<div class="posl-1">compat <div class="color1">ldap</div></div><br />
+group:<div class="posl-1">compat <div class="color1">ldap</div></div><br />
+shadow:<div class="posl-1">compat <div class="color1">ldap</div></div>
+</div>
+<div class="block">
+<div class="color2"># line 19: change</div><br />
+netgroup:<div class="posl-1"><div class="color1">ldap</div></div>
+</div>
+<div class="block">
+root@www:~# <div class="color1"><a href="./command/html/vi.html" onclick="return hs.htmlExpand(this, { objectType: 'iframe' } )" onkeypress="" style="color: #ffff00">vi</a> /etc/pam.d/common-password </div></div>
+<div class="block">
+<div class="color2"># line 26: change ( remove 'use_authtok' )</div><br />
+password &nbsp; &nbsp; [success=1 user_unknown=ignore default=die] &nbsp; &nbsp; pam_ldap.so try_first_pass
+</div>
+<div class="block">
+root@www:~# <div class="color1"><a href="./command/html/vi.html" onclick="return hs.htmlExpand(this, { objectType: 'iframe' } )" onkeypress="" style="color: #ffff00">vi</a> /etc/pam.d/common-session </div></div>
+<div class="block">
+<div class="color2"># add at the last if needed ( create home directory automatically at first login )</div><br />
+<div class="color1">
+<pre style="font-family: Arial;">
+session optional        pam_mkhomedir.so skel=/etc/skel umask=077
+</pre>
+</div>
+</div>
+<div class="block">
+root@www:~# <div class="color1"><a href="./command/html/shutdown.html" onclick="return hs.htmlExpand(this, { objectType: 'iframe' } )" onkeypress="" style="color: #ffff00">shutdown</a> -r now</div></div>
+www login: <div class="color1">cent</div><div class="posl-1"><div class="color2"># user on LDAP</div></div><br />
+Password:<br />
+<pre style="font-family: Arial;">
+Linux www 3.2.0-4-amd64 #1 SMP Debian 3.2.41-2 x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Creating directory '/home/cent'.
+</pre>
+fedora@www:~$ <div class="posl-1"><div class="color2"># just logined</div></div><br />
+fedora@www:~$ <div class="color1"><a href="./command/html/passwd.html" onclick="return hs.htmlExpand(this, { objectType: 'iframe' } )" onkeypress="" style="color: #ffff00">passwd</a> </div><div class="posl-1"><div class="color2"># try to change LDAP password</div></div><br />
+Enter login(LDAP) password:<div class="posl-1"><div class="color2"># input current password</div></div><br />
+New password:<div class="posl-1"><div class="color2"># input new password</div></div><br />
+Re-enter new password:<div class="posl-1"><div class="color2"># confirm</div></div><br />
+LDAP password information changed for cent<br />
+passwd: password updated successfully<div class="posl-1"><div class="color2"># just changed</div></div><br />
+</td>
+</tr>
+</table>
+<div style="width: 100%; border-top: 1px #696969 solid; padding-top: 20px; padding-bottom: 20px;">
+<div style="width: 728px; height: 90px; margin-left: auto; margin-right: auto;">
+<script type="text/javascript">
+google_ad_client = "pub-6423793798099903";
+google_ad_slot = "3679227322";
+google_ad_width = "728";
+google_ad_height = 90;
+</script>
+<script type="text/javascript"
+ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</div>
+</div>
+<div id="right">
+<div class="os">LDAP Server</div>
+<div class="navi2">
+<ul>
+<li><a href="./note?os=Debian_7.0&amp;p=ldap&amp;f=1">LDAP Server</a></li>
+<li><a href="./note?os=Debian_7.0&amp;p=ldap&amp;f=2">LDAP Client</a></li>
+</ul>
+</div>
+<div style="width: 160px; text-align: center;">
+<div style="display: inline-block; width: 100%; font-size: 12px; text-align: center; background-color: #dcdcdc; border-bottom: 1px solid #696969; border-top: 2px solid #dcdcdc;">Ads</div>
+<script type="text/javascript">
+google_ad_client = "ca-pub-6423793798099903";
+google_ad_slot = "6315121180";
+google_ad_width = 160;
+google_ad_height = 600;
+</script>
+<script type="text/javascript"
+ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</div>
+<div id="footer">Copyright &copy; 2007-2016 Server World All Rights Reserved.
+<script type="text/javascript" src="./bin/count.js"></script>
+<img src="../bin/count/count.cgi?1" width="1" height="1" alt="" />
+</div>
+<div id="fb-root">&nbsp;</div>
+<script type="text/javascript">(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="toolbar0">
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<g:plusone size="Medium"></g:plusone>
+</div>
+<div id="toolbar1">
+<fb:like href="http://www.server-world.info/en/note?os=Debian_7.0" send="true" layout="button_count" width="450" show_faces="true"></fb:like>
+</div>
+<div id="toolbar2">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11962766-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</body>
+</html>

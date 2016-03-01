@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>How To Set Up an NFS Mount on CentOS 6 | DigitalOcean</title>
+
+<meta name="description" content="This tutorial covers setting up an NFS mount on CentOS. NFS mounts work to share a directory between several virtual servers. This has the advantage of saving disk space, as the home directory is only kept on one virtual private server, and others can">
+<meta name="keywords" content="cloud server, cloud hosting, vps, vps server, vps server hosting, vps hosting, virtual server, virtual private server, ubuntu server, centos server, debian server, linux server, fedora server, linux mint server">
+
+<meta name="og:title" content="How To Set Up an NFS Mount on CentOS 6 | DigitalOcean">
+<meta name="og:description" content="This tutorial covers setting up an NFS mount on CentOS. NFS mounts work to share a directory between several virtual servers. This has the advantage of saving disk space, as the home directory is only kept on one virtual private server, and others can">
+<meta name="og:site_name" content="DigitalOcean">
+<meta name="og:type" content="article">
+
+<meta name="twitter:site" content="DigitalOcean">
+<meta name="twitter:title" content="How To Set Up an NFS Mount on CentOS 6 | DigitalOcean">
+<meta name="twitter:description" content="This tutorial covers setting up an NFS mount on CentOS. NFS mounts work to share a directory between several virtual servers. This has the advantage of saving disk space, as the home directory is only kept on one virtual private server, and others can">
+<meta name="twitter:creator" content="DigitalOcean">
+<meta name="twitter:card" content="photo" />
+<meta name="twitter:url" content="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6"/>
+
+<meta property='og:image' content="https://www.digitalocean.com/assets/community/default_social_sharing-4c803c152c4cc1974dfac71a69fdab63.png">
+<meta name="twitter:image" content="https://www.digitalocean.com/assets/community/default_social_sharing-4c803c152c4cc1974dfac71a69fdab63.png">
+
+  <link rel='canonical' href='https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6'>
+
+
+    <link rel="stylesheet" media="all" href="/assets/community/application-b84c8dd766c9ec8b5f3a3b2e454dad37.css" />
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="vZAI3hgad3OFt6UtIChu6a6FIuEbxhzMFZMVkJwuMR9XCB0b7H62xDPoXcClq5bzbn3bSaDYisQ72GEs1yEyjQ==" />
+    <script type="text/javascript" src="//use.typekit.net/njm7orv.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script src="//cdn.optimizely.com/js/701281621.js"></script>
+    <script type="text/javascript">
+      if(window.analytics=window.analytics||[],window.analytics.included)window.console&&console.error&&console.error("analytics.js included twice");else{window.analytics.included=!0,window.analytics.methods=["identify","group","track","page","pageview","alias","ready","on","once","off","trackLink","trackForm","trackClick","trackSubmit"],window.analytics.factory=function(a){return function(){var n=Array.prototype.slice.call(arguments);return n.unshift(a),window.analytics.push(n),window.analytics}};for(var i=0;i<window.analytics.methods.length;i++){var key=window.analytics.methods[i];window.analytics[key]=window.analytics.factory(key)}window.analytics.load=function(a){var n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+a+"/analytics.min.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(n,t)},window.analytics.SNIPPET_VERSION="2.0.9",
+      window.analytics.load("puo3uv968t")}
+      window.analytics.page();
+    </script>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/community/tutorials/feed">
+    <script src="/assets/community/application-75967e85df790b143e43a5b296c8a6aa.js"></script>
+  </head>
+  <body class="tutorials-controller tutorial-single" data-env="production", data-prefix="/community" data-user-id="" data-facebook-app-id="694818843983011">
+    <script>
+//<![CDATA[
+
+//]]>
+</script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KHWBBT"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KHWBBT');</script>
+<!-- End Google Tag Manager -->
+    
+
+    <div class='outside_viewport'>
+        <div class='table-of-contents '></div>
+  <div id='share-modal' class='modal fade mini-modal' style="display: none;">
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h1>Share</h1>
+          <a class='close-button' data-dismiss='modal' href=''><span class='icon icon-close-light'></span></a>
+        </div>
+        <div class='modal-body'>
+
+          <div class='social-sharing social-sharing-container'>
+            <ul class='bottom '>
+              <li class='shareBtn' id='sbTwitter'>
+                <a href='http://twitter.com/share?text=How To Set Up an NFS Mount on CentOS 6&amp;url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=twshare' class='share-icon share-popup' title='Share on Twitter' >
+                  <span class='sIcon icon-bird'></span>
+                </a>
+                
+                <a href='http://twitter.com/share?text=How To Set Up an NFS Mount on CentOS 6&amp;url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=twshare' class='share-link share-popup' title='Share on Twitter' >
+                  Twitter
+                </a>
+                
+              </li>
+
+              <li class='shareBtn' id='sbFacebook'>
+                <a class='share-icon facebook-share' href='https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=fbshare' onclick='' title='Share on Facebook'>
+                  <span class='sIcon icon-facebook-B'></span>
+                </a>
+
+                <a class='share-link facebook-share' href='https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=fbshare' onclick='' title='Share on Facebook'>
+                  Facebook
+                </a>
+              </li>
+              <li class='shareBtn' id='sbGoogle'>
+                <a href='https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=gpshare' class='share-icon share-popup' title='Share on Google+'>
+                  <span class='sIcon icon-google-plus-B'></span>
+                </a>
+
+                <a href='https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=gpshare' class='share-link share-popup' title='Share on Google+'>
+                  Google+
+                </a>
+              </li>
+              <li class='shareBtn' id='sbYC'>
+                <a href='https://news.ycombinator.com/submitlink?t=How To Set Up an NFS Mount on CentOS 6&amp;u=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=hnshare' class='share-icon share-popup ' target='_blank' title='Submit to Hacker News'>
+                  <span class='sIcon icon-hacker-news'></span>
+                </a>
+
+                <a href='https://news.ycombinator.com/submitlink?t=How To Set Up an NFS Mount on CentOS 6&amp;u=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=hnshare' class='share-link share-popup' target='_blank' title='Submit to Hacker News'>
+                  Hacker News
+                </a>
+              </li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id='contents-modal' class='modal fade mini-modal' style="display: none;">
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h1>Contents</h1>
+          <a class='close-button' data-dismiss='modal' href=''><span class='icon icon-close-light'></span></a>
+        </div>
+        <div class='modal-body'>
+
+          <div class='table-of-contents-modal open'></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id='share-modal' class='modal fade mini-modal' style="display: none;">
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h1>Share</h1>
+          <a class='close-button' data-dismiss='modal' href=''><span class='icon icon-close-light'></span></a>
+        </div>
+        <div class='modal-body'>
+
+          <div class='social-sharing social-sharing-container'>
+            <ul class='top '>
+              <li class='shareBtn' id='sbTwitter'>
+                <a href='http://twitter.com/share?text=How To Set Up an NFS Mount on CentOS 6&amp;url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=twshare' class='share-icon share-popup' title='Share on Twitter' >
+                  <span class='sIcon icon-bird'></span>
+                </a>
+                
+                <a href='http://twitter.com/share?text=How To Set Up an NFS Mount on CentOS 6&amp;url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=twshare' class='share-link share-popup' title='Share on Twitter' >
+                  Twitter
+                </a>
+                
+              </li>
+
+              <li class='shareBtn' id='sbFacebook'>
+                <a class='share-icon facebook-share' href='https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=fbshare' onclick='' title='Share on Facebook'>
+                  <span class='sIcon icon-facebook-B'></span>
+                </a>
+
+                <a class='share-link facebook-share' href='https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=fbshare' onclick='' title='Share on Facebook'>
+                  Facebook
+                </a>
+              </li>
+              <li class='shareBtn' id='sbGoogle'>
+                <a href='https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=gpshare' class='share-icon share-popup' title='Share on Google+'>
+                  <span class='sIcon icon-google-plus-B'></span>
+                </a>
+
+                <a href='https://plus.google.com/share?url=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=gpshare' class='share-link share-popup' title='Share on Google+'>
+                  Google+
+                </a>
+              </li>
+              <li class='shareBtn' id='sbYC'>
+                <a href='https://news.ycombinator.com/submitlink?t=How To Set Up an NFS Mount on CentOS 6&amp;u=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=hnshare' class='share-icon share-popup ' target='_blank' title='Submit to Hacker News'>
+                  <span class='sIcon icon-hacker-news'></span>
+                </a>
+
+                <a href='https://news.ycombinator.com/submitlink?t=How To Set Up an NFS Mount on CentOS 6&amp;u=https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6?utm_content=how-to-set-up-an-nfs-mount-on-centos-6&amp;utm_medium=community&amp;utm_source=hnshare' class='share-link share-popup' target='_blank' title='Submit to Hacker News'>
+                  Hacker News
+                </a>
+              </li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+    <div id="newsletter-signup-dialog" class="newsletter-signups-dialog" data-newsletter-signup-dialog data-article-target=".content-body">
+  <div class="pull-right">
+  <a href="javascript:;" class="newsletter-signups-dialog-dismiss" data-newsletter-signup-dismiss>&times;</a>
+
+</div>
+<h4 class="newsletter-signups-dialog-title">
+  Sign up for our newsletter.
+</h4>
+<p class="newsletter-signups-dialog-description">
+  Get the latest tutorials on SysAdmin and open source topics.
+</p>
+<form class="newsletter-signup" id="new_newsletter_signup" data-newsletter-signup="true" action="/community/newsletter_signup" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+
+  <input data-newsletter-signup-field="url" type="hidden" name="newsletter_signup[url]" id="newsletter_signup_url" />
+  <input data-newsletter-signup-field="title" type="hidden" name="newsletter_signup[title]" id="newsletter_signup_title" />
+
+  <div class="newsletter-signup-ajax-error" data-newsletter-signup-ajax-error></div>
+
+
+  <div class="form-group">
+    <input placeholder="email@example.com" required="required" class="field" type="email" name="newsletter_signup[email]" id="newsletter_signup_email" />
+  </div>
+
+  <button data-disable-with="Sign Up" class="button blue-button">
+    Sign Up
+  </button>
+
+</form>
+
+</div>
+
+
+    </div>
+
+      <div class="mobile-nav">
+  
+<div class="account-buttons">
+    <div id="entrance">
+      <a id="sign-up" class="button" href="/community/auth/digitalocean?display=sessionless+register">Sign Up</a>
+      <a id="log-in" class="button" href="/community/auth/digitalocean">Log In</a>
+    </div>
+</div>
+    
+  <a class="close-panel icon-close" href="javascript:void(0);"></a>
+
+  <form class="mobile-search" action="/community/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+    <span class='icon icon-search-thin'></span>
+    <input type="text" name="q" id="q" placeholder="Search" />
+    <button name="button" type="submit" class="icon-btn">submit</button>
+</form>
+  
+<nav>
+
+  <ul>
+    <li><a href="/community/tutorials">Tutorials</a></li>
+    <li><a href="/community/questions">Questions</a></li>
+    <li><a href="/community/projects">Projects</a></li>
+    <li class="mobile-nav-only"><a href="https://www.digitalocean.com/">Main Site</a></li>
+  </ul>
+</nav>
+
+  
+</div>
+
+
+      
+    	<header>
+  <div class='main-menu-container'>
+    <div class='wrapper'>
+      <div class='logo'>
+        <a class="" href="https://www.digitalocean.com/">
+          <span class='icon icon-cloud'></span>
+</a>
+        <a class="" href="/community">
+          <span class='logo-community-text'>Community</span>
+</a>      </div>
+      
+      <a class="mobile-nav-toggle icon-menu-thin" data-role="left">
+        <span>Menu</span>
+      </a>
+
+      
+<nav>
+
+  <ul>
+    <li><a href="/community/tutorials">Tutorials</a></li>
+    <li><a href="/community/questions">Questions</a></li>
+    <li><a href="/community/projects">Projects</a></li>
+    <li class="mobile-nav-only"><a href="https://www.digitalocean.com/">Main Site</a></li>
+  </ul>
+</nav>
+
+      
+      
+<div class="account-buttons">
+    <div id="entrance">
+      <a id="sign-up" class="button" href="/community/auth/digitalocean?display=sessionless+register">Sign Up</a>
+      <a id="log-in" class="button" href="/community/auth/digitalocean">Log In</a>
+    </div>
+</div>
+      <div class='header-search open'>
+  <form action="/community/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+    <span class='icon icon-search-thin'></span>
+    <input type="text" name="q" id="q" placeholder="Search" autocomplete="off" spellcheck="off" class="header-search-input" data-algolia-application-id="6ZHEUVKJ88" data-algolia-api-key="c5470567eae7fa1177d43222e18ba086" />
+    <button name="button" type="submit" class="icon-btn">submit</button>
+</form></div>
+
+<div class="search-results-dropdown dropdown" data-root-path="https://www.digitalocean.com/community">
+  <div class="container">
+    <div class='header-search-results-list'></div>
+
+    <div id="btn-wrap">
+      <a class="more-search-results" data-search-path="/community/search" href="/community/search">
+        <span class='icon-mag'></span>
+        View All Results
+</a>    </div>
+  </div>
+</div>
+
+<script type='text/template' id='autocomplete-hits-template'>
+  <div class="inner-search">
+    <ul>
+        {{#hits}}
+          <li>
+            <span class='icon icon-{{type}}'></span>
+            <a href='{{url}}'>{{{_highlightResult.title.value}}}</a>
+          </li>
+        {{/hits}}
+    </ul>
+  </div>
+</script>
+      <div class='clearfix'></div>
+    </div>
+  </div>
+  
+
+  <div class='wrapper'>
+    
+  </div>
+</header>
+      
+        <div class="flash-container"></div>
+
+
+      
+      
+      <div class='wrapper layout-wrapper'>
+
+        
+
+
+
+
+
+
+<div class='section-content section-content-growable content'>
+  <div class='postable-info-bar-container'>
+  <div class='postable-info-bar'>
+    <div class='left-section'>
+        <div class='tutorial-author-avatar'>
+          <a href="/community/users/etel"><div class="mod-avatar mod-avatar-small"><img alt="etel" class="avatar avatar-small" src="https://secure.gravatar.com/avatar/bc5d1bb9748253947fc82f9b1e731697?secure=true&d=identicon" width="80" height="80" /><span class="mod-star" title="MOD" data-toggle="tooltip" data-container="body"><span class="mod-star-icon" /></span></div></a>
+        </div>
+
+        <div class='author-and-date'>
+          <div class='tutorial-author'>
+            <div class='by'>By: </div>
+            <a href="/community/users/etel">Etel Sverdlov</a>
+          </div>
+        </div>
+
+      <div class="upvotes upvoted tutorial-upvote"><form data-upvotable="tutorial_160" data-upvotable-type="tutorial" class="upvote-form upvote signed-out-upvote" action="/community/upvotes/toggle?upvote%5Bupvotable_id%5D=160&amp;upvote%5Bupvotable_type%5D=Tutorial" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="K5oX5oucoFoXalTyfc2vJ3DeQ7cHheKz/ZnGFt5NNATBAgIjf/hh7aE1rB/4Tlc9sCa6H7ybdLvT0rKqlUI3lg==" />
+    <button type="submit" disabled="disabled" data-toggle="modal" data-target="#sign-in-modal"><span class='icon-upvote-heart-small upvote-heart' data-toggle="modal" data-target="#sign-in-modal" data-return-url= "" title="Do you find this tutorial helpful? Show the author by Hearting it!" data-placement="bottom"></span></button>
+
+</form><span class="upvote-text"><span class="hearted-text">Hearted</span><span class="heart-text">Heart</span></span><div class="upvote-count ">5</div></div>
+
+        <div class='tutorial-comments-count'>
+          <span class='icon icon-new-comment'></span>
+          19
+        </div>
+
+
+    </div>
+
+    <div class='right-section'>
+      <div class='section-item social-sharing-item'>
+        <div class='sharing'>
+  <a class='share-button' href='#' data-toggle="modal" data-target="#share-modal">
+    <span class='icon icon-share-square'></span>
+    <span class="share-button-text">
+      Share
+    </span>
+  </a>
+</div>
+
+
+      </div>
+
+        <div class='section-item table-of-contents-triggers'><div class='toc-trigger '>
+  <a href='javascript:void(0);'>
+    <span class='title'>Contents</span>
+    <span class='icon icon-close-light'></span>
+    <span class='icon icon-arrow-down'></span>
+  </a>
+</div>
+
+
+
+<div class='toc-trigger-mobile' data-toggle="modal" data-target="#contents-modal">
+  <a href='javascript:void(0);'>
+    <span class='title'>Contents</span>
+    <span class='icon icon-arrow-down'></span>
+  </a>
+</div>
+
+
+</div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="container">
+
+      <div class='info-cta'>
+    <a class="icon-close-light" href="javascript:void();"></a>
+    We hope you find this tutorial helpful. In addition to guides like this one, we provide simple cloud infrastructure for developers. <a href="https://www.digitalocean.com/?utm_medium=community&amp;utm_source=community_gencta&amp;utm_campaign=needaserver&amp;utm_content=how-to-set-up-an-nfs-mount-on-centos-6">
+        Learn more &rarr;
+</a>  </div>
+
+  
+    <h1 class='content-title'>How To Set Up an NFS Mount on CentOS 6</h1>
+
+    <span class='meta-section tags'>
+      <span class='meta-value'><span class="tutorial-date">Sep 18, 2012</span> <span class="hashtag-icon"></span>  </span>
+    </span>
+  </div>
+
+  <div class="container">
+    
+  </div>
+
+    <div class='content-body tutorial-content tutorial-content-legacy' data-growable-markdown>
+      <div><h3>About NFS (Network File System) Mounts</h3>
+
+<p>NFS mounts work to share a directory between several servers. This has the advantage of saving disk space, as the home directory is only kept on one server, and others can connect to it over the network. When setting up mounts, NFS is most effective for permanent fixtures that should always be accessible.</p> 
+
+<h2>Setup</h2>
+
+<p>An NFS mount is set up between at least two servers. The machine hosting the shared network is called the server, while the ones that connect to it are called ‘clients’.</p>
+
+<p>This tutorial requires 2 servers: one acting as the server and one as the client. We will set up the server machine first, followed by the client. The following IP addresses will refer to each one:</p>
+
+<p><b>Master: 12.34.56.789</b></p>
+<p><b>Client: 12.33.44.555</b></p>
+
+<p>The system should be set up as root. You can access the root user by typing</p> 
+
+<pre>sudo su</pre>
+<h2>Setting Up the NFS Server</h2>
+<h3>Step One—Download the Required Software</h3>
+Start off by using apt-get to install the nfs programs.
+<pre>yum install nfs-utils nfs-utils-lib</pre>
+Subsequently, run several startup scripts for the NFS server:
+<pre>chkconfig nfs on 
+service rpcbind start
+service nfs start</pre>
+
+<h3>Step Two—Export the Shared Directory</h3>
+
+<p>The next step is to decide which directory we want to share with the client server. The chosen directory should then be added to the /etc/exports file, which specifies both the directory to be shared and the details of how it is shared.</p> 
+
+<p>Suppose we wanted to share the directory, /home.</p>
+ 
+<p>We need to export the directory:</p>
+
+<pre>vi /etc/exports</pre>
+
+<p>Add the following lines to the bottom of the file, sharing the directory with the client:</p>
+
+<pre>/home           12.33.44.555(rw,sync,no_root_squash,no_subtree_check)</pre>
+
+
+<p>These settings accomplish several tasks:</p>
+ 
+<ul><li><b>rw:</b> This option allows the client server to both read and write within the shared directory</li>
+<li><b>sync:</b> Sync confirms requests to the shared directory only once the changes have been committed. </li>
+<li><b> no_subtree_check:</b> This option prevents the subtree checking. When a shared directory is the subdirectory of a larger filesystem, nfs performs scans  of every directory above it, in order to verify its permissions and details. Disabling the subtree check may increase the reliability of NFS, but reduce security.</li>
+<li><b>no_root_squash:</b> This phrase allows root to connect to the designated directory</li></ul>
+
+<p>Once you have entered in the settings for each directory, run the following command to export them:</p>
+
+<pre>exportfs -a</pre>
+
+<h2>Setting Up the NFS Client</h2>
+
+<h3>Step One—Download the Required Software</h3>
+
+<p>Start off by using apt-get to install the nfs programs.</p>
+
+<pre>yum install nfs-utils nfs-utils-lib</pre>
+
+<h3>Step Two—Mount the Directories</h3>
+
+<p>Once the programs have been downloaded to the the client server, create the directory that will contain the NFS shared files</p> 
+
+<pre>mkdir -p /mnt/nfs/home</pre>
+
+<p>Then go ahead and mount it</p> 
+
+<pre>mount 12.34.56.789:/home /mnt/nfs/home</pre>
+
+<p>You can use the df  -h command to check that the directory has been mounted. You will see it last on the list.</p>
+
+<pre>df -h</pre>
+
+<pre>Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda               20G  783M   18G   5% /
+12.34.56.789:/home       20G  785M   18G   5% /mnt/nfs/home</pre>
+
+
+<p>Additionally, use the mount command to see the entire list of mounted file systems.</p>
+ 
+<pre>mount</pre>
+
+<p>Your list should look something like this:</p>
+
+<pre>/dev/sda on / type ext4 (rw,errors=remount-ro)
+none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)
+sunrpc on /var/lib/nfs/rpc_pipefs type rpc_pipefs (rw)
+nfsd on /proc/fs/nfsd type nfsd (rw)
+12.34.56.789:/home on /mnt/nfs/home type nfs (rw,noatime,nolock,bg,nfsvers=2,intr,tcp,actimeo=1800,addr=12.34.56.789)</pre>
+
+
+<h2>Testing the NFS  Mount</h2>
+
+<p>Once you have successfully mounted your NFS directory, you can test that it works by creating a file on the Client and checking its availability on the Server.</p>
+
+<p>Create a file in the directory to try it out:</p>
+
+<pre>touch /mnt/nfs/home/example</pre>
+
+<p>You should then be able to find the files on the Server in the /home.</p> 
+
+<pre>ls /home</pre>
+
+<p>You can ensure that the mount is always active by adding the directory to the fstab file on the client. This will ensure that the mount starts up after the server reboots.</p>
+
+<pre>vi /etc/fstab</pre>
+
+<pre>12.34.56.789:/home  /mnt/nfs/home   nfs      auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0</pre>
+
+<p>You can learn more about the fstab options by typing in:</p>
+
+<pre>man nfs</pre>
+
+<p>After any subsequent server reboots, you can use a single command to mount directories specified in the fstab file:</p>
+
+<pre>mount -a</pre>
+
+<p>You can check the mounted directories with the two earlier commands:</p>
+
+<pre>df -h</pre>
+
+<pre>mount</pre>
+
+<h2>Removing the NFS Mount</h2>
+
+<p>Should you decide to remove a directory, you can unmount it using the umount command:</p>
+
+<pre>cd
+sudo umount /<i>directory name</i></pre>
+
+<p>You can see that the mounts were removed by then looking at the filesystem again.</p> 
+
+<pre>df -h</pre>
+
+<p>You should find your selected mounted directory gone.</p> 
+
+<div class="author">By Etel Sverdlov</div></div>
+    </div>
+</div>
+
+<div class='tutorial-footer'>
+  <div class='tutorial-footer-details'>
+  <div class='section-content tutorial-public-actions'>
+    <div class='share-subscribe-actions'>
+      <div class="upvotes upvoted tutorial-upvote large-upvotes"><form data-upvotable="tutorial_160" data-upvotable-type="tutorial" class="upvote-form upvote signed-out-upvote" action="/community/upvotes/toggle?upvote%5Bupvotable_id%5D=160&amp;upvote%5Bupvotable_type%5D=Tutorial" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><input type="hidden" name="authenticity_token" value="Lda9q0zzej6FvNaUltADRonSG04OQMGwXA76ooKC5+rHTqhuuJe7iTPjLnkTU/tcSSri5rVeV7hyRY4eyY3keA==" />
+    <button type="submit" disabled="disabled" data-toggle="modal" data-target="#sign-in-modal"><span class='icon-upvote-heart-small upvote-heart' data-toggle="modal" data-target="#sign-in-modal" data-return-url= "" title="Do you find this tutorial helpful? Show the author by Hearting it!" data-placement="top"></span></button>
+
+</form><span class="upvote-text"><span class="hearted-text">Hearted</span><span class="heart-text">Heart</span></span><div class="upvote-count ">5</div></div>
+      <span class="meta-section opt-in-switch off signed-out-subscribe">
+  <span class="meta-label subscribe-label">
+    <span class='subscription-label subscribe'>Subscribe</span>
+    <span class='subscription-label subscribed'>Subscribed</span>
+  </span>
+  <span class="meta-value"><a data-toggle="modal" data-target="#sign-in-modal" class="mini-switch-container" href="javascript:void(0);"><div class="mini-switch off signed-out-subscribe"><div class="switch-handle"></div></div></a></span>
+</span>
+
+      <div class='sharing'>
+  <a class='share-button' href='#' data-toggle="modal" data-target="#share-modal">
+    <span class='icon icon-share-square'></span>
+    <span class="share-button-text">
+      Share
+    </span>
+  </a>
+</div>
+
+
+    </div>
+  </div>
+
+  <div class='section-content tutorial-contributors one'>
+      <div class='tutorial-footer-user'>
+        <div class='tutorial-footer-user-avatar-container'>
+          <a href="/community/users/etel"><div class="mod-avatar mod-avatar-small"><img alt="etel" class="avatar avatar-small" src="https://secure.gravatar.com/avatar/bc5d1bb9748253947fc82f9b1e731697?secure=true&d=identicon" width="80" height="80" /><span class="mod-star" title="MOD" data-toggle="tooltip" data-container="body"><span class="mod-star-icon" /></span></div></a>
+        </div>
+        <div class='user-info'>
+          <div class='tutorial-user-type'>Author:</div>
+          <a href="/community/users/etel">Etel Sverdlov</a>
+        </div>
+      </div>
+
+
+  </div>
+</div>
+
+  
+  <div class='tutorial-ctas'>
+  <div class='section-content'>
+    <div class='cta-description'>
+      <h2>Spin up an SSD cloud server in under a minute.</h2>
+
+      <p>Simple setup. Full root access. Straightforward pricing.</p>
+
+      <a class="cloud-tutorial-cta" href="https://www.digitalocean.com/?utm_medium=community&amp;utm_source=community_gencta&amp;utm_campaign=needaserver&amp;utm_content=how-to-set-up-an-nfs-mount-on-centos-6">Deploy Server</a>
+    </div>
+  </div>
+</div>
+  
+</div>
+
+<div class='content-comments'>
+  <div class='section-content'>
+    <div class="tutorial commentable" id="tutorial_160">
+
+  <div class="comments-header">
+    <h4 class="comments-count"><span>19 Comments</span></h4>
+  </div>
+
+  <div class="response no-avatar  response-form">
+
+  <div class="js-display-on-error flash error hidden"></div>
+  <form class="content-form disabled-form" id="new_comment" action="/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6/comments" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+    <textarea name="comment[content]" id="comment_content" placeholder="Leave a comment..." class="js-comment-content tutorial-comment-field" data-markdown="true">
+</textarea>
+
+      <div class="log-in-notice "><a href="/community/auth/digitalocean">Log In to Comment</a></div>
+
+    <div class='clearfix'></div>
+</form></div>
+
+
+  <div class="comments">
+    <ul class="response-list">
+          <a class="js-click-on-load hidden" rel="nofollow" data-remote="true" href="/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6/comments">Load</a>
+    </ul>
+
+      <div class='comments-spinner'><div class="spinner spinner-large">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+  
+</div>
+</div>
+  </div>
+
+  <div class='load-more-container'></div>
+</div>
+
+
+  </div>
+</div>
+
+<div class='creative-commons'>
+  <a class="creative-commons-image" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img rel="license" alt="Creative Commons License" src="/assets/community/creativecommons-654928f5ebfbb75f4543af8903eabfe4.png" /></a>
+    <div class='license-text'>This work is licensed under a <a rel='license' href='https://creativecommons.org/licenses/by-nc-sa/4.0/'>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</div>
+</div>
+
+
+
+
+
+        <div class="clearfix"></div>
+    	</div>
+
+    	<footer class='footer'>
+  <div class='footer-icon'>
+    <span class='icon icon-sammy'></span>
+  </div>
+
+  <div class='copyright'>
+    Copyright &copy; 2015 DigitalOcean&trade; Inc.
+  </div>
+
+  <ul class='main-nav-links'>
+    <li><a href="/community">Community</a></li>
+    <li><a href="/community/tutorials">Tutorials</a></li>
+    <li><a href="/community/questions">Questions</a></li>
+    <li><a href="/community/projects">Projects</a></li>
+    <li><a href="/community/tags">Tags</a></li>
+    <li>
+      <a href="/community/tutorials/feed">
+        RSS <span class="icon-rss"></span>
+</a>    </li>
+  </ul>
+
+  <br />
+
+  <ul class='secondary-nav-links'>
+
+    <li><a href="https://www.digitalocean.com/legal/terms/">Terms, Privacy, &amp; Copyright</a></li>
+    <li><a href="https://www.digitalocean.com/security/">Security</a></li>
+      <li><a data-toggle="modal" data-target="#sign-in-modal" href="#">Report a Bug</a></li>
+    <li><a href="/community/get-paid-to-write">Get Paid to Write</a></li>
+  </ul>
+</footer>
+
+
+
+
+
+    <div id='sign-in-modal' class='modal fade mini-modal' style="display: none;">
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h1>Sign Up</h1>
+        <a class='close-button' data-dismiss='modal' href=''><span class='icon icon-close-light'></span></a>
+      </div>
+      <div class='modal-body'>
+        <div class='sign-in-message'>Not so fast, you must have an account before you can do that.</div>
+
+        <div class='sign-in-modal-actions'>
+          <a class="sign-in-link button blue-button" data-default-url="/community/auth/digitalocean" href="/community/auth/digitalocean">Log In</a>
+          <a class="sign-up-link button green-button" data-default-url="/community/auth/digitalocean?display=sessionless+register" href="/community/auth/digitalocean?display=sessionless+register">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  <script>
+    $(function() {
+      init_sharing();
+      new NewsletterSignup();
+      new GrowableMarkdown({ target: '[data-growable-markdown]' });
+    });
+  </script>
+
+  <div id='report-a-bug-modal' class='modal fade mini-modal' style="display: none;">
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h1>Report a Bug</h1>
+          <a class='close-button' data-dismiss='modal' href=''><span class='icon icon-close-light'></span></a>
+        </div>
+        <div class='modal-body'>
+          <div class='report-a-bug-message text-center'>Use this form to report bugs related to the Community</div>
+          <div class='report-a-bug-actions do-form'>
+            <div class='form-wrap'>
+              <form class="new_bug_report" id="new_bug_report" action="/community/bug_reports" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="BD5rox8R7X7wEFKl84MvBrUSgCtP9itsgNoULQrrunrupn5m63UsyUZPqkh2ANccdep5g/TovWSukWCRQeS56A==" />
+                <fieldset>
+                  <div class="field">
+                    <input placeholder="Name" type="text" name="bug_report[name]" id="bug_report_name" />
+                  </div>
+                  <div class="field">
+                    <input placeholder="Email" required="required" type="text" name="bug_report[email]" id="bug_report_email" />
+                  </div>
+                  <div class="field">
+                      <textarea placeholder="Message" required="required" name="bug_report[message]" id="bug_report_message">
+</textarea>
+                  </div>
+
+                  <div class="field actions">
+                    <input type="submit" name="commit" value="Submit" class="button" />
+                  </div>
+                </fieldset>
+</form>            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </body>
+</html>

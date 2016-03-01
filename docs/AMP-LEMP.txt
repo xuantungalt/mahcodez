@@ -1,0 +1,175 @@
+#https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations
+#https://anturis.com/blog/nginx-vs-apache/
+
+sudo apt-get update
+sudo apt-get install -y apache2 apache2-utils apache2.2-bin apache2.2-common \
+php5 php5-cgi php5-cli php5-common php5-curl php5-dev php5-fpm php5-gd php5-imagick php5-sqlite php5-mysql php5-svn php-pear \
+libapache2-svn libsvn-dev subversion subversion-tools
+
+### apache
+#apt-get install libpcre3 libpcre3-dev
+export CFLAGS=-fPIC
+# Install SSL
+./config --prefix=/opt/openssl shared
+# Install PCRE
+./configure --prefix=/opt/pcre
+# Install Apache HTTPD
+mv apr-1.5.2 ./httpd-2.4.12/srclib/apr
+mv apr-util-1.5.4 ./httpd-2.4.12/srclib/apr-util
+mv apr-iconv-1.2.1 ./httpd-2.4.12/srclib/apr-iconv
+cd ./httpd-2.4.12
+./configure --prefix=/opt/httpd --enable-ssl --with-ssl=/opt/openssl \
+--enable-so --enable-mods-shared="reallyall" \
+--with-included-apr --with-pcre=/opt/pcre
+make && make install
+
+
+### Nginx
+# download packages
+pcre-8.37, openssl-1.0.2a, zlib-1.2.8
+./configure --prefix=/opt/nginx --with-pcre=/opt/src/pcre-8.37 --with-openssl=/opt/src/openssl-1.0.2a --with-http_ssl_module --with-zlib=/opt/src/zlib-1.2.8
+
+
+
+
+
+
+### Subversion
+./configure --prefix=/opt/subversion \
+--with-apxs=/opt/httpd/bin/apxs \
+--with-apr=/opt/httpd/bin/apr-1-config \
+--with-apr-util=/opt/httpd/bin/apu-1-config \
+--with-sqlite=/opt/sqlite3 \
+--with-openssl=/usr/bin/openssl
+
+ln -s /opt/subversion/libexec/mod_authz_svn.so /opt/httpd/modules/mod_authz_svn.so
+ln -s /opt/subversion/libexec/mod_dav_svn.so /opt/httpd/modules/mod_dav_svn.so
+
+
+
+
+
+
+
+# MYSQL
+sudo apt-get install cmake libaio-dev libncurses5 libncurses5-dev
+cmake . -DCMAKE_INSTALL_PREFIX=/opt/mysql \
+-DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8
+# If you encounter problems while running cmake, you have to delete CmakeCache.txt before re-compiling with cmake
+
+# PHP
+sudo apt-get install libxml2-dev libxml2-utils libxml2
+./configure --with-apxs2=/opt/httpd/bin/apxs \
+--with-mysql=/opt/mysql \
+--enable-xml --with-xml \
+--with-libxml-dir=/usr/lib/ \
+--with-gd --with-iconv
+
+sudo apt-get install -y php5 php5-adodb php5-cgi php5-cli php5-common \
+php5-curl php5-dev php5-exactimage php5-ffmpeg php5-fpm php5-gd php5-gdcm \
+php5-geoip php5-gmp php5-imagick php5-imap php5-interbase php5-intl php5-lasso \
+php5-ldap php5-librdf php5-mcrypt php5-memcache php5-memcached php5-mysql php5-sqlite \
+php5-sasl php5-snmp php5-svn php5-sybase php5-tidy
+
+# Python
+./configure --prefix=/opt/python279 --with-cxx-main=/usr/bin/g++ --enable-shared
+
+
+
+
+
+
+
+
+
+
+
+# https://groups.google.com/forum/#!topic/comp.infosystems.www.servers.unix/tXVxypU6Nd0
+Steps to Build and install latest Apache httpd-2.4.10 with the latest OpenSSL openssl-1.0.1j on Solaris 10. 
+
+(1) Download following software 
+openssl-1.0.1j.tar.gz 
+httpd-2.4.10.tar.gz 
+apr-1.5.1.tar.gz 
+apr-util-1.5.4.tar.gz 
+pcre-8.36.tar.gz 
+
+(2) Verify Make and CC 
+By default 
+gcc  is at /usr/sfw/bin/gcc 
+make is at /usr/ccs/bin/make 
+
+Include following in the PATH 
+/usr/local/ssl/bin:/usr/sfw/bin:/usr/local/bin:/usr/ccs/bin 
+
+Include following in the LD_LIBRARY_PATH 
+/usr/local/lib:/usr/local/ssl/lib 
+
+(3) Build and install openssl-1.0.1j 
+Unzip and un-tar openssl-1.0.1j.tar.gz to /usr/local/openssl-1.0.1j 
+Execute following commands in order. The shared parameter is very important so that it can be linked with httpd-2.4.10 build for SSL enabling. 
+
+$ cd /usr/local/openssl-1.0.1j 
+$ ./config shared 
+$ make 
+$ make test 
+$ make install 
+
+By default it installs openssl at /usr/local/ssl 
+
+(4) Install pcre-8.36 
+Unzip and un-tar pcre-8.36.tar.gz to /usr/local/ pcre-8.36 
+
+Execute following commands in order 
+$ cd /usr/local/ pcre-8.36 
+$ ./configure 
+$ make 
+$ make install 
+
+By default, `make install' installs the package's commands under 
+`/usr/local/bin', include files under `/usr/local/include', etc. 
+
+(5) Build and install httpd-2.4.10 
+
+Unzip and un-tar httpd-2.4.10.tar.gz to /usr/local/ httpd-2.4.10 
+
+Unzip and un-tar apr-1.5.1.tar.gz to /usr/local/ httpd-2.4.10/srclib 
+Rename /usr/local/ apr-1.5.1 to /usr/local/ apr 
+
+Unzip and un-tar apr-util-1.5.4.tar.gz to /usr/local/ httpd-2.4.10/srclib 
+Rename /usr/local/apr-util to /usr/local/ apr-util 
+
+Execute following commands in order 
+$ ./configure --prefix=/usr/local/apache2 --with-included-apr --enable-so -enable-ssl=shared --with-ssl=/usr/local/ssl 
+$ make 
+$ make install 
+
+It installs it at /usr/local/apache2 
+
+The installation is complete.To enable SSL and Proxy, Update /usr/local/apache2/conf/ httpd.conf with uncommentting following lines 
+
+LoadModule socache_shmcb_module modules/mod_socache_shmcb.so 
+
+LoadModule proxy_module modules/mod_proxy.so 
+LoadModule proxy_connect_module modules/mod_proxy_connect.so 
+LoadModule proxy_ftp_module modules/mod_proxy_ftp.so 
+LoadModule proxy_http_module modules/mod_proxy_http.so 
+LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so 
+LoadModule proxy_scgi_module modules/mod_proxy_scgi.so 
+LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so 
+LoadModule proxy_ajp_module modules/mod_proxy_ajp.so 
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so 
+LoadModule proxy_express_module modules/mod_proxy_express.so 
+
+LoadModule slotmem_shm_module modules/mod_slotmem_shm.so 
+LoadModule ssl_module modules/mod_ssl.so 
+
+Include conf/extra/httpd-ssl.conf 
+
+Now you can work on httpd-ssl.conf as you usually do to complete your configuration 
+
+
+
+# NGINX
+http://wiki.nginx.org/Pitfalls#Taxing_Rewrites
+http://wiki.nginx.org/PythonFlup

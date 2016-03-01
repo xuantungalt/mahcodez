@@ -1,0 +1,1663 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+ lang="en" dir="ltr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>
+    Small getopts tutorial    [Bash Hackers Wiki]
+  </title>
+
+  <meta name="generator" content="DokuWiki"/>
+<meta name="robots" content="index,follow"/>
+<meta name="date" content="2014-07-17T07:38:42+0200"/>
+<meta name="keywords" content="howto,getopts_tutorial,bash,shell,scripting,arguments,positional,parameters,options,getopt,getopts"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/lib/exe/opensearch.php" title="Bash Hackers Wiki"/>
+<link rel="start" href="/"/>
+<link rel="contents" href="/howto/getopts_tutorial?do=index" title="Sitemap"/>
+<link rel="alternate" type="application/rss+xml" title="Recent Changes" href="/feed.php"/>
+<link rel="alternate" type="application/rss+xml" title="Current Namespace" href="/feed.php?mode=list&amp;ns=howto"/>
+<link rel="alternate" type="text/html" title="Plain HTML" href="/_export/xhtml/howto/getopts_tutorial"/>
+<link rel="alternate" type="text/plain" title="Wiki Markup" href="/_export/raw/howto/getopts_tutorial"/>
+<link rel="canonical" href="http://wiki.bash-hackers.org/howto/getopts_tutorial"/>
+<link rel="stylesheet" media="screen" type="text/css" href="/lib/exe/css.php?t=arctic&amp;tseed=1379199457"/>
+<link rel="stylesheet" media="all" type="text/css" href="/lib/exe/css.php?s=all&amp;t=arctic&amp;tseed=1379199457"/>
+<link rel="stylesheet" media="print" type="text/css" href="/lib/exe/css.php?s=print&amp;t=arctic&amp;tseed=1379199457"/>
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+var NS='howto';var JSINFO = {"id":"howto:getopts_tutorial","namespace":"howto"};
+//--><!]]></script>
+<script type="text/javascript" charset="utf-8" src="/lib/exe/js.php?tseed=1379199457"></script>
+<script type="text/javascript" charset="utf-8"><!--//--><![CDATA[//><!--
+NS = "howto";var table_toolbar = [{"title":"Toggle header state","key":"H","icon":"..\/..\/plugins\/edittable\/images\/text_heading.png","type":"toggletag"},{"title":"Left-align cell","key":"N","icon":"..\/..\/plugins\/edittable\/images\/a_left.png","type":"val","prop":"align","class":"separator","val":"left"},{"title":"Center cell","key":"M","icon":"..\/..\/plugins\/edittable\/images\/a_center.png","type":"val","prop":"align","val":"center"},{"title":"Right-align cell","key":"R","icon":"..\/..\/plugins\/edittable\/images\/a_right.png","type":"val","prop":"align","val":"right"},{"title":"Increase colspan","icon":"..\/..\/plugins\/edittable\/images\/merge_right.png","type":"span","class":"separator","target":"col","ops":"+"},{"title":"Reduce colspan","icon":"..\/..\/plugins\/edittable\/images\/split_right.png","type":"span","target":"col","ops":"-"},{"title":"Increase rowspan","icon":"..\/..\/plugins\/edittable\/images\/merge_down.png","type":"span","class":"separator","target":"row","ops":"+"},{"title":"Reduce rowspan","icon":"..\/..\/plugins\/edittable\/images\/split_down.png","type":"span","target":"row","ops":"-"},{"title":"Add row below","icon":"..\/..\/plugins\/edittable\/images\/row_insert.png","type":"structure","class":"separator","target":"row","ops":"+"},{"title":"Remove row","icon":"..\/..\/plugins\/edittable\/images\/row_delete.png","type":"structure","target":"row","ops":"-"},{"title":"Add column on the right","icon":"..\/..\/plugins\/edittable\/images\/column_add.png","type":"structure","class":"separator","target":"col","ops":"+"},{"title":"Remove column","icon":"..\/..\/plugins\/edittable\/images\/column_delete.png","type":"structure","target":"col","ops":"-"}];
+var toolbar = [{"type":"format","title":"Bold Text","icon":"bold.png","key":"b","open":"**","close":"**","block":false},{"type":"format","title":"Italic Text","icon":"italic.png","key":"i","open":"\/\/","close":"\/\/","block":false},{"type":"format","title":"Underlined Text","icon":"underline.png","key":"u","open":"__","close":"__","block":false},{"type":"format","title":"Code Text","icon":"mono.png","key":"c","open":"''","close":"''","block":false},{"type":"format","title":"Strike-through Text","icon":"strike.png","key":"d","open":"<del>","close":"<\/del>","block":false},{"type":"autohead","title":"Same Level Headline","icon":"hequal.png","key":"8","text":"Headline","mod":0,"block":true},{"type":"autohead","title":"Lower Headline","icon":"hminus.png","key":"9","text":"Headline","mod":1,"block":true},{"type":"autohead","title":"Higher Headline","icon":"hplus.png","key":"0","text":"Headline","mod":-1,"block":true},{"type":"picker","title":"Select Headline","icon":"h.png","class":"pk_hl","list":[{"type":"format","title":"Level 1 Headline","icon":"h1.png","key":"1","open":"====== ","close":" ======\\n"},{"type":"format","title":"Level 2 Headline","icon":"h2.png","key":"2","open":"===== ","close":" =====\\n"},{"type":"format","title":"Level 3 Headline","icon":"h3.png","key":"3","open":"==== ","close":" ====\\n"},{"type":"format","title":"Level 4 Headline","icon":"h4.png","key":"4","open":"=== ","close":" ===\\n"},{"type":"format","title":"Level 5 Headline","icon":"h5.png","key":"5","open":"== ","close":" ==\\n"}],"block":true},{"type":"format","title":"External Link","icon":"linkextern.png","open":"[[","close":"]]","sample":"http:\/\/example.com|External Link","block":false},{"type":"formatln","title":"Ordered List Item","icon":"ol.png","open":"  - ","close":"","key":"-","block":true},{"type":"formatln","title":"Unordered List Item","icon":"ul.png","open":"  * ","close":"","key":".","block":true},{"type":"insert","title":"Horizontal Rule","icon":"hr.png","insert":"\\n----\\n","block":true},{"type":"picker","title":"Smileys","icon":"smiley.png","list":{"8-)":"icon_cool.gif","8-O":"icon_eek.gif","8-o":"icon_eek.gif",":-(":"icon_sad.gif",":-)":"icon_smile.gif","=)":"icon_smile2.gif",":-\/":"icon_doubt.gif",":-\\":"icon_doubt2.gif",":-?":"icon_confused.gif",":-D":"icon_biggrin.gif",":-P":"icon_razz.gif",":-o":"icon_surprised.gif",":-O":"icon_surprised.gif",":-x":"icon_silenced.gif",":-X":"icon_silenced.gif",":-|":"icon_neutral.gif",";-)":"icon_wink.gif","m(":"facepalm.gif","^_^":"icon_fun.gif",":?:":"icon_question.gif",":!:":"icon_exclaim.gif","LOL":"icon_lol.gif","FIXME":"fixme.gif","DELETEME":"delete.gif",":UPDATE:":"update.gif",":NEW:":"new.gif",":V4:":"v4logo_short.gif"},"icobase":"smileys","block":false},{"type":"picker","title":"Special Chars","icon":"chars.png","list":["\u00c0","\u00e0","\u00c1","\u00e1","\u00c2","\u00e2","\u00c3","\u00e3","\u00c4","\u00e4","\u01cd","\u01ce","\u0102","\u0103","\u00c5","\u00e5","\u0100","\u0101","\u0104","\u0105","\u00c6","\u00e6","\u0106","\u0107","\u00c7","\u00e7","\u010c","\u010d","\u0108","\u0109","\u010a","\u010b","\u00d0","\u0111","\u00f0","\u010e","\u010f","\u00c8","\u00e8","\u00c9","\u00e9","\u00ca","\u00ea","\u00cb","\u00eb","\u011a","\u011b","\u0112","\u0113","\u0116","\u0117","\u0118","\u0119","\u0122","\u0123","\u011c","\u011d","\u011e","\u011f","\u0120","\u0121","\u0124","\u0125","\u00cc","\u00ec","\u00cd","\u00ed","\u00ce","\u00ee","\u00cf","\u00ef","\u01cf","\u01d0","\u012a","\u012b","\u0130","\u0131","\u012e","\u012f","\u0134","\u0135","\u0136","\u0137","\u0139","\u013a","\u013b","\u013c","\u013d","\u013e","\u0141","\u0142","\u013f","\u0140","\u0143","\u0144","\u00d1","\u00f1","\u0145","\u0146","\u0147","\u0148","\u00d2","\u00f2","\u00d3","\u00f3","\u00d4","\u00f4","\u00d5","\u00f5","\u00d6","\u00f6","\u01d1","\u01d2","\u014c","\u014d","\u0150","\u0151","\u0152","\u0153","\u00d8","\u00f8","\u0154","\u0155","\u0156","\u0157","\u0158","\u0159","\u015a","\u015b","\u015e","\u015f","\u0160","\u0161","\u015c","\u015d","\u0162","\u0163","\u0164","\u0165","\u00d9","\u00f9","\u00da","\u00fa","\u00db","\u00fb","\u00dc","\u00fc","\u01d3","\u01d4","\u016c","\u016d","\u016a","\u016b","\u016e","\u016f","\u01d6","\u01d8","\u01da","\u01dc","\u0172","\u0173","\u0170","\u0171","\u0174","\u0175","\u00dd","\u00fd","\u0178","\u00ff","\u0176","\u0177","\u0179","\u017a","\u017d","\u017e","\u017b","\u017c","\u00de","\u00fe","\u00df","\u0126","\u0127","\u00bf","\u00a1","\u00a2","\u00a3","\u00a4","\u00a5","\u20ac","\u00a6","\u00a7","\u00aa","\u00ac","\u00af","\u00b0","\u00b1","\u00f7","\u2030","\u00bc","\u00bd","\u00be","\u00b9","\u00b2","\u00b3","\u00b5","\u00b6","\u2020","\u2021","\u00b7","\u2022","\u00ba","\u2200","\u2202","\u2203","\u018f","\u0259","\u2205","\u2207","\u2208","\u2209","\u220b","\u220f","\u2211","\u203e","\u2212","\u2217","\u00d7","\u2044","\u221a","\u221d","\u221e","\u2220","\u2227","\u2228","\u2229","\u222a","\u222b","\u2234","\u223c","\u2245","\u2248","\u2260","\u2261","\u2264","\u2265","\u2282","\u2283","\u2284","\u2286","\u2287","\u2295","\u2297","\u22a5","\u22c5","\u25ca","\u2118","\u2111","\u211c","\u2135","\u2660","\u2663","\u2665","\u2666","\u03b1","\u03b2","\u0393","\u03b3","\u0394","\u03b4","\u03b5","\u03b6","\u03b7","\u0398","\u03b8","\u03b9","\u03ba","\u039b","\u03bb","\u03bc","\u039e","\u03be","\u03a0","\u03c0","\u03c1","\u03a3","\u03c3","\u03a4","\u03c4","\u03c5","\u03a6","\u03c6","\u03c7","\u03a8","\u03c8","\u03a9","\u03c9","\u2605","\u2606","\u260e","\u261a","\u261b","\u261c","\u261d","\u261e","\u261f","\u2639","\u263a","\u2714","\u2718","\u201e","\u201c","\u201d","\u201a","\u2018","\u2019","\u00ab","\u00bb","\u2039","\u203a","\u2014","\u2013","\u2026","\u2190","\u2191","\u2192","\u2193","\u2194","\u21d0","\u21d1","\u21d2","\u21d3","\u21d4","\u00a9","\u2122","\u00ae","\u2032","\u2033","[","]","{","}","~","(",")","%","\u00a7","$","#","|","@"],"block":false},{"type":"picker","title":"Wrap Plugin","icon":"..\/..\/plugins\/wrap\/images\/toolbar\/picker.png","list":[{"type":"format","title":"column","icon":"..\/..\/plugins\/wrap\/images\/toolbar\/column.png","open":"<WRAP column 30%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"simple centered box","icon":"..\/..\/plugins\/wrap\/images\/toolbar\/box.png","open":"<WRAP center round box 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"info box","icon":"..\/..\/plugins\/wrap\/images\/note\/16\/info.png","open":"<WRAP center round info 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"tip box","icon":"..\/..\/plugins\/wrap\/images\/note\/16\/tip.png","open":"<WRAP center round tip 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"important box","icon":"..\/..\/plugins\/wrap\/images\/note\/16\/important.png","open":"<WRAP center round important 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"alert box","icon":"..\/..\/plugins\/wrap\/images\/note\/16\/alert.png","open":"<WRAP center round alert 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"help box","icon":"..\/..\/plugins\/wrap\/images\/note\/16\/help.png","open":"<WRAP center round help 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"download box","icon":"..\/..\/plugins\/wrap\/images\/note\/16\/download.png","open":"<WRAP center round download 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"format","title":"todo box","icon":"..\/..\/plugins\/wrap\/images\/note\/16\/todo.png","open":"<WRAP center round todo 60%>\\n","close":"\\n<\/WRAP>\\n"},{"type":"insert","title":"clear floats","icon":"..\/..\/plugins\/wrap\/images\/toolbar\/clear.png","insert":"<WRAP clear><\/WRAP>\\n"},{"type":"format","title":"especially emphasised","icon":"..\/..\/plugins\/wrap\/images\/toolbar\/em.png","open":"<wrap em>","close":"<\/wrap>"},{"type":"format","title":"highlighted","icon":"..\/..\/plugins\/wrap\/images\/toolbar\/hi.png","open":"<wrap hi>","close":"<\/wrap>"},{"type":"format","title":"less significant","icon":"..\/..\/plugins\/wrap\/images\/toolbar\/lo.png","open":"<wrap lo>","close":"<\/wrap>"}]},{"title":"Insert a new table","type":"insertTable","icon":"..\/..\/plugins\/edittable\/images\/add_table.png"},{"type":"format","title":"Mark text as key press","icon":"..\/..\/plugins\/keyboard\/keyboard.png","open":"<key>","close":"<\/key>"}];
+
+//--><!]]></script>
+
+  <link rel="shortcut icon" href="/lib/tpl/arctic/images/favicon.ico" />
+
+  
+</head>
+<body>
+<div id="wrapper">
+  <div class="dokuwiki">
+
+    <div class="info">- Article pages now have a discussion option at the bottom (moderated/captcha, but no registration needed)</div>
+    <div class="stylehead">
+      <div class="header">
+        <div class="pagename">
+          [[<a href="/howto/getopts_tutorial?do=backlink" >Small getopts tutorial</a>]]
+        </div>
+        <div class="logo">
+          <a href="/"  name="dokuwiki__top" accesskey="h" title="[ALT+H]">Bash Hackers Wiki</a>        </div>
+      </div>
+    
+       
+      <div class="breadcrumbs">
+        <span class="bchead">You are here: </span><a href="/start" class="wikilink1" title="start">Bash Hackers Wiki Frontpage</a> &raquo; <a href="/howto/start" class="wikilink1" title="howto:start">HOWTO</a> &raquo; <span class="curid"><a href="/howto/getopts_tutorial" class="wikilink1" title="howto:getopts_tutorial">Small getopts tutorial</a></span>      </div>
+      
+            </div>
+
+                  <div class="bar" id="bar__top">
+        <div class="bar-left">
+          <form class="button btn_source" method="post" action="/howto/getopts_tutorial"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="rev" value="" /><input type="submit" value="Show pagesource" class="button" accesskey="v" title="Show pagesource [V]" /></div></form><form class="button btn_revs" method="get" action="/howto/getopts_tutorial"><div class="no"><input type="hidden" name="do" value="revisions" /><input type="submit" value="Old revisions" class="button" accesskey="o" title="Old revisions [O]" /></div></form>        </div>
+        <div class="bar-right">
+          <form class="button btn_recent" method="get" action="/howto/getopts_tutorial"><div class="no"><input type="hidden" name="do" value="recent" /><input type="submit" value="Recent changes" class="button" accesskey="r" title="Recent changes [R]" /></div></form><form class="button btn_index" method="get" action="/howto/getopts_tutorial"><div class="no"><input type="hidden" name="do" value="index" /><input type="submit" value="Sitemap" class="button" accesskey="x" title="Sitemap [X]" /></div></form><form class="button btn_login" method="get" action="/howto/getopts_tutorial"><div class="no"><input type="hidden" name="do" value="login" /><input type="hidden" name="sectok" value="f7dc0da8f32f154be4f04ea190381ef0" /><input type="submit" value="Login" class="button" title="Login" /></div></form><form action="/" accept-charset="utf-8" class="search" id="dw__search" method="get"><div class="no"><input type="hidden" name="do" value="search" /><input type="text" id="qsearch__in" accesskey="f" name="id" class="edit" title="[F]" /><input type="submit" value="Search" class="button" title="Search" /><div id="qsearch__out" class="ajax_qsearch JSpopup"></div></div></form>        </div>
+    </div>
+        
+    
+    
+          <div class="page">
+        <!-- TOC START -->
+<div class="toc">
+<div class="tocheader toctoggle" id="toc__header">Table of Contents</div>
+<div id="toc__inside">
+
+<ul class="toc">
+<li class="level1"><div class="li"><span class="li"><a href="#small_getopts_tutorial" class="toc">Small getopts tutorial</a></span></div>
+<ul class="toc">
+<li class="level2"><div class="li"><span class="li"><a href="#description" class="toc">Description</a></span></div>
+<ul class="toc">
+<li class="level3"><div class="li"><span class="li"><a href="#terminology" class="toc">Terminology</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#how_it_works" class="toc">How it works</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#used_variables" class="toc">Used variables</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#specify_what_you_want" class="toc">Specify what you want</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#error_reporting" class="toc">Error Reporting</a></span></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><span class="li"><a href="#using_it" class="toc">Using it</a></span></div>
+<ul class="toc">
+<li class="level3"><div class="li"><span class="li"><a href="#a_first_example" class="toc">A first example</a></span></div></li>
+<li class="level3"><div class="li"><span class="li"><a href="#an_option_with_argument" class="toc">An option with argument</a></span></div></li>
+</ul>
+</li>
+<li class="level2"><div class="li"><span class="li"><a href="#see_also" class="toc">See also</a></span></div></li>
+</ul>
+</li>
+<li class="level1"><div class="li"><span class="li"><a href="#discussion__section" class="toc">Discussion</a></span></div></li>
+</ul>
+</div>
+</div>
+<!-- TOC END -->
+
+<h1 class="sectionedit1"><a name="small_getopts_tutorial" id="small_getopts_tutorial">Small getopts tutorial</a></h1>
+<div class="level1">
+
+<p>
+<img src="/lib/images/smileys/fixme.gif" class="middle" alt="FIXME" /> incomplete
+</p>
+
+<p>
+When you want to parse commandline arguments in a professional way, <code>getopts</code> is the tool of choice. Unlike its older brother <code>getopt</code> (note the missing <em>s</em>!), it&#039;s a shell builtin command. The advantage is
+</p>
+<ul>
+<li class="level1"><div class="li"> you don&#039;t need to hand your positional parameters through to an external program</div>
+</li>
+<li class="level1"><div class="li"> <code>getopts</code> can easily set shell variables you can use for parsing (impossible for an <em>external</em> process!)</div>
+</li>
+<li class="level1"><div class="li"> you don&#039;t have to argue with several <code>getopt</code> implementations which had buggy concepts in the past (whitespaces, …)</div>
+</li>
+<li class="level1"><div class="li"> <code>getopts</code> is defined in POSIX®</div>
+</li>
+</ul>
+
+<p>
+Some other methods to parse positional parameters (without <code>getopt(s)</code>) are described in: <a href="/scripting/posparams" class="wikilink1" title="scripting:posparams"> How to handle positional parameters</a>.
+</p>
+
+<p>
+<strong>Note that</strong> <code>getopts</code> is not able to parse GNU-style long options (<code>--myoption</code>) or XF86-style long options (<code>-myoption</code>)!
+</p>
+
+</div>
+
+<h2 class="sectionedit2"><a name="description" id="description">Description</a></h2>
+<div class="level2">
+
+</div>
+
+<h3 class="sectionedit3"><a name="terminology" id="terminology">Terminology</a></h3>
+<div class="level3">
+
+<p>
+It&#039;s useful to know what we&#039;re talking about here, so let&#039;s see… Consider the following commandline:
+<pre class="code">mybackup -x -f /etc/mybackup.conf -r ./foo.txt ./bar.txt</pre>
+
+All these are positional parameters, but you can divide them into some logical groups:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>-x</code> is an <strong>option</strong>, a flag, a switch: <strong>one</strong> character, indroduced by a <strong>dash</strong> (<code>-</code>)</div>
+</li>
+<li class="level1"><div class="li"> <code>-f</code> is also an option, but this option has an <strong>additional argument</strong> (argument to the option <code>-f</code>): <code>/etc/mybackup.conf</code>. This argument is usually separated from its option (by a whitespace or any other splitting character) but that&#039;s not a must, <code>-f/etc/mybackup.conf</code> is valid.</div>
+</li>
+<li class="level1"><div class="li"> <code>-r</code> depends on the configuration. In this example, <code>-r</code> doesn&#039;t take arguments, so it&#039;s a standalone option, like <code>-x</code></div>
+</li>
+<li class="level1"><div class="li"> <code>./foo.txt</code> and <code>./bar.txt</code> are remaining arguments without any option related. These often are used as <strong>mass-arguments</strong> (like for example the filenames you specify for <code>cp(1)</code>) or for arguments that don&#039;t need an option to be recognized because of the intended behaviour of the program (like the filename argument you give your text-editor to open and display - why would one need an extra switch for that?). POSIX® calls them <strong>operands</strong>.</div>
+</li>
+</ul>
+
+<p>
+To give you an idea about why <code>getopts</code> is useful: The above commandline could also read like…
+<pre class="code">mybackup -xrf /etc/mybackup.conf ./foo.txt ./bar.txt</pre>
+
+…which is very hard to parse by own code. <code>getopts</code> recognized all the common option formats.
+</p>
+
+<p>
+The option flags can be <strong>upper- and lowercase</strong> characters, and of course <strong>digits</strong>. It may recognize other characters, but that&#039;s not recommended (usability and maybe problems with special characters).
+</p>
+
+</div>
+
+<h3 class="sectionedit4"><a name="how_it_works" id="how_it_works">How it works</a></h3>
+<div class="level3">
+
+<p>
+In general you need to call <code>getopts</code> several times. Each time it will use &quot;the next&quot; positional parameter (and a possible argument), if parsable, and provide it to you. <code>getopts</code> will not change the positional parameter set — if you want to shift it, you have to do it manually after processing:
+<pre class="code">shift $(($OPTIND-1))
+# now do something with $@</pre>
+
+</p>
+
+<p>
+Since <code>getopts</code> will set an exit status of <em>FALSE</em> when there&#039;s nothing left to parse, it&#039;s easy to use it in a while-loop:
+<pre class="code">while getopts ...; do
+  ...
+done</pre>
+
+</p>
+
+<p>
+<code>getopts</code> will parse options and their possible arguments. It will stop parsing on the first non-option argument (a string that doesn&#039;t begin with  a hyphen (<code>-</code>) that isn&#039;t an argument for any option infront of it). It will also stop parsing when it sees the <code>--</code> (double-hyphen), which means <a href="/dict/terms/end_of_options" class="wikilink1" title="dict:terms:end_of_options"> end of options</a>.
+</p>
+
+</div>
+
+<h3 class="sectionedit5"><a name="used_variables" id="used_variables">Used variables</a></h3>
+<div class="level3">
+<div class="table sectionedit6"><table class="inline">
+	<tr class="row0">
+		<th class="col0">variable</th><th class="col1">description</th>
+	</tr>
+	<tr class="row1">
+		<td class="col0"><a href="/syntax/shellvars#optind" class="wikilink1" title="syntax:shellvars">OPTIND</a></td><td class="col1">Holds the index to the next argument to be processed. This is how <code>getopts</code> &quot;remembers&quot; its own status between invocations. Also usefull to shift the positional parameters after processing with <code>getopts</code>. <code>OPTIND</code> is initially set to 1, and <strong>needs to be re-set to 1 if you want to parse anything again with getopts</strong></td>
+	</tr>
+	<tr class="row2">
+		<td class="col0"><a href="/syntax/shellvars#optarg" class="wikilink1" title="syntax:shellvars">OPTARG</a></td><td class="col1">This variable is set to any argument for an option found by <code>getopts</code>. It also contains the option flag of an unknown option.</td>
+	</tr>
+	<tr class="row3">
+		<td class="col0"><a href="/syntax/shellvars#opterr" class="wikilink1" title="syntax:shellvars">OPTERR</a></td><td class="col1">(Values 0 or 1) Indicates if Bash should display error messages generated by the <code>getopts</code> builtin. The value is initialized to <strong>1</strong> on every shell startup - so be sure to always set it to <strong>0</strong> if you don&#039;t want to see annoying messages!</td>
+	</tr>
+</table></div>
+
+<p>
+<code>getopts</code> also uses these variables for error reporting (they&#039;re set to value-combinations which arent possible in normal operation).
+</p>
+
+</div>
+
+<h3 class="sectionedit7"><a name="specify_what_you_want" id="specify_what_you_want">Specify what you want</a></h3>
+<div class="level3">
+
+<p>
+The base-syntax for <code>getopts</code> is:
+<pre class="code">getopts OPTSTRING VARNAME [ARGS...]</pre>
+
+where:
+</p>
+<div class="table sectionedit8"><table class="inline">
+	<tr class="row0">
+		<th class="col0"><code>OPTSTRING</code></th><td class="col1">tells <code>getopts</code> which options to expect and where to expect arguments (see below)</td>
+	</tr>
+	<tr class="row1">
+		<th class="col0"><code>VARNAME</code></th><td class="col1">tells <code>getopts</code> which shell-variable to use for option reporting</td>
+	</tr>
+	<tr class="row2">
+		<th class="col0"><code>ARGS</code></th><td class="col1">tells <code>getopts</code> to parse these optional words instead of the positional parameters</td>
+	</tr>
+</table></div>
+
+</div>
+
+<h4><a name="the_option-string" id="the_option-string">The option-string</a></h4>
+<div class="level4">
+
+<p>
+The option-string tells <code>getopts</code> which options to expect and which of them must have an argument. The syntax is very simple — every option character is simply named as is, this example-string would tell <code>getopts</code> to look for <code>-f</code>, <code>-A</code> and <code>-x</code>:
+<pre class="code">getopts fAx VARNAME</pre>
+
+</p>
+
+<p>
+When you want <code>getopts</code> to expect an argument for an option, just place a <code>:</code> (colon) after the proper option flag. If you want <code>-A</code> to expect an argument (i.e. to become <code>-A SOMETHING</code>) just do:
+<pre class="code">getopts fA:x VARNAME</pre>
+
+</p>
+
+<p>
+If the <strong>very first character</strong> of the option-string is a <code>:</code> (colon), which normally would be nonsense because there&#039;s no option letter preceeding it, <code>getopts</code> switches to the mode &quot;<strong>silent error reporting</strong>&quot;. In productive scripts, this is usually what you want (handle errors yourself and don&#039;t get disturbed by annoying messages).
+</p>
+
+</div>
+
+<h4><a name="custom_arguments_to_parse" id="custom_arguments_to_parse">Custom arguments to parse</a></h4>
+<div class="level4">
+
+<p>
+The <code>getopts</code> utility parses the <a href="/scripting/posparams" class="wikilink1" title="scripting:posparams">positional parameters</a> of the current shell or function by default (which means it parses <code>&quot;$@&quot;</code>).
+</p>
+
+<p>
+You can give your own set of arguments to the utility to parse. Whenever additional arguments are given after the <code>VARNAME</code> parameter, <code>getopts</code> doesn&#039;t try to parse the positional parameters, but these given words.
+</p>
+
+<p>
+This way, you are able to parse any option set you like, here for example from an array:
+<pre class="code">while getopts :f:h opt &quot;${MY_OWN_SET[@]}&quot;; do
+  ...
+done</pre>
+
+</p>
+
+<p>
+A call to <code>getopts</code> <strong>without</strong> these additional arguments is <strong>equivalent</strong> to explicitly calling it with <code>&quot;$@&quot;</code>:
+<pre class="code">getopts ... &quot;$@&quot;</pre>
+
+</p>
+
+</div>
+
+<h3 class="sectionedit9"><a name="error_reporting" id="error_reporting">Error Reporting</a></h3>
+<div class="level3">
+
+<p>
+Regarding error-reporting, there are two modes <code>getopts</code> can run in:
+</p>
+<ul>
+<li class="level1"><div class="li"> verbose mode</div>
+</li>
+<li class="level1"><div class="li"> silent mode</div>
+</li>
+</ul>
+
+<p>
+For productive scripts I recommend to use the silent mode, since everything looks more professional, when you don&#039;t see annoying standard messages. Also it&#039;s easier to handle, since the failure cases are indicated in an easier way.
+</p>
+
+</div>
+
+<h4><a name="verbose_mode" id="verbose_mode">Verbose Mode</a></h4>
+<div class="level4">
+<div class="table sectionedit10"><table class="inline">
+	<tr class="row0">
+		<th class="col0">invalid option</th><td class="col1"><code>VARNAME</code> is set to <code>?</code> (quersion-mark) and <code>OPTARG</code> is unset</td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">required argument not found</th><td class="col1"><code>VARNAME</code> is set to <code>?</code> (quersion-mark), <code>OPTARG</code> is unset and an <em>error message is printed</em></td>
+	</tr>
+</table></div>
+
+</div>
+
+<h4><a name="silent_mode" id="silent_mode">Silent Mode</a></h4>
+<div class="level4">
+<div class="table sectionedit11"><table class="inline">
+	<tr class="row0">
+		<th class="col0">invalid option</th><td class="col1"><code>VARNAME</code> is set to <code>?</code> (question-mark) and <code>OPTARG</code> is set to the (invalid) option character</td>
+	</tr>
+	<tr class="row1">
+		<th class="col0">required argument not found</th><td class="col1"><code>VARNAME</code> is set to <code>:</code> (colon) and <code>OPTARG</code> contains the option-character in question</td>
+	</tr>
+</table></div>
+
+</div>
+
+<h2 class="sectionedit12"><a name="using_it" id="using_it">Using it</a></h2>
+<div class="level2">
+
+</div>
+
+<h3 class="sectionedit13"><a name="a_first_example" id="a_first_example">A first example</a></h3>
+<div class="level3">
+
+<p>
+Enough said - action!
+</p>
+
+<p>
+Let&#039;s play with a very simple case: Only one option (<code>-a</code>) expected, without any arguments. Also we disable the <em>verbose error handling</em> by preceeding the whole option string with a colon (<code>:</code>):
+<pre class="code bash"><span class="co0">#!/bin/bash</span>
+&nbsp;
+<span class="kw1">while</span> <span class="kw3">getopts</span> <span class="st0">&quot;:a&quot;</span> opt; <span class="kw1">do</span>
+  <span class="kw1">case</span> <span class="re1">$opt</span> <span class="kw1">in</span>
+    a<span class="br0">&#41;</span>
+      <span class="kw3">echo</span> <span class="st0">&quot;-a was triggered!&quot;</span> <span class="sy0">&gt;&amp;</span><span class="nu0">2</span>
+      <span class="sy0">;;</span>
+    \?<span class="br0">&#41;</span>
+      <span class="kw3">echo</span> <span class="st0">&quot;Invalid option: -<span class="es2">$OPTARG</span>&quot;</span> <span class="sy0">&gt;&amp;</span><span class="nu0">2</span>
+      <span class="sy0">;;</span>
+  <span class="kw1">esac</span>
+<span class="kw1">done</span></pre>
+
+I put that into a file named <code>go_test.sh</code>, which is the name you&#039;ll see below in the examples.
+</p>
+
+<p>
+Let&#039;s do some tests:
+</p>
+
+</div>
+
+<h4><a name="calling_it_without_any_arguments" id="calling_it_without_any_arguments">Calling it without any arguments</a></h4>
+<div class="level4">
+
+<p>
+<pre class="code">$ ./go_test.sh
+$ </pre>
+
+Nothing happened? Right. <code>getopts</code> didn&#039;t see any valid or invalid options (letters preceeded by a dash), so it wasn&#039;t triggered.
+</p>
+
+</div>
+
+<h4><a name="calling_it_with_non-option_arguments" id="calling_it_with_non-option_arguments">Calling it with non-option arguments</a></h4>
+<div class="level4">
+
+<p>
+<pre class="code">$ ./go_test.sh /etc/passwd
+$ </pre>
+
+Again — nothing happened. The <strong>very same</strong> case: <code>getopts</code> didn&#039;t see any valid or invalid options (letters preceeded by a dash), so it wasn&#039;t triggered.
+</p>
+
+<p>
+The arguments given to your script are of course accessible as <code>$1</code> - <code>${N}</code>.
+</p>
+
+</div>
+
+<h4><a name="calling_it_with_option-arguments" id="calling_it_with_option-arguments">Calling it with option-arguments</a></h4>
+<div class="level4">
+
+<p>
+Now let&#039;s trigger <code>getopts</code>: Provide options.
+</p>
+
+<p>
+First, an <strong>invalid</strong> one:
+<pre class="code">$ ./go_test.sh -b
+Invalid option: -b
+$ </pre>
+
+As expected, <code>getopts</code> didn&#039;t accept this option and acted like told above: It placed <code>?</code> into <code>$opt</code> and the invalid option character (<code>b</code>) into <code>$OPTARG</code>. With our <code>case</code> statement, we were able to detect this.
+</p>
+
+<p>
+Now, a <strong>valid</strong> one (<code>-a</code>):
+<pre class="code">$ ./go_test.sh -a
+-a was triggered!
+$ </pre>
+
+You see, the detection works perfectly. The <code>a</code> was put into the variable <code>$opt</code> for our case statement.
+</p>
+
+<p>
+Of course it&#039;s possible to <strong>mix valid and invalid</strong> options when calling:
+<pre class="code">$ ./go_test.sh -a -x -b -c
+-a was triggered!
+Invalid option: -x
+Invalid option: -b
+Invalid option: -c
+$ </pre>
+
+</p>
+
+<p>
+Finally, it&#039;s of course possible, to give our option <strong>multiple times</strong>:
+<pre class="code">$ ./go_test.sh -a -a -a -a
+-a was triggered!
+-a was triggered!
+-a was triggered!
+-a was triggered!
+$ </pre>
+
+</p>
+
+<p>
+The last examples lead us to some points you may consider:
+</p>
+<ul>
+<li class="level1"><div class="li"> <strong>invalid options don&#039;t stop the processing</strong>: If you want to stop the script, you have to do it yourself (<code>exit</code> in the right place)</div>
+</li>
+<li class="level1"><div class="li"> <strong>multiple identical options are possible</strong>: If you want to disallow these, you have to check manually (e.g. by setting a variable or so)</div>
+</li>
+</ul>
+
+</div>
+
+<h3 class="sectionedit14"><a name="an_option_with_argument" id="an_option_with_argument">An option with argument</a></h3>
+<div class="level3">
+
+<p>
+Let&#039;s extend our example from above. Just a little bit:
+</p>
+<ul>
+<li class="level1"><div class="li"> <code>-a</code> now takes an argument</div>
+</li>
+<li class="level1"><div class="li"> on an error, the parsing exits with <code>exit 1</code></div>
+</li>
+</ul>
+
+<p>
+<pre class="code bash"><span class="co0">#!/bin/bash</span>
+&nbsp;
+<span class="kw1">while</span> <span class="kw3">getopts</span> <span class="st0">&quot;:a:&quot;</span> opt; <span class="kw1">do</span>
+  <span class="kw1">case</span> <span class="re1">$opt</span> <span class="kw1">in</span>
+    a<span class="br0">&#41;</span>
+      <span class="kw3">echo</span> <span class="st0">&quot;-a was triggered, Parameter: <span class="es2">$OPTARG</span>&quot;</span> <span class="sy0">&gt;&amp;</span><span class="nu0">2</span>
+      <span class="sy0">;;</span>
+    \?<span class="br0">&#41;</span>
+      <span class="kw3">echo</span> <span class="st0">&quot;Invalid option: -<span class="es2">$OPTARG</span>&quot;</span> <span class="sy0">&gt;&amp;</span><span class="nu0">2</span>
+      <span class="kw3">exit</span> <span class="nu0">1</span>
+      <span class="sy0">;;</span>
+    :<span class="br0">&#41;</span>
+      <span class="kw3">echo</span> <span class="st0">&quot;Option -<span class="es2">$OPTARG</span> requires an argument.&quot;</span> <span class="sy0">&gt;&amp;</span><span class="nu0">2</span>
+      <span class="kw3">exit</span> <span class="nu0">1</span>
+      <span class="sy0">;;</span>
+  <span class="kw1">esac</span>
+<span class="kw1">done</span></pre>
+
+</p>
+
+<p>
+Let&#039;s do the very same tests we did in the last example:
+</p>
+
+</div>
+
+<h4><a name="calling_it_without_any_arguments1" id="calling_it_without_any_arguments1">Calling it without any arguments</a></h4>
+<div class="level4">
+
+<p>
+<pre class="code">$ ./go_test.sh
+$ </pre>
+
+As above, nothing happend. It wasn&#039;t triggered.
+</p>
+
+</div>
+
+<h4><a name="calling_it_with_non-option_arguments1" id="calling_it_with_non-option_arguments1">Calling it with non-option arguments</a></h4>
+<div class="level4">
+
+<p>
+<pre class="code">$ ./go_test.sh /etc/passwd
+$ </pre>
+
+The <strong>very same</strong> case: It wasn&#039;t triggered.
+</p>
+
+</div>
+
+<h4><a name="calling_it_with_option-arguments1" id="calling_it_with_option-arguments1">Calling it with option-arguments</a></h4>
+<div class="level4">
+
+<p>
+<strong>Invalid</strong> option:
+<pre class="code">$ ./go_test.sh -b
+Invalid option: -b
+$ </pre>
+
+As expected, as above, <code>getopts</code> didn&#039;t accept this option and acted like programmed.
+</p>
+
+<p>
+<strong>Valid</strong> option, but without the mandatory <strong>argument</strong>:
+<pre class="code">$ ./go_test.sh -a
+Option -a requires an argument.
+$ </pre>
+
+The option was okay, but there is an argument missing.
+</p>
+
+<p>
+Let&#039;s provide <strong>the argument</strong>:
+<pre class="code">$ ./go_test.sh -a /etc/passwd
+-a was triggered, Parameter: /etc/passwd
+$</pre>
+
+</p>
+
+</div>
+
+<h2 class="sectionedit15"><a name="see_also" id="see_also">See also</a></h2>
+<div class="level2">
+<ul>
+<li class="level1"><div class="li"> Internal: <a href="/scripting/posparams" class="wikilink1" title="scripting:posparams">Handling positional parameters</a></div>
+</li>
+<li class="level1"><div class="li"> Internal: <a href="/syntax/ccmd/case" class="wikilink1" title="syntax:ccmd:case">The case statement</a></div>
+</li>
+<li class="level1"><div class="li"> Internal: <a href="/syntax/ccmd/while_loop" class="wikilink1" title="syntax:ccmd:while_loop">The while-loop</a></div>
+</li>
+<li class="level1"><div class="li"> POSIX <a href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html#tag_20_54" class="urlextern" title="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html#tag_20_54"  rel="nofollow">getopts(1)</a> and <a href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/getopt.html" class="urlextern" title="http://pubs.opengroup.org/onlinepubs/9699919799/functions/getopt.html"  rel="nofollow">getopt(3)</a></div>
+</li>
+</ul>
+
+</div>
+<div class="comment_wrapper">
+  <h2><a name="discussion__section" id="discussion__section">
+    Discussion
+  </a></h2>
+  <div class="level2 hfeed">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_05baaedd3144e3afa0cea4d1aef38e62" id="comment_05baaedd3144e3afa0cea4d1aef38e62"></a>
+        <span class="vcard author"><span class="fn">Steve Lessard</span></span>, <abbr class="published" title="2010-07-14T17:04:28Z">2010/07/14 17:04</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Thanks for the very nice tutorial. I&#039;ve learned a lot from it. However one thing appears to be missing in this tutorial, how to use the optional &#039;ARGS&#039; argument. You gave a very brief description of what &#039;ARGS&#039; does but didn&#039;t give an explanation of how it works. What does it mean to parse &quot;words instead of the positional parameters?&quot;
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="05baaedd3144e3afa0cea4d1aef38e62" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_fc28719c30e03b21285aa313ceac6756" id="comment_fc28719c30e03b21285aa313ceac6756"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2010-07-14T21:42:02Z">2010/07/14 21:42</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+I hope it is understandable now, personally I never used this feature. Please provide suggestions if you like.
+</p>
+
+<p>
+Thanks for the feedback.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="fc28719c30e03b21285aa313ceac6756" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_43d864bd40a7d8ba9fbab8837bb1fafe" id="comment_43d864bd40a7d8ba9fbab8837bb1fafe"></a>
+        <span class="vcard author"><span class="fn">Mark Szymanski</span></span>, <abbr class="published" title="2010-07-29T05:42:46Z">2010/07/29 05:42</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+I am sorry if I am just missing something here but, what is with the <code>&gt; ampersand 2</code>
+in the echo commands?
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="43d864bd40a7d8ba9fbab8837bb1fafe" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_9de77113ec2fc45c69a8a44da96cfd66" id="comment_9de77113ec2fc45c69a8a44da96cfd66"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2010-07-29T11:55:41Z">2010/07/29 11:55</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+It&#039;s good practice to print error and diagnostic messages to the standard error output (<code>STDERR</code>). <code>foo &gt; ampersand 2</code> does this.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="9de77113ec2fc45c69a8a44da96cfd66" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_2da4937fedd799c1dd3cf037f2483cbe" id="comment_2da4937fedd799c1dd3cf037f2483cbe"></a>
+        <span class="vcard author"><span class="fn">Zenaan Harkness</span></span>, <abbr class="published" title="2010-11-04T15:34:10Z">2010/11/04 15:34</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+<blockquote><div class="no">
+ It&#039;s good practice to print error and diagnostic messages to the standard error output (STDERR).</div></blockquote>
+
+<p>
+
+Agreed, but please don&#039;t do so for -h or –help output, which is expected and specified output and should therefore go to STDOUT.
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="2da4937fedd799c1dd3cf037f2483cbe" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_c7b6d54821fd533e93ee4675b01bec93" id="comment_c7b6d54821fd533e93ee4675b01bec93"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2010-11-04T19:12:53Z">2010/11/04 19:12</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+I kind of agree, yes. But I also made this mistake here and there. When help is wanted, the output of the help text is not a diagnistig or an error message.
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="c7b6d54821fd533e93ee4675b01bec93" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_5bec58eaaa6fc130237218c9dcb17fb3" id="comment_5bec58eaaa6fc130237218c9dcb17fb3"></a>
+        <span class="vcard author"><span class="fn">Joshua</span></span>, <abbr class="published" title="2010-12-05T01:06:13Z">2010/12/05 01:06</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+What if there are multiple options and some require arguments while some do not? I can&#039;t seem to get it to work properly...
+</p>
+
+<p>
+Ex)
+</p>
+
+<p>
+#!/bin/bash
+</p>
+
+<p>
+while getopts &quot;:a:b:cde:f:g:&quot; opt; do
+</p>
+<pre class="code">case $opt in
+  a)
+    echo &quot;-a was triggered, Parameter: $OPTARG&quot; &gt;&amp;2
+    ;;
+  b)
+    echo &quot;-b was triggered, Parameter: $OPTARG&quot; &gt;&amp;2
+    ;;
+  c)
+    echo &quot;-c was triggered, Parameter: $OPTARG&quot; &gt;&amp;2
+    ;;
+  d)
+    echo &quot;-d was triggered, Parameter: $OPTARG&quot; &gt;&amp;2
+    ;;
+  e)
+    echo &quot;-e was triggered, Parameter: $OPTARG&quot; &gt;&amp;2
+    ;;
+  f)
+    echo &quot;-w was triggered, Parameter: $OPTARG&quot; &gt;&amp;2
+    ;;
+  g)
+    echo &quot;-g was triggered, Parameter: $OPTARG&quot; &gt;&amp;2
+    ;;</pre>
+<pre class="code">  \?)
+    echo &quot;Invalid option: -$OPTARG&quot; &gt;&amp;2
+    exit 1
+    ;;
+  :)
+    echo &quot;Option -$OPTARG requires an argument.&quot; &gt;&amp;2
+    exit 1
+    ;;
+esac</pre>
+
+<p>
+done
+</p>
+
+<p>
+Here&#039;s my problem:
+</p>
+
+<p>
+./hack.bash -a -b
+-a was triggered, Parameter: -b
+</p>
+
+<p>
+Shouldn&#039;t it display that -a is missing an argument instead of taking the next option as the parameter. What am I doing wrong here? 
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="5bec58eaaa6fc130237218c9dcb17fb3" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_44212534535682107968a019d989550a" id="comment_44212534535682107968a019d989550a"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2010-12-05T07:29:26Z">2010/12/05 07:29</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+You&#039;re doing nothing wrong. It is like that, when getopts searches an argument, it takes the next one.
+</p>
+
+<p>
+This is how most programs I know behave (<code>tar</code>, the text utils, ...).
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="44212534535682107968a019d989550a" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_a5973c9bacf32a8efc120dc9e9d39f9a" id="comment_a5973c9bacf32a8efc120dc9e9d39f9a"></a>
+        <span class="vcard author"><span class="fn">Mark</span></span>, <abbr class="published" title="2011-01-29T20:42:03Z">2011/01/29 20:42</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+How do I get it so that with no arguments passed, it returns text saying &quot;no arguments password, nothing triggered&quot;?
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="a5973c9bacf32a8efc120dc9e9d39f9a" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_8a570ad01bc9ebe83d7b00389918ac42" id="comment_8a570ad01bc9ebe83d7b00389918ac42"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2011-01-29T20:50:31Z">2011/01/29 20:50</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+I&#039;d do it by checking $# before the while/getopts loop, if applicable:
+<pre class="code bash"><span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span><span class="re4">$#</span> == <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#41;</span>; <span class="kw1">then</span>
+  ...
+<span class="kw1">fi</span></pre>
+
+</p>
+
+<p>
+If you really need to check if <code>getopts</code> found something to process you could make up a variable for that check:
+<pre class="code bash"><span class="re2">options_found</span>=<span class="nu0">0</span>
+&nbsp;
+<span class="kw1">while</span> <span class="kw3">getopts</span> <span class="st0">&quot;:xyz&quot;</span> opt; <span class="kw1">do</span>
+  <span class="re2">options_found</span>=<span class="nu0">1</span>
+  ...
+<span class="kw1">done</span>
+&nbsp;
+<span class="kw1">if</span> <span class="br0">&#40;</span><span class="br0">&#40;</span><span class="sy0">!</span>options_found<span class="br0">&#41;</span><span class="br0">&#41;</span>; <span class="kw1">then</span>
+  <span class="kw3">echo</span> <span class="st0">&quot;no options found&quot;</span>
+<span class="kw1">fi</span></pre>
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="8a570ad01bc9ebe83d7b00389918ac42" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_04643b30f7cbdf20a78e084fca66ef03" id="comment_04643b30f7cbdf20a78e084fca66ef03"></a>
+        <span class="vcard author"><span class="fn">Reid</span></span>, <abbr class="published" title="2011-08-12T00:07:13Z">2011/08/12 00:07</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Another method of checking whether it found anything at all is to run a separate if statement right before the while getopts call. 
+</p>
+
+<p>
+<pre class="code">if ( ! getopts &quot;abc:deh&quot; opt); then
+	echo &quot;Usage: `basename $0` options (-ab) (-c value) (-d) (-e) -h for help&quot;;
+	exit $E_OPTERROR;
+fi
+
+while etopts &quot;abc:deh&quot; opt; do
+     case $opt in
+         a) do something;;
+         b) do another;;
+         c) var=$OPTARG;;
+         ...
+     esac
+done</pre>
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="04643b30f7cbdf20a78e084fca66ef03" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_a0ba826819a63ae8278832100a40f335" id="comment_a0ba826819a63ae8278832100a40f335"></a>
+        <span class="vcard author"><span class="fn">Mark</span></span>, <abbr class="published" title="2011-01-29T21:09:56Z">2011/01/29 21:09</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Sweet - that work, thanks!
+</p>
+
+<p>
+How do you get it to return multiple arguments on one line?  eg. hello -ab returns &quot;option a option b&quot;?
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="a0ba826819a63ae8278832100a40f335" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_4c915e1106a54f996a809f16cbff220d" id="comment_4c915e1106a54f996a809f16cbff220d"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2011-01-29T22:16:05Z">2011/01/29 22:16</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+This isn&#039;t related to getopts. Just use variables or echo without newlines or such things, as you would do in such a case without getopts, too.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="4c915e1106a54f996a809f16cbff220d" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_bb867d8c6268050b84418b166ecf551f" id="comment_bb867d8c6268050b84418b166ecf551f"></a>
+        <span class="vcard author"><span class="fn">Andrea</span></span>, <abbr class="published" title="2011-05-02T16:22:17Z">2011/05/02 16:22</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Hi. how can I control the double invocation of the same option? I don&#039;t want this situation: ./script -a xxx -a xxx!
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="bb867d8c6268050b84418b166ecf551f" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_386f79dcc69fe90de0a94adbe078834d" id="comment_386f79dcc69fe90de0a94adbe078834d"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2011-05-02T17:03:54Z">2011/05/02 17:03</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+See the question above. Set a variable that handles this, a kind of flag that is set when the option is invoked, and checked if the option already was invoked. A kind of &quot;shield&quot;.
+</p>
+
+<p>
+<pre class="code">A_WAS_SET=0
+...
+case
+...
+   a)
+     if [[ $A_WAS_SET = 0 ]]; then
+       A_WAS_SET=1
+       # do something that handles -a
+     else
+       echo &quot;Option -a already was used.&quot;
+       exit 1
+     fi
+   ;;
+esac
+...</pre>
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="386f79dcc69fe90de0a94adbe078834d" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_3b749add83b5f7545c2d231d9af524f2" id="comment_3b749add83b5f7545c2d231d9af524f2"></a>
+        <span class="vcard author"><span class="fn">Andrea</span></span>, <abbr class="published" title="2011-05-03T15:57:05Z">2011/05/03 15:57</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Thanks! It works!
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="3b749add83b5f7545c2d231d9af524f2" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_f4ae58b67266b9194be0a222ee856857" id="comment_f4ae58b67266b9194be0a222ee856857"></a>
+        <span class="vcard author"><span class="fn">Joe Wulf</span></span>, <abbr class="published" title="2011-06-22T22:33:39Z">2011/06/22 22:33</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Joshua&#039;s example (from above @ 2010/12/05 01:06 ) asked about parsing multiple options, where some DO have required arguments, and some have OPTIONAL arguments.  I&#039;ve a script I&#039;m enhancing.  It takes a &#039;-e&#039; argument to EXECUTE ( and &#039;-i&#039; for installation, &#039;-r&#039; for removal, etc...).  The -e is stable by itself.  My enhancement would be allowing an optional &#039;-e &lt;modifier&gt;&#039; so that the functionality would be appropriately conditionally modified.  How do I define the getopts line to state that &#039;-e&#039; is a valid parsable option, and that it MIGHT have an argument??
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="f4ae58b67266b9194be0a222ee856857" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_31b64940d507dfc4652ff9968659eabd" id="comment_31b64940d507dfc4652ff9968659eabd"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2011-06-23T08:42:14Z">2011/06/23 08:42</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Hi,
+</p>
+
+<p>
+try this trick. When you discover that <code>OPTARG</code> von <code>-c</code> is something beginning with a hyphen, then reset <code>OPTIND</code> and re-run getopts (<code>continue</code> the while loop).
+</p>
+
+<p>
+The code is relatively small, but I hope you get the idea.
+</p>
+
+<p>
+Oh, of course, this isn&#039;t perfect and needs some more robustness. It&#039;s just an example.
+</p>
+
+<p>
+<pre class="code">#!/bin/bash
+
+
+while getopts :abc: opt; do
+  case $opt in
+    a)
+      echo &quot;option a&quot;
+    ;;
+    b)
+      echo &quot;option b&quot;
+    ;;
+    c)
+      echo &quot;option c&quot;
+
+      if [[ $OPTARG = -* ]]; then
+        ((OPTIND--))
+        continue
+      fi
+
+      echo &quot;(c) argument $OPTARG&quot;
+    ;;
+    \?)
+      echo &quot;WTF!&quot;
+      exit 1
+    ;;
+  esac
+done</pre>
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="31b64940d507dfc4652ff9968659eabd" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_79a8fc51211e316a5fe8792382fe42bb" id="comment_79a8fc51211e316a5fe8792382fe42bb"></a>
+        <span class="vcard author"><span class="fn">Reid</span></span>, <abbr class="published" title="2011-08-11T23:29:53Z">2011/08/11 23:29</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Another method to have an &quot;optional&quot; argument would be to have both a lower and uppercase version of the option, with one requiring the argument and one not requiring it.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="79a8fc51211e316a5fe8792382fe42bb" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_155a6fedd0f6eeedd581cd0c46327730" id="comment_155a6fedd0f6eeedd581cd0c46327730"></a>
+        <span class="vcard author"><span class="fn">Jay</span></span>, <abbr class="published" title="2011-07-27T20:10:43Z">2011/07/27 20:10</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+<strong>Bold Text</strong>What if you have a flag with an OPTIONAL argument; say the call can either be with -a username or just -a.   Defined with just a: it complains there is no argument.  I want it to use the argument if there is one, else use default defined elsewhere.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="155a6fedd0f6eeedd581cd0c46327730" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_be2a9e73a408d81e01cff27d75a1ce28" id="comment_be2a9e73a408d81e01cff27d75a1ce28"></a>
+        <span class="vcard author"><span class="fn">Arvid Requate</span></span>, <abbr class="published" title="2011-10-07T12:04:24Z">2011/10/07 12:04</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+The builtin getopts can be used to parse long options by putting a dash character followed by a colon into the optstring (&quot;getopts &#039;h-:&#039;&quot; or &quot;getopts – &#039;-:&#039;&quot;), here is an example how it can be done:
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options/7680682#7680682" class="urlextern" title="http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options/7680682#7680682"  rel="nofollow">http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options/7680682#7680682</a>
+</p>
+
+<p>
+This approach is portable to Debian Almquist shell (&quot;dash&quot;).
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="be2a9e73a408d81e01cff27d75a1ce28" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_0fe9af175b04844cb38373602f3f390d" id="comment_0fe9af175b04844cb38373602f3f390d"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2011-10-08T10:09:46Z">2011/10/08 10:09</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Very nice trick!
+</p>
+
+<p>
+Another way I could imagine (and I&#039;ll try some test code some day) is preprocessing the positional parameters and convert long options to short options before using getopts.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="0fe9af175b04844cb38373602f3f390d" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_ec8b72c93a14650ad0f23fa14c6cc371" id="comment_ec8b72c93a14650ad0f23fa14c6cc371"></a>
+        <span class="vcard author"><span class="fn">Abi Michael</span></span>, <abbr class="published" title="2012-02-06T05:06:39Z">2012/02/06 05:06</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Thank you so much. Such a wonderful tutorial!!!
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="ec8b72c93a14650ad0f23fa14c6cc371" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_cd13e71b6ed35b515ca26fe927fd857d" id="comment_cd13e71b6ed35b515ca26fe927fd857d"></a>
+        <span class="vcard author"><span class="fn">Jan Sidlo</span></span>, <abbr class="published" title="2012-03-09T23:04:14Z">2012/03/09 23:04</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+I&#039;ve got a question. How do I get those mass-arguments or operands? When I have list of input files at the end. Like this ./script -r r_arg -np input_file_1 input_file_2, or ./script -r r_arg -n -p p_arg input_file_1 input_file_2. I don&#039;t know number of operands (input files) in advance so can&#039;t use $#.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="cd13e71b6ed35b515ca26fe927fd857d" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_e7413bc81a6faad0774ce94cb35351ef" id="comment_e7413bc81a6faad0774ce94cb35351ef"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2012-03-10T11:08:48Z">2012/03/10 11:08</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+After <code>getopts</code> is done, shift all processed options away with
+<pre class="code">shift $((OPTIND-1))
+# now do something with $@</pre>
+
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="e7413bc81a6faad0774ce94cb35351ef" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_cf51ee4ca9a4630c36b0efd239117003" id="comment_cf51ee4ca9a4630c36b0efd239117003"></a>
+        <span class="vcard author"><span class="fn">chandrakanth</span></span>, <abbr class="published" title="2012-03-30T08:11:07Z">2012/03/30 08:11</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+hello all
+Need help!!
+</p>
+
+<p>
+In my case i need the switches to be strings just not characters for ex.
+getopt as explained here works like filename -a &lt;arga&gt; -b &lt;argb&gt; but i wanted in filename -name &lt;arga&gt; -age &lt;argb&gt; format
+</p>
+
+<p>
+if not using getopt what else can be used to implement this kind in shell scripting (sh shell)
+</p>
+
+<p>
+Thanks in advance
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="cf51ee4ca9a4630c36b0efd239117003" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_462928b71b5c91e399c226992a29cb22" id="comment_462928b71b5c91e399c226992a29cb22"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2012-04-07T10:09:25Z">2012/04/07 10:09</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+See the examples in <a href="/scripting/posparams" class="wikilink1" title="scripting:posparams">Handling positional parameters</a> for some non-getopts way.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="462928b71b5c91e399c226992a29cb22" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_3d3bebb94540fea927785044dfd249be" id="comment_3d3bebb94540fea927785044dfd249be"></a>
+        <span class="vcard author"><span class="fn">Shashikant</span></span>, <abbr class="published" title="2012-04-10T14:43:51Z">2012/04/10 14:43</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Very nice explanation. It helped me.
+</p>
+
+<p>
+Thanks a lot.
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="3d3bebb94540fea927785044dfd249be" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_139df441178ee976ebe94b182dfbb2bb" id="comment_139df441178ee976ebe94b182dfbb2bb"></a>
+        <span class="vcard author"><span class="fn">stib</span></span>, <abbr class="published" title="2012-07-23T08:19:09Z">2012/07/23 08:19</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+This is my attempt to have optional arguments. If the user specifies -a -b then getopts sees -b as $OPTARG for -a so we wind $OPTIND back one, and in this case give $a a default value, otherwise $a gets the value of $OPTARG. Note that it doesn&#039;t work if the user uses the options in the form -ab, only -a -b
+[CODE]
+while getopts &quot;:a:bc&quot; optname; 
+do case &quot;$optname&quot; in  
+&quot;a&quot;) echo a triggered; 
+</p>
+<pre class="code">a=$OPTARG; 
+if [[ &quot;$OPTARG&quot;==&quot;-*&quot; ]]; 
+ then ((OPTIND--));
+ a=&quot;DEFAULT&quot;;
+fi</pre>
+
+<p>
+;;
+&quot;b&quot;) echo &quot;b triggered&quot;;
+;; 
+&quot;:&quot;) echo need a value pal; 
+;;
+esac;
+done;
+echo a=$a;
+[/CODE]
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="139df441178ee976ebe94b182dfbb2bb" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_2680ad9c17759fbc3380bb43c766b053" id="comment_2680ad9c17759fbc3380bb43c766b053"></a>
+        <span class="vcard author"><span class="fn">Rafael Rinaldi</span></span>, <abbr class="published" title="2012-10-07T05:31:03Z">2012/10/07 05:31</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+I was trying to be able to give names to my options instead of using only single characters. It was a pain to do this with getopts, I don&#039;t know if I&#039;m missing something or what. If there&#039;s anyone with the same need, heres my workaround: <a href="http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options/6946864#6946864" class="urlextern" title="http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options/6946864#6946864"  rel="nofollow">http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options/6946864#6946864</a>
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="2680ad9c17759fbc3380bb43c766b053" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    <div class="comment_replies" style="margin-left: 20px;">
+    <div class="hentry">
+      <div class="comment_head">
+        <a name="comment_10a4fcbb8a0a38fee511223d46ac26c2" id="comment_10a4fcbb8a0a38fee511223d46ac26c2"></a>
+        <span class="vcard author"><span class="fn">Jan Schampera</span></span>, <abbr class="published" title="2012-10-13T11:30:24Z">2012/10/13 11:30</abbr>
+      </div>
+      <div class="comment_body entry-content" style="margin-left: 20px;">
+
+<p>
+Hi,
+</p>
+
+<p>
+as noted above, <code>getopts</code> is not made to parse GNU-style long options (which is exactly what you are trying to do).
+</p>
+
+      </div>
+      <div class="comment_buttons">
+        <form class="button discussion__reply" method="get" action="/doku.php#discussion__comment_form">
+          <div class="no">
+            <input type="hidden" name="id" value="howto:getopts_tutorial" />
+            <input type="hidden" name="do" value="show" />
+            <input type="hidden" name="comment" value="reply" />
+            <input type="hidden" name="cid" value="10a4fcbb8a0a38fee511223d46ac26c2" />
+            <input type="submit" value="Reply" class="button" title="Reply" />
+          </div>
+        </form>
+              </div>
+    </div>
+    </div>
+
+        <div class="comment_form">
+          <form id="discussion__comment_form" method="post" action="/doku.php" accept-charset="utf-8">
+            <div class="no">
+              <input type="hidden" name="id" value="howto:getopts_tutorial" />
+              <input type="hidden" name="do" value="show" />
+              <input type="hidden" name="comment" value="add" />
+                      <input type="hidden" name="reply" value="" />
+                      <input type="hidden" name="user" value="222.252.85.105" />
+              <div class="comment_name">
+                <label class="block" for="discussion__comment_name">
+                  <span>Real name:</span>
+                  <input type="text" class="edit" name="name" id="discussion__comment_name" size="50" tabindex="1" value="" />
+                </label>
+              </div>
+              <div class="comment_mail">
+                <label class="block" for="discussion__comment_mail">
+                  <span>E-Mail:</span>
+                  <input type="text" class="edit" name="mail" id="discussion__comment_mail" size="50" tabindex="2" value="" />
+                </label>
+              </div>
+                      <div class="comment_url">
+                <label class="block" for="discussion__comment_url">
+                  <span>Website:</span>
+                  <input type="text" class="edit" name="url" id="discussion__comment_url" size="50" tabindex="3" value="" />
+                </label>
+              </div>
+                      <div class="comment_text">
+                <div id="discussion__comment_toolbar">
+                  Enter your comment                                  </div>
+                <textarea class="edit" name="text" cols="80" rows="10" id="discussion__comment_text" tabindex="5"></textarea>
+              </div>
+        <div id="plugin__captcha_wrapper"><input type="hidden" name="plugin__captcha_secret" value="xph2NFas2Cw=" /><label for="plugin__captcha">Please fill all the letters into the box to prove you're human.</label> <input type="text" size="5" maxlength="5" name="plugin__captcha" id="plugin__captcha" class="edit" /> <img src="/lib/plugins/captcha/img.php?secret=xph2NFas2Cw%3D&amp;id=howto:getopts_tutorial"  width="160" height="40" alt="" /> </div>              <input class="button comment_submit" id="discussion__btn_submit" type="submit" name="submit" accesskey="s" value="Save" title="Save [S]" tabindex="7" />
+              <input class="button comment_preview_button" id="discussion__btn_preview" type="button" name="preview" accesskey="p" value="Preview" title="Preview [P]" />
+
+        
+              <div class="clearer"></div>
+              <div id="discussion__comment_preview">&nbsp;</div>
+            </div>
+          </form>
+        </div>
+          </div>
+</div>
+
+      </div>
+    
+      <div class="stylefoot">
+        <div class="meta">
+          <div class="user">
+                    </div>
+          <div class="doc">
+          howto/getopts_tutorial.txt &middot; Last modified: 2014/07/17 07:38 by ormaaj          </div>
+        </div>
+      </div>
+
+    <div class="clearer"></div>
+
+    
+                <div class="bar" id="bar__bottom">
+      <div class="bar-left">
+        <form class="button btn_source" method="post" action="/howto/getopts_tutorial"><div class="no"><input type="hidden" name="do" value="edit" /><input type="hidden" name="rev" value="" /><input type="submit" value="Show pagesource" class="button" accesskey="v" title="Show pagesource [V]" /></div></form><form class="button btn_revs" method="get" action="/howto/getopts_tutorial"><div class="no"><input type="hidden" name="do" value="revisions" /><input type="submit" value="Old revisions" class="button" accesskey="o" title="Old revisions [O]" /></div></form>      </div>
+      <div class="bar-right">
+        <a class="nolink" href="#dokuwiki__top"><input type="button" class="button" value="Back to top" onclick="window.scrollTo(0, 0)" title="Back to top" /></a>      </div>
+    </div>
+    <div class="clearer"></div>
+            
+    <div align="center" class="footerinc">
+  <div class="license"><a href="http://www.gnu.org/licenses/fdl-1.3.html" rel="license"><img src="/lib/images/license/button/gnufdl.png" class="medialeft licbutton" alt="GNU Free Documentation License 1.3" /></a> </div>
+  <a target="_blank" href="http://www.chimeric.de" title="www.chimeric.de"><img src="/lib/tpl/arctic/images/button-chimeric-de.png" width="80" height="15" alt="www.chimeric.de" border="0" /></a>
+
+  <a target="_blank" href="http://jigsaw.w3.org/css-validator/check/referer" title="Valid CSS"><img src="/lib/tpl/arctic/images/button-css.png" width="80" height="15" alt="Valid CSS" border="0" /></a>
+
+  <a target="_blank" href="http://wiki.splitbrain.org/wiki:dokuwiki" title="Driven by DokuWiki"><img src="/lib/tpl/arctic/images/button-dw.png" width="80" height="15" alt="Driven by DokuWiki" border="0" /></a>
+
+  <a target="_blank" href="http://www.firefox-browser.de" title="do yourself a favour and use a real browser - get firefox"><img src="/lib/tpl/arctic/images/button-firefox.png" width="80" height="15" alt="do yourself a favour and use a real browser - get firefox!!" border="0" /></a>
+  
+  <a target="_blank" href="/feed.php" title="Recent changes RSS feed"><img src="/lib/tpl/arctic/images/button-rss.png" width="80" height="15" alt="Recent changes RSS feed" border="0" /></a>
+
+  <a target="_blank" href="http://validator.w3.org/check/referer" title="Valid XHTML 1.0"><img src="/lib/tpl/arctic/images/button-xhtml.png" width="80" height="15" alt="Valid XHTML 1.0" border="0" /></a>
+</div>
+
+  </div>
+</div>
+
+<div class="no"><img src="/lib/exe/indexer.php?id=howto%3Agetopts_tutorial&amp;1408585126" width="2" height="1" alt="" /></div>
+</body>
+</html>

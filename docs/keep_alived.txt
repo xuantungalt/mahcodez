@@ -1,0 +1,124 @@
+Install
+sudo apt-get install snmp libsnmp-dev \
+libnl1 libnl-dev libnl-utils
+
+./configure --prefix=/opt/keepalived \
+--with-kernel-dir=/lib/modules/$(uname -r)/ \
+--enable-snmp=yes --enable-sha1=yes
+
+Configuring keepalived
+Create the config file on the first server (10.32.75.12):
+
+vim /etc/keepalived/keepalived.conf
+Edit and paste the following config:
+
+! Configuration File for keepalived
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 51
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass $ place secure password here.
+    }
+    virtual_ipaddress {
+        10.32.75.200
+    }
+}
+Create the config file on the second server (10.32.75.14):
+
+vim /etc/keepalived/keepalived.conf
+Edit and paste the following config:
+
+! Configuration File for keepalived
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 51
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass $ place secure password here.
+    }
+    virtual_ipaddress {
+        10.32.75.200
+    }
+}
+The priority must be highest on the server you want to be the master/primary. It can be 150 on the master, and 100, 99, 98, 97 on the slaves. 
+The virtual_router_id must be the same on all nodes and the auth_pass must also be the same.
+
+Check Script
+
+A check script is a script written in the language of your choice which is executed regularly. 
+This script needs to have a return value: 0 for “everything is fine”, 1 (or other than 0) for “something went wrong”. 
+This value is used by Keepalived to take action. Scripts are defined like this:
+
+vrrp_script chk_myscript {
+  script       "/usr/local/bin/mycheckscript.sh"
+  interval 2   # check every 2 seconds
+  fall 2       # require 2 failures for KO
+  rise 2       # require 2 successes for OK
+}
+As you can see in the example it’s possible to specify the interval in seconds and also how many times the script needs to succeed or fail until any action is taken.
+
+This script definition can now be used in a vrrp_instance:
+
+vrrp_instance MyVRRPInstance {
+  state MASTER
+  interface eth0
+  virtual_router_id 5
+  priority 200
+  advert_int 1
+  virtual_ipaddress {
+    192.168.1.1/32 dev eth0
+  }
+  track_script {
+    chk_myscript
+  }
+}
+As soon as the track_script returns another code than 0 two times, 
+the VRRP instance will change the state to FAULT, 
+removes the IP 192.168.1.1 from eth0 and stops sending multicast VRRP packets.
+
+Notify Script
+
+A notify script can be used to take other actions, not only removing or adding an IP to an interface. 
+It can f.e. start or stop a daemon, depending on the VRRP state. And this is how it’s defined in the Keepalived configuration:
+
+vrrp_instance MyVRRPInstance {
+ [...]
+ notify /usr/local/bin/keepalivednotify.sh
+}
+The script is called after any state change with the following parameters:
+
+$1 = “GROUP” or “INSTANCE”
+$2 = name of group or instance
+$3 = target state of transition (“MASTER”, “BACKUP”, “FAULT”)
+Here is a sample script:
+
+#!/bin/bash
+
+TYPE=$1
+NAME=$2
+STATE=$3
+
+case $STATE in
+        "MASTER") /etc/init.d/apache2 start
+                  exit 0
+                  ;;
+        "BACKUP") /etc/init.d/apache2 stop
+                  exit 0
+                  ;;
+        "FAULT")  /etc/init.d/apache2 stop
+                  exit 0
+                  ;;
+        *)        echo "unknown state"
+                  exit 1
+                  ;;
+esac
+One example of using these notify scripts is to have a highly available IPsec gateway (start and stop the IPsec process).

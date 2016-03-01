@@ -1,0 +1,1095 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Master-Master replication of Apache/MySQL tutorial with configuration example</title>
+<meta name="description" content="In this article, I will show you how to create a redundant Apache/MySQL cluster. I personally used this on two Raspberry PI to had them in redundancy and have load-balanced [&hellip;]" />
+
+<link rel="alternate" type="application/rss+xml" href="http://networkgeekstuff.com/?feed=rss2" title="NetworkGeekStuff latest posts" />
+
+<link rel="alternate" type="application/rss+xml" href="http://networkgeekstuff.com/?feed=comments-rss2" title="NetworkGeekStuff latest comments" />
+
+<link rel="pingback" href="http://networkgeekstuff.com/xmlrpc.php" />
+
+<link rel="shortcut icon" href="http://networkgeekstuff.com/wp-content/themes/arras/images/favicon.ico" />
+
+
+<link rel="alternate" type="application/rss+xml" title="NetworkGeekStuff &raquo; Master-Master replication of Apache/MySQL tutorial with configuration example Comments Feed" href="http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/feed/" />
+<link rel='stylesheet' id='crayon-css'  href='http://networkgeekstuff.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=2.6.2' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-theme-tomorrow-night-css'  href='http://networkgeekstuff.com/wp-content/plugins/crayon-syntax-highlighter/themes/tomorrow-night/tomorrow-night.css?ver=2.6.2' type='text/css' media='all' />
+<link rel='stylesheet' id='crayon-font-monospace-css'  href='http://networkgeekstuff.com/wp-content/plugins/crayon-syntax-highlighter/fonts/monospace.css?ver=2.6.2' type='text/css' media='all' />
+<link rel='stylesheet' id='colorbox-css'  href='http://networkgeekstuff.com/wp-content/plugins/slideshow-gallery/css/colorbox.css?ver=1.3.19' type='text/css' media='all' />
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-includes/js/jquery/jquery.js?ver=1.11.0'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"2.6.2","is_admin":"0","ajaxurl":"http:\/\/networkgeekstuff.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=2.6.2'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-content/themes/arras/js/superfish/hoverIntent.js'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-content/themes/arras/js/superfish/superfish.js'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-content/themes/arras/js/jquery.validate.min.js'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-content/plugins/slideshow-gallery/js/gallery.js?ver=1.0'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-content/plugins/slideshow-gallery/js/colorbox.js?ver=1.3.19'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://networkgeekstuff.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://networkgeekstuff.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Load-Balancing network traffic on Mikrotik router tutorial with example configuration' href='http://networkgeekstuff.com/networking/load-balancing-traffic-on-mikrotik-router-tutorial/' />
+<link rel='next' title='X-mas Malden edition of CWR2 ArmA Domination' href='http://networkgeekstuff.com/hobby/christmas-malden-edition-of-cwr2-arma-domination/' />
+<meta name="generator" content="WordPress 3.9.1" />
+<link rel='canonical' href='http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/' />
+<link rel='shortlink' href='http://networkgeekstuff.com/?p=1742' />
+
+	<!--MP Share Center Styles-->
+	<style>
+	.mp-share-buttons, .mp-share-boxes { display: inline; }
+	.mp-share-buttons li, .mp-share-boxes li { float: left; list-style: none !important; width: 100px; }
+	.mp-share-clear-fix { clear: both; }
+	#mp-share-below-action { font-family: 'Reenie Beanie'; font-size: 38px; line-height: 41px; display: block; padding: 5px; }
+	</style>
+<link href='http://fonts.googleapis.com/css?family=Reenie+Beanie' rel='stylesheet' type='text/css' />
+<link rel="image_src" href="http://networkgeekstuff.com/wp-content/uploads/2012/11/Topology.png" /><!-- Facebook Like Thumbnail -->
+<link rel="stylesheet" href="http://networkgeekstuff.com/wp-content/themes/arras/css/styles/default.css" type="text/css" media="screen,projection" /><link rel="stylesheet" href="http://networkgeekstuff.com/wp-content/themes/arras/css/layouts/2c-r-fixed.css" type="text/css" />
+<!-- Generated by Arras WP Theme -->
+<style type="text/css">
+	.posts-default li  { width: 310px; height: 250px; }
+	.posts-default img, .posts-default .entry-thumbnails-link { width: 300px; height: 117px; }
+	.posts-default .entry-meta { width: 300px; }
+	.posts-default .entry-thumbnails { width: 310px; height: 127px; }
+			.posts-quick .entry-thumbnails img { width: 115px; height: 115px; }
+		.posts-quick .entry-meta { width: 115px; }
+			.featured { height: 260px; }
+	.featured-article { width: 640px; height: 250px; }
+	.featured-article img { width: 640px; height: 250px; }
+	#controls { width: 610px; top: 110px; }
+	#controls .next { left: 610px; }
+	.featured-entry { height: 84px; top: -84px; }
+	.featured-slideshow-inner { height: 250px }
+	#wrapper { background: url(http://networkgeekstuff.com/wp-content/uploads/2011/11/ExpBackgroundpng.jpg) left top fixed no-repeat #1e1b1a !important; }
+	.featured-stories-summary  { margin-left: 51px; }
+	.single .post .entry-photo img, .single-post .entry-photo img  { width: 620px; height: 250px; }
+		.footer-sidebar  { width: 920px; }
+	</style>
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+
+$('.multi-sidebar').tabs();
+
+$('.sf-menu').superfish({autoArrows: true, speed: 'fast', dropShadows: 'true'});
+
+$('#commentform').validate();
+
+
+});	</script>
+	<meta property="og:site_name" content="NetworkGeekStuff" />
+<meta property="og:title" content="Master-Master replication of Apache/MySQL tutorial with configuration example" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/" />
+<meta property="og:image" content="http://networkgeekstuff.com/wp-content/uploads/2012/12/Thumbnail-150x150.png" />
+<link rel="stylesheet" href="http://networkgeekstuff.com/wp-content/themes/arras/user.css" type="text/css" media="screen,projection" /></head>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-23832122-3']);
+  _gaq.push(['_setDomainName', '.networkgeekstuff.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+
+
+<body class="single single-post postid-1742 single-format-standard layout-2c-r-fixed no-js style-default">
+<script type="text/javascript">
+//<![CDATA[
+(function(){
+var c = document.body.className;
+c = c.replace(/no-js/, 'js');
+document.body.className = c;
+})();
+//]]>
+</script>
+
+<div id="top-menu" class="clearfix">
+	<div class="sf-menu menu clearfix"><ul><li class="page_item page-item-6"><a href="http://networkgeekstuff.com/about/">About myself</a></li><li class="page_item page-item-32"><a href="http://networkgeekstuff.com/helloroute/">HelloRoute</a></li></ul></div>
+</div><!-- #top-menu -->
+
+<div id="header">
+	<div id="branding" class="clearfix">
+	<div class="logo">
+	<a href="http://networkgeekstuff.com">
+	<img src="http://networkgeekstuff.com/NetworkGeekStuffLogo.jpg" alt="NetworkGeekStuff" />
+	</a>
+	</div>
+	<div class="logo"><br><br><br>
+				<span class="blog-name"><a href="http://networkgeekstuff.com">NetworkGeekStuff</a></span>
+		<span class="blog-description">&quot;The network is vast and infinite&quot; &#8211; Motoko Kusanagi</span>
+			</div>
+	
+	<div id="searchbar">
+
+	<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-2932647901926805";
+	/* Vylepsene farby */
+	google_ad_slot = "6562687941";
+	google_ad_width = 468;
+	google_ad_height = 60;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+
+
+	</div>
+	<!--<div id="searchbar"><form method="get" class="searchform clearfix" action="http://networkgeekstuff.com/">
+ <input type="text" value="Search..." name="s" class="s" onfocus="this.value=''" />
+ <input type="submit" class="searchsubmit" value="Search" title="Search NetworkGeekStuff" />
+</form>
+</div>
+	</div>--><!-- #branding -->
+</div><!-- #header -->
+
+<div id="nav">
+	<div id="nav-content" class="clearfix">
+	<ul class="sf-menu menu clearfix">	<li class="cat-item cat-item-5"><a href="http://networkgeekstuff.com/category/networking/" title="General Networking Cathegory">Networking</a>
+<ul class='children'>
+	<li class="cat-item cat-item-14"><a href="http://networkgeekstuff.com/category/networking/hp-networking/" title="View all posts filed under HP Networking">HP Networking</a>
+</li>
+	<li class="cat-item cat-item-15"><a href="http://networkgeekstuff.com/category/networking/home-networking/" title="View all posts filed under Home Networking">Home Networking</a>
+</li>
+	<li class="cat-item cat-item-17"><a href="http://networkgeekstuff.com/category/networking/cisco/" title="View all posts filed under Cisco">Cisco</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://networkgeekstuff.com/category/networking/linux/" title="View all posts filed under Linux">Linux</a>
+</li>
+	<li class="cat-item cat-item-20"><a href="http://networkgeekstuff.com/category/networking/theory/" title="View all posts filed under Theory">Theory</a>
+</li>
+	<li class="cat-item cat-item-26"><a href="http://networkgeekstuff.com/category/networking/cloud/" title="View all posts filed under Cloud">Cloud</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://networkgeekstuff.com/category/ccie/" title="View all posts filed under CCIE">CCIE</a>
+<ul class='children'>
+	<li class="cat-item cat-item-18"><a href="http://networkgeekstuff.com/category/ccie/theory-notes/" title="View all posts filed under Theory Notes">Theory Notes</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://networkgeekstuff.com/category/projects/" title="The projects that I personally run or am part of">Projects</a>
+<ul class='children'>
+	<li class="cat-item cat-item-3"><a href="http://networkgeekstuff.com/category/projects/helloroute/" title="View all posts filed under HelloRoute">HelloRoute</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="http://networkgeekstuff.com/category/projects/networkgeekstuff/" title="View all posts filed under NetworkGeekStuff">NetworkGeekStuff</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://networkgeekstuff.com/category/hobby/" title="View all posts filed under Hobby">Hobby</a>
+<ul class='children'>
+	<li class="cat-item cat-item-11"><a href="http://networkgeekstuff.com/category/hobby/other/" title="Random Category">Other</a>
+</li>
+	<li class="cat-item cat-item-12"><a href="http://networkgeekstuff.com/category/hobby/models/" title="Related to plastic of functional miniatures/models">Models</a>
+</li>
+	<li class="cat-item cat-item-13"><a href="http://networkgeekstuff.com/category/hobby/games/" title="Games, computer or other related topics">Games</a>
+</li>
+</ul>
+</li>
+</ul>		<ul class="quick-nav clearfix">
+					<li><a id="rss" title="NetworkGeekStuff RSS Feed" href="http://networkgeekstuff.com/?feed=rss2">RSS Feed</a></li>
+				
+						
+							<li><a id="facebook" title="NetworkGeekStuff Facebook" href="http://www.facebook.com/pages/NetworkGeekStuff/143692359066513" target="_blank">Facebook</a></li>
+				
+			</ul>
+	</div><!-- #nav-content -->
+</div><!-- #nav -->
+
+<div id="wrapper">
+	
+	  
+	<div id="main" class="clearfix">
+    <div id="container" class="clearfix">
+
+<div id="content" class="section">
+
+		<div id="post-1742" class="post-1742 post type-post status-publish format-standard has-post-thumbnail hentry category-home-networking category-linux category-networkgeekstuff category-networking clearfix single-post">
+
+        <h1 class="entry-title"><a href="http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/" rel="bookmark">Master-Master replication of Apache/MySQL tutorial with configuration example</a></h1><div class="entry-info"><div class="entry-author">By <address class="author vcard"><a class="url fn n" href="http://networkgeekstuff.com/author/peter-havrila/" title="Peter Havrila">Peter Havrila</a></address></div> &ndash; <abbr class="published" title="2012-12-01T00:16:10+00:00">December 1, 2012</abbr><span class="entry-cat"><strong>Posted in: </strong><a href="http://networkgeekstuff.com/category/networking/home-networking/">Home Networking</a>, <a href="http://networkgeekstuff.com/category/networking/linux/">Linux</a>, <a href="http://networkgeekstuff.com/category/projects/networkgeekstuff/">NetworkGeekStuff</a>, <a href="http://networkgeekstuff.com/category/networking/">Networking</a></span></div>        
+        <div class="entry-content clearfix">
+		<ul class='mp-share-buttons'><li class='mp-share-buttons-fb'><iframe src='http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fnetworkgeekstuff.com%2Fnetworking%2Fmaster-master-apache-mysql-synchronization-tutorial-example-config%2F&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:100px; height:21px;' allowTransparency='true'></iframe></li><li class='mp-share-buttons-tw'><a href='http://twitter.com/share?url=http%3A%2F%2Fnetworkgeekstuff.com%2F%3Fp%3D1742&amp;counturl=http%3A%2F%2Fnetworkgeekstuff.com%2Fnetworking%2Fmaster-master-apache-mysql-synchronization-tutorial-example-config%2F' class='twitter-share-button' data-count='horizontal' data-via='NetworkGeekStuf'></a></li><li class='mp-share-buttons-gp'><g:plusone href='http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/' size='medium'></g:plusone></li><li class='mp-share-buttons-li'><script type='in/share' data-url='http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/' data-counter='right'></script></li></ul><div class='mp-share-clear-fix'></div><p>In this article, I will show you how to create a redundant Apache/MySQL cluster. I personally used this on two Raspberry PI to had them in redundancy and have load-balanced traffic to networkgeekstuff.com handled by both. But this tutorial is not limited to Raspberry PI and can be applied to most linux based apache/MySQL systems. It will be a &#8220;Master-Master&#8221; setup so this means none of the two servers will be considered primary and/or secondary.</p>
+<p>To also see how to do load-balancing on Mikrotik router, see previous article I made here.</p>
+<p>Now lets start with introducing the topology, or lets say the two servers we will load-balance on. I have called them CAIN and ABEL. And no, there is no particular reason other than they are interesting and both are 4 characters short.</p>
+<div id="attachment_1744" style="width: 470px" class="wp-caption aligncenter"><a href="http://networkgeekstuff.com/wp-content/uploads/2012/11/Topology.png"><img class=" wp-image-1744" title="CAIN and ABEL servers we will synchronize" alt="CAIN and ABEL servers we will synchronize" src="http://networkgeekstuff.com/wp-content/uploads/2012/11/Topology.png" width="460" height="387" /></a><p class="wp-caption-text">CAIN and ABEL servers we will synchronize</p></div>
+<h3>Step 1) Preparing the two servers</h3>
+<p>Create a local hostname/IP resolution in the /etc/hosts file on both servers like this:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7a7579110980" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+192.168.10.134 cain
+192.168.10.132 abel</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7a7579110980-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7a7579110980-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7a7579110980-1">192.168.10.134<span class="crayon-h"> </span>cain</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7a7579110980-2">192.168.10.132<span class="crayon-h"> </span>abel</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<h3>Step 2) Generate SSH access public keys for automated access</h3>
+<p>Next, generate ssh.pub keys between the two system so that both systems can access each other over SSH without login. This will be used by synchronization system called &#8220;unison&#8221; later.</p>
+<p>On server CAIN:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7b9430805495" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+ssh-keygen
+ssh-copy-id -i .ssh/id_rsa.pub user@abel</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7b9430805495-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7b9430805495-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7b9430805495-1">ssh-keygen</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7b9430805495-2">ssh-copy-id<span class="crayon-h"> </span>-i<span class="crayon-h"> </span>.ssh/id_rsa.pub<span class="crayon-h"> </span>user@abel</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p>On server ABEL:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7be624298787" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+ssh-keygen
+ssh-copy-id -i .ssh/id_rsa.pub user@cain</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7be624298787-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7be624298787-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7be624298787-1">ssh-keygen</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7be624298787-2">ssh-copy-id<span class="crayon-h"> </span>-i<span class="crayon-h"> </span>.ssh/id_rsa.pub<span class="crayon-h"> </span>user@cain</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p></p>
+<h3>Step 3) Install INCRON and UNISON</h3>
+<p><strong>UNISON</strong> is a two-way synchronization project that specifically targets the limits of RSYNC. When I started researching how to do synchronization of my two servers, I started playing with RSYNC immediatelly as an obvious choice just to find out that RSYNC is in no way a good choice for &#8220;master-master&#8221; synchronization because the side that always starts the synchronization to the remote side will always assume the local files have precedence. For example if you delete a file on one of the two systems, then depending on which system you start the RSYNC first the file still existing on the other is either deleted or replicated back. So definitely a problem.  UNISON on the other hand maintains the complete state information that includes deleted files so he knows that some file should be deleted on both systems regardless from where it is started. It also uses the same algorithms like RSYNC to only transfer differences so it is also very effective to synchronize changes quickly.</p>
+<p><strong>INCRON</strong> is a deamon very similar to the average cron, with the difference that INCRON can be configured to watch a directory for events like file creation, file deletion, file modification and many other. Once an event is detected, it can start a specific script on demand. We will use INCRON to watch our apache web directories for changes and trigger file synchronizations with unison. There is just one single drawback, it cannot watch recursively all sub directories.</p>
+<p>On both servers install both INCRON and UNISON, if you use debian or raspbian:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7c3526676968" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+apt-get install unison incron</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7c3526676968-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7c3526676968-1">apt-get<span class="crayon-h"> </span>install<span class="crayon-h"> </span>unison<span class="crayon-h"> </span>incron</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p>You can also test the unison first by synchronizing your web directories first before making it automatic with unison. The command is simple, for example this is executed on abel towards cain:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7c8553097312" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+testuser@abel ~$unison -batch /var/www/networkgeekstuff \
+ssh://cain//var/www/networkgeekstuff</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7c8553097312-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7c8553097312-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7c8553097312-1">testuser@abel<span class="crayon-h"> </span>~$unison<span class="crayon-h"> </span>-batch<span class="crayon-h"> </span>/var/www/networkgeekstuff<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7c8553097312-2">ssh://cain//var/www/networkgeekstuff</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<h3>Step 4) Create script for configuring UNISON</h3>
+<p>As mentioned, UNISON cannot watch all sub directories with a single configuration, so in order to enable synchronization of all possible directories being created/deleted, we will create a script that will always automatically configure UNISON with all sub directories of your web container. I personally use this script to only synchronize the dynamic wordpress /upload directory, not all</p>
+<p>Put this script to a file on both servers:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7cc079548498" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+#!/bin/bash
+#########################################################################
+# This script will generate importable incrontab table for
+# tracking changes in the wordpress upload directory (all subdirectories)
+#########################################################################
+
+_syncdir="/var/www/networkgeekstuff/wp-content/uploads";
+_myhostname="`hostname`";
+_remotehostname="none";
+
+# the two hostnames you are using, I am using cain and abel
+hostname1="cain";
+hostname2="abel";
+
+if [[ ${_myhostname} == $hostname1* ]]; then
+        echo "I am cain";
+        remotehostname=$hostname2;
+fi
+
+if [[ ${_myhostname} == $hostname2* ]]; then
+        echo "I am abel";
+        remotehostname=$hostname1;
+fi
+
+if [[ $remotehostname != "none" ]]; then
+        echo "Creating tmp file and importing it to incrontab"
+        find ${_syncdir} -type d | xargs -I{} echo \
+        "{} IN_CREATE,IN_DELETE,IN_CLOSE_WRITE,IN_MOVED_TO unison \
+        -batch {} ssh://$remotehostname/{}" &gt; /tmp/incrontab_to_im
+        incrontab /tmp/incrontab_to_import
+fi</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-4">4</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-6">6</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-8">8</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-10">10</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-12">12</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-14">14</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-16">16</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-18">18</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-20">20</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-22">22</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-24">24</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-26">26</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-28">28</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7cc079548498-30">30</div><div class="crayon-num" data-line="crayon-53cd74a1cf7cc079548498-31">31</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-1"><span class="crayon-p">#!/bin/bash</span></div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-2"><span class="crayon-c">#########################################################################</span></div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-3"><span class="crayon-c"># This script will generate importable incrontab table for</span></div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-4"><span class="crayon-c"># tracking changes in the wordpress upload directory (all subdirectories)</span></div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-5"><span class="crayon-c">#########################################################################</span></div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-6">&nbsp;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-7">_syncdir=<span class="crayon-s">"/var/www/networkgeekstuff/wp-content/uploads"</span>;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-8">_myhostname=<span class="crayon-s">"`hostname`"</span>;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-9">_remotehostname=<span class="crayon-s">"none"</span>;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-10">&nbsp;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-11"><span class="crayon-c"># the two hostnames you are using, I am using cain and abel</span></div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-12">hostname1=<span class="crayon-s">"cain"</span>;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-13">hostname2=<span class="crayon-s">"abel"</span>;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-14">&nbsp;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-15">if<span class="crayon-h"> </span>[[<span class="crayon-h"> </span>${_myhostname}<span class="crayon-h"> </span>==<span class="crayon-h"> </span>$hostname1*<span class="crayon-h"> </span>]];<span class="crayon-h"> </span>then</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-16"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>echo<span class="crayon-h"> </span><span class="crayon-s">"I am cain"</span>;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-17"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>remotehostname=$hostname2;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-18">fi</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-19">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-20">if<span class="crayon-h"> </span>[[<span class="crayon-h"> </span>${_myhostname}<span class="crayon-h"> </span>==<span class="crayon-h"> </span>$hostname2*<span class="crayon-h"> </span>]];<span class="crayon-h"> </span>then</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-21"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>echo<span class="crayon-h"> </span><span class="crayon-s">"I am abel"</span>;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-22"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>remotehostname=$hostname1;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-23">fi</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-24">&nbsp;</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-25">if<span class="crayon-h"> </span>[[<span class="crayon-h"> </span>$remotehostname<span class="crayon-h"> </span>!=<span class="crayon-h"> </span><span class="crayon-s">"none"</span><span class="crayon-h"> </span>]];<span class="crayon-h"> </span>then</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-26"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>echo<span class="crayon-h"> </span><span class="crayon-s">"Creating tmp file and importing it to incrontab"</span></div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-27"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>find<span class="crayon-h"> </span>${_syncdir}<span class="crayon-h"> </span>-type<span class="crayon-h"> </span>d<span class="crayon-h"> </span>|<span class="crayon-h"> </span>xargs<span class="crayon-h"> </span>-I{}<span class="crayon-h"> </span>echo<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-28"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"{}<span class="crayon-h"> </span>IN_CREATE,IN_DELETE,IN_CLOSE_WRITE,IN_MOVED_TO<span class="crayon-h"> </span>unison<span class="crayon-h"> </span>\</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-29"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-batch<span class="crayon-h"> </span>{}<span class="crayon-h"> </span>ssh://$remotehostname/{}"<span class="crayon-h"> </span><span class="crayon-h">&gt;</span><span class="crayon-h"> </span>/tmp/incrontab_to_im</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7cc079548498-30"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>incrontab<span class="crayon-h"> </span>/tmp/incrontab_to_import</div><div class="crayon-line" id="crayon-53cd74a1cf7cc079548498-31">fi</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0020 seconds] -->
+<p>In my case I created the script file under /home/testuser/generate_incrontab and made this file execute every night inside the normal cron job (google &#8220;crontab&#8221; for help on this very easy linux step).</p>
+<p>The script uses hostname to automatically recognize if it it is run on abel or cain to configure the incrontab. This is one example of a single line it will generate and place into your incrontab:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7d3573780277" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+/var/www/networkgeek/wp-content/uploads/2012 IN_CREATE,IN_DELETE,IN_CLOSE_WRITE,IN_MOVED_TO unison -batch /var/www/networkgeek/wp-content/uploads/2012 ssh://cain//var/www/networkgeek/wp-content/uploads/2012</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7d3573780277-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7d3573780277-1">/var/www/networkgeek/wp-content/uploads/2012<span class="crayon-h"> </span>IN_CREATE,IN_DELETE,IN_CLOSE_WRITE,IN_MOVED_TO<span class="crayon-h"> </span>unison<span class="crayon-h"> </span>-batch<span class="crayon-h"> </span>/var/www/networkgeek/wp-content/uploads/2012<span class="crayon-h"> </span>ssh://cain//var/www/networkgeek/wp-content/uploads/2012</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p><strong>Explanation</strong>, I hope you would like to read &#8220;man incrontab&#8221;, but in summary the line shown above generated by the script tells unison to wath the directory for any &#8220;CREATE&#8221;,&#8221;DELETE&#8221;,&#8221;CLOSE&#8221;,&#8221;MOVE_IN&#8221; event in the directory and will execute unison synchronizing the two exact directories. So whenever someone uploads a file to the uploads folder, it will get synchronized on the fly!</p>
+<h3>Step 5) Prepare MySQL for Master-Master replication</h3>
+<p>Ok, you have your web directory synchronized now, lets move to MySQL. A few words on theory, normal MySQL you probably have installed only can do replication from Master to Slave. So if you want only one of your server to be master for all MySQL operations, and the other server only kicking in as a backup, then this is enough for you. If you however want complete redundancy, you have to start installing MySQL cluster, that is a complete difference install package.  In this example, I will show you a nice little trick how you can make two MySQL servers doing both Master and Slave in both directions at the same time. In essence you can make the Master-&gt;Slave configuration so that for example our CAIN will be Master1/Slave2 and ABEL will be Slave1/Master2. They will replicated all changes to both instantly via network and with a little trick of auto indexing, there will be no collision even if write operations are done on both servers at the same time.</p>
+<p>First, lets modify the mysql configuration files, usually stored at /etc/mysql/my.cfg. This is how to configure both systems, note the <span style="color: #ff0000;">red parts are important to avoid collisions when writing to both masters</span> at the same time to be as they are shown here, modify the log_bin for anything you want, binlog_do_db for your web specific database (if you use wordpress you should know the name of the database, or see wp-config.php in main directory) :</p>
+<p><strong>Cain:</strong> joe /etc/mysql/my.cfg</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7d9116488075" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+server-id               = 1
+log_bin                 = /var/log/mysql/mysql-bin.log
+binlog_do_db            = wordpress_data
+binlog_ignore_db        = mysql
+auto_increment_increment= 2    
+auto_increment_offset   = 1</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7d9116488075-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7d9116488075-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf7d9116488075-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7d9116488075-4">4</div><div class="crayon-num" data-line="crayon-53cd74a1cf7d9116488075-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7d9116488075-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7d9116488075-1">server-id<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>=<span class="crayon-h"> </span>1</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7d9116488075-2">log_bin<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>=<span class="crayon-h"> </span>/var/log/mysql/mysql-bin.log</div><div class="crayon-line" id="crayon-53cd74a1cf7d9116488075-3">binlog_do_db<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=<span class="crayon-h"> </span>wordpress_data</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7d9116488075-4">binlog_ignore_db<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=<span class="crayon-h"> </span>mysql</div><div class="crayon-line" id="crayon-53cd74a1cf7d9116488075-5">auto_increment_increment=<span class="crayon-h"> </span>2<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7d9116488075-6">auto_increment_offset<span class="crayon-h">&nbsp;&nbsp; </span>=<span class="crayon-h"> </span>1</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p><strong>Abel:</strong> joe /etc/mysql/my.cfg</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7dd451565497" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+server-id               = 2
+log_bin                 = /var/log/mysql/mysql-bin.log
+binlog_do_db            = wordpress_data
+binlog_ignore_db        = mysql
+auto_increment_increment= 2    
+auto_increment_offset   = 2</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7dd451565497-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7dd451565497-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf7dd451565497-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7dd451565497-4">4</div><div class="crayon-num" data-line="crayon-53cd74a1cf7dd451565497-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7dd451565497-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7dd451565497-1">server-id<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>=<span class="crayon-h"> </span>2</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7dd451565497-2">log_bin<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>=<span class="crayon-h"> </span>/var/log/mysql/mysql-bin.log</div><div class="crayon-line" id="crayon-53cd74a1cf7dd451565497-3">binlog_do_db<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=<span class="crayon-h"> </span>wordpress_data</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7dd451565497-4">binlog_ignore_db<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>=<span class="crayon-h"> </span>mysql</div><div class="crayon-line" id="crayon-53cd74a1cf7dd451565497-5">auto_increment_increment=<span class="crayon-h"> </span>2<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span></div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7dd451565497-6">auto_increment_offset<span class="crayon-h">&nbsp;&nbsp; </span>=<span class="crayon-h"> </span>2</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p>Now restart your MySQL daemon for the configuration to take effect with <strong>/etc/inid.d/mysql restart</strong></p>
+<h3>Step 6) Synchronize the database manually for before continuing</h3>
+<p>To be 100% sure that you start your database dynamic replication correctly, I would like you to follow this super quick guide on how to backup a databse to file, move the file and load it to the other server.</p>
+<p>First select the server that you believe has the most recent database version and get the database to a file with this commnad:</p>
+<p><strong>Abel:</strong></p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7e2295022598" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysqldump -h localhost -u root -prootpassword wordpressdata &gt; wordpressdata.sql</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7e2295022598-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7e2295022598-1">mysqldump<span class="crayon-h"> </span>-h<span class="crayon-h"> </span>localhost<span class="crayon-h"> </span>-u<span class="crayon-h"> </span>root<span class="crayon-h"> </span>-prootpassword<span class="crayon-h"> </span>wordpressdata<span class="crayon-h"> </span><span class="crayon-h">&gt;</span><span class="crayon-h"> </span>wordpressdata.sql</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p><strong>Cain:</strong></p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7e6030506168" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+testuser@cain ~#mysql -u root -p
+mysql&gt;drop database wordpress
+mysql&gt;quit
+testuser@cain ~]mysql -u root -prootpassword -D wordpressdata &lt; wordpressdata .sql</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7e6030506168-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7e6030506168-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf7e6030506168-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7e6030506168-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7e6030506168-1">testuser@cain<span class="crayon-h"> </span>~#mysql<span class="crayon-h"> </span>-u<span class="crayon-h"> </span>root<span class="crayon-h"> </span>-p</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7e6030506168-2">mysql<span class="crayon-h">&gt;</span>drop<span class="crayon-h"> </span>database<span class="crayon-h"> </span>wordpress</div><div class="crayon-line" id="crayon-53cd74a1cf7e6030506168-3">mysql<span class="crayon-h">&gt;</span>quit</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7e6030506168-4">testuser@cain<span class="crayon-h"> </span>~]mysql<span class="crayon-h"> </span>-u<span class="crayon-h"> </span>root<span class="crayon-h"> </span>-prootpassword<span class="crayon-h"> </span>-D<span class="crayon-h"> </span>wordpressdata<span class="crayon-h"> </span><span class="crayon-h">&lt;</span><span class="crayon-h"> </span>wordpressdata<span class="crayon-h"> </span>.sql</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<h3>Step 7) Create Master(CAIN) to Slave(ABEL)</h3>
+<p>Now with the databases in the exact same initial state, we can create one of the servers as Master that will now be CAIN. On CAIN, create the replication username in the database.</p>
+<p><strong>Cain:</strong></p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7eb796511118" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysql&gt;grant replication slave on *.* to 'replicator'@'%' \
+      identified by 'replicationpassword';
+mysql&gt;reset master;</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7eb796511118-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7eb796511118-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf7eb796511118-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7eb796511118-1">mysql<span class="crayon-h">&gt;</span>grant<span class="crayon-h"> </span>replication<span class="crayon-h"> </span>slave<span class="crayon-h"> </span>on<span class="crayon-h"> </span>*.*<span class="crayon-h"> </span>to<span class="crayon-h"> </span>'replicator'@'%'<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7eb796511118-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>identified<span class="crayon-h"> </span>by<span class="crayon-h"> </span>'replicationpassword';</div><div class="crayon-line" id="crayon-53cd74a1cf7eb796511118-3">mysql<span class="crayon-h">&gt;</span>reset<span class="crayon-h"> </span>master;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+<p></p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7ef095394591" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysql&gt; show master status;
++------------------+----------+-----------------+------------------+
+| File             | Position | Binlog_Do_DB    | Binlog_Ignore_DB |
++------------------+----------+-----------------+------------------+
+| mysql-bin.000001 |      107 | wordpressdata   | mysql            |
++------------------+----------+-----------------+------------------+
+1 row in set (0.01 sec)</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7ef095394591-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7ef095394591-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf7ef095394591-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7ef095394591-4">4</div><div class="crayon-num" data-line="crayon-53cd74a1cf7ef095394591-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7ef095394591-6">6</div><div class="crayon-num" data-line="crayon-53cd74a1cf7ef095394591-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7ef095394591-1">mysql<span class="crayon-h">&gt;</span><span class="crayon-h"> </span>show<span class="crayon-h"> </span>master<span class="crayon-h"> </span>status;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7ef095394591-2">+------------------+----------+-----------------+------------------+</div><div class="crayon-line" id="crayon-53cd74a1cf7ef095394591-3">|<span class="crayon-h"> </span>File<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>|<span class="crayon-h"> </span>Position<span class="crayon-h"> </span>|<span class="crayon-h"> </span>Binlog_Do_DB<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span>|<span class="crayon-h"> </span>Binlog_Ignore_DB<span class="crayon-h"> </span>|</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7ef095394591-4">+------------------+----------+-----------------+------------------+</div><div class="crayon-line" id="crayon-53cd74a1cf7ef095394591-5">|<span class="crayon-h"> </span>mysql-bin.000001<span class="crayon-h"> </span>|<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>107<span class="crayon-h"> </span>|<span class="crayon-h"> </span>wordpressdata<span class="crayon-h">&nbsp;&nbsp; </span>|<span class="crayon-h"> </span>mysql<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>|</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7ef095394591-6">+------------------+----------+-----------------+------------------+</div><div class="crayon-line" id="crayon-53cd74a1cf7ef095394591-7">1<span class="crayon-h"> </span>row<span class="crayon-h"> </span>in<span class="crayon-h"> </span>set<span class="crayon-h"> </span>(0.01<span class="crayon-h"> </span>sec)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0013 seconds] -->
+<p><strong>Abel:</strong></p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7f3454425815" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysql&gt; CHANGE MASTER TO MASTER_HOST='cain', MASTER_USER='replicator', \
+MASTER_PASSWORD='replicationpassword', MASTER_PORT=3306, \
+MASTER_LOG_FILE='mysql-bin.000001', \
+MASTER_LOG_POS=107, MASTER_CONNECT_RETRY=10;
+mysql&gt; start slave;</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7f3454425815-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7f3454425815-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf7f3454425815-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf7f3454425815-4">4</div><div class="crayon-num" data-line="crayon-53cd74a1cf7f3454425815-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7f3454425815-1">mysql<span class="crayon-h">&gt;</span><span class="crayon-h"> </span>CHANGE<span class="crayon-h"> </span>MASTER<span class="crayon-h"> </span>TO<span class="crayon-h"> </span>MASTER_HOST='cain',<span class="crayon-h"> </span>MASTER_USER='replicator',<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7f3454425815-2">MASTER_PASSWORD='replicationpassword',<span class="crayon-h"> </span>MASTER_PORT=3306,<span class="crayon-h"> </span>\</div><div class="crayon-line" id="crayon-53cd74a1cf7f3454425815-3">MASTER_LOG_FILE='mysql-bin.000001',<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf7f3454425815-4">MASTER_LOG_POS=107,<span class="crayon-h"> </span>MASTER_CONNECT_RETRY=10;</div><div class="crayon-line" id="crayon-53cd74a1cf7f3454425815-5">mysql<span class="crayon-h">&gt;</span><span class="crayon-h"> </span>start<span class="crayon-h"> </span>slave;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p>To verify your slave status, use the following command on slave:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf7f8636675903" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysql&gt; show slave status;</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf7f8636675903-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf7f8636675903-1">mysql<span class="crayon-h">&gt;</span><span class="crayon-h"> </span>show<span class="crayon-h"> </span>slave<span class="crayon-h"> </span>status;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p>In the output, you can look for these parts in the table and both should be &#8220;Yes&#8221;.<br />
+<strong>            Slave_IO_Running: Yes</strong><br />
+<strong>            Slave_SQL_Running: Yes</strong></p>
+<p>I also encourage you to make some small tests manually inside the database, you can maybe create a simple table and see if it has been replicated from CAIN to ABEL and so on. For example create a table on CAIN: <strong>mysql&gt;create table testsync (id INT, text VARCHAR(50));</strong> then on ABEL see if it was created with <strong>mysql&gt;show tables;</strong> and then drop it again on CAIN with: <strong>mysql&gt;drop table testsync;</strong>, if it is no longer again on ABEL, you have a working replication from CAIN to ABEL.</p>
+<h3>Step 8) Create reverse Master(ABEL) to Slave(CAIN) to actually create Master-Master replication</h3>
+<p>This is exactly what we have done in Step 7, only with ABEL being Master and CAIN being Slave. The autoindex parameters configured in my.cfg will make sure there is no conflict. When you now basically do the previous step in the oposite direction. You can also change the username of the replication if you wish, but I wanted to have the same.</p>
+<p>On ABEL:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf805509912469" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+    mysql&gt;grant replication slave on *.* to 'replicator'@'%' \
+          identified by 'replicationpassword';
+    mysql&gt;reset master;</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf805509912469-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf805509912469-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf805509912469-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf805509912469-1"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span>mysql<span class="crayon-h">&gt;</span>grant<span class="crayon-h"> </span>replication<span class="crayon-h"> </span>slave<span class="crayon-h"> </span>on<span class="crayon-h"> </span>*.*<span class="crayon-h"> </span>to<span class="crayon-h"> </span>'replicator'@'%'<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf805509912469-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>identified<span class="crayon-h"> </span>by<span class="crayon-h"> </span>'replicationpassword';</div><div class="crayon-line" id="crayon-53cd74a1cf805509912469-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span>mysql<span class="crayon-h">&gt;</span>reset<span class="crayon-h"> </span>master;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p>Now you should also see that the ABEL went to master status with <strong>show master status</strong>.</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf80b221741491" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysql&gt; show master status;
++------------------+----------+-----------------+------------------+
+| File             | Position | Binlog_Do_DB    | Binlog_Ignore_DB |
++------------------+----------+-----------------+------------------+
+| mysql-bin.000001 |      107 | wordpressdata   | mysql            |
++------------------+----------+-----------------+------------------+
+1 row in set (0.00 sec)</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf80b221741491-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf80b221741491-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf80b221741491-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf80b221741491-4">4</div><div class="crayon-num" data-line="crayon-53cd74a1cf80b221741491-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf80b221741491-6">6</div><div class="crayon-num" data-line="crayon-53cd74a1cf80b221741491-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf80b221741491-1">mysql<span class="crayon-h">&gt;</span><span class="crayon-h"> </span>show<span class="crayon-h"> </span>master<span class="crayon-h"> </span>status;</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf80b221741491-2">+------------------+----------+-----------------+------------------+</div><div class="crayon-line" id="crayon-53cd74a1cf80b221741491-3">|<span class="crayon-h"> </span>File<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>|<span class="crayon-h"> </span>Position<span class="crayon-h"> </span>|<span class="crayon-h"> </span>Binlog_Do_DB<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span>|<span class="crayon-h"> </span>Binlog_Ignore_DB<span class="crayon-h"> </span>|</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf80b221741491-4">+------------------+----------+-----------------+------------------+</div><div class="crayon-line" id="crayon-53cd74a1cf80b221741491-5">|<span class="crayon-h"> </span>mysql-bin.000001<span class="crayon-h"> </span>|<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>107<span class="crayon-h"> </span>|<span class="crayon-h"> </span>wordpressdata<span class="crayon-h">&nbsp;&nbsp; </span>|<span class="crayon-h"> </span>mysql<span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>|</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf80b221741491-6">+------------------+----------+-----------------+------------------+</div><div class="crayon-line" id="crayon-53cd74a1cf80b221741491-7">1<span class="crayon-h"> </span>row<span class="crayon-h"> </span>in<span class="crayon-h"> </span>set<span class="crayon-h"> </span>(0.00<span class="crayon-h"> </span>sec)</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0013 seconds] -->
+<p>Now take the parameters from the previous table connect CAIN with this command and the parameters:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf810573538056" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+CHANGE MASTER TO MASTER_HOST='abel', MASTER_USER='replicator', \
+MASTER_PASSWORD='replicationpassword', MASTER_PORT=3306, \
+MASTER_LOG_FILE='mysql-bin.000001', \
+MASTER_LOG_POS=107, MASTER_CONNECT_RETRY=10;</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf810573538056-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf810573538056-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf810573538056-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf810573538056-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf810573538056-1">CHANGE<span class="crayon-h"> </span>MASTER<span class="crayon-h"> </span>TO<span class="crayon-h"> </span>MASTER_HOST='abel',<span class="crayon-h"> </span>MASTER_USER='replicator',<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf810573538056-2">MASTER_PASSWORD='replicationpassword',<span class="crayon-h"> </span>MASTER_PORT=3306,<span class="crayon-h"> </span>\</div><div class="crayon-line" id="crayon-53cd74a1cf810573538056-3">MASTER_LOG_FILE='mysql-bin.000001',<span class="crayon-h"> </span>\</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf810573538056-4">MASTER_LOG_POS=107,<span class="crayon-h"> </span>MASTER_CONNECT_RETRY=10;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+<p>Again, you can verify the slave status in the show slave status command:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf814987488742" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysql&gt; show slave status;</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf814987488742-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf814987488742-1">mysql<span class="crayon-h">&gt;</span><span class="crayon-h"> </span>show<span class="crayon-h"> </span>slave<span class="crayon-h"> </span>status;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p>In the output, you can look for these parts in the table and both should be again &#8220;Yes&#8221;.<br />
+<strong>            Slave_IO_Running: Yes</strong><br />
+<strong>            Slave_SQL_Running: Yes</strong></p>
+<h3>Step 9) OPTIONAL: Paranoid prevention of MySQL de-synchronization with VRRP</h3>
+<p>Ok, despite the fact that the auto indexing works great, if you have a web/system that often creates or drops MySQL tables, then it might be useful to dynamically use only one server for database communication, and only when this fails, move to the other database. Let me show you how it looks right after finishing step 1 to step 8:</p>
+<div id="attachment_1757" style="width: 470px" class="wp-caption aligncenter"><a href="http://networkgeekstuff.com/wp-content/uploads/2012/11/NON_VRRP_topology.png"><img class=" wp-image-1757" title="MySQL going to with write commands to localhost" alt="MySQL going to with write commands to localhost" src="http://networkgeekstuff.com/wp-content/uploads/2012/11/NON_VRRP_topology.png" width="460" height="400" /></a><p class="wp-caption-text">Apache/PHP going to MySQL with write commands via localhost</p></div>
+<p>VRRP is a protocol that creates a single virtual IP in the network, that is shared by multiple servers (or routers), but only one server is actively using it. The one who is allowed to also use it is dynamically elected based on priorities on local network and is called Master. Lets imagine that we create new IP in LAN 192.168.10.135 that will be VRRP virtual IP. But only ABEL will be VRRP master and use it. When ABEL fails, CAIN will take-over the VRRP IP and will start handling traffic going to it dynamically. When ABEL recovers back to working state, it will again take over the VRRP IP handling and CAIN will be quiet again.</p>
+<p>Then all you have to do is configure MySQL to be able to accept SQL interface on 192.168.10.135, create VRRP IPs on lan interfaces and lately tell your apache/PHP to use the VRRP IP as contact point for database instead of localhost. All I will show below as step by step.</p>
+<p>First, this is a diagram how the VRRP system should technically work. Note that the point is that despite the MySQL replication is two-way, at any given time only the information flow (replication) if only going in one direction, so there is no way/risk to have de-synchronization happen in any SQL write operation imaginable.</p>
+<div id="attachment_1761" style="width: 450px" class="wp-caption aligncenter"><a href="http://networkgeekstuff.com/wp-content/uploads/2012/11/VRRP_topology1.png"><img class=" wp-image-1761" title="MySQL write access directed to VRRP IP" alt="MySQL write access directed to VRRP IP" src="http://networkgeekstuff.com/wp-content/uploads/2012/11/VRRP_topology1.png" width="440" height="521" /></a><p class="wp-caption-text">MySQL write access directed to VRRP IP</p></div>
+<p>And if something happens to ABEL, everything is redirected to CAIN as follows.</p>
+<div id="attachment_1763" style="width: 451px" class="wp-caption aligncenter"><a href="http://networkgeekstuff.com/wp-content/uploads/2012/11/VRRP_topology_ABEL_DOWN.png"><img class=" wp-image-1763" title="MySQL still directed to backup VRRP IP on CAIN" alt="MySQL still directed to backup VRRP IP on CAIN" src="http://networkgeekstuff.com/wp-content/uploads/2012/11/VRRP_topology_ABEL_DOWN.png" width="441" height="483" /></a><p class="wp-caption-text">MySQL still directed to backup VRRP IP on CAIN</p></div>
+<p>Steps to create this VRRP setup, you do not have to do much, simply :</p>
+<h4>Step 9a) Add the new VRRP</h4>
+<p>On both CAIN and ABEL add a new vrrp IP to /etc/hosts file:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf81f444332039" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+192.168.10.135  databasevrrp
+192.168.10.134  cain
+192.168.10.132  abel</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf81f444332039-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf81f444332039-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf81f444332039-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf81f444332039-1">192.168.10.135<span class="crayon-h">&nbsp;&nbsp;</span>databasevrrp</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf81f444332039-2">192.168.10.134<span class="crayon-h">&nbsp;&nbsp;</span>cain</div><div class="crayon-line" id="crayon-53cd74a1cf81f444332039-3">192.168.10.132<span class="crayon-h">&nbsp;&nbsp;</span>abel</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<h4>Step 9b) Install VRRPd</h4>
+<p>On both CAIN and ABEL:</p>
+<p>apt-get install vrrpd</p>
+<h4>Step 9c) Start VRRPd on the servers</h4>
+<p>CAIN:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf829177744928" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+vrrpd -D -i eth0 -v 1 -a none -p 100 192.168.10.135</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf829177744928-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf829177744928-1">vrrpd<span class="crayon-h"> </span>-D<span class="crayon-h"> </span>-i<span class="crayon-h"> </span>eth0<span class="crayon-h"> </span>-v<span class="crayon-h"> </span>1<span class="crayon-h"> </span>-a<span class="crayon-h"> </span>none<span class="crayon-h"> </span>-p<span class="crayon-h"> </span>100<span class="crayon-h"> </span>192.168.10.135</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0012 seconds] -->
+<p>ABEL:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf832800632675" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+vrrpd -D -i eth0 -v 1 -a none -p 110 192.168.10.135</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf832800632675-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf832800632675-1">vrrpd<span class="crayon-h"> </span>-D<span class="crayon-h"> </span>-i<span class="crayon-h"> </span>eth0<span class="crayon-h"> </span>-v<span class="crayon-h"> </span>1<span class="crayon-h"> </span>-a<span class="crayon-h"> </span>none<span class="crayon-h"> </span>-p<span class="crayon-h"> </span>110<span class="crayon-h"> </span>192.168.10.135</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p>Verification can be done by either pinging the virtual IP on any other machine on your LAN, alternatively you can look on who is master by using the<strong> ip -4 addr ls</strong> command, the router that became master will have the new IP address listed there as active IP.</p>
+<h4>Step 9d) Create a MySQL user with the privilege to access MySQL from external source</h4>
+<p></p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf83b249181522" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+mysql&gt;CREATE USER 'mysqluser'@'%' IDENTIFIED BY 'mysqluser';
+mysql&gt;GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON wordpressdata.* \
+      TO 'mysqluser'@'%';
+mysql&gt;FLUSH PRIVILEGES;</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf83b249181522-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf83b249181522-2">2</div><div class="crayon-num" data-line="crayon-53cd74a1cf83b249181522-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf83b249181522-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf83b249181522-1">mysql<span class="crayon-h">&gt;</span>CREATE<span class="crayon-h"> </span>USER<span class="crayon-h"> </span>'mysqluser'@'%'<span class="crayon-h"> </span>IDENTIFIED<span class="crayon-h"> </span>BY<span class="crayon-h"> </span>'mysqluser';</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf83b249181522-2">mysql<span class="crayon-h">&gt;</span>GRANT<span class="crayon-h"> </span>SELECT,INSERT,UPDATE,DELETE,CREATE,DROP<span class="crayon-h"> </span>ON<span class="crayon-h"> </span>wordpressdata.*<span class="crayon-h"> </span>\</div><div class="crayon-line" id="crayon-53cd74a1cf83b249181522-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>TO<span class="crayon-h"> </span>'mysqluser'@'%';</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf83b249181522-4">mysql<span class="crayon-h">&gt;</span>FLUSH<span class="crayon-h"> </span>PRIVILEGES;</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0012 seconds] -->
+<p></p>
+<h4>Step 9e) Configure your apache/PHP system to connect to MySQL on the external IP.</h4>
+<p>Well, to be honest, this point depends on what you are using, as I am using wordpress, I can only tell you how to do this in this particular system. In wordpress it is very simple. Open file wp-config.php and change this line:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf840349657618" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+/** MySQL hostname */
+define('DB_HOST', 'localhost');</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf840349657618-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf840349657618-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf840349657618-1">/**<span class="crayon-h"> </span>MySQL<span class="crayon-h"> </span>hostname<span class="crayon-h"> </span>*/</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf840349657618-2">define('DB_HOST',<span class="crayon-h"> </span>'localhost');</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p>to this line:</p><!-- Crayon Syntax Highlighter v2.6.2 -->
+
+		<div id="crayon-53cd74a1cf845297008115" class="crayon-syntax crayon-theme-tomorrow-night crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always" style=" max-width: 600px; margin-top: 12px; margin-bottom: 12px; margin-right: 12px; font-size: 12px !important; line-height: 15px !important;">
+		
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+/** MySQL hostname */
+define('DB_HOST', 'databasevrrp');</textarea></div>
+			<div class="crayon-main" style=" max-width: 600px;">
+				<table class="crayon-table">
+					<tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-53cd74a1cf845297008115-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-53cd74a1cf845297008115-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-53cd74a1cf845297008115-1">/**<span class="crayon-h"> </span>MySQL<span class="crayon-h"> </span>hostname<span class="crayon-h"> </span>*/</div><div class="crayon-line crayon-striped-line" id="crayon-53cd74a1cf845297008115-2">define('DB_HOST',<span class="crayon-h"> </span>'databasevrrp');</div></div></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p>And that&#8217;s it, the settings take effect immediatelly and if you didn&#8217;t break something, you should have connection to your MySQL via VRRP IP already going over the external IP.</p>
+<h3>Summary</h3>
+<p>I hope you enjoyed the whole example because I absolutely love this setup! Maybe it is because I am a network guy who just built first practical cluster on a two Raspberry PI and enjoys that I have cluster that takes 3W in total. So yes, that is true.</p>
+<p>In regards to the article, I think I covered all the things you need for recreating the cluster, I was a little limiting all the outputs, verifications and troubleshooting, but I didn&#8217;t believe them to be that hard and it would make this article around three times bigger for only small practical reason.</p>
+<p>&nbsp;</p>
+<span id='mp-share-below-action'>If you enjoyed this blog, please share. </span><ul class='mp-share-buttons'><li class='mp-share-buttons-fb'><iframe src='http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fnetworkgeekstuff.com%2Fnetworking%2Fmaster-master-apache-mysql-synchronization-tutorial-example-config%2F&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=21' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:100px; height:21px;' allowTransparency='true'></iframe></li><li class='mp-share-buttons-tw'><a href='http://twitter.com/share?url=http%3A%2F%2Fnetworkgeekstuff.com%2F%3Fp%3D1742&amp;counturl=http%3A%2F%2Fnetworkgeekstuff.com%2Fnetworking%2Fmaster-master-apache-mysql-synchronization-tutorial-example-config%2F' class='twitter-share-button' data-count='horizontal' data-via='NetworkGeekStuf'></a></li><li class='mp-share-buttons-gp'><g:plusone href='http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/' size='medium'></g:plusone></li><li class='mp-share-buttons-li'><script type='in/share' data-url='http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/' data-counter='right'></script></li></ul><div class='mp-share-clear-fix'></div>  
+        		</div>
+
+		
+        
+		<div class="about-author clearfix">
+			<a href="http://networkgeekstuff.com/author/peter-havrila/"></a>
+			<div class="author-meta">
+				<h4>About Peter Havrila</h4>
+			<a href="http://networkgeekstuff.com/?page_id=6">Author's Profile</a>
+			</div>
+		</div>
+	    </div>
+    
+		<a name="comments"></a>
+    				<h4 class="module-title">No Comments</h4>
+		<p class="nocomments">Start the ball rolling by posting a comment on this article!</p>
+		
+
+									<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/networking/master-master-apache-mysql-synchronization-tutorial-example-config/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://networkgeekstuff.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Name</label> <span class="required">*</span><input id="author" class="required" name="author" type="text" value="" size="30" aria-required="true" /></p>
+<p class="comment-form-email"><label for="email">Email</label> <span class="required">*</span><input id="email" class="required email" name="email" type="text" value="" size="30" aria-required="true" /></p>
+<p class="comment-form-url"><label for="url">Website</label><input id="url" class="url" name="url" type="text" value="" size="30" /></p>
+												<p class="comment-form-comment"><label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" class="required"></textarea></p>						<p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes:  <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code class=&quot;&quot; title=&quot;&quot; data-url=&quot;&quot;&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; &lt;pre class=&quot;&quot; title=&quot;&quot; data-url=&quot;&quot;&gt; &lt;span class=&quot;&quot; title=&quot;&quot; data-url=&quot;&quot;&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='1742' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="d80dd45df3" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="18"/></p>					</form>
+							</div><!-- #respond -->
+				
+	    
+
+</div><!-- #content -->
+
+</div><!-- #container -->
+
+
+<div id="primary" class="aside main-aside sidebar">
+  
+	<ul class="xoxo">
+		<li class="widgetcontainer clearfix"><div class="widgetcontent"><form method="get" class="searchform clearfix" action="http://networkgeekstuff.com/">
+ <input type="text" value="Search..." name="s" class="s" onfocus="this.value=''" />
+ <input type="submit" class="searchsubmit" value="Search" title="Search NetworkGeekStuff" />
+</form>
+</div></li>
+			<li>
+			<!-- <img src="http://deusexmachina.dyndns.org/upload/1296610917777.png" width="300" height="1" alt="Angry face" /> -->
+			<!-- GOOGLE ADDS --!>			
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-2932647901926805";
+			/* Right Banner 300x250, bola vytvorená 9.5.2011 */
+			google_ad_slot = "6356264498";
+			google_ad_width = 300;
+			google_ad_height = 250;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+
+			</li>
+					
+	</ul>		
+</div><!-- #primary -->
+<div id="secondary" class="aside main-aside sidebar">
+    <ul class="xoxo">
+        <!-- Widgetized sidebar, if you have the plugin installed.  -->
+        <li id="nav_menu-2" class="widgetcontainer clearfix"><h5 class="widgettitle">Most Popular</h5><div class="menu-most-popular-container"><ul id="menu-most-popular" class="menu"><li id="menu-item-2642" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2642"><a href="http://networkgeekstuff.com/networking/cisco-bgp-timers-re-explained/">Cisco BGP Timers re-Explained</a></li>
+<li id="menu-item-2643" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2643"><a href="http://networkgeekstuff.com/networking/cisco-ios-xr-complete-getting-started-examples-guide/">Cisco IOS XR – Complete Getting Started Examples Guide, Part1/2</a></li>
+<li id="menu-item-2644" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2644"><a href="http://networkgeekstuff.com/networking/minipost-mikrotik-qos-prioritization-example/">[minipost] Mikrotik QoS Prioritization Example</a></li>
+<li id="menu-item-2645" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2645"><a href="http://networkgeekstuff.com/networking/redundant-cisco-ace-load-balancer-design-tutorial/">Redundant Cisco ACE Load-Balancer Design Configuration Example</a></li>
+</ul></div></li>		<li id="recent-posts-2" class="widgetcontainer clearfix">		<h5 class="widgettitle">Recent Articles</h5>		<ul>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/introduction-and-lab-tutorial-of-hp-helion-community-edition-the-openstack-based-cloud-system-that-can-give-you-a-personal-cloud/">Introduction and LAB tutorial of HP Helion Community Edition, the OpenStack based &#8220;cloud&#8221; system that can give you a personal cloud!</a>
+							<span class="post-date">June 10, 2014</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/minipost-mikrotikrouterboard-port-knocking-example-for-firewallnat-openings/">[minipost] Mikrotik/RouterBoard port-knocking example for firewall/NAT openings</a>
+							<span class="post-date">June 9, 2014</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/projects/networkgeekstuff/minipost-how-to-fix-mysql-lost-table-description-from-frm-files-after-emergency-migration-of-varlibmysql/">[minipost] How to fix MySQL lost table description from .frm files after emergency migration of /var/lib/mysql</a>
+							<span class="post-date">June 3, 2014</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/mig-29-slovak-air-force-model-with-digital-camo/">Slovak Air Force MiG-29 with 2008 Digital Camoflage, 1/48</a>
+							<span class="post-date">March 4, 2014</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/playing-with-the-new-hp-sdn-controller-including-getting-started-guide-with-open-vswitch-in-gns3/">Playing with the new HP SDN Controller &#8211; including getting started guide with Open vSwitch in GNS3</a>
+							<span class="post-date">January 1, 2014</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/nexus-getting-started-examples-guide-part1-basics-vdc-vpc/">Nexus 7k &#8211; Getting Started Examples &#8211; Part1 (basics, VDC and vPC)</a>
+							<span class="post-date">December 19, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/linux/minipost-create-a-loopback-hard-drive-partition-inside-a-file-in-linux/">[minipost] Create a loopback hard-drive partition inside a file in linux</a>
+							<span class="post-date">December 18, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/arma2-cwr2-mod-winter-kolgujev-malden-domination-with-xmas-extras/">ArmA2 CWR2 mod: Winter Kolgujev + Malden Domination with Xmas extras</a>
+							<span class="post-date">December 18, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/beaglebone-black-replaced-raspberry-pi-and-is-running-networkgeekstuff-now/">BeagleBone Black replaced Raspberry PI running networkgeekstuff.com (and performance reasons review)</a>
+							<span class="post-date">November 19, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/revell-f-104g-starfighter-148/">Revell F-104G Starfighter 1/48</a>
+							<span class="post-date">November 1, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/revell-leopard-2a6-tank-model-172/">Revell LEOPARD 2A6 tank model 1:72</a>
+							<span class="post-date">September 26, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/arma2-domination-co-op-with-all-dlcs-on-smd-or-caa1-sahrani/">ArmA2 Domination &#8211; co-op with all @DLCs on SMD or CAA1 Sahrani</a>
+							<span class="post-date">September 10, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/how-to-create-custom-linux-wi-fi-regulatory-database-to-unlock-30db1000mw/">How to create custom Linux Wi-Fi regulatory database to unlock 30db/1000mW</a>
+							<span class="post-date">September 10, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/minipost-mikrotik-scripting-monitoring-interface-ip-for-changes/">[minipost] Mikrotik scripting: Monitoring interface IP for changes</a>
+							<span class="post-date">August 15, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/playing-with-other-people-wi-fi-part-2-wps-the-backdoor-to-your-wpa/">Playing with other people Wi-Fi part 2: WPS, the &#8220;backdoor&#8221; to WPA</a>
+							<span class="post-date">July 23, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/playing-with-other-people-wi-fi-part-1-the-good-old-wep/">Playing with other people Wi-Fi part 1: The good old &#8220;WEP&#8221;</a>
+							<span class="post-date">July 17, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/configuring-mpls-l3-vpn-on-ios-xr/">Configuring MPLS L3 VPN on IOS XR</a>
+							<span class="post-date">May 13, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/minipost-coursera-org-the-free-and-online-way-to-learn-on-a-colledge-level/">[minipost] Coursera.org, the free and online way to learn on a colledge level?</a>
+							<span class="post-date">April 30, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/revell-t-80b-model-172/">Revell T-80B model 1/72</a>
+							<span class="post-date">February 11, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/cisco-ios-xr-complete-getting-started-examples-guide-part-2/">Cisco IOS XR – Complete Getting Started Examples Guide, Part 2/2</a>
+							<span class="post-date">January 8, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/minipost-mikrotik-qos-prioritization-example/">[minipost] Mikrotik QoS Prioritization Example</a>
+							<span class="post-date">January 3, 2013</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/zvezda-sukhoi-su-25-frogfoot-model/">Zvezda Sukhoi Su-25 &#8220;Frogfoot&#8221; model</a>
+							<span class="post-date">December 19, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/christmas-malden-edition-of-cwr2-arma-domination/">X-mas Malden edition of CWR2 ArmA Domination</a>
+							<span class="post-date">December 3, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/master-master-apache-mysql-synchronization-tutorial-example-config/">Master-Master replication of Apache/MySQL tutorial with configuration example</a>
+							<span class="post-date">December 1, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/load-balancing-traffic-on-mikrotik-router-tutorial/">Load-Balancing network traffic on Mikrotik router tutorial with example configuration</a>
+							<span class="post-date">December 1, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/networkgeekstuff-com-running-load-balanced-on-two-raspberry-pis/">NetworkGeekStuff.com running load-balanced on two Raspberry PIs!</a>
+							<span class="post-date">November 26, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/l2-mpls-vllsvpls-overview-including-martinikompella-mode-h3c-configuration-examples/">UPDATED: L2 MPLS VPN introduction and H3C configuration examples (Martini and Kompella VLLs/VPLS)</a>
+							<span class="post-date">November 12, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/cisco-ios-xr-complete-getting-started-examples-guide/">Cisco IOS XR &#8211; Complete Getting Started Examples Guide, Part1/2</a>
+							<span class="post-date">November 1, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/networking/linux/minipost-how-to-pause-a-running-process-on-linux/">[minipost] How to pause a running process on Linux</a>
+							<span class="post-date">October 29, 2012</span>
+						</li>
+					<li>
+				<a href="http://networkgeekstuff.com/hobby/arma2-domination-mission-cwr2-malden-edition/">ArmA2 Domination Mission &#8211; CWR2 Malden edition version 12g [18th December 2013]</a>
+							<span class="post-date">October 22, 2012</span>
+						</li>
+				</ul>
+		</li><li id="olussierfsp_likebox-3" class="widgetcontainer clearfix"><h5 class="widgettitle">Find us on Facebook</h5><iframe src="http://www.facebook.com/plugins/likebox.php?profile_id=143692359066513&amp;width=280&amp;height=250&amp;connections=10&amp;stream=false&amp;header=false&amp;locale=en_US" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:280px; height:250px"></iframe>
+</li><li id="archives-3" class="widgetcontainer clearfix"><h5 class="widgettitle">Archives</h5>		<ul>
+	<li><a href='http://networkgeekstuff.com/2014/06/'>June 2014</a>&nbsp;(3)</li>
+	<li><a href='http://networkgeekstuff.com/2014/03/'>March 2014</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2014/01/'>January 2014</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2013/12/'>December 2013</a>&nbsp;(3)</li>
+	<li><a href='http://networkgeekstuff.com/2013/11/'>November 2013</a>&nbsp;(2)</li>
+	<li><a href='http://networkgeekstuff.com/2013/09/'>September 2013</a>&nbsp;(3)</li>
+	<li><a href='http://networkgeekstuff.com/2013/08/'>August 2013</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2013/07/'>July 2013</a>&nbsp;(2)</li>
+	<li><a href='http://networkgeekstuff.com/2013/05/'>May 2013</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2013/04/'>April 2013</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2013/02/'>February 2013</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2013/01/'>January 2013</a>&nbsp;(2)</li>
+	<li><a href='http://networkgeekstuff.com/2012/12/'>December 2012</a>&nbsp;(4)</li>
+	<li><a href='http://networkgeekstuff.com/2012/11/'>November 2012</a>&nbsp;(3)</li>
+	<li><a href='http://networkgeekstuff.com/2012/10/'>October 2012</a>&nbsp;(5)</li>
+	<li><a href='http://networkgeekstuff.com/2012/08/'>August 2012</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2012/07/'>July 2012</a>&nbsp;(2)</li>
+	<li><a href='http://networkgeekstuff.com/2012/06/'>June 2012</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2012/05/'>May 2012</a>&nbsp;(8)</li>
+	<li><a href='http://networkgeekstuff.com/2012/03/'>March 2012</a>&nbsp;(2)</li>
+	<li><a href='http://networkgeekstuff.com/2012/01/'>January 2012</a>&nbsp;(3)</li>
+	<li><a href='http://networkgeekstuff.com/2011/12/'>December 2011</a>&nbsp;(6)</li>
+	<li><a href='http://networkgeekstuff.com/2011/11/'>November 2011</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2011/07/'>July 2011</a>&nbsp;(1)</li>
+	<li><a href='http://networkgeekstuff.com/2011/01/'>January 2011</a>&nbsp;(3)</li>
+		</ul>
+</li>    </ul>
+	  
+</div><!-- #secondary -->
+	</div><!-- #main -->
+	
+
+
+	    
+    <div id="footer">
+
+		<div align="center">
+		  <!--<img src="http://deusexmachina.dyndns.org/upload/1296610917777.png" width="728" height="10" border="2" alt="Angry face" />
+		  Advertisment:-->
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-2932647901926805";
+			/* Spodny banner 728x90, bola vytvorená 9.5.2011 */
+			google_ad_slot = "9845332626";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+
+		</div>
+
+		<!--
+		<div class="footer-sidebar-container clearfix">
+							<ul id="footer-sidebar-1" class="footer-sidebar clearfix xoxo">
+										<li></li>
+									</ul>
+					</div>-->
+		
+
+		
+		<div class="footer-message">
+		<p class="floatright"><a class="arras" href="http://www.arrastheme.com/"><strong>This site uses the Arras Theme</strong></a></p>
+		<p>Copyright NetworkGeekStuff. All Rights Reserved.</p>		
+		</div><!-- .footer-message -->
+    </div>
+</div><!-- #wrapper -->
+<!--MP Share Center Scripts--><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><!--Twitter Tweet Button--><script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script><!--Google +1 Button--><script type="text/javascript" src="http://platform.linkedin.com/in.js"></script><!--LinkedIn Share Button--><script type="text/javascript">
+jQuery(document).ready(function($) {
+
+	
+});
+</script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-content/plugins/akismet/_inc/form.js?ver=3.0.1'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-includes/js/jquery/ui/jquery.ui.core.min.js?ver=1.10.4'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-includes/js/jquery/ui/jquery.ui.widget.min.js?ver=1.10.4'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-includes/js/jquery/ui/jquery.ui.tabs.min.js?ver=1.10.4'></script>
+<script type='text/javascript' src='http://networkgeekstuff.com/wp-includes/js/comment-reply.min.js?ver=3.9.1'></script>
+</body>
+</html>
+   
+<!-- Dynamic page generated in 0.663 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-07-21 21:14:26 -->
+
+<!-- super cache -->
