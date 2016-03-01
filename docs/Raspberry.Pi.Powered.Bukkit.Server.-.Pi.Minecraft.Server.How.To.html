@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Raspberry Pi Powered Bukkit Server - Pi Minecraft Server How To</title>
+<meta name="title" content="Raspberry Pi Powered Bukkit Server - Pi Minecraft Server How To"/>
+<meta name="description" content="Raspberry Pi Powered Bukkit Server - Pi Minecraft Server How To - The hub for Jim Bruges' Raspberry Pi Powered Bukkit Minecraft Server, instruction on how to make a raspberry pi minecraft server and a forum for raspberry pi minecraft servers."/>
+<meta name="keywords" content="bukkit, raspberry, pi, picraft, minecraft, picraftbukkit, raspberrypi, jim, bruges"/>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Goudy+Bookletter+1911:regular"/><style type="text/css">
+.w-font-goudy_bookletter_1911 { font-family: 'Goudy Bookletter 1911', serif !important; }
+.w-font-arial { font-family: 'Arial', sans-serif !important; }
+</style>
+<script>
+webs = window.webs || {};
+webs.locale = "en-US";
+webs.props = {
+	globalAssetBaseURL: "//static.websimages.com/v4471732",
+	staticServer: "//static.websimages.com",
+	membersServer: "//members.webs.com",
+	dynamicAssetServer: "//dynamic.websimages.com",
+	modulesVersion: "v4471732",
+	environment: "production",
+	imageProcessorServer: "http://imageprocessor.websimages.com",
+	thumbServer: "http://thumbs.webs.com"
+};
+webs.theme = {"slug":"hipster","name":"Hipster","premium":false,"mobile":false,"translate":false,"customizable":true,"moduleStyles":{"email_list":{"hipster_default":{"global":{"css":"css\/email_list.less"},"inherit":"default","default":true}},"carousel":{"hipster_default":{"global":{"css":"css\/carousel.less"},"inherit":"default","default":true}},"button":{"hipster_default":{"global":{"css":"css\/button.less"},"inherit":"default","default":true}},"contact_form":{"hipster_default":{"global":{"css":"css\/contact_form.less"},"inherit":"default","default":true}}}};
+webs.theme.style = {"name":"Red","slug":"red","swatchColor":"#b51313","thumb":"thumbs\/red.jpg","css":"css\/base.less"};
+webs.theme.url = '//dynamic.websimages.com/s/themes/hipster/v1.25';
+webs.theme.variables = {"footer_title":{"lineHeight":25,"linkColor":"#b20d0d","area":"Footer","color":"#000000","font":"goudy_bookletter_1911","hidden":false,"align":null,"name":"Titles","slug":"footer_title","type":"text","hoverColor":"#5c5c5c","size":20},"title":{"lineHeight":25,"linkColor":"#b20d0d","area":"Body","color":"#000000","font":"goudy_bookletter_1911","hidden":false,"align":null,"name":"Titles","slug":"title","type":"text","hoverColor":"#5c5c5c","size":20},"text":{"lineHeight":20,"linkColor":"#b20d0d","area":"Body","color":"#000000","font":"arial","hidden":false,"align":null,"name":"Text","slug":"text","type":"text","hoverColor":"#5c5c5c","size":13},"footer_text":{"lineHeight":20,"linkColor":"#b20d0d","area":"Footer","color":"#000000","font":"arial","hidden":false,"align":null,"name":"Text","slug":"footer_text","type":"text","hoverColor":"#5c5c5c","size":13},"header_subtitle":{"area":"Global","color":"#b51313","font":"goudy_bookletter_1911","hidden":true,"align":null,"name":null,"slug":"header_subtitle","type":"font"},"theme":{"area":"Global","color":"#b51313","hidden":false,"align":null,"name":"Divider","slug":"theme","type":"color"},"header_title":{"area":"Global","color":"#b51313","font":"goudy_bookletter_1911","hidden":true,"align":null,"name":null,"slug":"header_title","type":"font"},"nav":{"lineHeight":22,"linkColor":"#b51313","area":"Header","color":"#ffffff","font":"goudy_bookletter_1911","hidden":false,"align":null,"name":"Navigation","slug":"nav","type":"text","hoverColor":"#790000","size":18},"bg":{"area":"Background","pattern":null,"color":"#ffffff","texture":null,"hidden":false,"align":null,"name":null,"image":{"position":null,"fileId":null,"path":"@{theme_root}\/images\/teal\/bg.png","attachment":"scroll","repeat":"repeat","size":null},"slug":"bg","type":"background"}};
+webs.site = {
+	url: "http://picraftbukkit.webs.com/",
+	id: 109343929,
+	premium: false
+};
+webs.locale = 'en-US';
+webs.renderedModulesPromises = [];
+</script>
+<script src="//static.websimages.com/active-static/lib/modernizr-old.js"></script>
+<script src="//static.websimages.com/static/global/js/require.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script src="//static.websimages.com/active-static/target/apps/bootstrap.js"></script>
+<script>define('moduleVersions', function(){return {"mobile_link":"1.8","mobile_email":"1.7","zumba_membership":"1.15","zumba-membership":"1.1","photo_gallery_slideshow":"1.23","zumba-licenses":"1.1","zumba_footer":"1.20","slideshow":"1.30","button":"1.15","text_image":"1.12","horizontal_rule":"1.14","video":"1.25","follow":"1.13","spacer":"1.7","text":"1.19","webstore_products":"1.17","mobile_text":"1.8","menu":"1.1","image":"1.21","table":"1.18","mobile_location":"1.8","photo_gallery":"1.67","fb-comments":"1.9","mobile_social":"1.9","zumba_qualifications":"1.10","zumba_shop":"1.8","zumba-contact":"1.1","contact_form":"1.34","google_map":"1.22","seo_footer":"1.14","sb2_paragraph":"1.14","zumba_contact":"1.13","contact":"1.1","social-links":"1.19","share_button":"1.9","fb-like":"1.22","zumba-qualifications":"1.1","title":"1.16","mobile_phone":"1.6","quote":"1.1","carousel":"1.36","donate":"1.10","twitter-feed":"1.17","ads":"1.4","email_list":"1.8","buckets":"1.13","audio":"1.15","header_editor":"1.48","paypal":"1.10","google_checkout":"1.7","footer":"1.4","zumba-footer":"1.1","zumba_calendar":"1.19","html":"1.16","zumba_licenses":"1.10","widget_bank":"1.7","mobile_hours":"1.9"};});</script>
+
+
+<link id="webs-theme-css" rel="stylesheet" type="text/css" href="http://picraftbukkit.webs.com/.theme.css?pubDate=140901105948"/><link rel="stylesheet" type="text/css" href="//static.websimages.com/v4471732/static/projects/finch/css/sitebase.css" /><script src="//static.websimages.com/v4471732/active-static/target/internal/sitebuilder/view/view.app.js"></script><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato:300" /><link rel="stylesheet" type="text/css" href="//static.websimages.com/active-static/target/usersites/css/fixedFreebar.css" />
+<meta name="fw:category" content="0">
+<noframes></noframes><noscript></noscript><!-- --><script type="text/javascript" src="//static.websimages.com/static/global/js/webs/usersites/p.js"></script><script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setDomainName','none']);_gaq.push(['_setAllowHash',false]);_gaq.push(['_setAllowLinker',true]);_gaq.push(['_setAccount','UA-230305-2']);_gaq.push(['_trackPageview']);</script><meta name="google-site-verification" content="nQlqOKT8wQMNp_5SgFQzHfT_X9JuTeO5UOqQ4v2LKDs" />
+</head>
+
+<body>
+
+
+	<div id="container">
+
+		<header id="header">
+			<section data-role="webs-header" data-webs-module="header_editor" class="webs-content-header webs-content" data-webs-locked="true" id="516d3f5b0cf26e35f4c2f643"><!-- Begin Tree --><div class="webs-parent webs-parent-0"><div class="webs-parent webs-parent-1 webs-col"><style type="text/css">#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-area-custom {
+  width: 100%;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .title {
+  top: 22px;
+  z-index: 20;
+  display: block;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .subtitle {
+  top: 84px;
+  z-index: 21;
+  display: none;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-left.title,
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-center.title {
+  left: 0px;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-left.subtitle,
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-center.subtitle {
+  left: 0px;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-left.w-header-layer-centered,
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-center.w-header-layer-centered {
+  right: auto;
+  left: 50%;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-right.title {
+  right: 0px;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .w-header-layer-align-right.subtitle {
+  right: 0px;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .logo {
+  top: 16px;
+  width: 74px;
+  left: 16px;
+  height: 73px;
+  display: none;
+}
+#webs-bin-516d3f5b0cf26e35f4c2f644 .background {
+  background-image: url('');
+  background-position: 0px 0px;
+}
+</style>
+	<div class="webs-bin" id="webs-bin-516d3f5b0cf26e35f4c2f644">
+		<div class="webs-bin-wrap">
+			<div class="webs-container webs-module-header_editor  w-header_editor-default">
+<div class="w-header-area ">
+	
+
+	
+
+	
+		
+	
+
+	
+		<div id="" class="title w-header-layer w-header-layer-text w-header-layer-align-left ">
+			<div class="w-header-layer-container">
+				<h1 class="w-header-text-container">
+					<div class="w-header-text w-header-title ">
+						
+							Raspberry Pi Powered&nbsp;<div>Tekkit Lite</div><div>&nbsp;Server  <div>Ip: picraft.no-ip.biz:25565</div><div><br></div>  </div>
+						
+					</div>
+				</h1>
+			</div>
+		</div>
+	
+
+	
+		<div id="" class="subtitle w-header-layer w-header-layer-text w-header-layer-align-left ">
+			<div class="w-header-layer-container">
+				<h2 class="w-header-text-container">
+					<div class="w-header-text w-header-subtitle " data-placeholder="Subtitle">
+						
+							Click here to edit subtitle
+						
+					</div>
+				</h2>
+			</div>
+		</div>
+	
+
+</div><!-- END w-header-area -->
+
+			</div>
+		</div>
+	</div>
+
+		<script>
+			require(['jquery'], function($){
+				var deferredLoad = $.Deferred();
+				webs.renderedModulesPromises.push(deferredLoad.promise());
+				require(['internal/sitebuilder/common/ModuleClassLoader'], function(mcl){
+					mcl.create('header_editor', {data: {"width":"100%","linksData":{},"text_layers":[],"image_layers":[],"showBackground":false,"background":{"url":"","position":{"left":0,"top":0},"mobile":{"custom":false,"color":null}},"title":{"text":"Raspberry Pi Powered&nbsp;<div>Tekkit Lite<\/div><div>&nbsp;Server  <div>Ip: picraft.no-ip.biz:25565<\/div><div><br><\/div>  <\/div>","top":22,"left":0,"right":"auto","align":"left","z-index":20,"display":"block","mobile":{"display":"block","top":18,"left":null,"color":null},"mobileDisplay":"block","mobileTop":18,"mobileLeft":null,"center":false},"subtitle":{"text":"Click here to edit subtitle","top":84,"left":0,"right":"auto","align":"left","z-index":21,"display":"none","mobile":{"display":"none","top":40,"left":null,"color":null},"mobileDisplay":"none","mobileTop":40,"mobileLeft":null,"center":false},"logo":{"top":16,"left":16,"display":"none","width":74,"height":73,"mobile":{"display":"none","top":10,"left":null,"color":null},"mobileDisplay":"none","mobileTop":10,"mobileLeft":null,"position":"absolute"},"_id":"516d3f5b0cf26e35f4c2f644"}, container: $('#webs-bin-516d3f5b0cf26e35f4c2f644 > .webs-bin-wrap > .webs-container')}).done(function(m){
+						m.oneLoaded();
+						deferredLoad.resolve();
+					});
+				});
+			});
+		</script>
+</div></div></section>
+			<nav id="webs-nav">
+				<span id='translatedMore' style='display:none; top: -9999px !important; left: -9999px !important;'>More</span>
+<ul id="webs-nav" class="webs-nav">
+	<li class="webs-home fw-class-106a6c241b8797f52e1e77317b96a201"><a href="http://picraftbukkit.webs.com/" title="Home"><span class="title">Home</span><span class="after"></span></a></li>
+	<li class="webs-app fw-class-d1327102c625731683ab8438b00a8baf"><a href="http://picraftbukkit.webs.com/apps/forums/" title="Forums"><span class="title">Forums</span><span class="after"></span></a></li>
+	<li class="webs-app fw-class-3a8cb938db082e885b6182b7af4e17c6"><a href="http://picraftbukkit.webs.com/apps/members/" title="Members"><span class="title">Members</span><span class="after"></span></a></li>
+	<li class="active fw-class-3849fb0b942bda48759143ac0be67847"><a href="http://picraftbukkit.webs.com/pi-minecraft-server-how-to" title="Pi Minecraft Server How To"><span class="title">Pi Minecraft Server How To</span><span class="after"></span></a></li>
+	<li class="fw-class-f8d70d7cf89e56d38b9e5d6a18c612ff"><a href="http://picraftbukkit.webs.com/tekkit-lite-how-to" title="Tekkit Lite How To"><span class="title">Tekkit Lite How To</span><span class="after"></span></a></li>
+</ul>
+
+			</nav>
+			<!--IE filters manipulate the rendering, not the DOM node itself, so the clickable area of the links (using href or js events) are positioned off the page. This script makes an image map for the 5 possible navigation links, then at load time (not DOMready b/c we need the more button script to have already run), it removes any extras and passes curried functions to simulate the hover functionality that the map's z-index prevents.-->
+			<!--[if lte IE 9]>
+				<div id="nav-mask-wrap">
+					<img id="nav-mask" src="http://static.websimages.com/Images/trans.gif" usemap="#nav-mask-map" border="0" width="665" height="155" alt="" />
+					<map id="nav-mask-map" name="nav-mask-map">
+						<area shape="poly" id="nav-mask-0" coords="1,150,113,0,207,0,93,150" href="" title="" target="_top" />
+						<area shape="poly" id="nav-mask-1" coords="109,150,224,0,317,0,204,150" href="" title="" target="_top" />
+						<area shape="poly" id="nav-mask-2" coords="220,150,334,0,428,0,314,150" href="" title="" target="_top" />
+						<area shape="poly" id="nav-mask-3" coords="332,150,445,0,540,0,425,150" href="" title="" target="_top" />
+						<area shape="poly" id="nav-mask-4" coords="442,150,557,0,651,0,537,150" href="" title="" target="_top" />
+					</map>
+				</div>
+				<script>
+					jQuery(window).load(function(){
+						var
+							activateImageMap = function(){
+								var temp, $navList = jQuery('.webs-nav > li > a'), remCount = 0;
+								for (var i = 0; i < 5; i++) {
+									temp = $navList.eq(i);
+									temp.parent().attr('id', 'nav-mask-link-'+i);
+								}
+								for(var i = 4; i > -1; i--){
+									temp = $navList.eq(i);
+									if(temp.length == 0){
+										jQuery('#nav-mask-'+(4-i)).remove();
+										remCount++;
+									}else {
+										jQuery('#nav-mask-'+(i+remCount)).attr({'href': temp.attr('href'), 'title': temp.attr('title'), 'target': temp.attr('target')}).css('cursor', 'pointer').bind("mouseover", (function(j){
+												return function(){
+													jQuery('#nav-mask-link-'+j).addClass("hover");
+												}
+											}(i))
+										).bind("mouseout", (function(j){
+												return function(){
+													jQuery('#nav-mask-link-'+j).removeClass("hover");
+												}
+											}(i))
+										);
+										if (temp.parent().hasClass('webs-nav-more')) {
+											jQuery('#nav-mask-'+(i+remCount)).click(function(){ return false; });
+										};
+									};
+								};
+							},
+							kickoffImageMap = function(){
+								if(jQuery('.webs-nav > li > a').length > 5){
+									setTimeout(kickoffImageMap, 500);
+								}else{
+									activateImageMap();
+								}
+							};
+						kickoffImageMap();
+					});
+				</script>
+			<![endif]-->
+		</header>
+
+<div id="main" class="clearfix">
+	<section class="webs-content webs-body" data-role="webs-body" id="516d5ad00cf2afdc3fa304da"><!-- Begin Tree --><div class="webs-parent webs-parent-0"><div class="webs-parent webs-parent-1 webs-col">
+	<div class="webs-bin" id="webs-bin-516d5add0cf2afdc3fa304de">
+		<div class="webs-bin-wrap">
+			<div class="webs-container webs-module-title  w-title-default">
+<h3 class="webs-title webs-title-align-left ">
+	
+	<div class="w-text ">How to Create A Minecraft Server Like Mine on your Raspberry Pi</div>
+</h3>
+
+			</div>
+		</div>
+	</div>
+
+		<script>
+			require(['jquery'], function($){
+				var deferredLoad = $.Deferred();
+				webs.renderedModulesPromises.push(deferredLoad.promise());
+				require(['internal/sitebuilder/common/ModuleClassLoader'], function(mcl){
+					mcl.create('title', {data: {"align":"left","html":"How to Create A Minecraft Server Like Mine on your Raspberry Pi","level":null,"icon":{"enable":false,"set":null,"slug":null,"position":null,"style":null},"linksData":{},"_id":"516d5add0cf2afdc3fa304de"}, container: $('#webs-bin-516d5add0cf2afdc3fa304de > .webs-bin-wrap > .webs-container')}).done(function(m){
+						m.oneLoaded();
+						deferredLoad.resolve();
+					});
+				});
+			});
+		</script>
+
+	<div class="webs-bin" id="webs-bin-516d5af50cf2afdc3fa304e0">
+		<div class="webs-bin-wrap">
+			<div class="webs-container webs-module-text ">
+<div class="webs-text "><p>Tutorial now updated with latest links etc.</p><p>I have used bits and pieces of info from randrades post on the pi forums so credit to him:</p><p>You can use either a 256 or 512mb pi. I have had my 256 up for months at a time with great stability.&nbsp;</p><p>It helps to overclock to turbo in raspiconfig (reach with: sudo raspi-config)</p><p>this tutorial assumes you have port forwarded if you want to make your server public&nbsp;etc.</p><p><br></p><p>to access ssh on your computer windows: download putty</p><p>mac/linux: go to terminal and type: sudo ssh pi@[ipofyourpi]</p><p><br></p><p>First, get your raspberry pi and boot a fresh raspbian install on it.</p><p>In raspi-config which should come up on first boot enable ssh(advanced settings), change memory allocation to 16(ditto), disable desktop on boot, overclock if you would like (reccomended: turbo), and expand&nbsp;root partition.</p><p><br></p><p>reboot</p><p><br></p><p>login</p><p>&nbsp;</p><p>****This next bit not necessary, java is now already installed on raspbian****</p><p>type: sudo wget&nbsp;http://www.java.net/download/jdk8/archive/b102/binaries/jdk-8-ea-b102-linux-arm-vfp-hflt-07_aug_2013.tar.gz</p><p><br></p><p>(this is a link to a direct download of java, it may be old. Go to http://jdk8.java.net/download.html, aceept the licence agreement and copy the link for the arm hflt download into the wget for a newer version.)</p><p><br></p><p>(If you get an issue like ERROR: The certificate of `www.java.net' is not trusted.</p><p>ERROR: The certificate of `www.java.net' hasn't got a known issuer.</p><p>then use this line: sudo wget --no-check-certificate http://www.java.net/download/jdk8/archive/b102/binaries/jdk-8-ea-b102-linux-arm-vfp-hflt-07_aug_2013.tar.gz )</p><p><br></p><p>then enter these commands one by one, inserting the package name given at the end of the wget:</p><p><span style="text-align: start; ">mkdir -p /opt</span><br><span style="text-align: start; ">sudo tar zxvf (name of package) -C /opt</span><br><span style="text-align: start; ">rm (name of package)</span><br><span style="text-align: start; ">sudo /opt/jdk1.8.0/bin/java -version</span><br></p><p><span style="text-align: start; "><br></span></p><p>Well done, you have installed JAVA!!!!</p><p><br></p><p>********************</p><p>type cd /home/pi</p><p><br></p><p>then: sudo wget&nbsp;http://ci.md-5.net/job/Spigot/lastStableBuild/artifact/Spigot-Server/target/spigot.jar</p><p><br></p><p>In normal raspbian</p><p style="text-align: start; ">If on a 256mb pi:&nbsp;This command will run your server:&nbsp;<span style="text-align: start; ">sudo java -Xms128M -Xmx256M -jar /home/pi/spigot.jar nogui</span></p><p style="text-align: start; "><span style="text-align: start; "><br></span></p><p style="text-align: start; "><span style="text-align: start; ">If on a 512mb pi:&nbsp;<span style="text-align: start; ">This command will run your server:&nbsp;</span><span style="text-align: start; ">sudo java -Xms256M -Xmx496M -jar /home/pi/spigot.jar nogui</span></span></p><span id=""></span><p></p><p><br></p><p><br></p><p><span style="color: rgb(252, 15, 62);">********* If still using custom jdk install****************</span></p><p style="color: rgb(252, 15, 62);">If on a 256mb pi:&nbsp;This command will run your server:&nbsp;<span style="text-align: start; color: rgb(252, 15, 62);">sudo /opt/jdk1.8.0_20/bin/java -Xms128M -Xmx256M -jar /home/pi/spigot.jar nogui</span></p><p><span style="text-align: start; "><br></span></p><p style="color: rgb(252, 15, 62);"><span style="text-align: start; color: rgb(252, 15, 62);">If on a 512mb pi:&nbsp;<span style="text-align: start; color: rgb(252, 15, 62);">This command will run your server:&nbsp;</span><span style="text-align: start; color: rgb(252, 15, 62);">sudo /opt/jdk1.8.0_20/bin/java -Xms256M -Xmx496M -jar /home/pi/spigot.jar nogui</span></span></p><p style="color: rgb(252, 15, 62);"><span style="text-align: start; color: rgb(252, 15, 62);"><br style="color: rgb(252, 15, 62);"></span></p><p><span style="text-align: start; ">This should start it and will take approximately 3 mins to build the map etc.</span></p><p><span style="text-align: start; "><br></span></p><p><span style="text-align: start; ">you can now log onto your minecraft server!</span></p><p><br></p><p><span style="text-align: start; ">op yourself with the command op [your username]&nbsp;</span></p><p><span style="text-align: start; "><br></span></p><p><span style="text-align: start; ">to stop type either into the command line or in the game if you are op /stop</span></p><p><span style="text-align: start; "><br></span></p><p><span style="text-align: start; ">after you have tested it it is time to tweak to get the best performance do this by stopping the server and typing:</span></p><p><span style="text-align: start; ">sudo nano server.properties</span></p><p><span style="text-align: start; "><br></span></p><p><span style="text-align: start; ">edit it as you please, mine is this:</span></p><p>#Minecraft server properties</p><p>#Tue Apr 16 12:52:48 UTC 2013</p><p>allow-flight=false</p><p>spawn-monsters=true</p><p>generate-structures=true</p><p>enable-query=false</p><p>enable-rcon=false</p><p>level-name=world</p><p>spawn-protection=16</p><p>online-mode=true</p><p>difficulty=1</p><p>gamemode=0</p><p>spawn-animals=true</p><p>view-distance=4</p><p>level-seed=</p><p>server-name=The Picraft Raspberry Pi Powered Bukkit Server</p><p>hardcore=false</p><p>snooper-enabled=false</p><p>level-type=DEFAULT</p><p>pvp=true</p><p>texture-pack=</p><p>max-players=20</p><p>motd=A Minecraft Server</p><p>server-ip=</p><p>max-build-height=240</p><p>spawn-npcs=true</p><p>server-port=25565</p><p>white-list=false</p><p>generator-settings=</p><p>allow-nether=false</p><div><br></div><div><br></div><div>To install plugins (like mine:&nbsp;commandbook, worldguard, worldedit, clearlag, worldborder, MCdigr &amp; NoSpawnChunks)</div><div>go to the bukkit website and search for them, then click the download button on the left, a new tab will open and another page will appear, right click on the download button and copy link address.</div><div>in terminal type: cd plugins</div><p><span style="text-align: start; ">then: sudo wget [link to download which you have just copied]</span></p><p><span style="text-align: start; ">then if it is a zip file: unzip [name of downloaded package]</span></p><p>reload, restart or start your server and bobs your uncle!</p><p><br></p><p>I have had a few people asking for a guide to getting a custom ip for your server, to achieve this go to <a id="2E0F1F8B-2F7D-45FF-AA37-FD7AC9D28357" href="http://www.no-ip.com">no-ip.com</a> and create an account, once this is done&nbsp;</p><p>do this to intall the DUC on your pi:</p><ul class="style-circle"><li>sudo cd /usr/local/src/<br></li><li>sudo wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz</li><li>sudo tar xf noip-duc-linux.tar.gz</li><li>sudo cd noip-2.1.9-1/</li><li>sudo make install</li></ul><ul class="style-circle"><li>sudo /usr/local/bin/noip2 -C</li><li>( this will create the default config file)</li></ul><p>You will then be prompted for your username and password for No-IP, as well as which host names you wish to update. Be careful, one of the questions is "Do you wish to update all hosts". If answered incorrectly this could effect host names in your account that are pointing at other locations.<br><br></p><ul class="style-circle"><li>sudo /usr/local/bin/noip2</li><li>this starts it in the background</li></ul><p>Then, once you have followed those instructions you should have a working custom ip like mine! picraft.no-ip.biz:25565</p><p><br></p><p>There is the comprehensive guide to minecraft on the pi,</p><p><br></p><p>Thanks,</p><p>Jim</p><p><br></p><p>If you have succeeded in creating your server, please<a id="9948C81A-6BFB-4581-8072-6BA15A0C8F5F" href="http://picraftbukkit.webs.com/donate"> consider donating:</a></p></div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="webs-bin" id="webs-bin-520f4acd0cf22acfe31833d3">
+		<div class="webs-bin-wrap">
+			<div class="webs-container webs-module-donate ">
+<div class="donate">
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<input type="hidden" name="business" value="chromebookbob@gmail.com"/>
+		<input type="hidden" name="cmd" value="_donations"/>
+		<input type="hidden" name="item_name" value="How To Donation"/>
+		
+		<input type="hidden" name="currency_code" value="GBP"/>
+		
+		
+
+		
+
+		
+			<input type="image" name="submit" border="0" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal - The safer, easier way to pay online"/>
+			<img alt="" border="0" width="1" height="1" src="https://www.paypal.com/en_US/i/scr/pixel.gif"/>
+		
+
+	</form>
+</div>
+
+			</div>
+		</div>
+	</div>
+
+		<script>
+			require(['jquery'], function($){
+				var deferredLoad = $.Deferred();
+				webs.renderedModulesPromises.push(deferredLoad.promise());
+				require(['internal/sitebuilder/common/ModuleClassLoader'], function(mcl){
+					mcl.create('donate', {data: {"paypal_username":"chromebookbob@gmail.com","donation_for":"How To Donation","donation_amount":"","donation_amount_currency":"GBP","button_style":"large_cc","locale":"en_US","_width":980,"_id":"520f4acd0cf22acfe31833d3"}, container: $('#webs-bin-520f4acd0cf22acfe31833d3 > .webs-bin-wrap > .webs-container')}).done(function(m){
+						m.oneLoaded();
+						deferredLoad.resolve();
+					});
+				});
+			});
+		</script>
+
+	<div class="webs-bin" id="webs-bin-5356250540b533f572005761">
+		<div class="webs-bin-wrap">
+			<div class="webs-container webs-module-share_button  w-share_button-default">
+<div class="share-container">	
+	<script type="text/javascript">
+
+		var site_locale = typeof(webs) != 'undefined' && webs.locale || "en-US";
+
+		site_locale = site_locale == 'zz-ZZ' ? 'de-DE' : site_locale;
+
+		var language = site_locale.split('-')[0];
+
+		var addthis_config = {
+			ui_language: language
+		};
+	</script>
+	
+	
+	
+	
+	
+	<!-- AddThis Buttons BEGIN -->
+	<div class="addthis_toolbox addthis_default_style" id="buttons">
+		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+		<a class="addthis_button_tweet"></a>
+		<a class="addthis_button_email"></a>
+		<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+		<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+	<!-- AddThis Button END -->
+	
+	
+</div>
+			</div>
+		</div>
+	</div>
+
+		<script>
+			require(['jquery'], function($){
+				var deferredLoad = $.Deferred();
+				webs.renderedModulesPromises.push(deferredLoad.promise());
+				require(['internal/sitebuilder/common/ModuleClassLoader'], function(mcl){
+					mcl.create('share_button', {data: {"showFacebook":true,"showTwitter":true,"showEmail":true,"showGooglePlus":true,"showMore":true,"styleType":"buttons","_width":980,"_id":"5356250540b533f572005761"}, container: $('#webs-bin-5356250540b533f572005761 > .webs-bin-wrap > .webs-container')}).done(function(m){
+						m.oneLoaded();
+						deferredLoad.resolve();
+					});
+				});
+			});
+		</script>
+
+	<div class="webs-bin" id="webs-bin-520a45040cf21dd77fd105d4">
+		<div class="webs-bin-wrap">
+			<div class="webs-container webs-module-fb-comments  w-fb-comments-default">
+<div id="fb-root"></div>
+<script>
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		var locale = ((typeof webs !== "undefined" && webs.locale) || "en-US").replace("-","_");
+		if (locale === "zz_ZZ") {
+			locale = "fr_FR";
+		}
+		js.src = "//connect.facebook.net/" + locale + "/all.js#xfbml=1";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
+<div class="fb-comments" data-href="http://picraftbukkit.webs.com/pi-minecraft-server-how-to" data-num-posts="2" data-width="980" data-colorscheme="light"></div>
+
+			</div>
+		</div>
+	</div>
+
+		<script>
+			require(['jquery'], function($){
+				var deferredLoad = $.Deferred();
+				webs.renderedModulesPromises.push(deferredLoad.promise());
+				require(['internal/sitebuilder/common/ModuleClassLoader'], function(mcl){
+					mcl.create('fb-comments', {data: {"numPosts":"2","colorScheme":"light","_style":"light","url":"http://picraftbukkit.webs.com/pi-minecraft-server-how-to","id":"7140085499268025","_width":980,"_id":"520a45040cf21dd77fd105d4"}, container: $('#webs-bin-520a45040cf21dd77fd105d4 > .webs-bin-wrap > .webs-container')}).done(function(m){
+						m.oneLoaded();
+						deferredLoad.resolve();
+					});
+				});
+			});
+		</script>
+</div></div></section>
+</div>
+		<footer id="footer">
+			<div class="webs-content" data-role="webs-footer" id="516d3f5b0cf26e35f4c2f645"><!-- Begin Tree --><div class="webs-parent webs-parent-0"><div class="webs-parent webs-parent-1 webs-col">
+	<div class="webs-bin" id="webs-bin-516d3f5b0cf26e35f4c2f646">
+		<div class="webs-bin-wrap">
+			<div class="webs-container webs-module-freebar ">
+Create your own free website today
+			</div>
+		</div>
+	</div>
+</div></div></div>
+		</footer>
+
+	</div>
+
+
+<footer class="freebar-fixed">
+	<div class="freebar-content">
+		<div class="freebar-logo" title="Webs">Webs</div>
+		<span class="freebar-tagline">Better Websites Made Simple</span>
+		<a id="freebar-signup" href="http://www.webs.com/Signup?referer=wftr-fr-3-en&utm_source=product&utm_medium=footer&utm_term=free&utm_content=en-3&utm_campaign=users" title="Create your own free website today" rel="nofollow">Create your own free website today</a>
+	</div>
+</footer>
+
+<script type="text/javascript">require(["usersites/js/fixedFreebar"]);</script>
+<script data-keep-for-mobile='1'>webs = window.webs || {}; webs.stats = {"siteId":"109343929","pageId":"301694117","pageTitle":"Pi Minecraft Server How To","parentPageId":"","collectorUrl":"http://collector.stats.webs.com/record","premium":false};</script><script data-keep-for-mobile='2' async src='//static.websimages.com/active-static/target/stats/collector.js'></script><script type="text/javascript">(function() {var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);})();</script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43154030-1', 'webs.com');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
+
